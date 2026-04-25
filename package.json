@@ -1,0 +1,46 @@
+{
+    "name": "warcraft-3-w3ts-utils",
+    "version": "0.1.40",
+    "description": "A library of utility functions for modding Warcraft 3 utilizing the W3TS template.",
+    "main": "./dist/index",
+    "keywords": [
+        "Warcraft 3",
+        "w3ts",
+        "warcraft3"
+    ],
+    "scripts": {
+        "build": "tstl -p tsconfig.json",
+        "prepare": "npm run build"
+    },
+    "files": [
+        "./**/*.lua",
+        "./**/*.d.ts",
+        "src"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/bertman12/WC3-W3TS-utils.git"
+    },
+    "types": "./dist/index.d.ts",
+    "author": "bertman12",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/bertman12/WC3-W3TS-utils/issues"
+    },
+    "homepage": "https://github.com/bertman12/WC3-W3TS-utils#readme",
+    "dependencies": {
+        "war3-types-strict": "^0.1.3"
+    },
+    "devDependencies": {
+        "lua-types": "^2.13.1",
+        "typescript-to-lua": "1.31.0",
+        "war3-objectdata-th": "^0.2.11",
+        "war3-transformer": "^3.0.10",
+        "war3tstlhelper": "1.0.1"
+    },
+    "peerDependencies": {
+        "typescript": "^5.0.4",
+        "w3ts": "3.0.2",
+        "lua-types": "^2.13.1"
+    }
+}

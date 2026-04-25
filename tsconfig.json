@@ -1,0 +1,45 @@
+{
+    "include": ["src/**/*.ts", "src/**/*.js"],
+    "exclude": ["node_modules/**"],
+    "$schema": "https://raw.githubusercontent.com/TypeScriptToLua/TypeScriptToLua/master/tsconfig-schema.json",
+    "compilerOptions": {
+        "incremental": true,
+        "strict": true,
+        "declaration": true,
+        "declarationMap": true,
+        "inlineSourceMap": true,
+        "allowJs": false,
+        "rootDir": "./src",
+        "outDir": "./dist",
+        "baseUrl": "./",
+        "forceConsistentCasingInFileNames": true,
+        "target": "esnext",
+        "lib": ["ESNext"],
+        "moduleResolution": "node",
+        "paths": {
+            "@objectdata/*": ["./node_modules/war3-objectdata-th/dist/cjs/generated/constants/*"]
+        },
+        "types": [
+            "@typescript-to-lua/language-extensions",
+            "lua-types/core/coroutine",
+            "lua-types/core/global",
+            "lua-types/core/math",
+            "lua-types/core/metatable",
+            "lua-types/core/modules",
+            "lua-types/core/string",
+            "lua-types/core/table",
+            "lua-types/core/os",
+            "lua-types/special/5.3",
+            "war3-types-strict/1.33.0",
+            "war3-transformer/types",
+            "war3-objectdata-th/dist/cjs/objectdata"
+        ]
+    },
+    "tstl": {
+        "buildMode": "library",
+        "luaTarget": "5.3",
+        "noHeader": true,
+        "sourceMapTraceback": false,
+        "tstlVerbose": true
+    }
+}
