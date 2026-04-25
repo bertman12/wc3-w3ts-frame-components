@@ -1,2 +1,0 @@
-# Bars
-For action bars.

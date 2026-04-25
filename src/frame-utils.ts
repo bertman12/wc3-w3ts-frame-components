@@ -24,7 +24,6 @@ export class FrameUtils {
 
         model.setAllPoints(owner);
         model.setModel(path, 0);
-        // model.setModel("UI\\Feedback\\Autocast\\UI-ModalButtonOn.mdl", 0);
 
         // -- Models don't care about Frame Size, to resize them one needs to scale them. The default CommandButton has a Size of 0.039.
         model.setScale(BlzFrameGetWidth(owner.handle) / 0.039);
@@ -82,6 +81,9 @@ export class FrameUtils {
         return textArea;
     }
 
+    /**
+     * Only to be used when you do not use your own TOC file.
+     */
     static LoadTOC() {
         const success = BlzLoadTOCFile("war3mapImported\\JMT_FramesTOC.toc");
         print("JMT_FramesTOC loaded successfully? " + success);

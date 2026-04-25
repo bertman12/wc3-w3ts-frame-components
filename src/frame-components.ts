@@ -173,99 +173,61 @@ export class Components {
         return container;
     }
 
-    static AutosizeTooltipWidth(tooltipHeader: string, tooltipText: string) {
-        const maxWidth = 0.2;
-        const minWidth = 0.05;
+    // static Tooltip(context: number, name: string, header: string, text: string, frame?: Frame, includeBackground: boolean = true, config?: TooltipConfig) {
+    //     if (!frame) {
+    //         return;
+    //     }
 
-        let width = 0.02 + 0.004 * tooltipHeader.length + 0.004 * tooltipText.length;
+    //     if (includeBackground) {
+    //         //  -- Create the Background a Backdrop
+    //         const tooltipFrameBackGround = Frame.fromHandle(BlzCreateFrameByType("BACKDROP", name, frame.handle, "JMT_BackdropTemplate_Tooltip", context)); //I'm not sure if we need the parent to be an origin frame, but we'll roll with this for now.
+    //         if (!tooltipFrameBackGround) {
+    //             return;
+    //         }
 
-        if (width > maxWidth) {
-            width = maxWidth;
-        }
+    //         // -- Create the Text as child of the Background
+    //         const tooltipFrameText = Frame.fromHandle(BlzCreateFrameByType("TEXT", "MyScriptDialogButtonTooltip", tooltipFrameBackGround.handle, "", context));
+    //         if (!tooltipFrameText) {
+    //             return;
+    //         }
 
-        if (width < minWidth) {
-            width = minWidth;
-        }
+    //         // -- Copy Size and Position with a small offset.
+    //         BlzFrameSetPoint(tooltipFrameBackGround.handle, FRAMEPOINT_BOTTOMLEFT, tooltipFrameText.handle, FRAMEPOINT_BOTTOMLEFT, -0.005, -0.01);
+    //         BlzFrameSetPoint(tooltipFrameBackGround.handle, FRAMEPOINT_TOPRIGHT, tooltipFrameText.handle, FRAMEPOINT_TOPRIGHT, 0.005, 0.01);
+    //         // BlzFrameSetPoint(tooltipFrameBackGround.handle, FRAMEPOINT_TOPRIGHT, tooltipFrameText.handle, FRAMEPOINT_TOPRIGHT, -0.005, 0.01);
 
-        return width;
-    }
+    //         // -- The background becomes the button's tooltip, the Text as child of the background will share the visibility
+    //         BlzFrameSetTooltip(frame.handle, tooltipFrameBackGround.handle);
 
-    static StyleTooltipText(frame?: Frame, header?: string, text?: string) {
-        if (!frame) {
-            return;
-        }
+    //         if (config?.reverseOrientation) {
+    //             BlzFrameSetPoint(tooltipFrameText.handle, FRAMEPOINT_BOTTOMRIGHT, frame.handle, FRAMEPOINT_TOPRIGHT, 0.005, 0.01);
+    //         } else {
+    //             // -- Place the Tooltip above the Button
+    //             BlzFrameSetPoint(tooltipFrameText.handle, FRAMEPOINT_BOTTOMLEFT, frame.handle, FRAMEPOINT_TOPLEFT, 0, 0.01);
+    //         }
 
-        let _header = header;
+    //         // -- Prevent the TEXT from taking mouse control
+    //         BlzFrameSetEnable(tooltipFrameText.handle, false);
+    //         Components.StyleTooltipText(tooltipFrameText, header, text);
 
-        if (text && text !== "") {
-            _header = `|cffffcc00${header}|r`;
-        }
+    //         return { tooltipFrameBackGround, tooltipFrameText };
+    //     } else {
+    //         const tooltipFrameText = Frame.fromHandle(BlzCreateFrameByType("TEXT", "MyScriptDialogButtonTooltip", FrameUtils.OriginFrameGameUIHandle, "", context));
+    //         if (!tooltipFrameText) {
+    //             return;
+    //         }
 
-        if (text !== undefined && text !== "") {
-            BlzFrameSetText(frame.handle, _header + "\n\n" + text);
-        } else {
-            BlzFrameSetText(frame.handle, _header || "");
-        }
+    //         // -- tooltipFrame becomes button's tooltip
+    //         BlzFrameSetTooltip(frame.handle, tooltipFrameText.handle);
+    //         // -- Place the Tooltip above the Button
+    //         BlzFrameSetPoint(tooltipFrameText.handle, FRAMEPOINT_BOTTOM, frame.handle, FRAMEPOINT_TOP, 0, 0.01);
+    //         // -- Prevent the TEXT from taking mouse control
+    //         BlzFrameSetEnable(tooltipFrameText.handle, false);
+    //         BlzFrameSetText(tooltipFrameText.handle, text);
 
-        const width = Components.AutosizeTooltipWidth(header || "", text || "");
-        BlzFrameSetSize(frame.handle, width, 0);
-    }
-
-    static Tooltip(context: number, name: string, header: string, text: string, frame?: Frame, includeBackground: boolean = true, config?: TooltipConfig) {
-        if (!frame) {
-            return;
-        }
-
-        if (includeBackground) {
-            //  -- Create the Background a Backdrop
-            const tooltipFrameBackGround = Frame.fromHandle(BlzCreateFrameByType("BACKDROP", name, frame.handle, "JMT_BackdropTemplate_Tooltip", context)); //I'm not sure if we need the parent to be an origin frame, but we'll roll with this for now.
-            if (!tooltipFrameBackGround) {
-                return;
-            }
-
-            // -- Create the Text as child of the Background
-            const tooltipFrameText = Frame.fromHandle(BlzCreateFrameByType("TEXT", "MyScriptDialogButtonTooltip", tooltipFrameBackGround.handle, "", context));
-            if (!tooltipFrameText) {
-                return;
-            }
-
-            // -- Copy Size and Position with a small offset.
-            BlzFrameSetPoint(tooltipFrameBackGround.handle, FRAMEPOINT_BOTTOMLEFT, tooltipFrameText.handle, FRAMEPOINT_BOTTOMLEFT, -0.005, -0.01);
-            BlzFrameSetPoint(tooltipFrameBackGround.handle, FRAMEPOINT_TOPRIGHT, tooltipFrameText.handle, FRAMEPOINT_TOPRIGHT, 0.005, 0.01);
-            // BlzFrameSetPoint(tooltipFrameBackGround.handle, FRAMEPOINT_TOPRIGHT, tooltipFrameText.handle, FRAMEPOINT_TOPRIGHT, -0.005, 0.01);
-
-            // -- The background becomes the button's tooltip, the Text as child of the background will share the visibility
-            BlzFrameSetTooltip(frame.handle, tooltipFrameBackGround.handle);
-
-            if (config?.reverseOrientation) {
-                BlzFrameSetPoint(tooltipFrameText.handle, FRAMEPOINT_BOTTOMRIGHT, frame.handle, FRAMEPOINT_TOPRIGHT, 0.005, 0.01);
-            } else {
-                // -- Place the Tooltip above the Button
-                BlzFrameSetPoint(tooltipFrameText.handle, FRAMEPOINT_BOTTOMLEFT, frame.handle, FRAMEPOINT_TOPLEFT, 0, 0.01);
-            }
-
-            // -- Prevent the TEXT from taking mouse control
-            BlzFrameSetEnable(tooltipFrameText.handle, false);
-            Components.StyleTooltipText(tooltipFrameText, header, text);
-
-            return { tooltipFrameBackGround, tooltipFrameText };
-        } else {
-            const tooltipFrameText = Frame.fromHandle(BlzCreateFrameByType("TEXT", "MyScriptDialogButtonTooltip", FrameUtils.OriginFrameGameUIHandle, "", context));
-            if (!tooltipFrameText) {
-                return;
-            }
-
-            // -- tooltipFrame becomes button's tooltip
-            BlzFrameSetTooltip(frame.handle, tooltipFrameText.handle);
-            // -- Place the Tooltip above the Button
-            BlzFrameSetPoint(tooltipFrameText.handle, FRAMEPOINT_BOTTOM, frame.handle, FRAMEPOINT_TOP, 0, 0.01);
-            // -- Prevent the TEXT from taking mouse control
-            BlzFrameSetEnable(tooltipFrameText.handle, false);
-            BlzFrameSetText(tooltipFrameText.handle, text);
-
-            return { tooltipFrameText, tooltipFrameBackGround: undefined };
-        }
-    }
+    //         return { tooltipFrameText, tooltipFrameBackGround: undefined };
+    //     }
+    // }
 }
 
 interface TooltipConfig {

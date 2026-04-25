@@ -1,4 +1,3 @@
-import { addLog, LogLevel } from "src/shared/logging";
 import { Frame } from "w3ts";
 import { FrameUtils } from "../frame-utils";
 import { Inheritables } from "../names";
@@ -103,7 +102,7 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
                 index++;
 
                 if (!frame) {
-                    addLog(LogLevel.Error, `Unable to render frame for grid (${this.name}),  item at ` + `row ${row}, col ${col}.`);
+                    print(`Unable to render frame for grid (${this.name}),  item at ` + `row ${row}, col ${col}.`);
                     continue;
                 }
 
@@ -221,9 +220,16 @@ export interface GridConfig<T, Z extends GridItemBaseDefinition> {
     containerName: string;
     rows: number;
     columns: number;
+    /**
+     * Recommended default: 0.005
+     */
     gapX: number;
+    /**
+     * Recommended default: 0.005
+     */
     gapY: number;
     /**
+     * The direction which items are rendered from.
      * Default "forward"
      */
     rowDirection?: "forward" | "reverse";

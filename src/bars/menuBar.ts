@@ -9,7 +9,6 @@ import { Panel } from "../panels/panel";
 import { GridSelectionMenuData } from "../sections/gridSelectionMenu";
 
 export function renderMenuBars() {
-    //
     Players.forEach((p) => {
         if (isPlayingUser(p)) {
             const menuBar = new MenuBar(p.id, "playerMenuBar" + p.id, FrameUtils.OriginFrameGameUI);

@@ -315,6 +315,8 @@ export class FrameNavigator {
     }
 }
 
+
+// doesn't need to exist
 export function initFrameViewer() {
     const navigator = new FrameNavigator(0, "frame-navigator", FrameUtils.OriginFrameGameUI);
     const console = Frame.fromHandle(BlzGetFrameByName("ConsoleUI", 0));

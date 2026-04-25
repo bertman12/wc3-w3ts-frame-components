@@ -233,7 +233,7 @@ export class Tooltip {
         }
     }
 
-    private AutosizeTooltipWidth(tooltipHeader: string, tooltipText: string) {
+    private GetFormattedWidth(tooltipHeader: string, tooltipText: string) {
         const maxWidth = 0.2;
         const minWidth = 0.05;
 
@@ -257,25 +257,17 @@ export class Tooltip {
     private StyleTooltipText(header?: string, text?: string) {
         let _header = header;
 
-        if (text && text !== "") {
-            _header = `|cffffcc00${header}|r`;
-        }
-
         if (text !== undefined && text !== "") {
             //split
             this.headerTextFrame?.setText(_header || "");
             this.bodyTextFrame?.setText(text);
-            // BlzFrameSetText(frame.handle, _header + "\n\n" + text);
         } else {
             //headeronly
             this.headerTextFrame?.setText(_header || "");
-            // BlzFrameSetText(frame.handle, _header || "");
         }
 
-        const width = this.AutosizeTooltipWidth(header || "", text || "");
+        const width = this.GetFormattedWidth(header || "", text || "");
         this.headerTextFrame?.setSize(width, 0);
         this.bodyTextFrame?.setSize(width, 0);
-
-        // BlzFrameSetSize(frame.handle, width, 0);
     }
 }

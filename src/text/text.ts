@@ -19,10 +19,11 @@ export class Text {
     }
 
     /**
-     * Same formula we use for tooltip text frame width.
-     * Nevermind, I think it needs something different than the tooltip frame. It's still pretty small width...
-     * @param text
-     * @returns
+     * Returns a computed width for the tooltip 
+     * 
+     * @param text The text that goes inside the tooltip.
+     * @param buffer Optional addition to the calculated width. 
+     * @returns number
      */
     static FormatSize(text: string, buffer?: number) {
         return 0.02 + 0.004 * text.length + (buffer || 0);

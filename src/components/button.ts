@@ -55,7 +55,7 @@ export class Button {
         if (!button) {
             return;
         }
-
+        
         this.containerFrame = button;
 
         /**

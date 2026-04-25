@@ -20,3 +20,10 @@ export const FrameInheritable = {
         type: "GLUETEXTBUTTON",
     },
 } as const;
+
+export enum JMT_Inheritables {
+    EmptyFrame = "JMT_EmptyFrame",
+    GlueTextButton = "UI_TemplateButton",
+    JMT_BackdropBaseTemplate = "JMT_BackdropBaseTemplate",
+    JMT_SimpleButtonBase = "JMT_SimpleButtonBase",
+}

@@ -12,6 +12,8 @@ Nearly all frame components made using FRAME category of frames.
 
 All components have a name, owner and container frame.
 
+You may also provide an argument for inhertied from.
+
 - ##### Container Frame
     - The container frame is typically an EMPTY or BACKDROP frame type and seerves as your primary reference frame which is the parent of any children frames within the conmponent.
 
@@ -32,3 +34,11 @@ The grid provides a render function which is used for the initial rendering of t
 ## Caveats
 
 There is only 1 case where a SIMPLE frame type is used, which is optional when creating a button.
+
+## Frame definitions and TOC Files
+
+This library comes with it's own frame definitions files and TOC.
+
+These are optional to use and not required.
+
+The files provide a sleeker look for backdrop borders and backgrounds, glue buttons, text areas and scrollbars.
