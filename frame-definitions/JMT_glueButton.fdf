@@ -1,0 +1,97 @@
+IncludeFile "war3mapImported\wc3-trade-war-templates.fdf",
+
+/**
+* Its easier to start with something that works and make adjustments to my liking.
+*/
+Frame "BACKDROP" "JMT_GlueButton_ButtonBackdropTemplate" INHERITS "JMT_BackdropBaseTemplate" {
+    BackdropBackground  "EscMenuButtonBackground",
+    BackdropEdgeFile  "EscMenuButtonBorder",
+}
+
+Frame "BACKDROP" "JMT_GlueButton_ButtonPushedBackdropTemplate" INHERITS "JMT_BackdropBaseTemplate"  {
+    BackdropBackground  "EscMenuButtonPushedBackground",
+    BackdropEdgeFile  "EscMenuButtonPushedBorder",
+}
+
+Frame "BACKDROP" "JMT_GlueButton_ButtonDisabledBackdropTemplate" INHERITS "JMT_BackdropBaseTemplate"  {
+    BackdropBackground  "EscMenuButtonDisabledBackground",
+    BackdropEdgeFile  "EscMenuButtonDisabledBorder",
+}
+
+Frame "BACKDROP" "JMT_GlueButton_ButtonDisabledPushedBackdropTemplate" INHERITS "JMT_BackdropBaseTemplate"  {
+    BackdropBackground  "EscMenuButtonDisabledPushedBackground",
+    BackdropEdgeFile  "EscMenuButtonDisabledPushedBorder",
+}
+
+Frame "BACKDROP" "JMT_GlueButton_ControlBackdropTemplate" INHERITS "JMT_BackdropBaseTemplate"  {
+    DecorateFileNames,
+    BackdropTileBackground,
+    BackdropBackground  "EscMenuEditBoxBackground",
+    BackdropCornerFlags "UL|UR|BL|BR|T|L|B|R",
+    BackdropCornerSize  0.0125,
+    BackdropBackgroundSize  0.256,
+    BackdropBackgroundInsets 0.005 0.005 0.005 0.005,
+    BackdropEdgeFile  "EscMenuEditBoxBorder",
+    BackdropBlendAll,
+}
+
+Frame "HIGHLIGHT" "JMT_GlueButton_ButtonMouseOverHighlightTemplate" {
+    DecorateFileNames,
+    HighlightType "FILETEXTURE",
+    HighlightAlphaFile "EscMenuButtonMouseOverHighlight",
+    HighlightAlphaMode "ADD",
+}
+
+Frame "TEXT" "JMT_GlueButton_TextTemplate" {
+    DecorateFileNames,
+    FrameFont "EscMenuTextFont", 0.013, "",
+    FontJustificationH JUSTIFYCENTER,
+    FontJustificationV JUSTIFYMIDDLE,    
+    FontJustificationOffset 0.0 -0.002,
+    FontFlags "FIXEDSIZE",
+    FontColor 0.99 0.827 0.0705 1.0,
+    FontHighlightColor 1.0 1.0 1.0 1.0,
+    FontDisabledColor 0.5 0.5 0.5 1.0,
+	FontShadowColor 0.0 0.0 0.0 0.9,	
+    FontShadowOffset 0.002 -0.002,	
+}
+
+/**
+ * The base template composed of the individual frames.
+*/
+Frame "GLUETEXTBUTTON" "JMT_GlueButton" {
+    Width 0.228,
+    Height 0.035,
+    ControlStyle "AUTOTRACK|HIGHLIGHTONMOUSEOVER",
+    ButtonPushedTextOffset 0.002f -0.002f,    
+
+    ControlBackdrop "GlueButtonCustom_ButtonBackdropTemplate",
+    Frame "BACKDROP" "GlueButtonCustom_ButtonBackdropTemplate" INHERITS "JMT_GlueButton_ButtonBackdropTemplate" {
+    }
+
+    ControlPushedBackdrop "ButtonPushedBackdropTemplate",
+    Frame "BACKDROP" "ButtonPushedBackdropTemplate" INHERITS "JMT_GlueButton_ButtonPushedBackdropTemplate" {
+    }
+
+    ControlDisabledBackdrop "ButtonDisabledBackdropTemplate",
+    Frame "BACKDROP" "ButtonDisabledBackdropTemplate" INHERITS "JMT_GlueButton_ButtonDisabledBackdropTemplate" {
+    }
+
+    ControlDisabledPushedBackdrop "ButtonDisabledPushedBackdropTemplate",
+    Frame "BACKDROP" "ButtonDisabledPushedBackdropTemplate" INHERITS "JMT_GlueButton_ButtonDisabledPushedBackdropTemplate" {
+    }
+
+    ControlMouseOverHighlight "ButtonMouseOverHighlightTemplate",
+    Frame "HIGHLIGHT" "ButtonMouseOverHighlightTemplate" INHERITS "JMT_GlueButton_ButtonMouseOverHighlightTemplate" {
+    }
+}
+
+/**
+* This is the frame we should actually be creating.
+*/
+Frame "GLUETEXTBUTTON" "UI_TemplateButton" INHERITS WITHCHILDREN "JMT_GlueButton" {
+    ButtonText "UI_TemplateButtonTxt",
+    Frame "TEXT" "UI_TemplateButtonTxt" INHERITS "JMT_GlueButton_TextTemplate" {
+        Text "KEY_EXIT_PROGRAM",
+    }
+}

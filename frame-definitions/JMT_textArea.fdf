@@ -1,0 +1,28 @@
+IncludeFile "war3mapImported\wc3-trade-war-templates.fdf",
+
+Frame "TEXTAREA" "JMT_TextAreaTemplate" {
+    DecorateFileNames,
+    FrameFont "InfoPanelTextFont", 0.008, "",
+    //FontJustificationH JUSTIFYLEFT, // The text area does not like these actions used at all
+    //FontJustificationV JUSTIFYMIDDLE, 
+    Width 0.1,
+    Height 0.1,
+    
+    TextAreaLineHeight 0.009, //Should fit used font Size, a high difference shows no text or much space between lines.
+
+    TextAreaLineGap 0.00,     //adds that much space between 2 Lines, addtional to TextAreaLineHeight.
+
+    TextAreaInset 0.005,      //Moves the Text and the scrollbar into the middle from all sides by this amount. This increases the min size for game crash.
+
+    TextAreaMaxLines 50,      //Only that amount of lines are displayed, if more lines are added oldest are removed.
+
+    // Based on EscMenuScrollBarTemplate
+    TextAreaScrollBar "JMT_TextAreaTemplateScrollBar",
+    Frame "SCROLLBAR" "JMT_TextAreaTemplateScrollBar" INHERITS WITHCHILDREN "JMT_ScollbarBaseTemplate" { 
+    }
+
+    ControlBackdrop "JMT_TextAreaTemplateBackdrop",
+    Frame "BACKDROP" "JMT_TextAreaTemplateBackdrop" INHERITS "JMT_BackdropBaseTemplate" {
+        BackdropEdgeFile  "TooltipBorder",
+    }
+}

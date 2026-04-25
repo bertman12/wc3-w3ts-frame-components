@@ -1,0 +1,24 @@
+Texture "JMT_ButtonHighlight" {
+    File "UpperMenuButtonTexture",
+    TexCoord 0.0, 0.6640625, 0.75, 0.921875,
+    AlphaMode "ADD",
+}
+
+Texture "TextureTemplateTest" {}
+
+Frame "SIMPLEBUTTON" "JMT_SimpleTexAndHighlight" {
+    DecorateFileNames,
+    Width 0.039,
+    Height 0.039,
+    UseHighlight "JMT_ButtonHighlight",
+}
+
+Frame "SIMPLEBUTTON" "JMT_SimpleTexButtonAndHighlight" {
+    DecorateFileNames,
+    Width 0.039,
+    Height 0.039,
+    NormalTexture NAMED "MyIconA2", "TextureTemplateTest",
+    PushedTexture NAMED "MyIconB2","TextureTemplateTest",
+    DisabledTexture NAMED "MyIconC2","TextureTemplateTest",
+    UseHighlight "JMT_ButtonHighlight",
+}

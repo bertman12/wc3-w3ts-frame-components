@@ -1,0 +1,6 @@
+war3mapImported\wc3-trade-war-templates.fdf
+war3mapImported\JMT_glueButton.fdf
+war3mapImported\JMT_textArea.fdf
+war3mapImported\JMT_buttonWithHighlight.fdf
+
+

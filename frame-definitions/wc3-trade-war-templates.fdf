@@ -1,0 +1,94 @@
+IncludeFile "UI\FrameDef\UI\EscMenuTemplates.fdf", //Frames from that fdf can be inherited in this file
+IncludeFile "UI\FrameDef\UI\QuestDialog.fdf",
+
+
+//Files found here: war3.w3mod:_hd.w3mod:ui\widgets\tooltips\human\tooltiplumbericon.dds
+//TooltipBackground - worked as a background. opacity is full so you will need to adjust accordingly
+//TooltipBorder works
+//So it appears you can use some of the DDS files as backgrounds order borders for tooltips
+//The game auto replaces HD icons to SD if you are in SD mode. See TooltipLumberIcon
+
+/**
+* ------------------------ FRAME ------------------------
+*/
+Frame "FRAME" "JMT_EmptyFrame" {
+    LayerStyle "IGNORETRACKEVENTS",
+}
+
+/**
+* ------------------------ BACKDROP ------------------------
+*/
+Frame "BACKDROP" "JMT_BackdropBaseTemplate" {
+    DecorateFileNames,
+    BackdropTileBackground,
+    BackdropBackground  "QuestDialogNormalBackground", //QuestDialogNormalBackground -this doesnt seem case sensitive. scorescreen-background-r1.dds (did not let me use this .dds file) I tried many variations of file importing and the name referenced here. did not work
+    BackdropCornerFlags "UL|UR|BL|BR|T|L|B|R",
+    BackdropCornerSize          0.007, //0.0125
+    BackdropBackgroundSize      0.1, //0.128
+    BackdropBackgroundInsets    0.002 0.002 0.002 0.002, //0.005 0.005 0.005 0.005,
+    BackdropEdgeFile  "QuestDialogNormalBorder", //QuestDialogNormalBorder, TooltipBorder
+}
+
+Frame "BACKDROP" "JMT_BackdropTemplate_Tooltip" INHERITS "JMT_BackdropBaseTemplate" {
+    BackdropBackground  "TooltipBackground", //QuestDialogNormalBackground -this doesnt seem case sensitive. scorescreen-background-r1.dds (did not let me use this .dds file) I tried many variations of file importing and the name referenced here. did not work
+    BackdropEdgeFile  "TooltipBorder",
+}
+
+
+/**
+* ------------------------ SCROLLBAR ------------------------
+*/
+
+Frame "SCROLLBAR" "JMT_ScollbarBaseTemplate" {
+    Width 0.008, //0.012  - The width of the scrollbar
+    SliderLayoutVertical,
+
+    ControlBackdrop "JMT_ScrollBarBackdrop",
+    Frame "BACKDROP" "JMT_ScrollBarBackdrop" {
+        DecorateFileNames,
+        BackdropTileBackground,
+        BackdropBackground  "EscMenuSliderBackground", //The background art of the scollbar
+        BackdropCornerFlags "UL|UR|BL|BR|T|L|B|R", //Controls which anchor points are rendered for the backdrop art
+        BackdropCornerSize  0.003, //a size of 0 removes the art for the scrollbar border
+        BackdropBackgroundSize 0.003, //unsure what this does
+        BackdropBackgroundInsets 0.0025 0.0025 0.0025 0.0025, //not sure what that does
+        BackdropEdgeFile  "EscMenuSliderBorder", //the border art. seems to not like blp, png, tga. It appears only named files can be used, though I do not know where they are. 
+        BackdropBlendAll,
+    }
+
+    // NOT used
+    //  ScrollBarIncButtonFrame "JMT_ScrollBarIncButton",
+    //   Frame "BUTTON" "JMT_ScrollBarIncButton" {
+    //       Width 0.015,
+    //       Height 0.015,
+    //       ControlBackdrop "JMT_ScrollBarIncButtonBackdrop",
+    //       Frame "BACKDROP" "JMT_ScrollBarIncButtonBackdrop" {                    
+    //           BackdropBackground  "UI\Widgets\Glues\SinglePlayerSkirmish-ScrollBarUpButton.blp",
+    //           BackdropBlendAll,
+    //       }
+    //   }
+    //
+    //   ScrollBarDecButtonFrame "JMT_ScrollBarDecButton",
+    //   Frame "BUTTON" "JMT_ScrollBarDecButton" {
+    //       Width 0.015,
+    //       Height 0.015,
+    //       ControlBackdrop "JMT_ScrollBarDecButtonBackdrop",
+    //       Frame "BACKDROP" "JMT_ScrollBarDecButtonBackdrop" {
+    //           BackdropBackground  "UI\Widgets\Glues\SinglePlayerSkirmish-ScrollBarDownButton.blp",
+    //           BackdropBlendAll,
+    //       }
+    //   }
+
+    SliderThumbButtonFrame "JMT_ScrollThumbButton",
+    Frame "BUTTON" "JMT_ScrollThumbButton" {
+        Width 0.012,
+        Height 0.012,
+
+        ControlBackdrop "JMT_ScrollThumbButtonBackdrop",
+        Frame "BACKDROP" "JMT_ScrollThumbButtonBackdrop" {
+            DecorateFileNames,
+            BackdropBlendAll,
+            BackdropBackground  "EscMenuSliderThumbButton",
+        }
+    }
+}
