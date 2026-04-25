@@ -1,4 +1,4 @@
-IncludeFile "war3mapImported\wc3-trade-war-templates.fdf",
+IncludeFile "war3mapImported\JMT_backdrop.fdf",
 
 /**
 * Its easier to start with something that works and make adjustments to my liking.

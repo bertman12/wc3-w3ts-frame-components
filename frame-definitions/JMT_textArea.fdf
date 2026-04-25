@@ -1,4 +1,5 @@
-IncludeFile "war3mapImported\wc3-trade-war-templates.fdf",
+IncludeFile "war3mapImported\JMT_scrollbar.fdf",
+IncludeFile "war3mapImported\JMT_backdrop.fdf",
 
 Frame "TEXTAREA" "JMT_TextAreaTemplate" {
     DecorateFileNames,

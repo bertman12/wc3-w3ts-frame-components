@@ -83,8 +83,8 @@ export class FrameUtils {
     }
 
     static LoadTOC() {
-        const success = BlzLoadTOCFile("war3mapImported\\myTOC.toc");
-        print("TOC loaded successfully? " + success);
+        const success = BlzLoadTOCFile("war3mapImported\\JMT_FramesTOC.toc");
+        print("JMT_FramesTOC loaded successfully? " + success);
     }
 
     /**
