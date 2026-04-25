@@ -1,0 +1,7 @@
+/**
+* ------------------------ FRAME ------------------------
+*/
+Frame "FRAME" "JMT_EmptyFrame" {
+    LayerStyle "IGNORETRACKEVENTS",
+}
+

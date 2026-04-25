@@ -9,33 +9,6 @@ IncludeFile "UI\FrameDef\UI\QuestDialog.fdf",
 //The game auto replaces HD icons to SD if you are in SD mode. See TooltipLumberIcon
 
 /**
-* ------------------------ FRAME ------------------------
-*/
-Frame "FRAME" "JMT_EmptyFrame" {
-    LayerStyle "IGNORETRACKEVENTS",
-}
-
-/**
-* ------------------------ BACKDROP ------------------------
-*/
-Frame "BACKDROP" "JMT_BackdropBaseTemplate" {
-    DecorateFileNames,
-    BackdropTileBackground,
-    BackdropBackground  "QuestDialogNormalBackground", //QuestDialogNormalBackground -this doesnt seem case sensitive. scorescreen-background-r1.dds (did not let me use this .dds file) I tried many variations of file importing and the name referenced here. did not work
-    BackdropCornerFlags "UL|UR|BL|BR|T|L|B|R",
-    BackdropCornerSize          0.007, //0.0125
-    BackdropBackgroundSize      0.1, //0.128
-    BackdropBackgroundInsets    0.002 0.002 0.002 0.002, //0.005 0.005 0.005 0.005,
-    BackdropEdgeFile  "QuestDialogNormalBorder", //QuestDialogNormalBorder, TooltipBorder
-}
-
-Frame "BACKDROP" "JMT_BackdropTemplate_Tooltip" INHERITS "JMT_BackdropBaseTemplate" {
-    BackdropBackground  "TooltipBackground", //QuestDialogNormalBackground -this doesnt seem case sensitive. scorescreen-background-r1.dds (did not let me use this .dds file) I tried many variations of file importing and the name referenced here. did not work
-    BackdropEdgeFile  "TooltipBorder",
-}
-
-
-/**
 * ------------------------ SCROLLBAR ------------------------
 */
 
