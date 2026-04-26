@@ -229,8 +229,3 @@ export class Components {
     //     }
     // }
 }
-
-interface TooltipConfig {
-    reverseOrientation?: boolean;
-    includeBackground?: boolean;
-}

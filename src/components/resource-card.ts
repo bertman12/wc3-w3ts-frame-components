@@ -7,7 +7,7 @@ import { Button } from "./button";
 import { Tooltip } from "./Tooltip";
 
 /**
- * Needs to be configurable. 
+ * Needs to be configurable.
  */
 export class ResourceCard {
     context: number;
@@ -37,21 +37,21 @@ export class ResourceCard {
         this.containerFrame?.setSize(0.08, 0.025);
 
         this.button = new Button(this.context, this.name + "resourceButton", this.containerFrame, { texture: ResourceTypeIconTexture.get(this.resourceType) });
-        if (!this.button.containerFrame) {
+        if (!this.button.buttonFrame) {
             return;
         }
 
-        this.button.containerFrame?.clearPoints();
-        this.button.containerFrame?.setPoint(FRAMEPOINT_LEFT, this.containerFrame, FRAMEPOINT_LEFT, 0.005, 0);
-        this.button.containerFrame?.setSize(this.button.containerFrame.width * 0.5, this.button.containerFrame.height * 0.5);
+        this.button.buttonFrame?.clearPoints();
+        this.button.buttonFrame?.setPoint(FRAMEPOINT_LEFT, this.containerFrame, FRAMEPOINT_LEFT, 0.005, 0);
+        this.button.buttonFrame?.setSize(this.button.buttonFrame.width * 0.5, this.button.buttonFrame.height * 0.5);
         const header = ResourceTypeName.get(this.resourceType) || "";
         const rTag = ResourceTypeTag.get(this.resourceType) || "";
 
-        this.tooltip = new Tooltip(rTag + " " + header, "", this.name + "resourceTooltip", this.context, this.button.containerFrame, { anchorPoint: "bottom" });
+        this.tooltip = new Tooltip(rTag + " " + header, "", this.name + "resourceTooltip", this.context, this.button.buttonFrame, { anchorPoint: "bottom" });
 
         this.valueText = Text.Render(this.context, this.name + "valueTextFrame" + this.context, this.owner);
         this.valueText?.clearPoints();
-        this.valueText?.setPoint(FRAMEPOINT_LEFT, this.button.containerFrame, FRAMEPOINT_RIGHT, 0.005, 0);
+        this.valueText?.setPoint(FRAMEPOINT_LEFT, this.button.buttonFrame, FRAMEPOINT_RIGHT, 0.005, 0);
         this.valueText?.setText("0");
         this.valueText?.setSize(this.valueText.width, 0);
         this.valueText?.setScale(0.8);

@@ -74,19 +74,19 @@ export class BuildMenu {
             context: this.context,
             renderItem: (parent, row, column, index, data) => {
                 const btnFrames = new Button(this.context, this.name + "commandCardBtn" + index, parent, {
-                    clickSound: "Sound\\Interface\\MouseClick1.flac",
+                    clickSoundPath: "Sound\\Interface\\MouseClick1.flac",
                     onClick: () => {
                         this.handleButtonClick(index);
                     },
                 });
 
                 //This is the normal width and height for the command buttons
-                btnFrames.containerFrame?.setSize(0.039, 0.039);
+                btnFrames.buttonFrame?.setSize(0.039, 0.039);
 
                 //Do this so that when the tooltip is created, the backdrop frame wraps both the header and the body
-                const tooltip = new Tooltip("empty", "empty", this.name + "tooltip" + index, this.context, btnFrames.containerFrame, { reverseOrientation: true, resources: [{ type: ResourceType.Placeholder, value: 0 }] });
+                const tooltip = new Tooltip("empty", "empty", this.name + "tooltip" + index, this.context, btnFrames.buttonFrame, { reverseOrientation: true, resources: [{ type: ResourceType.Placeholder, value: 0 }] });
 
-                return { container: btnFrames.containerFrame, button: btnFrames, tooltip };
+                return { container: btnFrames.buttonFrame, button: btnFrames, tooltip };
             },
             updateItem: (data, itemFrames, index) => {
                 if (!data) {
@@ -143,7 +143,7 @@ export class BuildMenu {
 
                     //Hide max researched technology.
                     if (techCount === max) {
-                        itemFrames?.button?.containerFrame?.setVisible(false);
+                        itemFrames?.button?.buttonFrame?.setVisible(false);
                     }
 
                     // if (techCount > 0) {
