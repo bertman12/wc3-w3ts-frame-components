@@ -1,31 +1,35 @@
-import { PlaySoundLocal } from "src/sound/utils";
 import { Frame, MapPlayer, Trigger } from "w3ts";
+import { PlaySoundLocal } from "warcraft-3-w3ts-utils";
 import { FrameUtils } from "../frame-utils";
 import { FrameInheritable } from "../names";
+import { AbstractFrameBase } from "./AbstractFrameBase";
 
 interface GlueTextButtonConfiguration {
     clickSoundPath?: string;
+    /**
+     * When set, will
+     * @returns 
+     */
+    onClick?: () => void;
+    initialText?: string;
 }
 
-export class GlueTextButton {
-    public context: number;
-    public name: string;
-    public owner: Frame;
-    public frame: Frame | undefined;
+export class GlueTextButton extends AbstractFrameBase {
+    public frame?: Frame;
+    /**
+     * A trigger is created when onClick is set inside the config.
+     */
+    public onClickTrigger?: Trigger;
+    public config: GlueTextButtonConfiguration;
 
-    public onClickTrigger: Trigger | undefined;
-    public config?: GlueTextButtonConfiguration;
-
-    constructor(context: number, name: string, owner: Frame, config?: GlueTextButtonConfiguration) {
-        this.context = context;
-        this.name = name;
-        this.owner = owner;
+    constructor(config: GlueTextButtonConfiguration, ...baseArgs: ConstructorParameters<typeof AbstractFrameBase>) {
+        super(...baseArgs);
         this.config = config;
         this.render();
     }
 
-    private render() {
-        this.frame = Frame.createType(this.name, this.owner || FrameUtils.OriginFrameGameUI, this.context, FrameInheritable.GlueTextButton.type, FrameInheritable.GlueTextButton.name);
+    protected render() {
+        this.frame = Frame.createType(this.name, this.owner, this.context, "GLUETEXTBUTTON", this.inherits);
 
         if (!this.frame) {
             return;
@@ -36,20 +40,28 @@ export class GlueTextButton {
         BlzFrameSetSize(this.frame.handle, 0.1, 0.1);
 
         this.frame = this.frame;
-        const t = Trigger.create();
-        this.onClickTrigger = t;
-        t.triggerRegisterFrameEvent(this.frame, FRAMEEVENT_CONTROL_CLICK);
-        t.addAction(() => {
-            const player = MapPlayer.fromEvent();
 
-            if (player && this.config?.clickSoundPath) {
-                PlaySoundLocal(this.config.clickSoundPath, player.isLocal());
-            }
-
-            if (this.frame) {
-                this.frame.setEnabled(false);
-                this.frame.setEnabled(true);
-            }
-        });
+        if(this.config.initialText){
+            this.frame.setText(this.config.initialText);
+        }
+        
+        if(this.config.onClick){
+            const t = Trigger.create();
+            this.onClickTrigger = t;
+            
+            t.triggerRegisterFrameEvent(this.frame, FRAMEEVENT_CONTROL_CLICK);
+            t.addAction(() => {
+                const player = MapPlayer.fromEvent();
+    
+                if (player && this.config?.clickSoundPath) {
+                    PlaySoundLocal(this.config.clickSoundPath, player.isLocal());
+                }
+    
+                if (this.frame) {
+                    this.frame.setEnabled(false);
+                    this.frame.setEnabled(true);
+                }
+            });
+        }
     }
 }

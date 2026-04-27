@@ -1,44 +1,39 @@
-import { PlaySoundLocal } from "src/sound/utils";
 import { Frame, MapPlayer, Trigger } from "w3ts";
-import { delayedTimer } from "warcraft-3-w3ts-utils";
-import { FrameUtils } from "../frame-utils";
-import { Inheritables } from "../names";
+import { delay, PlaySoundLocal } from "warcraft-3-w3ts-utils";
 import { AbstractFrameBase } from "./AbstractFrameBase";
 
-export interface ButtonRenderData {
-    iconTexture?: string;
-    tooltip?: string;
-    tooltipTitle?: string;
-}
-
-interface ButtonConfiguration {
-    texture?: string;
+export interface ButtonConfiguration {
+    texture: string;
+    /**
+     * When onClick is defined, the button will resize automatically on it's own when clicked.
+     * A sound will also be played if the clickSoundPath is defined.
+     * @param btn
+     * @param btnIcon
+     * @returns
+     */
     onClick?: (btn: Frame, btnIcon?: Frame) => void;
     /**
      * Determines if the button will be made as SIMPLEBUTTON instead of BUTTON
      */
     isSimple?: boolean;
-    /**
-     * Default to Sound\\Interface\\BigButtonClick.flac
-     */
     clickSoundPath?: string;
 }
 
 export class Button extends AbstractFrameBase {
+    public config: ButtonConfiguration;
+
     public buttonFrame?: Frame;
     /**
      * Used for the button texture
      */
-    public iconFrame?: Frame;
-
-    public config?: ButtonConfiguration;
+    public iconBackdropFrame?: Frame;
 
     /**
      * Initialized when on click handler is set in the config.
      */
     public onClickTrigger?: Trigger;
 
-    constructor(config?: ButtonConfiguration, ...baseArgs: ConstructorParameters<typeof AbstractFrameBase>) {
+    constructor(config: ButtonConfiguration, ...baseArgs: ConstructorParameters<typeof AbstractFrameBase>) {
         super(...baseArgs);
 
         this.config = config;
@@ -47,33 +42,28 @@ export class Button extends AbstractFrameBase {
 
     protected render() {
         if (this.config?.isSimple) {
-            this.buttonFrame = Frame.fromHandle(BlzCreateFrameByType("SIMPLEBUTTON", this.name, this.owner?.handle || FrameUtils.OriginFrameGameUIHandle, Inheritables.JMT_SimpleButtonBase, this.context));
+            this.buttonFrame = Frame.createType(this.name, this.owner, this.context, "SIMPLEBUTTON", this.inherits);
         } else {
-            this.buttonFrame = Frame.createType(this.name, this.owner || FrameUtils.OriginFrameGameUI, this.context, "BUTTON", "ScoreScreenTabButtonTemplate");
-            // this.buttonFrame = Frame.fromHandle(BlzCreateFrameByType("BUTTON", this.name, this.owner?.handle || FrameUtils.OriginFrameGameUIHandle, "ScoreScreenTabButtonTemplate", this.context));
+            this.buttonFrame = Frame.createType(this.name, this.owner, this.context, "BUTTON", this.inherits || "ScoreScreenTabButtonTemplate");
         }
 
         if (!this.buttonFrame) {
             return;
         }
 
-        /**
-         * Can't do this if it's a simlpe button ?
-         */
         // --create a BACKDROP for Button which displays the Texture
         if (this.config?.isSimple) {
-            this.buttonFrame.setTexture(this.config.texture || "", 0, false);
+            this.buttonFrame.setTexture(this.config.texture, 0, false);
         } else {
-            const buttonIconFrame = Frame.fromHandle(BlzCreateFrameByType("BACKDROP", this.name + "IconButtonIcon", this.buttonFrame.handle, "", this.context));
-            if (!buttonIconFrame) {
+            this.iconBackdropFrame = Frame.createType(this.name + "iconBackdropFrame", this.owner, this.context, "BACKDROP", "");
+            if (!this.iconBackdropFrame) {
                 return;
             }
-            this.iconFrame = buttonIconFrame;
 
             // -- buttonIcon will mimic buttonFrame in size and position
-            buttonIconFrame.setAllPoints(this.buttonFrame);
+            this.iconBackdropFrame.setAllPoints(this.buttonFrame);
             // -- set the texture
-            buttonIconFrame.setTexture(this.config?.texture || "", 0, false);
+            this.iconBackdropFrame.setTexture(this.config.texture, 0, false);
         }
 
         // -- place the Button to the left center of the Screen
@@ -88,27 +78,28 @@ export class Button extends AbstractFrameBase {
         if (this.config?.onClick) {
             const t = Trigger.create();
             this.onClickTrigger = t;
+
             t.triggerRegisterFrameEvent(this.buttonFrame, FRAMEEVENT_CONTROL_CLICK);
+
             t.addAction(() => {
                 if (this.config?.onClick && this.buttonFrame && this.config.clickSoundPath) {
                     const player = MapPlayer.fromEvent();
-                    PlaySoundLocal(this.config?.clickSoundPath || "", player?.isLocal());
+                    PlaySoundLocal(this.config.clickSoundPath || "", player?.isLocal());
 
-                    this.iconFrame?.clearPoints();
-                    this.iconFrame?.setPoint(FRAMEPOINT_BOTTOMLEFT, this.buttonFrame, FRAMEPOINT_BOTTOMLEFT, 0.001, 0.001);
-                    this.iconFrame?.setPoint(FRAMEPOINT_TOPRIGHT, this.buttonFrame, FRAMEPOINT_TOPRIGHT, -0.001, -0.001);
+                    this.iconBackdropFrame?.clearPoints();
+                    this.iconBackdropFrame?.setPoint(FRAMEPOINT_BOTTOMLEFT, this.buttonFrame, FRAMEPOINT_BOTTOMLEFT, 0.001, 0.001);
+                    this.iconBackdropFrame?.setPoint(FRAMEPOINT_TOPRIGHT, this.buttonFrame, FRAMEPOINT_TOPRIGHT, -0.001, -0.001);
 
-                    delayedTimer(0.05, () => {
-                        this.iconFrame?.clearPoints();
+                    delay(0.05, () => {
+                        this.iconBackdropFrame?.clearPoints();
                         if (this.buttonFrame) {
-                            this.iconFrame?.setAllPoints(this.buttonFrame);
+                            this.iconBackdropFrame?.setAllPoints(this.buttonFrame);
                         }
                     });
 
-                    this.config.onClick(this.buttonFrame, this.iconFrame);
+                    this.config.onClick(this.buttonFrame, this.iconBackdropFrame);
                 }
 
-                //do this regardless if they registered a click event.
                 this.buttonFrame?.setEnabled(false);
                 this.buttonFrame?.setEnabled(true);
             });
@@ -119,7 +110,7 @@ export class Button extends AbstractFrameBase {
         if (this.config?.isSimple) {
             this.buttonFrame?.setTexture(texture, 0, false);
         } else {
-            this.iconFrame?.setTexture(texture, 0, false);
+            this.iconBackdropFrame?.setTexture(texture, 0, false);
         }
     }
 }

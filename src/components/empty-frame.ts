@@ -1,21 +1,17 @@
 import { Frame } from "w3ts";
-import { FrameUtils } from "../frame-utils";
+import { AbstractFrameBase } from "./AbstractFrameBase";
 
-export class EmptyFrame {
-    public context: number;
-    public name: string;
-    public owner?: Frame;
+export class EmptyFrame extends AbstractFrameBase {
     public frame?: Frame;
 
-    constructor(context: number, name: string, owner?: Frame) {
-        this.context = context;
-        this.name = name;
-        this.owner = owner;
-        this.Render();
+    constructor(...baseArgs: ConstructorParameters<typeof AbstractFrameBase>) {
+        super(...baseArgs);
+
+        this.render();
     }
 
-    private Render() {
-        this.frame = Frame.createType(this.name, this.owner ?? FrameUtils.OriginFrameGameUI, this.context, "FRAME", "");
+    protected render() {
+        this.frame = Frame.createType(this.name, this.owner, this.context, "FRAME", this.inherits);
         this.frame?.setEnabled(false);
 
         return this.frame;

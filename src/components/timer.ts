@@ -1,74 +1,73 @@
 import { Frame, Timer } from "w3ts";
-import { delayedTimer } from "warcraft-3-w3ts-utils";
-import { Components } from "../frame-components";
-import { FrameUtils } from "../frame-utils";
-import { Panel } from "../panels/panel";
-import { Text } from "../text/text";
+import { delay } from "warcraft-3-w3ts-utils";
+import { AbstractFrameBase } from "./AbstractFrameBase";
+import { Backdrop } from "./backdrop";
+import { Button } from "./button";
 import { Tooltip } from "./Tooltip";
+import { Text } from "./text";
 
 interface TimerFrameConfig {
     useTitle?: boolean;
     useButton?: boolean;
 }
 
-export class TimerFrame {
-    context: number;
-    name: string;
-    owner: Frame;
+export class TimerFrame extends AbstractFrameBase {
+    /**
+     * Serves as the container for the other frames in the timer.
+     */
+    public backdrop?: Backdrop;
 
-    containerFrame?: Frame;
-    buttonFrames?: ReturnType<typeof Components.IconButton>;
+    button?: Button;
+    // buttonFrames?: ReturnType<typeof Components.IconButton>;
+
     private titleText?: Frame;
     private timer?: Timer;
     private timerText?: Frame;
     private buttonTooltip?: Tooltip;
     private config?: TimerFrameConfig;
 
-    constructor(context: number, name: string, owner: Frame, config?: TimerFrameConfig) {
-        this.context = context;
-        this.name = name;
-        this.owner = owner;
+    constructor(config?: TimerFrameConfig, ...baseArgs: ConstructorParameters<typeof AbstractFrameBase>) {
+        super(...baseArgs);
+
         this.timer = Timer.create();
         this.config = config;
 
         this.render();
     }
 
-    private render() {
-        this.containerFrame = Panel.Render(0, this.name + "timerPanel", FrameUtils.OriginFrameGameUI);
-        if (!this.containerFrame) {
+    protected render() {
+        this.backdrop = new Backdrop(this.name + "timer", this.context, this.owner, this.inherits);
+
+        if (!this.backdrop.frame) {
             return;
         }
 
-        this.containerFrame.clearPoints();
-        this.containerFrame.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
-        this.containerFrame?.setSize(0.08, 0.025);
+        this.backdrop.frame.clearPoints();
+        this.backdrop.frame.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
+        this.backdrop.frame.setSize(0.08, 0.025);
 
         if (this.config?.useTitle) {
-            this.titleText = Text.Render(this.context, this.name + "titleText", this.containerFrame);
+            this.titleText = Text.Render(this.context, this.name + "titleText", this.backdrop.frame);
             if (!this.titleText) {
                 return;
             }
 
             this.titleText.clearPoints();
             this.titleText.setSize(0.03, 0);
-            this.titleText.setPoint(FRAMEPOINT_LEFT, this.containerFrame, FRAMEPOINT_LEFT, 0.005, 0);
+            this.titleText.setPoint(FRAMEPOINT_LEFT, this.backdrop.frame, FRAMEPOINT_LEFT, 0.005, 0);
             this.titleText.setText("Timer");
         } else if (this.config?.useButton) {
-            this.buttonFrames = Components.IconButton(this.context, this.name + "button", "", this.containerFrame);
-            this.buttonTooltip = new Tooltip("", "", this.name, this.context, this.buttonFrames.button, { includeBackground: true });
+            this.button = new Button({ texture: "" }, this.name + "timerButton", this.context, this.owner, this.inherits);
 
-            // if (this.buttonFrames.button) {
-            //     this.buttonTooltip.textFrame?.clearPoints();
-            //     this.buttonTooltip.textFrame?.setPoint(FRAMEPOINT_TOPLEFT, this.buttonFrames.button, FRAMEPOINT_BOTTOMLEFT, 0, 0);
-            // }
+            // this.buttonFrames = Components.IconButton(this.context, this.name + "button", "", this.backdrop.frame);
+            this.buttonTooltip = new Tooltip("", "", this.name, this.context, this.button.buttonFrame, { includeBackground: true });
 
-            this.buttonFrames.button?.clearPoints();
-            this.buttonFrames.button?.setPoint(FRAMEPOINT_LEFT, this.containerFrame, FRAMEPOINT_LEFT, 0.005, 0);
-            this.buttonFrames.button?.setSize(this.buttonFrames.button.width * 0.5, this.buttonFrames.button.height * 0.5);
+            this.button.buttonFrame?.clearPoints();
+            this.button.buttonFrame?.setPoint(FRAMEPOINT_LEFT, this.backdrop.frame, FRAMEPOINT_LEFT, 0.005, 0);
+            this.button.buttonFrame?.setSize(this.button.buttonFrame.width * 0.5, this.button.buttonFrame.height * 0.5);
         }
 
-        this.timerText = Text.Render(this.context, this.name + "timerText", this.containerFrame);
+        this.timerText = Text.Render(this.context, this.name + "timerText", this.backdrop.frame);
         if (!this.timerText) {
             return;
         }
@@ -76,7 +75,7 @@ export class TimerFrame {
         this.timerText.setText("0");
         this.timerText.clearPoints();
         this.timerText.setSize(0.05, 0);
-        this.timerText.setPoint(FRAMEPOINT_LEFT, this.titleText || this.buttonFrames?.button || this.containerFrame, FRAMEPOINT_RIGHT, 0.005, 0);
+        this.timerText.setPoint(FRAMEPOINT_LEFT, this.titleText || this.button?.buttonFrame || this.backdrop.frame, FRAMEPOINT_RIGHT, 0.005, 0);
     }
 
     /**
@@ -97,7 +96,7 @@ export class TimerFrame {
         });
 
         //gets called after you call start when it just elapsed
-        delayedTimer(duration, () => {
+        delay(duration, () => {
             if (onCompletion) {
                 onCompletion();
             }
@@ -113,12 +112,11 @@ export class TimerFrame {
     }
 
     /**
-     *
      * @param texture
      * @param tooltip Using simple tooltip with header only. This doens't really need a body and a header
      */
-    updateButton(texture: string, tooltip: string) {
-        this.buttonFrames?.buttonIconFrame?.setTexture(texture, 0, false);
+    updateIconButton(texture: string, tooltip: string) {
+        this.button?.iconBackdropFrame?.setTexture(texture, 0, false);
         this.buttonTooltip?.update(tooltip, "");
     }
 }

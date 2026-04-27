@@ -3,7 +3,7 @@ import { Frame } from "w3ts";
 import { Components, IconButton } from "../frame-components";
 import { FrameUtils } from "../frame-utils";
 import { Grid, GridItemBaseDefinition } from "../grid/grid";
-import { Text } from "../text/text";
+import { Text } from "./text";
 
 interface TooltipConfig {
     reverseOrientation?: boolean;
@@ -17,7 +17,7 @@ interface TooltipConfig {
 
 interface ResourceGridFrameDefinitions extends GridItemBaseDefinition {
     buttonFrames?: IconButton;
-    valueText?: Frame;
+    valueText?: Text;
 }
 
 export class Tooltip {
@@ -141,18 +141,19 @@ export class Tooltip {
                             btnFrames.button?.setPoint(FRAMEPOINT_LEFT, emptyFrame, FRAMEPOINT_LEFT, 0.005, 0);
                         }
 
-                        const valueText = Text.Render(this.context, this.name + "resoureceTextValue" + index, emptyFrame);
-                        valueText?.clearPoints();
+                        const valueText = new Text(this.name + "resoureceTextValue" + index, this.context, emptyFrame);
+                        valueText.frame?.clearPoints();
 
                         if (btnFrames.button) {
-                            valueText?.setPoint(FRAMEPOINT_LEFT, btnFrames.button, FRAMEPOINT_RIGHT, 0.005, 0);
+                            valueText.frame?.setPoint(FRAMEPOINT_LEFT, btnFrames.button, FRAMEPOINT_RIGHT, 0.005, 0);
                         }
 
-                        valueText?.setScale(0.8);
-                        valueText?.setText(`${data?.value || ""}`);
-                        valueText?.setSize(Text.FormatSize(valueText.text), 0);
+                        valueText.frame?.setScale(0.8);
+                        valueText.frame?.setText(`${data?.value || ""}`);
+                        valueText.formatSize();
+                        // valueText.frame?.setSize(Text.FormatSize(valueText.text), 0);
 
-                        emptyFrame?.setSize((btnFrames.button?.width || 0.05) + (valueText?.width || 0.05), btnFrames.button?.height || 0.05);
+                        emptyFrame?.setSize((btnFrames.button?.width || 0.05) + (valueText.frame?.width || 0.05), btnFrames.button?.height || 0.05);
 
                         return { container: emptyFrame, buttonFrames: btnFrames, valueText };
                     },
@@ -163,9 +164,10 @@ export class Tooltip {
 
                         const texture = ResourceTypeIconTexture.get(data.type);
                         itemFrames?.buttonFrames?.buttonIconFrame?.setTexture(texture || "", 0, false);
-                        itemFrames?.valueText?.setText(`${data.value}`);
-                        itemFrames?.valueText?.setSize(Text.FormatSize(itemFrames.valueText.text), 0);
-                        itemFrames?.container?.setSize((itemFrames?.buttonFrames?.button?.width || 0.05) + (itemFrames?.valueText?.width || 0.05), itemFrames.buttonFrames?.button?.height || 0.05);
+                        itemFrames?.valueText?.frame?.setText(`${data.value}`);
+                        itemFrames?.valueText?.formatSize();
+                        // itemFrames?.valueText?.setSize(Text.FormatSize(itemFrames.valueText.text), 0);
+                        itemFrames?.container?.setSize((itemFrames?.buttonFrames?.button?.width || 0.05) + (itemFrames?.valueText?.frame?.width || 0.05), itemFrames.buttonFrames?.button?.height || 0.05);
 
                         return;
                     },

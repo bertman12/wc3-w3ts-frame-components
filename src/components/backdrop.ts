@@ -1,8 +1,9 @@
 import { Frame } from "w3ts";
-import { FrameUtils } from "../frame-utils";
 import { AbstractFrameBase } from "./AbstractFrameBase";
 
 export class Backdrop extends AbstractFrameBase {
+    public frame?: Frame;
+
     constructor(...baseArgs: ConstructorParameters<typeof AbstractFrameBase>) {
         super(...baseArgs);
 
@@ -10,16 +11,16 @@ export class Backdrop extends AbstractFrameBase {
     }
 
     protected render() {
-        const container = Frame.createType(this.name + "backdrop" + this.context, this.owner || FrameUtils.OriginFrameGameUI, this.context, "BACKDROP", this.inherits || "");
+        this.frame = Frame.createType(this.name, this.owner, this.context, "BACKDROP", this.inherits);
 
-        if (!container) {
+        if (!this.frame) {
             return;
         }
 
-        BlzFrameClearAllPoints(container.handle);
-        BlzFrameSetAbsPoint(container.handle, FRAMEPOINT_BOTTOMLEFT, 0.4, 0.3);
-        BlzFrameSetSize(container.handle, 0.3, 0.2);
+        BlzFrameClearAllPoints(this.frame.handle);
+        BlzFrameSetAbsPoint(this.frame.handle, FRAMEPOINT_BOTTOMLEFT, 0.4, 0.3);
+        BlzFrameSetSize(this.frame.handle, 0.3, 0.2);
 
-        return container;
+        return this.frame;
     }
 }

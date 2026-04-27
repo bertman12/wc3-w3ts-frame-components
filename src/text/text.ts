@@ -1,31 +1,34 @@
-import { Frame } from "w3ts";
-import { FrameUtils } from "../frame-utils";
+// export class Text extends AbstractFrameBase {
+//     public frame?: Frame;
 
-export class Text {
-    static Render(context: number, name: string, owner?: Frame) {
-        //Doesn't need to inherit from anyone.
-        const text = Frame.fromHandle(BlzCreateFrameByType("TEXT", name, owner?.handle || FrameUtils.OriginFrameGameUIHandle, "", context));
+//     constructor(...baseArgs: ConstructorParameters<typeof AbstractFrameBase>) {
+//         super(...baseArgs);
 
-        if (!text) {
-            return;
-        }
+//         this.render();
+//     }
 
-        text.clearPoints();
-        text.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
-        text.setSize(0.1, 0.005);
-        text.setText("Sample Text");
+//     protected render() {
+//         //Doesn't need to inherit from anyone.
+//         this.frame = Frame.fromHandle(BlzCreateFrameByType("TEXT", this.name, this.owner.handle, "", this.context));
 
-        return text;
-    }
+//         if (!this.frame) {
+//             return;
+//         }
 
-    /**
-     * Returns a computed width for the tooltip 
-     * 
-     * @param text The text that goes inside the tooltip.
-     * @param buffer Optional addition to the calculated width. 
-     * @returns number
-     */
-    static FormatSize(text: string, buffer?: number) {
-        return 0.02 + 0.004 * text.length + (buffer || 0);
-    }
-}
+//         this.frame.clearPoints();
+//         this.frame.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
+//         this.frame.setSize(0.1, 0.005);
+//         this.frame.setText("Sample Text");
+//     }
+
+//     /**
+//      * Returns a computed width for the tooltip
+//      *
+//      * @param text The text that goes inside the tooltip.
+//      * @param buffer Optional addition to the calculated width.
+//      * @returns number
+//      */
+//     static FormatSize(text: string, buffer?: number) {
+//         return 0.02 + 0.004 * text.length + (buffer || 0);
+//     }
+// }
