@@ -27,3 +27,13 @@ export enum JMT_Inheritables {
     JMT_BackdropBaseTemplate = "JMT_BackdropBaseTemplate",
     JMT_SimpleButtonBase = "JMT_SimpleButtonBase",
 }
+
+
+export enum FrameType {
+    Backdrop = "BACKDROP",
+    GlueTextButton = "GLUETEXTBUTTON",
+    Button=  "BUTTON",
+    Frame = "FRAME",
+    Tooltip = "TOOLTIP",
+    
+}

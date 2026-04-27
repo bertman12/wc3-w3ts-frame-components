@@ -1,3 +1,4 @@
+import { __theme } from "src/theme";
 import { Frame, MapPlayer, Trigger } from "w3ts";
 import { delay, PlaySoundLocal } from "warcraft-3-w3ts-utils";
 import { AbstractFrameBase } from "./AbstractFrameBase";
@@ -82,9 +83,11 @@ export class Button extends AbstractFrameBase {
             t.triggerRegisterFrameEvent(this.buttonFrame, FRAMEEVENT_CONTROL_CLICK);
 
             t.addAction(() => {
-                if (this.config?.onClick && this.buttonFrame && this.config.clickSoundPath) {
-                    const player = MapPlayer.fromEvent();
-                    PlaySoundLocal(this.config.clickSoundPath || "", player?.isLocal());
+                if (this.config?.onClick && this.buttonFrame) {
+                    if (this.config.clickSoundPath) {
+                        const player = MapPlayer.fromEvent();
+                        PlaySoundLocal(this.config.clickSoundPath || __theme.buttonClickSound || "", player?.isLocal());
+                    }
 
                     this.iconBackdropFrame?.clearPoints();
                     this.iconBackdropFrame?.setPoint(FRAMEPOINT_BOTTOMLEFT, this.buttonFrame, FRAMEPOINT_BOTTOMLEFT, 0.001, 0.001);

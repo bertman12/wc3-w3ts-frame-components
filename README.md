@@ -26,7 +26,7 @@ All components have a name, owner, inherits and container frame.
 - ##### Inherits
     - Defaults to empty string when not set.
 
-#### Grid
+### Grid
 
 The grid component provides a versatile layout tool for organizing a collection of like frames.
 
@@ -34,13 +34,13 @@ Each grid item can contain any frame type or custom frame components.
 
 The grid provides a render function which is used for the initial rendering of the grid.
 
-#### Button
+### Button
 
 When on click is set, it will automatically enable and disable the button so that it does not retain focus after being clicked.
 
 When on click and a sound path is set, the sound will be played locally for the player.
 
-#### Glue Text Button
+### Glue Text Button
 
 When on click is set, it will automatically enable and disable the button so that it does not retain focus after being clicked.
 

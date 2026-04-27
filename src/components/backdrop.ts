@@ -11,7 +11,7 @@ export class Backdrop extends AbstractFrameBase {
     }
 
     protected render() {
-        this.frame = Frame.createType(this.name, this.owner, this.context, "BACKDROP", this.inherits);
+        this.frame = Frame.createType(this.name, this.owner, this.context, "BACKDROP", this.inherits || "QuestButtonBaseTemplate");
 
         if (!this.frame) {
             return;

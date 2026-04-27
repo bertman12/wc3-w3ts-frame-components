@@ -3,6 +3,7 @@ import { PlaySoundLocal } from "warcraft-3-w3ts-utils";
 import { FrameUtils } from "../frame-utils";
 import { FrameInheritable } from "../names";
 import { AbstractFrameBase } from "./AbstractFrameBase";
+import { __theme } from "src/theme";
 
 interface GlueTextButtonConfiguration {
     clickSoundPath?: string;
@@ -29,7 +30,10 @@ export class GlueTextButton extends AbstractFrameBase {
     }
 
     protected render() {
-        this.frame = Frame.createType(this.name, this.owner, this.context, "GLUETEXTBUTTON", this.inherits);
+        /**
+         * @todo needs inherit fallback
+         */
+        this.frame = Frame.createType(this.name, this.owner, this.context, "GLUETEXTBUTTON", this.inherits || "ScriptDialogButton");
 
         if (!this.frame) {
             return;
@@ -54,7 +58,7 @@ export class GlueTextButton extends AbstractFrameBase {
                 const player = MapPlayer.fromEvent();
     
                 if (player && this.config?.clickSoundPath) {
-                    PlaySoundLocal(this.config.clickSoundPath, player.isLocal());
+                    PlaySoundLocal(this.config.clickSoundPath || __theme.buttonClickSound || "", player.isLocal());
                 }
     
                 if (this.frame) {

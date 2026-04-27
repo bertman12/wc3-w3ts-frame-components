@@ -18,7 +18,7 @@ export class TextArea extends AbstractFrameBase {
     }
 
     protected render() {
-        this.frame = Frame.fromHandle(BlzCreateFrameByType("TEXTAREA", this.name, this.owner.handle, this.inherits, this.context));
+        this.frame = Frame.fromHandle(BlzCreateFrameByType("TEXTAREA", this.name, this.owner.handle, this.inherits || "QuestDisplay", this.context));
 
         if (!this.frame) {
             return;
