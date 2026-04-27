@@ -1,9 +1,7 @@
-import { removeColorCodingFromWord } from "src/strings/utils";
+import { Backdrop, GlueTextButton, Text } from "src/components";
+import { FrameUtils } from "src/frame-utils";
 import { Frame } from "w3ts";
-import { Components } from "../frame-components";
-import { FrameUtils } from "../frame-utils";
-import { Panel } from "../panels/panel";
-import { Text } from "../text/text";
+import { removeColorCodingFromWord } from "warcraft-3-w3ts-utils";
 
 /**
  * The purpose of the class is to be be able to walk through the children of a frame and toggle their visibility.
@@ -69,7 +67,7 @@ export class FrameNavigator {
     }
 
     private render() {
-        this.containerFrame = Panel.Render(this.context, this.name + "backdrop", this.owner);
+        this.containerFrame = new Backdrop(this.name + "backdrop", this.context, this.owner).frame;
         this.containerFrame?.clearPoints();
         this.containerFrame?.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.35);
         this.containerFrame?.setSize(0.2, 0.15);
@@ -78,7 +76,7 @@ export class FrameNavigator {
             return;
         }
 
-        this.title = Text.Render(this.context, this.name + "Title", this.containerFrame);
+        this.title = new Text(this.name + "Title", this.context, this.containerFrame).frame;
         this.title?.setText("Frame Navigator");
         this.title?.clearPoints();
         this.title?.setPoint(FRAMEPOINT_TOP, this.containerFrame, FRAMEPOINT_TOP, 0, -0.008);
@@ -87,7 +85,7 @@ export class FrameNavigator {
             return;
         }
 
-        this.pathStringFrame = Text.Render(this.context, this.name + "pathString", this.containerFrame);
+        this.pathStringFrame = new Text(this.name + "pathString", this.context, this.containerFrame).frame;
         this.pathStringFrame?.setText("root/0");
         this.pathStringFrame?.clearPoints();
         this.pathStringFrame?.setPoint(FRAMEPOINT_TOP, this.title, FRAMEPOINT_BOTTOM, 0, -0.008);
@@ -96,7 +94,7 @@ export class FrameNavigator {
             return;
         }
 
-        this.siblingCountText = Text.Render(this.context, this.name + "pathString", this.containerFrame);
+        this.siblingCountText = new Text(this.name + "siblingCount", this.context, this.containerFrame).frame;
         this.siblingCountText?.setText("Sibling: 0");
         this.siblingCountText?.clearPoints();
         this.siblingCountText?.setPoint(FRAMEPOINT_TOP, this.pathStringFrame, FRAMEPOINT_BOTTOM, 0, -0.008);
@@ -105,54 +103,89 @@ export class FrameNavigator {
             return;
         }
 
-        this.childCountText = Text.Render(this.context, this.name + "pathString", this.containerFrame);
+        this.childCountText = new Text(this.name + "childCount", this.context, this.containerFrame).frame;
         this.childCountText?.setText("Children: 0");
         this.childCountText?.clearPoints();
         this.childCountText?.setPoint(FRAMEPOINT_TOP, this.siblingCountText, FRAMEPOINT_BOTTOM, 0, -0.008);
 
-        this.toggleVisibilityBtn = Components.GlueTextButton(this.context, this.name + "visibilityBtn", this.containerFrame, () => {
-            this.setVisibility();
-        });
+        this.toggleVisibilityBtn = new GlueTextButton(
+            {
+                onClick: () => {
+                    this.setVisibility();
+                },
+                initialText: "Visibility",
+            },
+            this.name + "visibilityBtn",
+            this.context,
+            this.containerFrame,
+        ).frame;
         this.toggleVisibilityBtn?.clearPoints();
         this.toggleVisibilityBtn?.setPoint(FRAMEPOINT_BOTTOM, this.containerFrame, FRAMEPOINT_BOTTOM, 0, 0.025);
         this.toggleVisibilityBtn?.setSize(0.06, 0.02);
-        this.toggleVisibilityBtn?.setText("Visibility");
 
         if (!this.toggleVisibilityBtn) {
             return;
         }
 
-        this.ascendBtn = Components.GlueTextButton(this.context, this.name + "ascendBtn", this.containerFrame, () => {
-            this.ascendTree();
-        });
+        this.ascendBtn = new GlueTextButton(
+            {
+                onClick: () => {
+                    this.ascendTree();
+                },
+                initialText: "Ascend",
+            },
+            this.name + "ascendBtn",
+            this.context,
+            this.containerFrame,
+        ).frame;
         this.ascendBtn?.clearPoints();
         this.ascendBtn?.setPoint(FRAMEPOINT_BOTTOM, this.toggleVisibilityBtn, FRAMEPOINT_TOP, 0, 0);
         this.ascendBtn?.setSize(0.06, 0.02);
-        this.ascendBtn?.setText("Ascend");
 
-        this.descendBtn = Components.GlueTextButton(this.context, this.name + "descendBtn", this.containerFrame, () => {
-            this.descendTree();
-        });
+        this.descendBtn = new GlueTextButton(
+            {
+                onClick: () => {
+                    this.descendTree();
+                },
+                initialText: "Descend",
+            },
+            this.name + "descendBtn",
+            this.context,
+            this.containerFrame,
+        ).frame;
         this.descendBtn?.clearPoints();
         this.descendBtn?.setPoint(FRAMEPOINT_TOP, this.toggleVisibilityBtn, FRAMEPOINT_BOTTOM, 0, 0);
         this.descendBtn?.setSize(0.06, 0.02);
-        this.descendBtn?.setText("Descend");
 
-        this.prevChildGlueBtn = Components.GlueTextButton(this.context, this.name + "prevChild", this.containerFrame, () => {
-            this.selectPrevChild();
-        });
+        this.prevChildGlueBtn = new GlueTextButton(
+            {
+                onClick: () => {
+                    this.selectPrevChild();
+                },
+                initialText: "<<",
+            },
+            this.name + "prevChild",
+            this.context,
+            this.containerFrame,
+        ).frame;
         this.prevChildGlueBtn?.clearPoints();
         this.prevChildGlueBtn?.setPoint(FRAMEPOINT_RIGHT, this.toggleVisibilityBtn, FRAMEPOINT_LEFT, 0, 0);
         this.prevChildGlueBtn?.setSize(0.025, 0.02);
-        this.prevChildGlueBtn?.setText("<<");
 
-        this.nextChildGlueBtn = Components.GlueTextButton(this.context, this.name + "nextChild", this.containerFrame, () => {
-            this.selectNextChild();
-        });
+        this.nextChildGlueBtn = new GlueTextButton(
+            {
+                onClick: () => {
+                    this.selectNextChild();
+                },
+                initialText: ">>",
+            },
+            this.name + "nextChild",
+            this.context,
+            this.containerFrame,
+        ).frame;
         this.nextChildGlueBtn?.clearPoints();
         this.nextChildGlueBtn?.setPoint(FRAMEPOINT_LEFT, this.toggleVisibilityBtn, FRAMEPOINT_RIGHT, 0, 0);
         this.nextChildGlueBtn?.setSize(0.025, 0.02);
-        this.nextChildGlueBtn?.setText(">>");
     }
 
     private setVisibility() {
@@ -314,7 +347,6 @@ export class FrameNavigator {
         this.pathStringFrame?.setText(newPath);
     }
 }
-
 
 // doesn't need to exist
 export function initFrameViewer() {

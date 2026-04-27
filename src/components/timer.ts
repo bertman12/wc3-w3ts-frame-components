@@ -4,7 +4,7 @@ import { AbstractFrameBase } from "./AbstractFrameBase";
 import { Backdrop } from "./backdrop";
 import { Button } from "./button";
 import { Text } from "./text";
-import { Tooltip } from "./Tooltip";
+// import { Tooltip } from "./Tooltip";
 
 interface TimerFrameConfig {
     useTitle?: boolean;
@@ -20,7 +20,7 @@ export class TimerFrame extends AbstractFrameBase {
     private titleText?: Text;
     private timer?: Timer;
     private timerText?: Text;
-    private buttonTooltip?: Tooltip;
+    // private buttonTooltip?: Tooltip;
     private config?: TimerFrameConfig;
 
     constructor(config?: TimerFrameConfig, ...baseArgs: ConstructorParameters<typeof AbstractFrameBase>) {
@@ -57,7 +57,7 @@ export class TimerFrame extends AbstractFrameBase {
             this.button = new Button({ texture: "" }, this.name + "timerButton", this.context, this.owner, this.inherits);
 
             // this.buttonFrames = Components.IconButton(this.context, this.name + "button", "", this.backdrop.frame);
-            this.buttonTooltip = new Tooltip("", "", this.name, this.context, this.button.buttonFrame, { includeBackground: true });
+            // this.buttonTooltip = new Tooltip("", "", this.name, this.context, this.button.buttonFrame, { includeBackground: true });
 
             this.button.buttonFrame?.clearPoints();
             this.button.buttonFrame?.setPoint(FRAMEPOINT_LEFT, this.backdrop.frame, FRAMEPOINT_LEFT, 0.005, 0);
@@ -65,7 +65,7 @@ export class TimerFrame extends AbstractFrameBase {
         }
 
         this.timerText = new Text(this.name + "timerText", this.context, this.backdrop.frame);
-        
+
         if (!this.timerText?.frame) {
             return;
         }
@@ -115,6 +115,6 @@ export class TimerFrame extends AbstractFrameBase {
      */
     updateIconButton(texture: string, tooltip: string) {
         this.button?.iconBackdropFrame?.setTexture(texture, 0, false);
-        this.buttonTooltip?.update(tooltip, "");
+        // this.buttonTooltip?.update(tooltip, "");
     }
 }
