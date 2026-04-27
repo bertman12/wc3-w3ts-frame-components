@@ -1,10 +1,10 @@
-import { Frame, Timer } from "w3ts";
+import { Timer } from "w3ts";
 import { delay } from "warcraft-3-w3ts-utils";
 import { AbstractFrameBase } from "./AbstractFrameBase";
 import { Backdrop } from "./backdrop";
 import { Button } from "./button";
-import { Tooltip } from "./Tooltip";
 import { Text } from "./text";
+import { Tooltip } from "./Tooltip";
 
 interface TimerFrameConfig {
     useTitle?: boolean;
@@ -16,13 +16,10 @@ export class TimerFrame extends AbstractFrameBase {
      * Serves as the container for the other frames in the timer.
      */
     public backdrop?: Backdrop;
-
-    button?: Button;
-    // buttonFrames?: ReturnType<typeof Components.IconButton>;
-
-    private titleText?: Frame;
+    public button?: Button;
+    private titleText?: Text;
     private timer?: Timer;
-    private timerText?: Frame;
+    private timerText?: Text;
     private buttonTooltip?: Tooltip;
     private config?: TimerFrameConfig;
 
@@ -47,15 +44,15 @@ export class TimerFrame extends AbstractFrameBase {
         this.backdrop.frame.setSize(0.08, 0.025);
 
         if (this.config?.useTitle) {
-            this.titleText = Text.Render(this.context, this.name + "titleText", this.backdrop.frame);
-            if (!this.titleText) {
+            this.titleText = new Text(this.name + "titleText", this.context, this.backdrop.frame);
+            if (!this.titleText.frame) {
                 return;
             }
 
-            this.titleText.clearPoints();
-            this.titleText.setSize(0.03, 0);
-            this.titleText.setPoint(FRAMEPOINT_LEFT, this.backdrop.frame, FRAMEPOINT_LEFT, 0.005, 0);
-            this.titleText.setText("Timer");
+            this.titleText.frame.clearPoints();
+            this.titleText.frame.setSize(0.03, 0);
+            this.titleText.frame.setPoint(FRAMEPOINT_LEFT, this.backdrop.frame, FRAMEPOINT_LEFT, 0.005, 0);
+            this.titleText.frame.setText("Timer");
         } else if (this.config?.useButton) {
             this.button = new Button({ texture: "" }, this.name + "timerButton", this.context, this.owner, this.inherits);
 
@@ -67,15 +64,16 @@ export class TimerFrame extends AbstractFrameBase {
             this.button.buttonFrame?.setSize(this.button.buttonFrame.width * 0.5, this.button.buttonFrame.height * 0.5);
         }
 
-        this.timerText = Text.Render(this.context, this.name + "timerText", this.backdrop.frame);
-        if (!this.timerText) {
+        this.timerText = new Text(this.name + "timerText", this.context, this.backdrop.frame);
+        
+        if (!this.timerText?.frame) {
             return;
         }
 
-        this.timerText.setText("0");
-        this.timerText.clearPoints();
-        this.timerText.setSize(0.05, 0);
-        this.timerText.setPoint(FRAMEPOINT_LEFT, this.titleText || this.button?.buttonFrame || this.backdrop.frame, FRAMEPOINT_RIGHT, 0.005, 0);
+        this.timerText.frame.setText("0");
+        this.timerText.frame.clearPoints();
+        this.timerText.frame.setSize(0.05, 0);
+        this.timerText.frame.setPoint(FRAMEPOINT_LEFT, this.titleText?.frame || this.button?.buttonFrame || this.backdrop.frame, FRAMEPOINT_RIGHT, 0.005, 0);
     }
 
     /**
@@ -87,12 +85,12 @@ export class TimerFrame extends AbstractFrameBase {
      * we don't need this atm.
      */
     start(duration: number, onCompletion?: () => void) {
-        this.timerText?.setText(`${duration}`);
+        this.timerText?.frame?.setText(`${duration}`);
         this.timer?.destroy();
         this.timer = Timer.create();
         this.timer.start(1, true, () => {
             //update timer text
-            this.timerText?.setText(`${--duration}`);
+            this.timerText?.frame?.setText(`${--duration}`);
         });
 
         //gets called after you call start when it just elapsed
@@ -108,7 +106,7 @@ export class TimerFrame extends AbstractFrameBase {
             return;
         }
 
-        this.titleText?.setText(text);
+        this.titleText?.frame?.setText(text);
     }
 
     /**
