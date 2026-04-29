@@ -4,8 +4,6 @@ import { AbstractFrameBase } from "./AbstractFrameBase";
 import { Backdrop } from "./backdrop";
 import { Button } from "./button";
 import { Text } from "./text";
-// import { Tooltip } from "./Tooltip";
-
 interface TimerFrameConfig {
     useTitle?: boolean;
     useButton?: boolean;
@@ -56,9 +54,6 @@ export class TimerFrame extends AbstractFrameBase {
         } else if (this.config?.useButton) {
             this.button = new Button({ texture: "" }, this.name + "timerButton", this.context, this.owner, this.inherits);
 
-            // this.buttonFrames = Components.IconButton(this.context, this.name + "button", "", this.backdrop.frame);
-            // this.buttonTooltip = new Tooltip("", "", this.name, this.context, this.button.buttonFrame, { includeBackground: true });
-
             this.button.buttonFrame?.clearPoints();
             this.button.buttonFrame?.setPoint(FRAMEPOINT_LEFT, this.backdrop.frame, FRAMEPOINT_LEFT, 0.005, 0);
             this.button.buttonFrame?.setSize(this.button.buttonFrame.width * 0.5, this.button.buttonFrame.height * 0.5);
@@ -84,7 +79,7 @@ export class TimerFrame extends AbstractFrameBase {
      * which means we'd need to save the on complete function and the delayed timer.
      * we don't need this atm.
      */
-    start(duration: number, onCompletion?: () => void) {
+    start(duration: number, isRepeating?: boolean, onCompletion?: () => void) {
         this.timerText?.frame?.setText(`${duration}`);
         this.timer?.destroy();
         this.timer = Timer.create();
@@ -95,8 +90,15 @@ export class TimerFrame extends AbstractFrameBase {
 
         //gets called after you call start when it just elapsed
         delay(duration, () => {
+            this.backdrop?.frame?.setVisible(false);
+
             if (onCompletion) {
                 onCompletion();
+            }
+
+            //call itself.
+            if (isRepeating) {
+                this.start(duration, isRepeating, onCompletion);
             }
         });
     }

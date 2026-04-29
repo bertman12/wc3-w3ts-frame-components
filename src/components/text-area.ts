@@ -18,7 +18,11 @@ export class TextArea extends AbstractFrameBase {
     }
 
     protected render() {
-        this.frame = Frame.fromHandle(BlzCreateFrameByType("TEXTAREA", this.name, this.owner.handle, this.inherits || "QuestDisplay", this.context));
+        if (this.inherits) {
+            this.frame = Frame.fromHandle(BlzCreateFrameByType("TEXTAREA", this.name, this.owner.handle, this.inherits || "EscMenuTextAreaTemplate", this.context));
+        } else {
+            this.frame = Frame.create(this.name || "EscMenuTextAreaTemplate", this.owner, this.priority, this.context);
+        }
 
         if (!this.frame) {
             return;

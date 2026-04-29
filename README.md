@@ -48,6 +48,8 @@ When on click and a sound path is set, the sound will be played locally for the 
 
 ## Caveats
 
+All frames that are created are permanent and will never be deleted. This is to prevent desyncs and game crashes.
+
 There is only 1 case where a SIMPLE frame type is used, which is optional when creating a button.
 
 ## Frame definitions and TOC Files

@@ -20,6 +20,9 @@ export interface ButtonConfiguration {
     clickSoundPath?: string;
 }
 
+/**
+ * Only creates by type
+ */
 export class Button extends AbstractFrameBase {
     public config: ButtonConfiguration;
 
@@ -115,5 +118,15 @@ export class Button extends AbstractFrameBase {
         } else {
             this.iconBackdropFrame?.setTexture(texture, 0, false);
         }
+    }
+
+    /**
+     * Automatically handles shrinking and expanding the button icon when clicked and playing a click sound if one is set in the config.
+     *
+     * Overrides previous on click function and recycles the same on click trigger.
+     * @param fn
+     */
+    public setOnClick(fn: () => void) {
+        //
     }
 }

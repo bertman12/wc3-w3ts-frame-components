@@ -1,15 +1,13 @@
+import { __theme } from "src/theme";
 import { Frame, MapPlayer, Trigger } from "w3ts";
 import { PlaySoundLocal } from "warcraft-3-w3ts-utils";
-import { FrameUtils } from "../frame-utils";
-import { FrameInheritable } from "../names";
 import { AbstractFrameBase } from "./AbstractFrameBase";
-import { __theme } from "src/theme";
 
 interface GlueTextButtonConfiguration {
     clickSoundPath?: string;
     /**
      * When set, will
-     * @returns 
+     * @returns
      */
     onClick?: () => void;
     initialText?: string;
@@ -30,10 +28,11 @@ export class GlueTextButton extends AbstractFrameBase {
     }
 
     protected render() {
-        /**
-         * @todo needs inherit fallback
-         */
-        this.frame = Frame.createType(this.name, this.owner, this.context, "GLUETEXTBUTTON", this.inherits || "ScriptDialogButton");
+        if (this.inherits) {
+            this.frame = Frame.createType(this.name, this.owner, this.context, "GLUETEXTBUTTON", this.inherits || "ScriptDialogButton");
+        } else {
+            this.frame = Frame.create(this.name || "ScriptDialogButton", this.owner, this.priority, this.context);
+        }
 
         if (!this.frame) {
             return;
@@ -45,22 +44,22 @@ export class GlueTextButton extends AbstractFrameBase {
 
         this.frame = this.frame;
 
-        if(this.config.initialText){
+        if (this.config.initialText) {
             this.frame.setText(this.config.initialText);
         }
-        
-        if(this.config.onClick){
+
+        if (this.config.onClick) {
             const t = Trigger.create();
             this.onClickTrigger = t;
-            
+
             t.triggerRegisterFrameEvent(this.frame, FRAMEEVENT_CONTROL_CLICK);
             t.addAction(() => {
                 const player = MapPlayer.fromEvent();
-    
+
                 if (player && this.config?.clickSoundPath) {
                     PlaySoundLocal(this.config.clickSoundPath || __theme.buttonClickSound || "", player.isLocal());
                 }
-    
+
                 if (this.frame) {
                     this.frame.setEnabled(false);
                     this.frame.setEnabled(true);

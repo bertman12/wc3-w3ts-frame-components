@@ -12,7 +12,8 @@ export class Text extends AbstractFrameBase {
 
     protected render() {
         //Doesn't need to inherit from anyone.
-        this.frame = Frame.fromHandle(BlzCreateFrameByType("TEXT", this.name, this.owner.handle, "", this.context));
+        this.frame = Frame.createType(this.name, this.owner, this.context, "TEXT", this.inherits);
+        // this.frame = Frame.createType(BlzCreateFrameByType("TEXT", this.name, this.owner.handle, "", this.context));
 
         if (!this.frame) {
             return;
