@@ -1,15 +1,22 @@
-import { Frame } from "w3ts";
+import { FrameUtils } from "src/frame-utils";
+import { IMouseEnterEvent } from "src/models/IMouseEnterEvent";
+import { FrameType } from "src/names";
+import { Frame, Trigger } from "w3ts";
 import { AbstractFrameBase } from "./AbstractFrameBase";
 
 interface TextAreaConfiguration {
     initialText?: string;
+    onMouseEnter?: () => void;
 }
 
 /**
- * Requires EscMenuTextAreaTemplate to be loaded.
+ * Requires the following to be loaded in the TOC
+ *
+ * BattleNetTextAreaTemplate	Not Loaded	battlenettemplates.fdf
+ * EscMenuTextAreaTemplate	Not Loaded	escmenutemplates.fdf
  */
-export class TextArea extends AbstractFrameBase {
-    // public onMouseEnterTrigger?: Trigger | undefined;
+export class TextArea extends AbstractFrameBase implements IMouseEnterEvent {
+    public onMouseEnterTrigger?: Trigger | undefined;
     public frame: Frame | undefined;
     public config: TextAreaConfiguration;
 
@@ -20,33 +27,52 @@ export class TextArea extends AbstractFrameBase {
         this.render();
     }
 
+    public static Default(context: number = 0, owner: Frame = FrameUtils.OriginFrameGameUI): AbstractFrameBase {
+        return new TextArea({ onMouseEnter: () => {}, initialText: "Sample Text" }, "EscMenuTextAreaTemplate", context, owner);
+    }
+
     protected render() {
-        if (this.inherits) {
-            this.frame = Frame.fromHandle(BlzCreateFrameByType("TEXTAREA", this.name, this.owner.handle, this.inherits || "EscMenuTextAreaTemplate", this.context));
+        if (this.inherits !== undefined) {
+            this.frame = Frame.createType(this.name, this.owner, this.context, FrameType.TextArea, this.inherits);
         } else {
-            this.frame = Frame.create(this.name || "EscMenuTextAreaTemplate", this.owner, this.priority, this.context);
+            this.frame = Frame.create(this.name, this.owner, this.priority, this.context);
         }
 
         if (!this.frame) {
             return;
         }
 
-        BlzFrameSetSize(this.frame.handle, 0.1, 0.1);
-        BlzFrameClearAllPoints(this.frame.handle);
+        this.frame.setSize(0.1, 0.1);
+        this.frame.clearPoints();
+        this.frame.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
+
         BlzFrameSetPoint(this.frame.handle, FRAMEPOINT_BOTTOMLEFT, this.owner.handle, FRAMEPOINT_BOTTOMLEFT, 0.005, 0.005);
 
         if (this.config.initialText) {
             BlzFrameSetText(this.frame.handle, this.config.initialText);
         }
 
-        // const t = Trigger.create();
-        // this.onMouseEnterTrigger = t;
+        if (this.config.onMouseEnter) {
+            this.setOnMouseEnter(this.config.onMouseEnter);
+        }
+    }
 
-        // t.triggerRegisterFrameEvent(textArea, FRAMEEVENT_MOUSE_ENTER);
+    public setOnMouseEnter(fn: () => void) {
+        if (!this.frame) {
+            return;
+        }
 
-        // t.addAction(() => {
-        //     textArea.setEnabled(false);
-        //     textArea.setEnabled(true);
-        // });
+        this.onMouseEnterTrigger?.destroy();
+        this.onMouseEnterTrigger = Trigger.create();
+        this.onMouseEnterTrigger.triggerRegisterFrameEvent(this.frame, FRAMEEVENT_MOUSE_ENTER);
+
+        this.onMouseEnterTrigger.addAction(() => {
+            if (this.frame) {
+                this.frame.setEnabled(false);
+                this.frame.setEnabled(true);
+            }
+
+            fn();
+        });
     }
 }

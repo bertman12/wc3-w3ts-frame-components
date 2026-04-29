@@ -18,7 +18,8 @@ All components have a name, owner, inherits and container frame.
     - The container frame is typically an EMPTY or BACKDROP frame type and serves as your primary reference frame which is the parent of any children frames within the conmponent.
 
 - ##### Name
-    - A simple string whose name is typically composed of the name + player index (context) + the component name
+    - A simple string whose name is typically composed of the name + player index (context) + the component name.
+    - The name must not be the name of a simple frame type name.
 
 - ##### Owner
     - Most frames here will have a default owner of `ORIGIN_FRAME_GAME_UI` if one is not provided.

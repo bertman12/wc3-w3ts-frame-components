@@ -1,3 +1,4 @@
+import { FrameUtils } from "src/frame-utils";
 import { Frame } from "w3ts";
 import { AbstractFrameBase } from "./AbstractFrameBase";
 
@@ -12,8 +13,12 @@ export class Icon extends AbstractFrameBase {
         this.render();
     }
 
+    public static Default(context: number = 0, owner: Frame = FrameUtils.OriginFrameGameUI): AbstractFrameBase {
+        return new Icon("ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn", "", context, owner);
+    }
+
     protected render() {
-        this.frame = Frame.createType(this.name, this.owner, this.context, "BACKDROP", this.inherits);
+        this.frame = Frame.createType(this.name, this.owner, this.context, "BACKDROP", this.inherits || "");
 
         if (!this.frame) {
             return;
@@ -26,4 +31,5 @@ export class Icon extends AbstractFrameBase {
 
         return this.frame;
     }
+
 }

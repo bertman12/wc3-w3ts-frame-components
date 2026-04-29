@@ -67,7 +67,7 @@ export class Tooltip {
 
         if (includeBackground) {
             //  -- Create the Background a Backdrop
-            this.tooltipBackdropFrame = Frame.fromHandle(BlzCreateFrameByType("BACKDROP", name, parent.handle, "JMT_BackdropTemplate_Tooltip", context)); //I'm not sure if we need the parent to be an origin frame, but we'll roll with this for now.
+            this.tooltipBackdropFrame = Frame.fromHandle(BlzCreateFrameByType("BACKDROP", name, parent.handle, "QuestButtonBaseTemplate", context)); //I'm not sure if we need the parent to be an origin frame, but we'll roll with this for now.
             if (!this.tooltipBackdropFrame) {
                 return;
             }
@@ -152,13 +152,13 @@ export class Tooltip {
                             }
 
                             let texture = data?.texture || "";
-                            const emptyFrame = new EmptyFrame(this.name + "empty-frame", this.context, parent);
+                            const emptyFrame = new EmptyFrame(this.name + "empty-frame", this.context, parent, "");
 
                             if (!emptyFrame.frame) {
                                 return;
                             }
 
-                            const icon = new Icon(texture, this.name + "icon-frame", this.context, emptyFrame.frame);
+                            const icon = new Icon(texture, this.name + "icon-frame", this.context, emptyFrame.frame, "");
 
                             if (!icon.frame) {
                                 return;
@@ -171,7 +171,7 @@ export class Tooltip {
                                 icon.frame?.setPoint(FRAMEPOINT_LEFT, emptyFrame.frame, FRAMEPOINT_LEFT, 0.005, 0);
                             }
 
-                            const valueText = new Text(this.name + "resoureceTextValue" + index, this.context, emptyFrame.frame);
+                            const valueText = new Text({}, this.name + "resoureceTextValue" + index, this.context, emptyFrame.frame, "");
                             valueText.frame?.clearPoints();
 
                             if (icon.frame) {
@@ -256,16 +256,16 @@ export class Tooltip {
      * @param body
      * @returns
      */
-    public update(header: string, body: string, resources?: TooltipIconDataItem[]) {
+    public update(header: string, body: string, tooltipIconData?: TooltipIconDataItem[]) {
         if (!this.textFrame) {
             return;
         }
 
         this.StyleTooltipText(header, body);
 
-        if (resources) {
+        if (tooltipIconData) {
             //update with new data
-            this.resourceGrid?.updateGrid(resources);
+            this.resourceGrid?.updateGrid(tooltipIconData);
         }
     }
 
@@ -305,19 +305,5 @@ export class Tooltip {
         const width = this.GetFormattedWidth(header || "", text || "");
         this.headerTextFrame?.setSize(width, 0);
         this.bodyTextFrame?.setSize(width, 0);
-    }
-
-    public attachTo(frame: AbstractFrameBase) {
-        //
-    }
-
-    /**
-     * Cannot be used if a grid was already created.
-     * @param createFn
-     */
-    public addGrid(createFn: (tooltipGridOwner: Frame) => void) {
-        if (this.tooltipBackdropFrame) {
-            createFn(this.tooltipBackdropFrame);
-        }
     }
 }

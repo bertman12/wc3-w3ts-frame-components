@@ -1,19 +1,28 @@
 import { Frame } from "w3ts";
 import { AbstractFrameBase } from "../components/AbstractFrameBase";
 
+interface TextConfig {
+    initialText?: string;
+    autoSizeWidth?: boolean;
+    defaultAutoSizeBuffer?: number;
+}
+
 export class Text extends AbstractFrameBase {
     public frame?: Frame;
+    public config: TextConfig;
 
-    constructor(...baseArgs: ConstructorParameters<typeof AbstractFrameBase>) {
+    constructor(config: TextConfig, ...baseArgs: ConstructorParameters<typeof AbstractFrameBase>) {
         super(...baseArgs);
-
+        this.config = config;
         this.render();
     }
 
     protected render() {
-        //Doesn't need to inherit from anyone.
-        this.frame = Frame.createType(this.name, this.owner, this.context, "TEXT", this.inherits);
-        // this.frame = Frame.createType(BlzCreateFrameByType("TEXT", this.name, this.owner.handle, "", this.context));
+        if (this.inherits !== undefined) {
+            this.frame = Frame.createType(this.name, this.owner, this.context, "TEXT", this.inherits);
+        } else {
+            this.frame = Frame.create(this.name, this.owner, this.priority, this.context);
+        }
 
         if (!this.frame) {
             return;
@@ -22,7 +31,18 @@ export class Text extends AbstractFrameBase {
         this.frame.clearPoints();
         this.frame.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
         this.frame.setSize(0.1, 0.005);
-        this.frame.setText("Sample Text");
+
+        if (this.config.initialText) {
+            this.frame.setText(this.config.initialText);
+        }
+    }
+
+    public update(text: string) {
+        this.frame?.setText(text);
+
+        if (this.config.autoSizeWidth) {
+            this.formatSize(this.config.defaultAutoSizeBuffer);
+        }
     }
 
     /**
@@ -31,7 +51,7 @@ export class Text extends AbstractFrameBase {
      * @returns number
      */
     public formatSize(buffer?: number) {
-        if(this.frame){
+        if (this.frame) {
             const width = 0.02 + 0.004 * this.frame.text.length + (buffer || 0);
             this.frame.setSize(width, 0);
         }

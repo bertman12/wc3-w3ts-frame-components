@@ -35,5 +35,6 @@ export enum FrameType {
     Button=  "BUTTON",
     Frame = "FRAME",
     Tooltip = "TOOLTIP",
+    TextArea = "TEXTAREA"
     
 }

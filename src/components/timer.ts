@@ -42,7 +42,7 @@ export class TimerFrame extends AbstractFrameBase {
         this.backdrop.frame.setSize(0.08, 0.025);
 
         if (this.config?.useTitle) {
-            this.titleText = new Text(this.name + "titleText", this.context, this.backdrop.frame);
+            this.titleText = new Text({}, this.name + "titleText", this.context, this.backdrop.frame, "");
             if (!this.titleText.frame) {
                 return;
             }
@@ -52,14 +52,14 @@ export class TimerFrame extends AbstractFrameBase {
             this.titleText.frame.setPoint(FRAMEPOINT_LEFT, this.backdrop.frame, FRAMEPOINT_LEFT, 0.005, 0);
             this.titleText.frame.setText("Timer");
         } else if (this.config?.useButton) {
-            this.button = new Button({ texture: "" }, this.name + "timerButton", this.context, this.owner, this.inherits);
+            this.button = new Button({ texture: "" }, this.name + "timerButton", this.context, this.owner, this.inherits || "");
 
             this.button.buttonFrame?.clearPoints();
             this.button.buttonFrame?.setPoint(FRAMEPOINT_LEFT, this.backdrop.frame, FRAMEPOINT_LEFT, 0.005, 0);
             this.button.buttonFrame?.setSize(this.button.buttonFrame.width * 0.5, this.button.buttonFrame.height * 0.5);
         }
 
-        this.timerText = new Text(this.name + "timerText", this.context, this.backdrop.frame);
+        this.timerText = new Text({}, this.name + "timerText", this.context, this.backdrop.frame, "");
 
         if (!this.timerText?.frame) {
             return;

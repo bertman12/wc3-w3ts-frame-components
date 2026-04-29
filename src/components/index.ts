@@ -7,4 +7,4 @@ export * from "./icon";
 export * from "./text";
 export * from "./text-area";
 export * from "./timer";
-export * from "./Tooltip";
+export * from "./tooltip";
