@@ -67,7 +67,7 @@ export class FrameNavigator {
     }
 
     private render() {
-        this.containerFrame = new Backdrop(this.name + "backdrop", this.context, this.owner).frame;
+        this.containerFrame = new Backdrop(this.name + "backdrop", this.context, this.owner, "").frame;
         this.containerFrame?.clearPoints();
         this.containerFrame?.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.35);
         this.containerFrame?.setSize(0.2, 0.15);
@@ -76,7 +76,7 @@ export class FrameNavigator {
             return;
         }
 
-        this.title = new Text(this.name + "Title", this.context, this.containerFrame).frame;
+        this.title = new Text({}, this.name + "Title", this.context, this.containerFrame, "").frame;
         this.title?.setText("Frame Navigator");
         this.title?.clearPoints();
         this.title?.setPoint(FRAMEPOINT_TOP, this.containerFrame, FRAMEPOINT_TOP, 0, -0.008);
@@ -85,7 +85,7 @@ export class FrameNavigator {
             return;
         }
 
-        this.pathStringFrame = new Text(this.name + "pathString", this.context, this.containerFrame).frame;
+        this.pathStringFrame = new Text({}, this.name + "pathString", this.context, this.containerFrame, "").frame;
         this.pathStringFrame?.setText("root/0");
         this.pathStringFrame?.clearPoints();
         this.pathStringFrame?.setPoint(FRAMEPOINT_TOP, this.title, FRAMEPOINT_BOTTOM, 0, -0.008);
@@ -94,7 +94,7 @@ export class FrameNavigator {
             return;
         }
 
-        this.siblingCountText = new Text(this.name + "siblingCount", this.context, this.containerFrame).frame;
+        this.siblingCountText = new Text({}, this.name + "siblingCount", this.context, this.containerFrame, "").frame;
         this.siblingCountText?.setText("Sibling: 0");
         this.siblingCountText?.clearPoints();
         this.siblingCountText?.setPoint(FRAMEPOINT_TOP, this.pathStringFrame, FRAMEPOINT_BOTTOM, 0, -0.008);
@@ -103,7 +103,7 @@ export class FrameNavigator {
             return;
         }
 
-        this.childCountText = new Text(this.name + "childCount", this.context, this.containerFrame).frame;
+        this.childCountText = new Text({}, this.name + "childCount", this.context, this.containerFrame, "").frame;
         this.childCountText?.setText("Children: 0");
         this.childCountText?.clearPoints();
         this.childCountText?.setPoint(FRAMEPOINT_TOP, this.siblingCountText, FRAMEPOINT_BOTTOM, 0, -0.008);
@@ -137,6 +137,7 @@ export class FrameNavigator {
             this.name + "ascendBtn",
             this.context,
             this.containerFrame,
+            "ScriptDialogButton",
         ).frame;
         this.ascendBtn?.clearPoints();
         this.ascendBtn?.setPoint(FRAMEPOINT_BOTTOM, this.toggleVisibilityBtn, FRAMEPOINT_TOP, 0, 0);
@@ -152,6 +153,7 @@ export class FrameNavigator {
             this.name + "descendBtn",
             this.context,
             this.containerFrame,
+            "ScriptDialogButton",
         ).frame;
         this.descendBtn?.clearPoints();
         this.descendBtn?.setPoint(FRAMEPOINT_TOP, this.toggleVisibilityBtn, FRAMEPOINT_BOTTOM, 0, 0);
@@ -167,6 +169,7 @@ export class FrameNavigator {
             this.name + "prevChild",
             this.context,
             this.containerFrame,
+            "ScriptDialogButton",
         ).frame;
         this.prevChildGlueBtn?.clearPoints();
         this.prevChildGlueBtn?.setPoint(FRAMEPOINT_RIGHT, this.toggleVisibilityBtn, FRAMEPOINT_LEFT, 0, 0);
@@ -182,6 +185,7 @@ export class FrameNavigator {
             this.name + "nextChild",
             this.context,
             this.containerFrame,
+            "ScriptDialogButton",
         ).frame;
         this.nextChildGlueBtn?.clearPoints();
         this.nextChildGlueBtn?.setPoint(FRAMEPOINT_LEFT, this.toggleVisibilityBtn, FRAMEPOINT_RIGHT, 0, 0);
