@@ -33,14 +33,14 @@ const DEFAULT_GAP_X = 0.005;
 const DEFAULT_GAP_Y = 0.005;
 
 /**
- * 
- * 
- * 
- * 
+ *
+ *
+ *
+ *
  * @aboutGridData When there is not data for an item or it is undefined, that item's frame is hidden.
- * 
- * 
- * 
+ *
+ *
+ *
  * @type T - The data shape associated with each item. This same data shape will be passed to update functions
  * @type Z - An object which contains all the child frames in the item.
  */
@@ -73,6 +73,7 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
     private render() {
         const container = Frame.createType(this.name, this.owner, this.context, "FRAME", "");
         container?.setEnabled(false);
+        this.containerFrame = container;
 
         if (!container) {
             print("Grid container unable to be created! Context: " + this.context);
@@ -212,14 +213,11 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
             });
         }
 
-
         //Whenevr the col is 0, we need to attach to the bottom of the previous first column frame, otherwise pin to the rigth of the previous frame
         // for (let row = 0; row < this.config.rows; row++) {
         //     //skip to the 2nd column if were on the first row since we already have created the first frame in the grid
         //     for (let col = row === 0 ? 1 : 0; col < this.config.columns; col++) {
         //         let itemData = undefined;
-
-
 
         //Using data that matches the item frame index
         this.itemFrames?.forEach((itemDef, index) => {

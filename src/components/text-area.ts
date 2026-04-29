@@ -5,6 +5,9 @@ interface TextAreaConfiguration {
     initialText?: string;
 }
 
+/**
+ * Requires EscMenuTextAreaTemplate to be loaded.
+ */
 export class TextArea extends AbstractFrameBase {
     // public onMouseEnterTrigger?: Trigger | undefined;
     public frame: Frame | undefined;

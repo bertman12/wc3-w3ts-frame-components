@@ -28,8 +28,8 @@ export class GlueTextButton extends AbstractFrameBase {
     }
 
     protected render() {
-        if (this.inherits) {
-            this.frame = Frame.createType(this.name, this.owner, this.context, "GLUETEXTBUTTON", this.inherits || "ScriptDialogButton");
+        if (this.inherits && this.inherits !== "") {
+            this.frame = Frame.createType(this.name, this.owner, this.context, "GLUETEXTBUTTON", this.inherits); // "ScriptDialogButton" works
         } else {
             this.frame = Frame.create(this.name || "ScriptDialogButton", this.owner, this.priority, this.context);
         }
