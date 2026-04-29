@@ -4,9 +4,7 @@ A library for reusable and composable frame components for modding the game of W
 
 Primarily uses frames of from the category of FRAME.
 
-Simple components that help to eliminate some boiler plate when working with frames.
-
-Nearly all frame components made using FRAME category of frames.
+The components help to reduce the boiler plate code needed when working with frames.
 
 ## Components
 
@@ -27,6 +25,9 @@ All components have a name, owner, inherits and container frame.
 - ##### Inherits
     - Defaults to empty string when not set.
 
+- ##### Priority
+    - Defaults to 0. Only used when creating a frame by name.
+
 ### Grid
 
 The grid component provides a versatile layout tool for organizing a collection of like frames.
@@ -46,6 +47,32 @@ When on click and a sound path is set, the sound will be played locally for the 
 When on click is set, it will automatically enable and disable the button so that it does not retain focus after being clicked.
 
 When on click and a sound path is set, the sound will be played locally for the player.
+
+### Icon
+
+A simle component which displays a texture icon.
+
+### Backdrop
+
+A simple wrapper for a backdrop frame.
+
+### Empty Frame
+
+A simple wrapper for a backdrop frame.
+
+### Text Area
+
+When on mouse enter is set, it will automatically enable and disable the textarea so that it does not retain focus after being clicked.
+
+### Text
+
+A basic component for text frames with additional built in functionality for automatic sizing.
+
+### Tooltip
+
+Simplifies tooltip creation.
+
+It also provides a way for users to add their own icons and text to the tooltip which is displayed under the tooltip header.
 
 ## Caveats
 
