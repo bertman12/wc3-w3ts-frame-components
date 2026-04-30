@@ -11,7 +11,8 @@
     "scripts": {
         "build": "tstl -p tsconfig.json",
         "prepare": "npm run build",
-        "test": "npm run build && xcopy /E /I /Y dist test\\node_modules\\warcraft-3-w3ts-frame-components\\dist\\ && copy /Y package.json test\\node_modules\\warcraft-3-w3ts-frame-components\\package.json"
+        "test:prepare": "npm run build && xcopy /E /I /Y dist test\\wc3-ts-template\\node_modules\\warcraft-3-w3ts-frame-components\\dist\\",
+        "test": "npm run test:prepare && npm run --prefix test/wc3-ts-template test"
     },
     "files": [
         "./**/*.lua",

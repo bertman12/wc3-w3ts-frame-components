@@ -47,7 +47,13 @@ export class Button extends AbstractFrameBase implements IClickEvent {
     }
 
     public static Default(context: number = 0, owner: Frame = FrameUtils.OriginFrameGameUI) {
-        return new Button({ texture: "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn", onClick: () => {}, clickSoundPath: "Sound\\Interface\\MouseClick1.flac" }, "", context, owner, "ScoreScreenTabButtonTemplate");
+        /**
+         * @todo look for different inherit button since the highlight is behind the actual icon for some reason.
+         *
+         * It might be because we've added the icon frame to it, which is sitting on top of the actual button
+         */
+        // ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn
+        return new Button({ texture: "", onClick: () => {}, clickSoundPath: "Sound\\Interface\\MouseClick1.flac" }, "", context, owner, "ScoreScreenTabButtonTemplate");
     }
 
     protected render() {
