@@ -2,8 +2,8 @@ import { FrameUtils } from "src/frame-utils";
 import { __theme } from "src/theme";
 import { Frame, MapPlayer, Trigger } from "w3ts";
 import { delay, PlaySoundLocal } from "warcraft-3-w3ts-utils";
+import { IClickEvent } from "../models";
 import { AbstractFrameBase } from "./AbstractFrameBase";
-import { IClickEvent } from "src/models";
 
 export interface ButtonConfiguration {
     texture: string;
