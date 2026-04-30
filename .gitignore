@@ -2,3 +2,9 @@ node_modules
 tsconfig.tsbuildinfo
 dist
 test
+./test
+/test
+test\wc3-ts-template
+test/wc3-ts-template
+\test
+/test
