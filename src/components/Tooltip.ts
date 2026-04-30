@@ -21,9 +21,15 @@ interface TooltipConfig {
     // resources?: ResourceRequirements[];
     tooltipIconGridData?: TooltipIconDataItem[];
     /**
+     * The space the values appear next to their icons.
+     *
      * Recommended default: 0.003
      */
-    tooltipIconGapX: number;
+    tooltipIconValueLeftPadding?: number;
+    /**
+     * Optionally overrides the width of the Icon and it's assoicated text frame.
+     */
+    tooltipIconContainerWidth?: number;
     tooltipBodySpaceX?: number;
     tooltipHeaderSpaceX?: number;
 }
@@ -92,12 +98,12 @@ export class Tooltip {
              */
             if (header !== "" && text !== "") {
                 // -- Copy Size and Position with a small offset.
-                BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_TOPRIGHT, this.headerTextFrame.handle, FRAMEPOINT_TOPRIGHT, this.config?.tooltipHeaderSpaceX || 0.005, 0.01);
-                BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_BOTTOMLEFT, this.bodyTextFrame.handle, FRAMEPOINT_BOTTOMLEFT, -(this.config?.tooltipBodySpaceX || 0) || -0.005, -0.01);
+                BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_TOPRIGHT, this.headerTextFrame.handle, FRAMEPOINT_TOPRIGHT, this.config?.tooltipHeaderSpaceX || 0.01, 0.01);
+                BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_BOTTOMLEFT, this.bodyTextFrame.handle, FRAMEPOINT_BOTTOMLEFT, -(this.config?.tooltipBodySpaceX || 0) || -0.01, -0.01);
             } else if (text === "") {
                 // -- Copy Size and Position with a small offset.
-                BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_BOTTOMLEFT, this.headerTextFrame.handle, FRAMEPOINT_BOTTOMLEFT, -(this.config?.tooltipHeaderSpaceX || 0) - 0.005, -0.01);
-                BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_TOPRIGHT, this.headerTextFrame.handle, FRAMEPOINT_TOPRIGHT, this.config?.tooltipHeaderSpaceX || 0.005, 0.01);
+                BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_BOTTOMLEFT, this.headerTextFrame.handle, FRAMEPOINT_BOTTOMLEFT, -(this.config?.tooltipHeaderSpaceX || 0) || -0.01, -0.01);
+                BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_TOPRIGHT, this.headerTextFrame.handle, FRAMEPOINT_TOPRIGHT, this.config?.tooltipHeaderSpaceX || 0.01, 0.01);
             }
 
             // -- The background becomes the button's tooltip, the Text as child of the background will share the visibility
@@ -173,21 +179,21 @@ export class Tooltip {
                             icon.frame?.clearPoints();
 
                             if (emptyFrame) {
-                                icon.frame?.setPoint(FRAMEPOINT_LEFT, emptyFrame.frame, FRAMEPOINT_LEFT, this.config?.tooltipIconGapX || 0.005, 0);
+                                icon.frame?.setPoint(FRAMEPOINT_LEFT, emptyFrame.frame, FRAMEPOINT_LEFT, this.config?.tooltipIconValueLeftPadding || 0.005, 0);
                             }
 
                             const valueText = new Text({}, this.name + "resoureceTextValue" + index, this.context, emptyFrame.frame, "");
                             valueText.frame?.clearPoints();
 
                             if (icon.frame) {
-                                valueText.frame?.setPoint(FRAMEPOINT_LEFT, icon.frame, FRAMEPOINT_RIGHT, this.config?.tooltipIconGapX || 0.005, 0);
+                                valueText.frame?.setPoint(FRAMEPOINT_LEFT, icon.frame, FRAMEPOINT_RIGHT, this.config?.tooltipIconValueLeftPadding || 0.005, 0);
                             }
 
                             valueText.frame?.setScale(0.8);
                             valueText.frame?.setText(`${data?.value || ""}`);
                             valueText.formatSize();
 
-                            emptyFrame.frame?.setSize((icon.frame?.width || 0.05) + (valueText.frame?.width || 0.05), icon.frame?.height || 0.05);
+                            emptyFrame.frame?.setSize(this.config?.tooltipIconContainerWidth || (icon.frame?.width || 0.05) + (valueText.frame?.width || 0.05), icon.frame?.height || 0.05);
 
                             return { container: emptyFrame.frame, icon, valueText };
                         },
