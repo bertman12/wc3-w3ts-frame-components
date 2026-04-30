@@ -1,9 +1,9 @@
 import { FrameUtils } from "src/frame-utils";
-import { IClickEvent } from "src/models/IClickEvent";
 import { __theme } from "src/theme";
 import { Frame, MapPlayer, Trigger } from "w3ts";
 import { delay, PlaySoundLocal } from "warcraft-3-w3ts-utils";
 import { AbstractFrameBase } from "./AbstractFrameBase";
+import { IClickEvent } from "src/models";
 
 export interface ButtonConfiguration {
     texture: string;
@@ -73,7 +73,7 @@ export class Button extends AbstractFrameBase implements IClickEvent {
         }
 
         this.iconBackdropFrame = Frame.createType(this.name + "iconBackdropFrame", this.owner, this.context, "BACKDROP", "");
-        
+
         if (!this.iconBackdropFrame) {
             return;
         }

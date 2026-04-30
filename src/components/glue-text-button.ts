@@ -1,8 +1,8 @@
-import { IClickEvent } from "src/models/IClickEvent";
 import { __theme } from "src/theme";
 import { Frame, MapPlayer, Trigger } from "w3ts";
 import { PlaySoundLocal } from "warcraft-3-w3ts-utils";
 import { AbstractFrameBase } from "./AbstractFrameBase";
+import { IClickEvent } from "src/models";
 
 interface GlueTextButtonConfiguration {
     clickSoundPath?: string;

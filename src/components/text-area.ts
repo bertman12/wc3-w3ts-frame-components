@@ -1,8 +1,8 @@
 import { FrameUtils } from "src/frame-utils";
-import { IMouseEnterEvent } from "src/models/IMouseEnterEvent";
 import { FrameType } from "src/names";
 import { Frame, Trigger } from "w3ts";
 import { AbstractFrameBase } from "./AbstractFrameBase";
+import { IMouseEnterEvent } from "src/models";
 
 interface TextAreaConfiguration {
     initialText?: string;
