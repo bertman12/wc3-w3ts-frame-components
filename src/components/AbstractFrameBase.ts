@@ -6,10 +6,14 @@ import { FrameUtils } from "../frame-utils";
  */
 export type AbstractFrameConstructorArgs = ConstructorParameters<typeof AbstractFrameBase>;
 
+interface IDefaultConstructor {
+    Default: (context: number, owner: Frame) => any;
+}
+
 /**
  * Testing the inherit doc
  */
-export abstract class AbstractFrameBase {
+export abstract class AbstractFrameBase implements IDefaultConstructor {
     // public eventDetails?: IEventDetails | undefined;
     /**
      * When creating a component with a non empty string for the inherits property, then this will be used as a custom name for the frame.
@@ -63,21 +67,17 @@ export abstract class AbstractFrameBase {
         this.inherits = inherits;
         this.priority = priority || 0;
     }
-
-    /**
-     * Perhaps we should child classes use a private constructor and expose these 2 functions, that way it's more controlled. We can stilll
-     */
-    private createByName() {}
-    private createByInherits() {}
-
+ 
     protected render() {}
 
     /**
      * Creates the frame with developer chosen default arguments.
      *
      * Useful when you do not know any named frame strings for the frame type.
+     *
+     *
      */
-    protected static Default(context: number, owner: Frame): AbstractFrameBase {
+    Default(context: number, owner: Frame) {
         return undefined as unknown as AbstractFrameBase;
     }
 }

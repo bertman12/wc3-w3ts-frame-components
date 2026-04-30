@@ -74,6 +74,8 @@ Simplifies tooltip creation.
 
 It also provides a way for users to add their own icons and text to the tooltip which is displayed under the tooltip header.
 
+Handles automatic resizing of tooltip background when changing header and body text.
+
 ## Caveats
 
 All frames that are created are permanent and will never be deleted. This is to prevent desyncs and game crashes.

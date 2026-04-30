@@ -27,7 +27,7 @@ export class TextArea extends AbstractFrameBase implements IMouseEnterEvent {
         this.render();
     }
 
-    public static Default(context: number = 0, owner: Frame = FrameUtils.OriginFrameGameUI): AbstractFrameBase {
+    public static Default(context: number = 0, owner: Frame = FrameUtils.OriginFrameGameUI) {
         return new TextArea({ onMouseEnter: () => {}, initialText: "Sample Text" }, "EscMenuTextAreaTemplate", context, owner);
     }
 

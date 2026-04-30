@@ -2,14 +2,13 @@
 import { Frame } from "w3ts";
 import { FrameUtils } from "../frame-utils";
 import { Grid, GridItemBaseDefinition } from "../grid/grid";
-import { AbstractFrameBase } from "./AbstractFrameBase";
 import { EmptyFrame } from "./empty-frame";
 import { Icon } from "./icon";
 import { Text } from "./text";
 
 interface TooltipIconDataItem {
     texture: string;
-    value?: number;
+    value?: string;
 }
 
 interface TooltipConfig {
@@ -21,6 +20,12 @@ interface TooltipConfig {
     includeBackground?: boolean;
     // resources?: ResourceRequirements[];
     tooltipIconGridData?: TooltipIconDataItem[];
+    /**
+     * Recommended default: 0.003
+     */
+    tooltipIconGapX: number;
+    tooltipBodySpaceX?: number;
+    tooltipHeaderSpaceX?: number;
 }
 
 interface TooltipGridFramesDefinition extends GridItemBaseDefinition {
@@ -41,16 +46,16 @@ export class Tooltip {
     /**
      * Text frame and background frame, etc
      */
-    textFrame?: Frame;
-    backdropFrame?: Frame;
+    // textFrame?: Frame;
+    // backdropFrame?: Frame;
     private config?: TooltipConfig;
 
-    private headerTextFrame?: Frame;
-    private bodyTextFrame?: Frame;
+    public headerTextFrame?: Frame;
+    public bodyTextFrame?: Frame;
     // private resourceGrid?: Grid<ResourceRequirements, ResourceGridFrameDefinitions>;
-    private resourceGrid?: Grid<TooltipIconDataItem, TooltipGridFramesDefinition>;
+    public resourceGrid?: Grid<TooltipIconDataItem, TooltipGridFramesDefinition>;
 
-    private tooltipBackdropFrame?: Frame;
+    public tooltipBackdropFrame?: Frame;
 
     constructor(header: string, body: string, name: string, context: number, parent?: Frame, config?: TooltipConfig) {
         this.name = name;
@@ -87,12 +92,12 @@ export class Tooltip {
              */
             if (header !== "" && text !== "") {
                 // -- Copy Size and Position with a small offset.
-                BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_TOPRIGHT, this.headerTextFrame.handle, FRAMEPOINT_TOPRIGHT, 0.005, 0.01);
-                BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_BOTTOMLEFT, this.bodyTextFrame.handle, FRAMEPOINT_BOTTOMLEFT, -0.005, -0.01);
+                BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_TOPRIGHT, this.headerTextFrame.handle, FRAMEPOINT_TOPRIGHT, this.config?.tooltipHeaderSpaceX || 0.005, 0.01);
+                BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_BOTTOMLEFT, this.bodyTextFrame.handle, FRAMEPOINT_BOTTOMLEFT, -(this.config?.tooltipBodySpaceX || 0) || -0.005, -0.01);
             } else if (text === "") {
                 // -- Copy Size and Position with a small offset.
-                BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_BOTTOMLEFT, this.headerTextFrame.handle, FRAMEPOINT_BOTTOMLEFT, -0.005, -0.01);
-                BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_TOPRIGHT, this.headerTextFrame.handle, FRAMEPOINT_TOPRIGHT, 0.005, 0.01);
+                BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_BOTTOMLEFT, this.headerTextFrame.handle, FRAMEPOINT_BOTTOMLEFT, -(this.config?.tooltipHeaderSpaceX || 0) - 0.005, -0.01);
+                BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_TOPRIGHT, this.headerTextFrame.handle, FRAMEPOINT_TOPRIGHT, this.config?.tooltipHeaderSpaceX || 0.005, 0.01);
             }
 
             // -- The background becomes the button's tooltip, the Text as child of the background will share the visibility
@@ -168,14 +173,14 @@ export class Tooltip {
                             icon.frame?.clearPoints();
 
                             if (emptyFrame) {
-                                icon.frame?.setPoint(FRAMEPOINT_LEFT, emptyFrame.frame, FRAMEPOINT_LEFT, 0.005, 0);
+                                icon.frame?.setPoint(FRAMEPOINT_LEFT, emptyFrame.frame, FRAMEPOINT_LEFT, this.config?.tooltipIconGapX || 0.005, 0);
                             }
 
                             const valueText = new Text({}, this.name + "resoureceTextValue" + index, this.context, emptyFrame.frame, "");
                             valueText.frame?.clearPoints();
 
                             if (icon.frame) {
-                                valueText.frame?.setPoint(FRAMEPOINT_LEFT, icon.frame, FRAMEPOINT_RIGHT, 0.005, 0);
+                                valueText.frame?.setPoint(FRAMEPOINT_LEFT, icon.frame, FRAMEPOINT_RIGHT, this.config?.tooltipIconGapX || 0.005, 0);
                             }
 
                             valueText.frame?.setScale(0.8);
@@ -230,8 +235,8 @@ export class Tooltip {
 
             this.StyleTooltipText(header, text);
 
-            this.textFrame = this.bodyTextFrame;
-            this.backdropFrame = this.tooltipBackdropFrame;
+            // this.textFrame = this.bodyTextFrame;
+            // this.backdropFrame = this.tooltipBackdropFrame;
         } else {
             const tooltipFrameText = Frame.fromHandle(BlzCreateFrameByType("TEXT", "MyScriptDialogButtonTooltip", FrameUtils.OriginFrameGameUIHandle, "", context));
             if (!tooltipFrameText) {
@@ -246,7 +251,7 @@ export class Tooltip {
             BlzFrameSetEnable(tooltipFrameText.handle, false);
             BlzFrameSetText(tooltipFrameText.handle, text);
 
-            this.textFrame = tooltipFrameText;
+            this.bodyTextFrame = tooltipFrameText;
         }
     }
 
@@ -257,9 +262,9 @@ export class Tooltip {
      * @returns
      */
     public update(header: string, body: string, tooltipIconData?: TooltipIconDataItem[]) {
-        if (!this.textFrame) {
-            return;
-        }
+        // if (!this.bodyTextFrame) {
+        //     return;
+        // }
 
         this.StyleTooltipText(header, body);
 

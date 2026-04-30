@@ -1,8 +1,9 @@
 import { FrameUtils } from "src/frame-utils";
-import { __theme } from "src/theme";
+
 import { Frame, MapPlayer, Trigger } from "w3ts";
 import { delay, PlaySoundLocal } from "warcraft-3-w3ts-utils";
 import { IClickEvent } from "../models";
+import { W3TSFrameComponentsTheme } from "../theme/theme";
 import { AbstractFrameBase } from "./AbstractFrameBase";
 
 export interface ButtonConfiguration {
@@ -15,19 +16,7 @@ export interface ButtonConfiguration {
      * @returns
      */
     onClick?: (btn: Frame, btnIcon?: Frame) => void;
-    /**
-     * Determines if the button will be made as SIMPLEBUTTON instead of BUTTON
-     */
-    // isSimple?: boolean;
     clickSoundPath?: string;
-
-    // buttonInherits?: string;
-}
-
-class B {
-    constructor() {}
-
-    public doSomething() {}
 }
 
 /**
@@ -58,7 +47,7 @@ export class Button extends AbstractFrameBase implements IClickEvent {
     }
 
     public static Default(context: number = 0, owner: Frame = FrameUtils.OriginFrameGameUI) {
-        return new Button({ texture: "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn" }, "", context, owner, "ScoreScreenTabButtonTemplate");
+        return new Button({ texture: "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn", onClick: () => {}, clickSoundPath: "Sound\\Interface\\MouseClick1.flac" }, "", context, owner, "ScoreScreenTabButtonTemplate");
     }
 
     protected render() {
@@ -126,7 +115,7 @@ export class Button extends AbstractFrameBase implements IClickEvent {
             if (this.buttonFrame) {
                 if (this.config.clickSoundPath) {
                     const player = MapPlayer.fromEvent();
-                    PlaySoundLocal(this.config.clickSoundPath || __theme.buttonClickSound || "", player?.isLocal());
+                    PlaySoundLocal(this.config.clickSoundPath || W3TSFrameComponentsTheme.buttonClickSound || "", player?.isLocal());
                 }
 
                 this.iconBackdropFrame?.clearPoints();
@@ -148,3 +137,5 @@ export class Button extends AbstractFrameBase implements IClickEvent {
         });
     }
 }
+
+// Button.Default();

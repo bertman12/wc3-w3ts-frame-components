@@ -11,7 +11,7 @@ export class EmptyFrame extends AbstractFrameBase {
         this.render();
     }
 
-    public static Default(context: number = 0, owner: Frame = FrameUtils.OriginFrameGameUI): AbstractFrameBase {
+    public static Default(context: number = 0, owner: Frame = FrameUtils.OriginFrameGameUI) {
         return new EmptyFrame("", context, owner);
     }
 

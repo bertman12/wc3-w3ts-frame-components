@@ -1,3 +1,4 @@
+import { FrameUtils } from "src/frame-utils";
 import { Frame } from "w3ts";
 import { AbstractFrameBase } from "../components/AbstractFrameBase";
 
@@ -15,6 +16,10 @@ export class Text extends AbstractFrameBase {
         super(...baseArgs);
         this.config = config;
         this.render();
+    }
+
+    public static Default(context: number = 0, owner: Frame = FrameUtils.OriginFrameGameUI) {
+        return new Text({ initialText: "Sampe Text", autoSizeWidth: true }, "", context, owner, "");
     }
 
     protected render() {

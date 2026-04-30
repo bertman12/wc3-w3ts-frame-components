@@ -2,6 +2,11 @@ import { FrameUtils } from "src/frame-utils";
 import { Frame } from "w3ts";
 import { AbstractFrameBase } from "./AbstractFrameBase";
 
+/**
+ * Renders a texture.
+ *
+ * Does not support tooltips.
+ */
 export class Icon extends AbstractFrameBase {
     public texture: string;
     public frame?: Frame;
@@ -13,7 +18,7 @@ export class Icon extends AbstractFrameBase {
         this.render();
     }
 
-    public static Default(context: number = 0, owner: Frame = FrameUtils.OriginFrameGameUI): AbstractFrameBase {
+    public static Default(context: number = 0, owner: Frame = FrameUtils.OriginFrameGameUI) {
         return new Icon("ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn", "", context, owner);
     }
 
@@ -26,10 +31,9 @@ export class Icon extends AbstractFrameBase {
 
         this.frame.clearPoints();
         this.frame.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
-        this.frame.setSize(0.05, 0.05);
+        this.frame.setSize(0.03, 0.03);
         this.frame.setTexture(this.texture, 0, false);
 
         return this.frame;
     }
-
 }

@@ -27,7 +27,7 @@ export class Backdrop extends AbstractFrameBase {
         return this.frame;
     }
 
-    public static Default(context: number = 0, owner: Frame = FrameUtils.OriginFrameGameUI): AbstractFrameBase {
+    public static Default(context: number = 0, owner: Frame = FrameUtils.OriginFrameGameUI) {
         return new Backdrop("", context, owner);
     }
 }

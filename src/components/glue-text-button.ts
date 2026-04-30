@@ -1,7 +1,7 @@
-import { __theme } from "src/theme";
 import { Frame, MapPlayer, Trigger } from "w3ts";
 import { PlaySoundLocal } from "warcraft-3-w3ts-utils";
 import { IClickEvent } from "../models";
+import { W3TSFrameComponentsTheme } from "../theme/theme";
 import { AbstractFrameBase } from "./AbstractFrameBase";
 
 interface GlueTextButtonConfiguration {
@@ -34,7 +34,7 @@ export class GlueTextButton extends AbstractFrameBase implements IClickEvent {
     }
 
     public static Default(context: number, owner?: Frame) {
-        return new GlueTextButton({ initialText: "Default" }, "", context, owner, "ScriptDialogButton");
+        return new GlueTextButton({ initialText: "Default", clickSoundPath: "Sound\\Interface\\BigButtonClick.flac" }, "", context, owner, "ScriptDialogButton");
     }
 
     protected render() {
@@ -76,7 +76,7 @@ export class GlueTextButton extends AbstractFrameBase implements IClickEvent {
 
             //created by name already has a sound played when clicked
             if (player && this.config?.clickSoundPath && !this.createdByName) {
-                PlaySoundLocal(this.config.clickSoundPath || __theme.buttonClickSound || "", player.isLocal());
+                PlaySoundLocal(this.config.clickSoundPath || W3TSFrameComponentsTheme.buttonClickSound || "", player.isLocal());
             }
 
             if (this.frame) {

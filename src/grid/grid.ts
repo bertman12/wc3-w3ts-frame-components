@@ -280,10 +280,10 @@ export interface GridConfig<T, Z extends GridItemBaseDefinition> {
     rowDirection?: "forward" | "reverse";
     /**
      * Put your function in here to render whatever elements you want. The grid will handle the placing them into rows, etc. The container should be the parent of the rendered frame
-     * @param parent
+     * @param parent This should be the owner of the item's container frame.
      * @param row
      * @param column
-     * @param index Optional if you want to access an outside data source by the item index instead of row or column
+     * @param index
      */
     renderItem: (parent: Frame, row: number, column: number, index: number, data?: T) => Z | undefined;
     /**
