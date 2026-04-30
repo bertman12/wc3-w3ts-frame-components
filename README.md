@@ -8,9 +8,26 @@ The components help to reduce the boiler plate code needed when working with fra
 
 ## Components
 
-When a component is created, by default, it will be placed in center of the screen so that it is visible. This is just for quickly seeing the component rendered.
+When a component is created, by default, it will be placed in center of the screen so that it is visible.
+This is just for quickly seeing the component rendered.
 
 All components have a name, owner, inherits and container frame.
+
+If the inherits property is any string, including the empty string, then the frame is created like so.
+When created this way, the name arugment can be any custom name you want.
+
+```ts
+BlzCreateFrameByType(...)
+```
+
+If the inherits property is undefined, then the frame is created by name with this native.
+This means the name argument must be a named blizzard frame.
+
+```ts
+BlzCreateFrame(...)
+```
+
+### Properties
 
 - ##### Container Frame
     - The container frame is typically an EMPTY or BACKDROP frame type and serves as your primary reference frame which is the parent of any children frames within the conmponent.

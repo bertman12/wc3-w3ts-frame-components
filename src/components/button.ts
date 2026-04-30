@@ -24,6 +24,9 @@ export interface ButtonConfiguration {
  *
  *
  * Inherit Strings: "ScoreScreenTabButtonTemplate"
+ * This inherit will provide a highlight for your button.
+ *
+ * If you want no highlight, then set inherit to empty string ""
  */
 export class Button extends AbstractFrameBase implements IClickEvent {
     public config: ButtonConfiguration;
@@ -53,7 +56,7 @@ export class Button extends AbstractFrameBase implements IClickEvent {
          * It might be because we've added the icon frame to it, which is sitting on top of the actual button
          */
         // ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn
-        return new Button({ texture: "", onClick: () => {}, clickSoundPath: "Sound\\Interface\\MouseClick1.flac" }, "", context, owner, "ScoreScreenTabButtonTemplate");
+        return new Button({ texture: "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn", onClick: () => {}, clickSoundPath: "Sound\\Interface\\MouseClick1.flac" }, "", context, owner, "ScoreScreenTabButtonTemplate");
     }
 
     protected render() {
@@ -67,23 +70,25 @@ export class Button extends AbstractFrameBase implements IClickEvent {
             return;
         }
 
-        this.iconBackdropFrame = Frame.createType(this.name + "iconBackdropFrame", this.owner, this.context, "BACKDROP", "");
+        this.buttonFrame.clearPoints();
+        // // -- place the Button to the left center of the Screen
+        this.buttonFrame.setAbsPoint(FRAMEPOINT_CENTER, 0.1, 0.3);
+
+        // // -- set the Button's Size
+        this.buttonFrame.setSize(0.03, 0.03);
+
+        this.iconBackdropFrame = Frame.createType(this.name + "iconBackdropFrame", this.buttonFrame, this.context, "BACKDROP", "");
 
         if (!this.iconBackdropFrame) {
             return;
         }
 
-        // -- buttonIcon will mimic buttonFrame in size and position
+        this.iconBackdropFrame.clearPoints();
+
+        // // -- buttonIcon will mimic buttonFrame in size and position
         this.iconBackdropFrame.setAllPoints(this.buttonFrame);
-        // -- set the texture
+        // // -- set the texture
         this.iconBackdropFrame.setTexture(this.config.texture, 0, false);
-        // }
-
-        // -- place the Button to the left center of the Screen
-        this.buttonFrame.setAbsPoint(FRAMEPOINT_CENTER, 0.1, 0.3);
-
-        // -- set the Button's Size
-        this.buttonFrame.setSize(0.03, 0.03);
 
         /**
          * Only necessary when the button is meant to be interactive.
