@@ -2,7 +2,7 @@
 
 A library for reusable and composable frame components for modding the game of Warcraft 3.
 
-Primarily uses frames of from the category of FRAME.
+Primarily uses frames from the category of FRAME.
 
 The components help to reduce the boiler plate code needed when working with frames.
 
@@ -78,6 +78,45 @@ The grid component provides a versatile layout tool for organizing a collection 
 Each grid item can contain any frame type or custom frame components.
 
 The grid provides a render function which is used for the initial rendering of the grid.
+
+![iconGrid](gridExample.png)
+
+<details>
+<summary> Code Example</summary>
+
+```ts
+const testData: string[] = [
+    "ReplaceableTextures\\CommandButtons\\BTNTichondrius.blp",
+    "ReplaceableTextures\\CommandButtons\\BTNGargoyle.blp",
+    "ReplaceableTextures\\CommandButtons\\BTNUnholyFrenzy.blp",
+    "ReplaceableTextures\\CommandButtons\\BTNInfernal.blp",
+];
+
+const g = new Grid<string, GridItemBaseDefinition>(
+    {
+        columns: 4,
+        rows: 1,
+        data: testData,
+        renderItem(parent, row, column, index, data) {
+            if (!data) {
+                return;
+            }
+
+            const icon = new Icon(data, "", 0, parent);
+            icon.frame?.setSize(0.03, 0.03);
+
+            return { container: icon.frame };
+        },
+    },
+    "iconGridName",
+    0,
+);
+
+g.containerFrame?.clearPoints();
+g.containerFrame?.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.5);
+```
+
+</details>
 
 ### <a id="button">Button</a> - [🔝](#components-toc)
 
