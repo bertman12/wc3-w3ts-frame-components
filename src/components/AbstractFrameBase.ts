@@ -1,26 +1,9 @@
 import { Frame } from "w3ts";
 import { FrameUtils } from "../frame-utils";
 
-/**
- * @param a wafaw
- */
 export type AbstractFrameConstructorArgs = ConstructorParameters<typeof AbstractFrameBase>;
 
-interface IDefaultConstructor {
-    Default: (context: number, owner: Frame) => any;
-}
-
-/**
- * Testing the inherit doc
- */
-export abstract class AbstractFrameBase implements IDefaultConstructor {
-    /**
-     * Contains the theme properties relevant for the component.
-     * This way each component only holds theme elements relevant/applicable to them
-     */
-    protected static ComponentTheme: {[key:string]: any};
-
-    // public eventDetails?: IEventDetails | undefined;
+export abstract class AbstractFrameBase {
     /**
      * When creating a component with a non empty string for the inherits property, then this will be used as a custom name for the frame.
      *
@@ -58,8 +41,6 @@ export abstract class AbstractFrameBase implements IDefaultConstructor {
     // protected primaryFrame?: Frame;
 
     /**
-     * Lamo
-     *
      * @param name When creating a component with a non empty string for the inherits property, then this will be used as a custom name for the frame. When creating a component without an empty string or undefined for inherits, this will be used to reference an existing blizzard frame name.
      * @param context
      * @param owner Defaults to ORIGIN_FRAME_GAME_UI
@@ -81,9 +62,32 @@ export abstract class AbstractFrameBase implements IDefaultConstructor {
      *
      * Useful when you do not know any named frame strings for the frame type.
      *
-     *
+     * Will also apply global theme properties appropriately.
      */
-    Default(context: number, owner: Frame) {
-        return undefined as unknown as AbstractFrameBase;
+    public static CreateDefault(context: number, owner: Frame) {}
+
+    /**
+     * Created the component using any theme properties you have set.
+     *
+     * @param overrides Allows overriding saved theme properties.
+     */
+    public static CreateThemed(...args: any[]) {
+        // Each component can define their own arguments for this.
     }
+
+    /**
+     * Creates a component by type using the inherits field.
+     */
+    public static CreateType(...args: any[]) {}
+
+    /**
+     * Creates a component from an existing blizzard frame using the name field.
+     */
+    public static CreateNamed(...args: any[]) {}
+
+    /**
+     * Saves a theme configuration which is used when using the CreateThemed function.
+     * @param themeConfiguration
+     */
+    public static SaveTheme(themeConfiguration: any) {}
 }

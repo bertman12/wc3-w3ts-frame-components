@@ -1,4 +1,14 @@
-interface W3TSFrameComponentsTheme {
+/**
+ * Global Theme.
+ *
+ * Should include global properties only.
+ *
+ */
+export interface W3TSFrameComponentsTheme {
+    /**
+     * Applies to all backdrops.
+     */
+    globalBackdrop?: string;
     /**
      * The click sound for clicking on Button class
      */
@@ -8,7 +18,7 @@ interface W3TSFrameComponentsTheme {
      */
     glueButtonClickSound?: string;
     /**
-     * 
+     *
      */
     glueTextButtonInherits?: string;
     /**
@@ -66,3 +76,34 @@ export const W3TSFrameComponentsDefaultTheme: W3TSFrameComponentsTheme = {
  * Components would reach for this first, then the global theme second.
  *
  */
+
+/**
+ * Theme hierarchy:
+ *
+ * There can be global themes for backdrops used for all components.
+ *
+ * Then there can be component saved themes, which override global themes.
+ *
+ */
+
+/**
+ * If we want to be able to use themes.
+ *
+ * Sometimes we want to have a theme for a component but override it and use an empty string inherits.
+ * This means we cannot interpret an empty inherit string as an indicator to use the theme settings.
+ *
+ * Should we have a CreateThemed function?
+ *
+ * Maybe this should be part of the config as a boolean?
+ */
+
+interface IFrameGenericConfiguration {
+    /**
+     * When enabled, all theme settinsg will be used.
+     *
+     * But what if you want to use the theme as a base but then override some theme properties?
+     *
+     * Properties set directly on the configuration will be used first before a theme is used, excluding inherits.
+     */
+    useTheme?: boolean;
+}

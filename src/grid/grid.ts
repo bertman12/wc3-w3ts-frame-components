@@ -105,7 +105,7 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
         this.itemFrames?.push(firstItemFrames);
 
         if (!firstItemFrames?.container) {
-            // print("Failed to create grid since first frame did not get created! " + this.name);
+            print("Failed to create grid since first frame did not get created! " + this.name);
             return;
         }
 
@@ -124,7 +124,7 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
 
         let dataIndex = 1;
 
-        //Whenevr the col is 0, we need to attach to the bottom of the previous first column frame, otherwise pin to the rigth of the previous frame
+        //Whenever the col is 0, we need to attach to the bottom of the previous first column frame, otherwise pin to the rigth of the previous frame
         for (let row = 0; row < this.config.rows; row++) {
             //skip to the 2nd column if were on the first row since we already have created the first frame in the grid
             for (let col = row === 0 ? 1 : 0; col < this.config.columns; col++) {
@@ -158,15 +158,13 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
                     frame.setPoint(FRAMEPOINT_LEFT, previousFrame, FRAMEPOINT_RIGHT, this.config.gapX, 0);
                 } else if (col === 0) {
                     //negative y gap here so it moves further down from the previous row
-                    frame.setPoint(FRAMEPOINT_TOP, firstItemFrames?.container, FRAMEPOINT_BOTTOM, 0, -this.config.gapY);
+                    frame.setPoint(FRAMEPOINT_TOP, firstColumnFrame, FRAMEPOINT_BOTTOM, 0, -this.config.gapY);
                     firstColumnFrame = frame;
                 }
 
                 previousFrame = frame;
             }
         }
-
-        this.containerFrame = this.containerFrame;
     }
 
     /**

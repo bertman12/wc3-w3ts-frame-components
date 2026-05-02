@@ -39,9 +39,9 @@ interface TooltipConfig {
      */
     tooltipIconValueLeftPadding?: number;
     /**
-     * Optionally overrides the width of the Icon and it's assoicated text frame.
+     * Determines an additional gap between icons.
      */
-    tooltipIconContainerWidth?: number;
+    tooltipIconContainerGapX?: number;
     /**
      * The space between the tooltip body text and the backdrop
      */
@@ -82,7 +82,7 @@ export class Tooltip {
         if (!parent) {
             return;
         }
-        
+
         if (includeBackground) {
             //  -- Create the Background a Backdrop
             this.tooltipBackdropFrame = Frame.fromHandle(BlzCreateFrameByType("BACKDROP", name, parent.handle, W3TSFrameComponentsThemeUtils.Theme.tooltipBackdropInherits || "QuestButtonBaseTemplate", context)); //I'm not sure if we need the parent to be an origin frame, but we'll roll with this for now.
@@ -156,7 +156,7 @@ export class Tooltip {
                         gapX: 0.005,
                         gapY: 0.005,
                         rows: 1,
-                        columns: 8,
+                        columns: 4,
                         data: config.tooltipIconGridData,
                         renderItem: (parent, row, column, index, data) => {
                             if (!data) {
@@ -194,7 +194,10 @@ export class Tooltip {
                             valueText.frame?.setText(`${data?.value || ""}`);
                             valueText.formatSize();
 
-                            emptyFrame.frame?.setSize(this.config?.tooltipIconContainerWidth || (icon.frame?.width || 0.05) + (valueText.frame?.width || 0.05), icon.frame?.height || 0.05);
+                            // emptyFrame.frame?.setSize(this.config?.tooltipIconContainerWidth || (icon.frame?.width || 0.05) + (valueText.frame?.width || 0.05), icon.frame?.height || 0.05);
+                            
+                            //the width should be the icon width + text width + some buffer
+                            emptyFrame.frame?.setSize((icon.frame?.width || 0.05) + (valueText.frame?.width || 0.05) + (this.config?.tooltipIconContainerGapX || 0), icon.frame?.height || 0.05);
 
                             return { container: emptyFrame.frame, icon, valueText };
                         },

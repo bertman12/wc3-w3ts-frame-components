@@ -32,3 +32,18 @@ export class Backdrop extends AbstractFrameBase {
         return new Backdrop("", context, owner);
     }
 }
+
+/**
+ * If you set a theme for a component, then it will use that.
+ * 
+ * Themes will support creating by type.
+ * 
+ * So if you wanted to use your theme, how would you?
+ * 
+ * The point of the theme is to avoid repeating the same settings over and over.
+ * 
+ * Maybe we do need a createByType and createByName. That way it's more explicit.
+ * 
+ * 
+ * Also, there are probbably some common properties that can be shared across component configurations for customization, like padding, initial text, etc.
+ */

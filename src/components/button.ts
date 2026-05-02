@@ -115,6 +115,11 @@ export class Button extends AbstractFrameBase implements IClickEvent {
         this.iconBackdropFrame?.setTexture(texture, 0, false);
     }
 
+
+    public static CreateThemed(name: string, context: number, owner?: Frame, overrrides?: ButtonConfiguration): void {
+        //
+    }
+
     /**
      * Automatically handles shrinking and expanding the button icon when clicked and playing a click sound if one is set in the config.
      *
@@ -171,3 +176,4 @@ export class Button extends AbstractFrameBase implements IClickEvent {
 }
 
 // Button.Default();
+// Button.creat

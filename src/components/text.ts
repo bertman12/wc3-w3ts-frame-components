@@ -18,7 +18,7 @@ export class Text extends AbstractFrameBase {
         this.render();
     }
 
-    public static Default(context: number = 0, owner: Frame = FrameUtils.OriginFrameGameUI) {
+    public static CreateDefault(context: number = 0, owner: Frame = FrameUtils.OriginFrameGameUI) {
         return new Text({ initialText: "Sampe Text", autoSizeWidth: true }, "", context, owner, "");
     }
 
