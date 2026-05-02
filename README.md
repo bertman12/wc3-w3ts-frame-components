@@ -130,6 +130,36 @@ When on click is set, it will automatically enable and disable the button so tha
 
 When on click and a sound path is set, the sound will be played locally for the player.
 
+<details>
+<summary> Code Example</summary>
+
+```ts
+const gb1 = GlueTextButton.CreateDefault(0);
+gb1.frame?.clearPoints();
+gb1.frame?.setAbsPoint(FRAMEPOINT_CENTER, 0.2, 0.25);
+
+const gb2 = GlueTextButton.CreateType("", 0, "ScriptDialogButton", undefined, { initialText: "Typed", clickSoundPath: "Units\\Undead\\Ghoul\\GhoulYesAttack4.flac" });
+gb2.frame?.clearPoints();
+gb2.frame?.setAbsPoint(FRAMEPOINT_CENTER, 0.6, 0.25);
+
+const gb3 = GlueTextButton.CreateNamed("ScriptDialogButton", 0, undefined, 0, { initialText: "Named!" });
+gb3.frame?.clearPoints();
+gb3.frame?.setAbsPoint(FRAMEPOINT_CENTER, 0.2, 0.45);
+
+GlueTextButton.SaveTheme({
+    clickSoundPath: "Units\\Undead\\Abomination\\AbominationYesAttack1.flac",
+    inherits: "DebugButton",
+});
+
+const gb4 = GlueTextButton.CreateThemed("custom-name", 0, undefined, { initialText: "Themed" });
+gb4.frame?.clearPoints();
+gb4.frame?.setAbsPoint(FRAMEPOINT_CENTER, 0.6, 0.45);
+```
+
+</details>
+
+![glueTextButton](glueTextButtonExample.png)
+
 ### <a id="icon">Icon</a> - [🔝](#components-toc)
 
 A simle component which displays a texture icon.
