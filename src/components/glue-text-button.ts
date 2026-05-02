@@ -1,16 +1,15 @@
+import { W3TSFrameComponentsThemeUtils } from "src/theme";
 import { Frame, MapPlayer, Trigger } from "w3ts";
 import { PlaySoundLocal } from "warcraft-3-w3ts-utils";
 import { IClickEvent } from "../models";
-import { W3TSFrameComponentsTheme } from "../theme/theme";
 import { AbstractFrameBase } from "./AbstractFrameBase";
 
 interface GlueTextButtonConfiguration {
     clickSoundPath?: string;
     /**
-     * When set, will
-     * @returns
+     * Executes in the context of a trigger action.
      */
-    onClick?: () => void;
+    onClick?: (glueButton: GlueTextButton) => void;
     initialText?: string;
 }
 
@@ -39,7 +38,7 @@ export class GlueTextButton extends AbstractFrameBase implements IClickEvent {
 
     protected render() {
         if (this.inherits !== undefined) {
-            this.frame = Frame.createType(this.name, this.owner, this.context, "GLUETEXTBUTTON", this.inherits);
+            this.frame = Frame.createType(this.name, this.owner, this.context, "GLUETEXTBUTTON", this.inherits || W3TSFrameComponentsThemeUtils.Theme.glueTextButtonInherits || "");
         } else {
             this.createdByName = true;
             this.frame = Frame.create(this.name, this.owner, this.priority, this.context);
@@ -62,10 +61,11 @@ export class GlueTextButton extends AbstractFrameBase implements IClickEvent {
         }
     }
 
-    public setOnClick(fn: () => void) {
+    public setOnClick(fn: (glueButton: GlueTextButton) => void) {
         if (!this.frame) {
             return;
         }
+        this.onClickTrigger?.destroy();
 
         const t = Trigger.create();
         this.onClickTrigger = t;
@@ -73,10 +73,12 @@ export class GlueTextButton extends AbstractFrameBase implements IClickEvent {
         t.triggerRegisterFrameEvent(this.frame, FRAMEEVENT_CONTROL_CLICK);
         t.addAction(() => {
             const player = MapPlayer.fromEvent();
-
+            const soundPath = this.config.clickSoundPath || W3TSFrameComponentsThemeUtils.Theme.buttonClickSound || "";
             //created by name already has a sound played when clicked
-            if (player && this.config?.clickSoundPath && !this.createdByName) {
-                PlaySoundLocal(this.config.clickSoundPath || W3TSFrameComponentsTheme.buttonClickSound || "", player.isLocal());
+            print("sound path: " + soundPath);
+            print("created by name? " + this.createdByName);
+            if (player && soundPath && !this.createdByName) {
+                PlaySoundLocal(soundPath, player.isLocal());
             }
 
             if (this.frame) {
@@ -84,7 +86,8 @@ export class GlueTextButton extends AbstractFrameBase implements IClickEvent {
                 this.frame.setEnabled(true);
             }
 
-            fn();
+            fn.bind(this);
+            fn(this);
         });
     }
 }

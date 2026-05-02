@@ -51,8 +51,10 @@ export class Text extends AbstractFrameBase {
     }
 
     /**
-     * @param text The text that goes inside the tooltip.
-     * @param buffer Optional addition to the calculated width.
+     * Automatically resizes the width of the text frame.
+     *
+     * @param text
+     * @param buffer Optional value to add to the calculated width.
      * @returns number
      */
     public formatSize(buffer?: number) {

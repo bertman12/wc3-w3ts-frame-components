@@ -3,19 +3,24 @@ import { FrameUtils } from "src/frame-utils";
 import { Frame, MapPlayer, Trigger } from "w3ts";
 import { delay, PlaySoundLocal } from "warcraft-3-w3ts-utils";
 import { IClickEvent } from "../models";
-import { W3TSFrameComponentsTheme } from "../theme/theme";
+import { W3TSFrameComponentsThemeUtils } from "../theme/theme";
 import { AbstractFrameBase } from "./AbstractFrameBase";
 
 export interface ButtonConfiguration {
     texture: string;
     /**
+     * Executes in the context of a trigger action.
+     *
      * When onClick is defined, the button will resize automatically on it's own when clicked.
      * A sound will also be played if the clickSoundPath is defined.
      * @param btn
      * @param btnIcon
      * @returns
      */
-    onClick?: (btn: Frame, btnIcon?: Frame) => void;
+    onClick?: (button: Button) => void;
+    /**
+     * Optionally creates a local sound for the player who clicked it.
+     */
     clickSoundPath?: string;
 }
 
@@ -30,6 +35,10 @@ export interface ButtonConfiguration {
  */
 export class Button extends AbstractFrameBase implements IClickEvent {
     public config: ButtonConfiguration;
+    /**
+     * The theme elements are configurable 
+     */
+    protected static ComponentTheme = {};
 
     public buttonFrame?: Frame;
     /**
@@ -56,21 +65,27 @@ export class Button extends AbstractFrameBase implements IClickEvent {
          * It might be because we've added the icon frame to it, which is sitting on top of the actual button
          */
         // ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn
-        return new Button({ texture: "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn", onClick: () => {}, clickSoundPath: "Sound\\Interface\\MouseClick1.flac" }, "", context, owner, "ScoreScreenTabButtonTemplate");
+        return new Button(
+            { texture: "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn", onClick: () => {}, clickSoundPath: "Sound\\Interface\\MouseClick1.flac" },
+            "",
+            context,
+            owner,
+            W3TSFrameComponentsThemeUtils.Theme.buttonBackdropInherits || "ScoreScreenTabButtonTemplate",
+        );
     }
 
     protected render() {
         if (this.inherits !== undefined) {
-            this.buttonFrame = Frame.createType(this.name, this.owner, this.context, "BUTTON", this.inherits);
+            // should we attempt to use it only when inherits is an empty string?
+            this.buttonFrame = Frame.createType(this.name, this.owner, this.context, "BUTTON", this.inherits || W3TSFrameComponentsThemeUtils.Theme.buttonBackdropInherits || "");
         } else {
             this.buttonFrame = Frame.create(this.name, this.owner, this.priority, this.context);
         }
-
+        
         if (!this.buttonFrame) {
             return;
         }
 
-        this.buttonFrame.clearPoints();
         // // -- place the Button to the left center of the Screen
         this.buttonFrame.setAbsPoint(FRAMEPOINT_CENTER, 0.1, 0.3);
 
@@ -82,8 +97,6 @@ export class Button extends AbstractFrameBase implements IClickEvent {
         if (!this.iconBackdropFrame) {
             return;
         }
-
-        this.iconBackdropFrame.clearPoints();
 
         // // -- buttonIcon will mimic buttonFrame in size and position
         this.iconBackdropFrame.setAllPoints(this.buttonFrame);
@@ -108,7 +121,7 @@ export class Button extends AbstractFrameBase implements IClickEvent {
      * Overrides previous on click function and destroys the previous on click trigger and creates a new one.
      * @param fn
      */
-    public setOnClick(fn: (btn: Frame, btnIcon?: Frame) => void) {
+    public setOnClick(fn: (button: Button) => void) {
         if (!this.buttonFrame) {
             return;
         }
@@ -124,10 +137,17 @@ export class Button extends AbstractFrameBase implements IClickEvent {
 
         t.addAction(() => {
             if (this.buttonFrame) {
-                if (this.config.clickSoundPath) {
+                const soundToPlay = this.config.clickSoundPath || W3TSFrameComponentsThemeUtils.Theme.buttonClickSound;
+
+                // if (this.config.clickSoundPath) {
+                // const player = MapPlayer.fromEvent();
+                // PlaySoundLocal(this.config.clickSoundPath || "", player?.isLocal());
+                // } else if (W3TSFrameComponentsTheme.Theme.buttonClickSound) {
+                if (soundToPlay) {
                     const player = MapPlayer.fromEvent();
-                    PlaySoundLocal(this.config.clickSoundPath || W3TSFrameComponentsTheme.buttonClickSound || "", player?.isLocal());
+                    PlaySoundLocal(soundToPlay, player?.isLocal());
                 }
+                // }
 
                 this.iconBackdropFrame?.clearPoints();
                 this.iconBackdropFrame?.setPoint(FRAMEPOINT_BOTTOMLEFT, this.buttonFrame, FRAMEPOINT_BOTTOMLEFT, 0.001, 0.001);
@@ -140,7 +160,8 @@ export class Button extends AbstractFrameBase implements IClickEvent {
                     }
                 });
 
-                fn(this.buttonFrame, this.iconBackdropFrame);
+                fn.bind(this);
+                fn(this);
             }
 
             this.buttonFrame?.setEnabled(false);

@@ -1,6 +1,7 @@
+import { FrameUtils } from "src/frame-utils";
+import { W3TSFrameComponentsThemeUtils } from "src/theme";
 import { Frame } from "w3ts";
 import { AbstractFrameBase, AbstractFrameConstructorArgs } from "./AbstractFrameBase";
-import { FrameUtils } from "src/frame-utils";
 
 /** @inheritdoc */
 export class Backdrop extends AbstractFrameBase {
@@ -14,7 +15,7 @@ export class Backdrop extends AbstractFrameBase {
 
     protected render() {
         //Fallback inherit string not required if someone doesn't want it to have anything in the background.
-        this.frame = Frame.createType(this.name, this.owner, this.context, "BACKDROP", this.inherits || "");
+        this.frame = Frame.createType(this.name, this.owner, this.context, "BACKDROP", this.inherits || W3TSFrameComponentsThemeUtils.Theme.backdropInherits || "");
 
         if (!this.frame) {
             return;

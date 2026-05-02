@@ -14,6 +14,12 @@ interface IDefaultConstructor {
  * Testing the inherit doc
  */
 export abstract class AbstractFrameBase implements IDefaultConstructor {
+    /**
+     * Contains the theme properties relevant for the component.
+     * This way each component only holds theme elements relevant/applicable to them
+     */
+    protected static ComponentTheme: {[key:string]: any};
+
     // public eventDetails?: IEventDetails | undefined;
     /**
      * When creating a component with a non empty string for the inherits property, then this will be used as a custom name for the frame.
@@ -57,7 +63,7 @@ export abstract class AbstractFrameBase implements IDefaultConstructor {
      * @param name When creating a component with a non empty string for the inherits property, then this will be used as a custom name for the frame. When creating a component without an empty string or undefined for inherits, this will be used to reference an existing blizzard frame name.
      * @param context
      * @param owner Defaults to ORIGIN_FRAME_GAME_UI
-     * @param inherits Defaults to empty string ""
+     * @param inherits No default.
      * @param priority Defaults to 0
      */
     constructor(name: string, context: number, owner?: Frame, inherits?: string, priority?: number) {
@@ -67,7 +73,7 @@ export abstract class AbstractFrameBase implements IDefaultConstructor {
         this.inherits = inherits;
         this.priority = priority || 0;
     }
- 
+
     protected render() {}
 
     /**

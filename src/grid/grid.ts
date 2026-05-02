@@ -35,7 +35,7 @@ const DEFAULT_GAP_Y = 0.005;
 /**
  *
  *
- *
+ * @tests Test that you can give a grid no data initially, then update it and have it be created like normal.
  *
  * @aboutGridData When there is not data for an item or it is undefined, that item's frame is hidden.
  *
@@ -71,11 +71,10 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
      * @returns
      */
     private render() {
-        const container = Frame.createType(this.name, this.owner, this.context, "FRAME", "");
-        container?.setEnabled(false);
-        this.containerFrame = container;
+        this.containerFrame = Frame.createType(this.name, this.owner, this.context, "FRAME", "");
+        this.containerFrame?.setEnabled(false);
 
-        if (!container) {
+        if (!this.containerFrame) {
             print("Grid container unable to be created! Context: " + this.context);
             return;
         }
@@ -88,8 +87,8 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
             this.config.gapY = DEFAULT_GAP_Y;
         }
 
-        container.clearPoints();
-        container.setPoint(FRAMEPOINT_TOPLEFT, this.owner, FRAMEPOINT_TOPLEFT, this.config.gapX, -this.config.gapY);
+        this.containerFrame.clearPoints();
+        this.containerFrame.setPoint(FRAMEPOINT_TOPLEFT, this.owner, FRAMEPOINT_TOPLEFT, this.config.gapX, -this.config.gapY);
 
         let firstItemData = undefined;
 
@@ -98,27 +97,32 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
             firstItemData = this.config.data[0];
         }
 
-        const firstItemFrames = this.config.renderItem(container, 0, 0, 0, firstItemData);
+        const firstItemFrames = this.config.renderItem(this.containerFrame, 0, 0, 0, firstItemData);
         if (!firstItemData) {
             firstItemFrames?.container?.setVisible(false);
         }
 
         this.itemFrames?.push(firstItemFrames);
 
-        let firstColumnFrame = firstItemFrames?.container;
-
-        if (!firstColumnFrame) {
-            print("Failed to create grid since first frame did not get created! " + this.name);
+        if (!firstItemFrames?.container) {
+            // print("Failed to create grid since first frame did not get created! " + this.name);
             return;
         }
 
-        container.setSize((firstColumnFrame.width + this.config.gapX) * this.config.columns, (firstColumnFrame.height + this.config.gapY) * this.config.rows);
+        let firstColumnFrame: Frame = firstItemFrames?.container;
 
-        let previousFrame: Frame = firstColumnFrame;
-        firstColumnFrame.clearPoints();
-        firstColumnFrame.setPoint(FRAMEPOINT_TOPLEFT, container, FRAMEPOINT_TOPLEFT, 0, 0);
+        /**
+         * If we never have the first frame, then we don't know what the size of the grid will be, even if we have rows and columns.
+         *
+         * Therefore, if we are updating the grid with some data and it's our first render, then we need to set container size.
+         */
+        this.containerFrame.setSize((firstItemFrames?.container.width + this.config.gapX) * this.config.columns, (firstItemFrames?.container.height + this.config.gapY) * this.config.rows);
 
-        let index = 1;
+        let previousFrame: Frame = firstItemFrames?.container;
+        firstItemFrames?.container.clearPoints();
+        firstItemFrames?.container.setPoint(FRAMEPOINT_TOPLEFT, this.containerFrame, FRAMEPOINT_TOPLEFT, 0, 0);
+
+        let dataIndex = 1;
 
         //Whenevr the col is 0, we need to attach to the bottom of the previous first column frame, otherwise pin to the rigth of the previous frame
         for (let row = 0; row < this.config.rows; row++) {
@@ -127,11 +131,11 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
                 let itemData = undefined;
 
                 //The data exists on the config and we can access that data at the index
-                if (this.config?.data && this.config.data.length >= index + 1) {
-                    itemData = this.config.data[index];
+                if (this.config?.data && this.config.data.length >= dataIndex + 1) {
+                    itemData = this.config.data[dataIndex];
                 }
 
-                const itemFrames = this.config.renderItem(container, row, col, index, itemData);
+                const itemFrames = this.config.renderItem(this.containerFrame, row, col, dataIndex, itemData);
 
                 if (!itemData) {
                     itemFrames?.container?.setVisible(false);
@@ -141,7 +145,7 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
 
                 const frame = itemFrames?.container;
 
-                index++;
+                dataIndex++;
 
                 if (!frame) {
                     print(`Unable to render frame for grid (${this.name}),  item at ` + `row ${row}, col ${col}.`);
@@ -154,7 +158,7 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
                     frame.setPoint(FRAMEPOINT_LEFT, previousFrame, FRAMEPOINT_RIGHT, this.config.gapX, 0);
                 } else if (col === 0) {
                     //negative y gap here so it moves further down from the previous row
-                    frame.setPoint(FRAMEPOINT_TOP, firstColumnFrame, FRAMEPOINT_BOTTOM, 0, -this.config.gapY);
+                    frame.setPoint(FRAMEPOINT_TOP, firstItemFrames?.container, FRAMEPOINT_BOTTOM, 0, -this.config.gapY);
                     firstColumnFrame = frame;
                 }
 
@@ -162,13 +166,16 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
             }
         }
 
-        this.containerFrame = container;
-
-        // return container;
+        this.containerFrame = this.containerFrame;
     }
 
     /**
-     * Calls the updateItems function defined in the GridConfig
+     * Calls the updateItems function defined in the GridConfig..
+     *
+     * Render item is called when you there is more data than when then grid was initially created.
+     * Then update item will be called upon all items, including the newly created ones.
+     *
+     * This behavior can be disabled optionally in the configuration.
      *
      * @todo if we are updating the grid with more elements than we had when we initially created the grid, then we should call render item function and add the new item to our managed item frames.
      */
@@ -203,15 +210,15 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
         /**
          * We need to create frames.
          */
-        if (data.length > this.itemFrames.length) {
-            data.forEach((dItem, index) => {
-                //pickup where there are new frames.
-                if (this.containerFrame && index > data.length - 1) {
-                    //use column and row logic from above.
-                    this.config.renderItem(this.containerFrame, index, 0, 0, dItem);
-                }
-            });
-        }
+        // if (data.length > this.itemFrames.length) {
+        //     data.forEach((dItem, index) => {
+        //         //pickup where there are new frames.
+        //         if (this.containerFrame && index > data.length - 1) {
+        //             //use column and row logic from above.
+        //             this.config.renderItem(this.containerFrame, index, 0, 0, dItem);
+        //         }
+        //     });
+        // }
 
         //Whenevr the col is 0, we need to attach to the bottom of the previous first column frame, otherwise pin to the rigth of the previous frame
         // for (let row = 0; row < this.config.rows; row++) {

@@ -11,6 +11,8 @@ The components help to reduce the boiler plate code needed when working with fra
 When a component is created, by default, it will be placed in center of the screen so that it is visible.
 This is just for quickly seeing the component rendered.
 
+Most of the internal frames inside components are public so you may make modifications as you see fit.
+
 All components have a name, owner, inherits and container frame.
 
 If the inherits property is any string, including the empty string, then the frame is created like so.

@@ -1,4 +1,5 @@
 // import { ResourceRequirements, ResourceTypeIconTexture } from "src/resources/data";
+import { W3TSFrameComponentsThemeUtils } from "src/theme";
 import { Frame } from "w3ts";
 import { FrameUtils } from "../frame-utils";
 import { Grid, GridItemBaseDefinition } from "../grid/grid";
@@ -12,13 +13,24 @@ interface TooltipIconDataItem {
 }
 
 interface TooltipConfig {
+    /**
+     * Default - The tooltip will be pinned to the left side of what it's attached to and expand right if necessary.
+     * If reverse orientation is true, the tooltip will be pinned from the right side and expand leftwards.
+     */
     reverseOrientation?: boolean;
     /**
-     * Where to anchor the tooltip to on the parent
+     * Where to anchor the tooltip to on the parent.
+     *
+     * Currently does not work when an icon grid is used.
      */
     anchorPoint?: "bottom";
+    /**
+     * Determines whether or not to dislpay a backdrop for the tooltip.
+     */
     includeBackground?: boolean;
-    // resources?: ResourceRequirements[];
+    /**
+     * Allows for adding icons underneath the header text of the tooltip.
+     */
     tooltipIconGridData?: TooltipIconDataItem[];
     /**
      * The space the values appear next to their icons.
@@ -30,7 +42,13 @@ interface TooltipConfig {
      * Optionally overrides the width of the Icon and it's assoicated text frame.
      */
     tooltipIconContainerWidth?: number;
+    /**
+     * The space between the tooltip body text and the backdrop
+     */
     tooltipBodySpaceX?: number;
+    /**
+     * The space between the tooltip header text and the backdrop
+     */
     tooltipHeaderSpaceX?: number;
 }
 
@@ -39,27 +57,16 @@ interface TooltipGridFramesDefinition extends GridItemBaseDefinition {
     valueText?: Text;
 }
 
-// interface ResourceGridFrameDefinitions extends GridItemBaseDefinition {
-//     buttonFrames?: IconButton;
-//     valueText?: Text;
-// }
-
 export class Tooltip {
     name: string;
     context: number;
     parent: Frame;
 
-    /**
-     * Text frame and background frame, etc
-     */
-    // textFrame?: Frame;
-    // backdropFrame?: Frame;
     private config?: TooltipConfig;
 
     public headerTextFrame?: Frame;
     public bodyTextFrame?: Frame;
-    // private resourceGrid?: Grid<ResourceRequirements, ResourceGridFrameDefinitions>;
-    public resourceGrid?: Grid<TooltipIconDataItem, TooltipGridFramesDefinition>;
+    public iconGrid?: Grid<TooltipIconDataItem, TooltipGridFramesDefinition>;
 
     public tooltipBackdropFrame?: Frame;
 
@@ -75,10 +82,10 @@ export class Tooltip {
         if (!parent) {
             return;
         }
-
+        
         if (includeBackground) {
             //  -- Create the Background a Backdrop
-            this.tooltipBackdropFrame = Frame.fromHandle(BlzCreateFrameByType("BACKDROP", name, parent.handle, "QuestButtonBaseTemplate", context)); //I'm not sure if we need the parent to be an origin frame, but we'll roll with this for now.
+            this.tooltipBackdropFrame = Frame.fromHandle(BlzCreateFrameByType("BACKDROP", name, parent.handle, W3TSFrameComponentsThemeUtils.Theme.tooltipBackdropInherits || "QuestButtonBaseTemplate", context)); //I'm not sure if we need the parent to be an origin frame, but we'll roll with this for now.
             if (!this.tooltipBackdropFrame) {
                 return;
             }
@@ -136,6 +143,7 @@ export class Tooltip {
             if (this.config?.anchorPoint === "bottom") {
                 this.headerTextFrame.clearPoints();
                 this.bodyTextFrame.clearPoints();
+                // this.tooltipBackdropFrame.
                 this.headerTextFrame.setPoint(FRAMEPOINT_TOPRIGHT, this.parent, FRAMEPOINT_BOTTOMLEFT, 0, -0.01);
                 //the resource grid would be here and the header would be placed on it
                 //the groupd would be place it's bottom left to the top right of the body instead of the header
@@ -143,14 +151,7 @@ export class Tooltip {
             }
 
             if (config?.tooltipIconGridData) {
-                /**
-                 * The grid doesn't actually have to be specific.
-                 * We just need to also pass in any data array which extends our bare requirements.
-                 * That which being a texture string and an optional number.
-                 *
-                 * so an object with a texture and associated number.
-                 */
-                this.resourceGrid = new Grid<TooltipIconDataItem, TooltipGridFramesDefinition>(
+                this.iconGrid = new Grid<TooltipIconDataItem, TooltipGridFramesDefinition>(
                     {
                         gapX: 0.005,
                         gapY: 0.005,
@@ -218,17 +219,17 @@ export class Tooltip {
                     this.tooltipBackdropFrame,
                 );
 
-                if (!this.resourceGrid.containerFrame) {
+                if (!this.iconGrid.containerFrame) {
                     return;
                 }
 
                 // -- Place the Tooltip above the Button
                 this.headerTextFrame.clearPoints();
-                this.headerTextFrame.setPoint(FRAMEPOINT_BOTTOMLEFT, this.resourceGrid.containerFrame, FRAMEPOINT_TOPLEFT, 0, 0.01);
+                this.headerTextFrame.setPoint(FRAMEPOINT_BOTTOMLEFT, this.iconGrid.containerFrame, FRAMEPOINT_TOPLEFT, 0, 0.01);
                 //the resource grid would be here and the header would be placed on it
                 //the groupd would be place it's bottom left to the top right of the body instead of the header
-                this.resourceGrid.containerFrame?.clearPoints();
-                this.resourceGrid.containerFrame?.setPoint(FRAMEPOINT_BOTTOMLEFT, this.bodyTextFrame, FRAMEPOINT_TOPLEFT, 0, 0.01);
+                this.iconGrid.containerFrame?.clearPoints();
+                this.iconGrid.containerFrame?.setPoint(FRAMEPOINT_BOTTOMLEFT, this.bodyTextFrame, FRAMEPOINT_TOPLEFT, 0, 0.01);
 
                 // this.bodyTextFrame.clearPoints();
                 // this.bodyTextFrame.setPoint(FRAMEPOINT_BOTTOMLEFT, this.parent, FRAMEPOINT_TOPLEFT, 0, 0.01);
@@ -240,9 +241,6 @@ export class Tooltip {
             this.bodyTextFrame.setEnabled(false);
 
             this.StyleTooltipText(header, text);
-
-            // this.textFrame = this.bodyTextFrame;
-            // this.backdropFrame = this.tooltipBackdropFrame;
         } else {
             const tooltipFrameText = Frame.fromHandle(BlzCreateFrameByType("TEXT", "MyScriptDialogButtonTooltip", FrameUtils.OriginFrameGameUIHandle, "", context));
             if (!tooltipFrameText) {
@@ -276,7 +274,7 @@ export class Tooltip {
 
         if (tooltipIconData) {
             //update with new data
-            this.resourceGrid?.updateGrid(tooltipIconData);
+            this.iconGrid?.updateGrid(tooltipIconData);
         }
     }
 
