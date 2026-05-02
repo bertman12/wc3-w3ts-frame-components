@@ -6,7 +6,19 @@ Primarily uses frames of from the category of FRAME.
 
 The components help to reduce the boiler plate code needed when working with frames.
 
-## Components
+# Important
+
+The library is still in early development and is subject to major breaking changes.
+
+# <a id="contents">Contents</a>
+
+- [About Components](#about-components)
+- [Components](#components-toc)
+- [Theme](#theme)
+- [Caveats](#caveats)
+- [Frame definitions and TOC Files](#frame-definitions-and-toc-files)
+
+## <a id="about-components">About Components</a> - [🔝](#contents)
 
 When a component is created, by default, it will be placed in center of the screen so that it is visible.
 This is just for quickly seeing the component rendered.
@@ -47,7 +59,19 @@ BlzCreateFrame(...)
 - ##### Priority
     - Defaults to 0. Only used when creating a frame by name.
 
-### Grid
+## <a id="components-toc">Components</a> - [🔝](#contents)
+
+- #### [Grid](#grid)
+- #### [Button](#button)
+- #### [Glue Text Button](#glue-text-button)
+- #### [Icon](#icon)
+- #### [Backdrop](#backdrop)
+- #### [Empty Frame](#empty-frame)
+- #### [Text Area](#text-area)
+- #### [Text](#text)
+- #### [Tooltip](#tooltip)
+
+### <a id="grid">Grid</a> - [🔝](#components-toc)
 
 The grid component provides a versatile layout tool for organizing a collection of like frames.
 
@@ -55,39 +79,39 @@ Each grid item can contain any frame type or custom frame components.
 
 The grid provides a render function which is used for the initial rendering of the grid.
 
-### Button
+### <a id="button">Button</a> - [🔝](#components-toc)
 
 When on click is set, it will automatically enable and disable the button so that it does not retain focus after being clicked.
 
 When on click and a sound path is set, the sound will be played locally for the player.
 
-### Glue Text Button
+### <a id="glue-text-button">Glue Text Button</a> - [🔝](#components-toc)
 
 When on click is set, it will automatically enable and disable the button so that it does not retain focus after being clicked.
 
 When on click and a sound path is set, the sound will be played locally for the player.
 
-### Icon
+### <a id="icon">Icon</a> - [🔝](#components-toc)
 
 A simle component which displays a texture icon.
 
-### Backdrop
+### <a id="backdrop">Backdrop</a> - [🔝](#components-toc)
 
 A simple wrapper for a backdrop frame.
 
-### Empty Frame
+### <a id="empty-frame">Empty Frame</a> - [🔝](#components-toc)
 
 A simple wrapper for a backdrop frame.
 
-### Text Area
+### <a id="text-area">Text Area</a> - [🔝](#components-toc)
 
 When on mouse enter is set, it will automatically enable and disable the textarea so that it does not retain focus after being clicked.
 
-### Text
+### <a id="text">Text</a> - [🔝](#components-toc)
 
 A basic component for text frames with additional built in functionality for automatic sizing.
 
-### Tooltip
+### <a id="tooltip">Tooltip</a> - [🔝](#components-toc)
 
 Simplifies tooltip creation.
 
@@ -95,11 +119,13 @@ It also provides a way for users to add their own icons and text to the tooltip 
 
 Handles automatic resizing of tooltip background when changing header and body text.
 
-## Theme
+![tooltip](tooltipExample.png)
+
+## <a id="theme">Theme</a> - [🔝](#contents)
 
 A theme may be specified which will be applied to all appropriate elements based on which theme settings are configured.
 
-The theme may still also be overriden when creating the component.
+### Global Themes
 
 ```ts
 W3TSFrameComponentsThemeUtils.createTheme({
@@ -109,13 +135,37 @@ W3TSFrameComponentsThemeUtils.createTheme({
 });
 ```
 
-## Caveats
+### Component Themes
+
+Component level themes allow you to save a configuration for the component as a theme.
+
+```ts
+GlueTextButton.SaveTheme(...)
+```
+
+Afterwars, you can create a component with the theme applied using CreateThemed.
+
+```ts
+GlueTextButton.CreateThemed(...);
+```
+
+### Overrides
+
+Theme configurations may have specific properties overriden as well if you want slight variations based on the theme.
+
+```ts
+const overrides = {...}
+
+GlueTextButton.CreateThemed(..., overrides)
+```
+
+## <a id="caveats">Caveats</a> - [🔝](#contents)
 
 All frames that are created are permanent and will never be deleted. This is to prevent desyncs and game crashes.
 
 There is only 1 case where a SIMPLE frame type is used, which is optional when creating a button.
 
-## Frame definitions and TOC Files
+## <a id="frame-definitions-and-toc-files">Frame definitions and TOC Files</a> - [🔝](#contents)
 
 This library comes with it's own frame definitions files and TOC.
 
