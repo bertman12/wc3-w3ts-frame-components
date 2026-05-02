@@ -95,6 +95,20 @@ It also provides a way for users to add their own icons and text to the tooltip 
 
 Handles automatic resizing of tooltip background when changing header and body text.
 
+## Theme
+
+A theme may be specified which will be applied to all appropriate elements based on which theme settings are configured.
+
+The theme may still also be overriden when creating the component.
+
+```ts
+W3TSFrameComponentsThemeUtils.createTheme({
+    backdropInherits: "LadderButtonBackdropTemplate",
+    glueButtonClickSound: "Sound\\Interface\\BigButtonClick.flac",
+    glueTextButtonInherits: "ScriptDialogButton",
+});
+```
+
 ## Caveats
 
 All frames that are created are permanent and will never be deleted. This is to prevent desyncs and game crashes.
