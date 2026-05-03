@@ -61,15 +61,15 @@ BlzCreateFrame(...)
 
 ## <a id="components-toc">Components</a> - [🔝](#contents)
 
-- #### [Grid](#grid)
-- #### [Button](#button)
-- #### [Glue Text Button](#glue-text-button)
-- #### [Icon](#icon)
-- #### [Backdrop](#backdrop)
-- #### [Empty Frame](#empty-frame)
-- #### [Text Area](#text-area)
-- #### [Text](#text)
-- #### [Tooltip](#tooltip)
+[Grid](#grid)
+[Button](#button)
+[Glue Text Button](#glue-text-button)
+[Icon](#icon)
+[Backdrop](#backdrop)
+[Empty Frame](#empty-frame)
+[Text Area](#text-area)
+[Text](#text)
+[Tooltip](#tooltip)
 
 ### <a id="grid">Grid</a> - [🔝](#components-toc)
 
@@ -252,7 +252,7 @@ Component level themes allow you to save a configuration for the component as a 
 GlueTextButton.SaveTheme(...)
 ```
 
-Afterwars, you can create a component with the theme applied using CreateThemed.
+Afterwards, you can create a component with the theme applied using CreateThemed.
 
 ```ts
 GlueTextButton.CreateThemed(...);
