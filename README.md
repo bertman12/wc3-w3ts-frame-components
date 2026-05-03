@@ -130,6 +130,8 @@ When on click is set, it will automatically enable and disable the button so tha
 
 When on click and a sound path is set, the sound will be played locally for the player.
 
+![glueTextButton](glueTextButtonExample.png)
+
 <details>
 <summary> Code Example</summary>
 
@@ -157,8 +159,6 @@ gb4.frame?.setAbsPoint(FRAMEPOINT_CENTER, 0.6, 0.45);
 ```
 
 </details>
-
-![glueTextButton](glueTextButtonExample.png)
 
 ### <a id="icon">Icon</a> - [🔝](#components-toc)
 
@@ -189,6 +189,46 @@ It also provides a way for users to add their own icons and text to the tooltip 
 Handles automatic resizing of tooltip background when changing header and body text.
 
 ![tooltip](tooltipExample.png)
+
+<details>
+<summary> Code Example</summary>
+
+```ts
+const b1 = new Button({ texture: "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn" }, "", 0, undefined, "");
+b1.buttonFrame?.clearPoints();
+b1.buttonFrame?.setAbsPoint(FRAMEPOINT_CENTER, 0.1, 0.2);
+
+const ttBody =
+    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, delectus. Sit, blanditiis. Distinctio minima, nihil earum illo neque nesciunt quia perferendis minus adipisci esse, impedit ducimus qui delectus vero, quae quasi atque reprehenderit rerum deleniti consectetur provident omnis? Perferendis corrupti sapiente veritatis esse iste magni optio, voluptas eligendi. Corrupti, eos!";
+const tooltipData = [
+    {
+        texture: "ReplaceableTextures\\CommandButtons\\BTNTichondrius.blp",
+        value: "100",
+    },
+    {
+        texture: "ReplaceableTextures\\CommandButtons\\BTNGargoyle.blp",
+        value: "50",
+    },
+    {
+        texture: "ReplaceableTextures\\CommandButtons\\BTNUnholyFrenzy.blp",
+        value: "15",
+    },
+    {
+        texture: "ReplaceableTextures\\CommandButtons\\BTNInfernal.blp",
+        value: "1",
+    },
+];
+
+const tt = new Tooltip("|cffffcc00Header|r", ttBody, "", 0, b1.buttonFrame, {
+    tooltipIconGridData: tooltipData,
+    tooltipIconContainerGapX: 0.005,
+    tooltipIconValueLeftPadding: 0,
+    tooltipBodySpaceX: 0.01,
+    tooltipHeaderSpaceX: 0.01,
+});
+```
+
+</details>
 
 ## <a id="theme">Theme</a> - [🔝](#contents)
 
