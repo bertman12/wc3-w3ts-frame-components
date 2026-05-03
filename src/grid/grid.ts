@@ -54,6 +54,9 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
      */
     public containerFrame?: Frame;
 
+    /**
+     * Reference to frames created in each item.
+     */
     private itemFrames?: (Z | undefined)[] = [];
 
     constructor(config: GridConfig<T, Z>, name: string, context: number, owner?: Frame) {
@@ -71,6 +74,7 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
      * @returns
      */
     private render() {
+        //shouldnt do if this is called from update grid
         this.containerFrame = Frame.createType(this.name, this.owner, this.context, "FRAME", "");
         this.containerFrame?.setEnabled(false);
 
@@ -165,6 +169,8 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
                 previousFrame = frame;
             }
         }
+
+        print("Total item frames created: " + this.itemFrames?.length);
     }
 
     /**
@@ -176,6 +182,8 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
      * This behavior can be disabled optionally in the configuration.
      *
      * @todo if we are updating the grid with more elements than we had when we initially created the grid, then we should call render item function and add the new item to our managed item frames.
+     *
+     * updates rows value in config if additional rows are needed to render additional items.
      */
     public updateGrid(data: T[]) {
         //update the grid data.
@@ -186,43 +194,94 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
             return;
         }
 
-        if (this.itemFrames === undefined || this.itemFrames.length === 0) {
-            print(`Called update grid for ` + this.name + " but no item frames found for grid!");
-
-            /**
-             * dont return here actually.
-             *
-             * we need to create the frames from scratch
-             */
-
-            data.forEach((dItem, index) => {
-                if (this.containerFrame) {
-                    //use column and row logic from above.
-                    this.config.renderItem(this.containerFrame, index, 0, 0, dItem);
-                }
-            });
-
+        //Should never happen.
+        if (!this.containerFrame) {
+            print(`|cffff0000Critical Error updating grid ${this.name}. Grid container frame missing.`);
             return;
         }
 
-        /**
-         * We need to create frames.
-         */
-        // if (data.length > this.itemFrames.length) {
-        //     data.forEach((dItem, index) => {
-        //         //pickup where there are new frames.
-        //         if (this.containerFrame && index > data.length - 1) {
-        //             //use column and row logic from above.
-        //             this.config.renderItem(this.containerFrame, index, 0, 0, dItem);
-        //         }
-        //     });
-        // }
+        if ((this.itemFrames === undefined || this.itemFrames.length === 0) && data.length > 0) {
+            // print(`Called update grid for ` + this.name + " but no item frames found for grid!");
 
-        //Whenevr the col is 0, we need to attach to the bottom of the previous first column frame, otherwise pin to the rigth of the previous frame
-        // for (let row = 0; row < this.config.rows; row++) {
-        //     //skip to the 2nd column if were on the first row since we already have created the first frame in the grid
-        //     for (let col = row === 0 ? 1 : 0; col < this.config.columns; col++) {
-        //         let itemData = undefined;
+            // Essentially just doing the first render since there was never any data to begin with.
+            print("called render from updateGrid since no items existed!");
+            this.render();
+            return;
+        }
+
+        //Should never happen.
+        if (this.itemFrames === undefined || this.itemFrames.length === 0) {
+            print(`|cffff0000Critical Error updating grid ${this.name}. Items frames never created.`);
+            return;
+        }
+
+        
+
+        /**
+         * We need to create some additional frames.
+         *
+         * @bug positioninig frames incorrectly
+         */
+        if (data.length > this.itemFrames.length) {
+            print("Adding additional frames to the grid.");
+            //The length would be the starting index, since that index doesn't exist yet.
+            // (ex: length is 3, pre-update final item index was 2. therefore we add an item to index 3,4,5 ... etc)
+            let startingIndex = this.itemFrames.length;
+            print("Update Starting index: " + startingIndex);
+            let currentIndex = 0;
+
+            let firstColumnItemFrames = this.itemFrames[0];
+            let previousItemFrame = this.itemFrames[0];
+
+            const newRowsLimit = Math.ceil(data.length / this.config.columns);
+
+            if (newRowsLimit !== this.config.rows) {
+                print(`New rows added! New: ${newRowsLimit}, Old: ${this.config.rows}`);
+            }
+
+            this.config.rows = newRowsLimit;
+            // this.resizeGridContainer();
+
+            /***
+             * Well, we are picking up from where there does not exist frames yet.
+             */
+            for (let row = 0; row < newRowsLimit; row++) {
+                for (let col = 0; col < this.config.columns; col++) {
+                    // previousItemFrame?.container?.setVisible(true);
+
+                    if (currentIndex >= startingIndex) {
+                        const item = this.config.renderItem(this.containerFrame, row, col, currentIndex, data[currentIndex]);
+
+                        //Save new frame
+                        this.itemFrames.push(item);
+
+                        // Shouldnt happen
+                        if (!previousItemFrame?.container || !firstColumnItemFrames?.container || !item?.container) {
+                            continue;
+                        }
+
+                        //Position new frame
+                        if (previousItemFrame && col !== 0) {
+                            item?.container.setPoint(FRAMEPOINT_LEFT, previousItemFrame.container, FRAMEPOINT_RIGHT, this.config.gapX || DEFAULT_GAP_X, 0);
+                        } else if (col === 0) {
+                            //negative y gap here so it moves further down from the previous row
+                            item?.container.setPoint(FRAMEPOINT_TOP, firstColumnItemFrames?.container, FRAMEPOINT_BOTTOM, 0, -(this.config.gapY || DEFAULT_GAP_Y));
+                            firstColumnItemFrames = item;
+                        }
+
+                        previousItemFrame = item;
+                    } else {
+                        previousItemFrame = this.itemFrames[currentIndex];
+                        if (col === 0) {
+                            firstColumnItemFrames = this.itemFrames[currentIndex];
+                        }
+                    }
+
+                    //End
+                    currentIndex++;
+                }
+            }
+        }
 
         //Using data that matches the item frame index
         this.itemFrames?.forEach((itemDef, index) => {
@@ -248,6 +307,8 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
                     item?.container?.setVisible(false);
                 }
 
+                // print(`Called update for item ${index} with data ${data}`);
+
                 /**
                  * The function is still called even though data is undefined in case the user needs to do something with it like conditionally displaying some icon there only when data is undefined.
                  * */
@@ -255,11 +316,29 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
             }
         });
 
-        /**
-         * Might need to re-run the update function?
-         *
-         * Or ,we should actually just add the new frames  before iteration
-         */
+        //Resizing here screws with the positioning of the grid, making it change position
+        this.resizeGridContainer();
+    }
+
+    /**
+     * Warning, this may change the position if the grid's container frame never used setPoint to attach it to another frame.
+     */
+    public resizeGridContainer() {
+        if (!this.containerFrame) {
+            return;
+        }
+
+        if (!this.itemFrames || this.itemFrames.length === 0) {
+            return;
+        }
+
+        const firstItemFrames = this.itemFrames[0];
+
+        if (!firstItemFrames || !firstItemFrames?.container) {
+            return;
+        }
+
+        this.containerFrame.setSize((firstItemFrames.container.width + (this.config.gapX || DEFAULT_GAP_X)) * this.config.columns, (firstItemFrames.container.height + (this.config.gapY || DEFAULT_GAP_Y)) * this.config.rows);
     }
 }
 

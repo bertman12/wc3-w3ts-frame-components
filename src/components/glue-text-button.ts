@@ -43,24 +43,21 @@ export class GlueTextButton extends AbstractFrameBase implements IClickEvent {
         return new GlueTextButton({ initialText: "Default", clickSoundPath: "Sound\\Interface\\BigButtonClick.flac" }, "", context, owner, "ScriptDialogButton");
     }
 
-    public static CreateType(name: string, context: number, inherits: string, owner?: Frame,config?: Omit<GlueTextButtonConfiguration, "inherits">) {
+    public static CreateType(name: string, context: number, inherits: string, owner?: Frame, config?: Omit<GlueTextButtonConfiguration, "inherits">) {
         return new GlueTextButton(config, name, context, owner, inherits);
     }
 
-    public static CreateNamed(name: string, context: number, owner?: Frame, priority?: number, config?: Omit<GlueTextButtonConfiguration, "inherits">) {
+    public static CreateNamed(name: string, context: number, owner?: Frame, priority?: number, config?: Omit<GlueTextButtonConfiguration, "inherits" | "clickSoundPath">) {
         return new GlueTextButton(config || {}, name, context, owner, undefined, priority);
     }
 
     public static CreateThemed(name: string, context: number, owner?: Frame, overrides?: Partial<GlueTextButtonConfiguration>) {
-        print(`Glue text button themed USED inherits: ${GlueTextButton.Theme.inherits}`);
         const mergedConfiguration = { ...GlueTextButton.Theme, ...overrides };
 
         return new GlueTextButton(mergedConfiguration, name, context, owner, mergedConfiguration?.inherits || "");
     }
 
     public static SaveTheme(themeConfiguration: GlueTextButtonConfiguration) {
-        print(`Glue text button themed SAVED inherits: ${themeConfiguration.inherits}`);
-
         GlueTextButton.Theme = themeConfiguration;
     }
 
@@ -104,8 +101,6 @@ export class GlueTextButton extends AbstractFrameBase implements IClickEvent {
             const player = MapPlayer.fromEvent();
             const soundPath = this.config.clickSoundPath || "";
             //created by name already has a sound played when clicked
-            print("sound path: " + soundPath);
-            print("created by name? " + this.createdByName);
             if (player && soundPath && !this.createdByName) {
                 PlaySoundLocal(soundPath, player.isLocal());
             }
@@ -120,3 +115,10 @@ export class GlueTextButton extends AbstractFrameBase implements IClickEvent {
         });
     }
 }
+
+/**
+ * @pagination idea
+ * use blue button for current page and normal button for others
+ *
+ * show page numbers on bottom.
+ */

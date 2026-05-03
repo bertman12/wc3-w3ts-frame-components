@@ -36,6 +36,13 @@ export abstract class AbstractFrameBase {
     protected priority: number;
 
     /**
+     * A frame set by the component which is used for positioning.
+     */
+    protected positioningFrameReference?: Frame;
+
+
+    
+    /**
      * Serves as the primary frame for the component.
      */
     // protected primaryFrame?: Frame;
