@@ -69,7 +69,7 @@ You also still have the ability to override certain theme properties if you want
 Component.SaveTheme({...})
 
 /// Theme applied!
-Component.CreateTheme(...)
+Component.CreateThemed(...)
 ```
 
 Under the hood, the frame is created by type with the theme configuration.
