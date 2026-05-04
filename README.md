@@ -20,6 +20,10 @@ The library is still in early development and is subject to major breaking chang
 
 ## <a id="about-components">About Components</a> - [🔝](#contents)
 
+Components are classes which save time writing boiler plate code, provide additional utilies for the frames they represent and handle the various complexities of frames.
+
+Some component classes may represent the frames provided to us by Blizzard, while others go a step further, being composed of many more basic frames.
+
 Components are automatically moved to the center of the screen on instantiation.
 This just simplifies quick prototyping and avoids confusion of the frame not being shown if you never changed its position after creation.
 
