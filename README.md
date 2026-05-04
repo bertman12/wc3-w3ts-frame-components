@@ -20,41 +20,78 @@ The library is still in early development and is subject to major breaking chang
 
 ## <a id="about-components">About Components</a> - [🔝](#contents)
 
-When a component is created, by default, it will be placed in center of the screen so that it is visible.
-This is just for quickly seeing the component rendered.
+Components are automatically moved to the center of the screen on instantiation. 
+This just simplifies quick prototyping and avoids confusion of the frame not being shown if you never changed its position after creation.
 
-Most of the internal frames inside components are public so you may make modifications as you see fit.
+Most of the internal frames inside components are public so you may make modifications to any frames used as you see fit.
 
-All components have a name, owner, inherits and container frame.
 
-If the inherits property is any string, including the empty string, then the frame is created like so.
-When created this way, the name arugment can be any custom name you want.
+There a few options for creating components.
+
+#### Default
+
+This is the quickest and simplest way to create frame components, only requiring a context for an argument.
+
+This creates a frame with develop chosen default configuration.
+
+
 
 ```ts
-BlzCreateFrameByType(...)
+Component.Default(...)
 ```
 
-If the inherits property is undefined, then the frame is created by name with this native.
-This means the name argument must be a named blizzard frame.
+#### CreateType
+
+This creates a frame based on an inherited type.
+The key argument being _inherts_, which determines the what blizzard frame it will be based on.
 
 ```ts
-BlzCreateFrame(...)
+Component.CreateThemed(...)
 ```
 
-### Properties
+#### CreateNamed
 
-- ##### Container Frame
-    - The container frame is typically an EMPTY or BACKDROP frame type and serves as your primary reference frame which is the parent of any children frames within the conmponent.
+This creates a frame, using an existing blizzard frame's name.
+The key argument here is _name_, which should be the name of a blizzard frame.
+
+```ts
+Component.CreateNamed(...)
+```
+
+#### CreateThemed
+
+This is the most 2nd most convenient and customizable way to create frame components.
+
+This method allows you to create a component using saved styles and configurations.
+
+Simply save your component theme and afterwards, all components of this type will apply the saved theme.
+
+You also still have the ability to override certain theme properties if you want some difference from the theme in some cases.
+
+```ts
+Component.SaveTheme({...})
+
+/// Theme applied!
+Component.CreateTheme(...)
+```
+
+Under the hood, the frame is created by type with the theme configuration.
+
+### Shared Frame Properties
 
 - ##### Name
-    - A simple string whose name is typically composed of the name + player index (context) + the component name.
+    - A string which could be a blizzard frame name when the frame is created by name, or a custom name, when created by type.
     - The name must not be the name of a simple frame type name.
+
+- ##### Context
+    - Defaults to 0
+    - The context which the frame is rendered.
 
 - ##### Owner
     - Most frames here will have a default owner of `ORIGIN_FRAME_GAME_UI` if one is not provided.
 
 - ##### Inherits
-    - Defaults to empty string when not set.
+    - Used when a frame is created by type or theme.
 
 - ##### Priority
     - Defaults to 0. Only used when creating a frame by name.
@@ -265,6 +302,8 @@ Afterwards, you can create a component with the theme applied using CreateThemed
 ```ts
 GlueTextButton.CreateThemed(...);
 ```
+
+The theme configuration is saved on the component class as a static member, making it available to all instances of the class.
 
 ### Overrides
 
