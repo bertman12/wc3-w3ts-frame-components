@@ -20,7 +20,7 @@ The library is still in early development and is subject to major breaking chang
 
 ## <a id="about-components">About Components</a> - [🔝](#contents)
 
-Components are classes which save time writing boiler plate code, provide additional utilies for the frames they represent and handle the various complexities of frames.
+Components are classes which save time from writing boiler plate code, provide additional utilies for the frames they represent and handle the various complexities of frames.
 
 Some component classes may represent the frames provided to us by Blizzard, while others go a step further, being composed of many more basic frames.
 
@@ -35,7 +35,7 @@ There a few options for creating components.
 
 This is the quickest and simplest way to create frame components, only requiring a context for an argument.
 
-This creates a frame with develop chosen default configuration.
+This creates a frame with developer chosen default configuration.
 
 ```ts
 Component.Default(...)
@@ -44,7 +44,7 @@ Component.Default(...)
 #### CreateType
 
 This creates a frame based on an inherited type.
-The key argument being _inherts_, which determines the what blizzard frame it will be based on.
+The key argument being _inherts_, which determines the blizzard frame it will be based on.
 
 ```ts
 Component.CreateType(...)
@@ -123,7 +123,7 @@ The grid component provides a versatile layout tool for organizing a collection 
 
 Each grid item can contain any frame type or custom frame components.
 
-The grid provides a render function which is used for the initial rendering of the grid.
+The grid allows for a user defined render and update function, allowing for greater customization and for the grid to serve as a template for more complex grid based designs.
 
 ![iconGrid](gridExample.png)
 
@@ -152,6 +152,13 @@ const g = new Grid<string, GridItemBaseDefinition>(
             icon.frame?.setSize(0.03, 0.03);
 
             return { container: icon.frame };
+        },
+        updateItem(parent, index, data) {
+            if (!data) {
+                return;
+            }
+
+            icon.frame?.setTexture(data, 0, false);
         },
     },
     "iconGridName",
