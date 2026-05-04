@@ -20,11 +20,10 @@ The library is still in early development and is subject to major breaking chang
 
 ## <a id="about-components">About Components</a> - [🔝](#contents)
 
-Components are automatically moved to the center of the screen on instantiation. 
+Components are automatically moved to the center of the screen on instantiation.
 This just simplifies quick prototyping and avoids confusion of the frame not being shown if you never changed its position after creation.
 
 Most of the internal frames inside components are public so you may make modifications to any frames used as you see fit.
-
 
 There a few options for creating components.
 
@@ -33,8 +32,6 @@ There a few options for creating components.
 This is the quickest and simplest way to create frame components, only requiring a context for an argument.
 
 This creates a frame with develop chosen default configuration.
-
-
 
 ```ts
 Component.Default(...)
@@ -46,7 +43,7 @@ This creates a frame based on an inherited type.
 The key argument being _inherts_, which determines the what blizzard frame it will be based on.
 
 ```ts
-Component.CreateThemed(...)
+Component.CreateType(...)
 ```
 
 #### CreateNamed
