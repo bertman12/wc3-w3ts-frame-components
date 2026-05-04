@@ -57,7 +57,7 @@ Component.CreateNamed(...)
 
 #### CreateThemed
 
-This is the most 2nd most convenient and customizable way to create frame components.
+This is the most convenient and customizable way to create frame components and save time from repeating options.
 
 This method allows you to create a component using saved styles and configurations.
 
