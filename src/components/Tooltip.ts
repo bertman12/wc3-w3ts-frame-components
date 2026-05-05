@@ -106,10 +106,10 @@ export class Tooltip {
             if (header !== "" && text !== "") {
                 // -- Copy Size and Position with a small offset.
                 BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_TOPRIGHT, this.headerTextFrame.handle, FRAMEPOINT_TOPRIGHT, this.config?.tooltipHeaderSpaceX || 0.01, 0.01);
-                BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_BOTTOMLEFT, this.bodyTextFrame.handle, FRAMEPOINT_BOTTOMLEFT, -(this.config?.tooltipBodySpaceX || 0) || -0.01, -0.01);
+                BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_BOTTOMLEFT, this.bodyTextFrame.handle, FRAMEPOINT_BOTTOMLEFT, -(this.config?.tooltipBodySpaceX || 0.01), -0.01);
             } else if (text === "") {
                 // -- Copy Size and Position with a small offset.
-                BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_BOTTOMLEFT, this.headerTextFrame.handle, FRAMEPOINT_BOTTOMLEFT, -(this.config?.tooltipHeaderSpaceX || 0) || -0.01, -0.01);
+                BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_BOTTOMLEFT, this.headerTextFrame.handle, FRAMEPOINT_BOTTOMLEFT, -(this.config?.tooltipHeaderSpaceX || 0.01), -0.01);
                 BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_TOPRIGHT, this.headerTextFrame.handle, FRAMEPOINT_TOPRIGHT, this.config?.tooltipHeaderSpaceX || 0.01, 0.01);
             }
 
@@ -180,7 +180,7 @@ export class Tooltip {
                             icon.frame?.clearPoints();
 
                             if (emptyFrame) {
-                                icon.frame?.setPoint(FRAMEPOINT_LEFT, emptyFrame.frame, FRAMEPOINT_LEFT, this.config?.tooltipIconValueLeftPadding || 0.005, 0);
+                                icon.frame?.setPoint(FRAMEPOINT_LEFT, emptyFrame.frame, FRAMEPOINT_LEFT, 0, 0);
                             }
 
                             const valueText = new Text({}, this.name + "resoureceTextValue" + index, this.context, emptyFrame.frame, "");
@@ -195,7 +195,7 @@ export class Tooltip {
                             valueText.formatSize();
 
                             // emptyFrame.frame?.setSize(this.config?.tooltipIconContainerWidth || (icon.frame?.width || 0.05) + (valueText.frame?.width || 0.05), icon.frame?.height || 0.05);
-                            
+
                             //the width should be the icon width + text width + some buffer
                             emptyFrame.frame?.setSize((icon.frame?.width || 0.05) + (valueText.frame?.width || 0.05) + (this.config?.tooltipIconContainerGapX || 0), icon.frame?.height || 0.05);
 

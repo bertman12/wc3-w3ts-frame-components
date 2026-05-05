@@ -15,11 +15,19 @@ export class EmptyFrame extends AbstractFrameBase {
         return new EmptyFrame("", context, owner);
     }
 
+    
+
+    /**
+     * Add create by named since it works!
+     */
     protected render() {
         this.frame = Frame.createType(this.name, this.owner, this.context, "FRAME", this.inherits || "");
+// add named
+
+
+
         this.frame?.setEnabled(false);
 
         return this.frame;
     }
-
 }

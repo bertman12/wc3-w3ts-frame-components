@@ -22,6 +22,7 @@ export interface ButtonConfiguration {
      * Optionally creates a local sound for the player who clicked it.
      */
     clickSoundPath?: string;
+    inherits?: string;
 }
 
 /**
@@ -35,8 +36,10 @@ export interface ButtonConfiguration {
  */
 export class Button extends AbstractFrameBase implements IClickEvent {
     public config: ButtonConfiguration;
+    private static Theme?: ButtonConfiguration;
+
     /**
-     * The theme elements are configurable 
+     * The theme elements are configurable
      */
     protected static ComponentTheme = {};
 
@@ -74,14 +77,30 @@ export class Button extends AbstractFrameBase implements IClickEvent {
         );
     }
 
+    public static SaveTheme(themeConfiguration: ButtonConfiguration): void {
+        Button.Theme = themeConfiguration;
+    }
+
+    public static CreateThemed(name: string, context: number, owner?: Frame, overrrides?: ButtonConfiguration) {
+        return new Button({ texture: "", ...Button.Theme, ...overrrides }, name, context, owner);
+    }
+
+    public static CreateNamed(name: string, context: number, owner?: Frame, priority?: number, config?: Omit<ButtonConfiguration, "inherits">) {
+        return new Button(config || { texture: "" }, name, context, owner, undefined, priority);
+    }
+
+    public static CreateType(name: string, context: number, inherits: string, owner?: Frame, config?: ButtonConfiguration) {
+        return new Button(config || { texture: "" }, name, context, owner, inherits);
+    }
+
     protected render() {
-        if (this.inherits !== undefined) {
+        if (this.inherits !== undefined && this.inherits !== null) {
             // should we attempt to use it only when inherits is an empty string?
-            this.buttonFrame = Frame.createType(this.name, this.owner, this.context, "BUTTON", this.inherits || W3TSFrameComponentsThemeUtils.Theme.buttonBackdropInherits || "");
+            this.buttonFrame = Frame.createType(this.name, this.owner, this.context, "BUTTON", this.inherits);
         } else {
             this.buttonFrame = Frame.create(this.name, this.owner, this.priority, this.context);
         }
-        
+
         if (!this.buttonFrame) {
             return;
         }
@@ -115,11 +134,6 @@ export class Button extends AbstractFrameBase implements IClickEvent {
         this.iconBackdropFrame?.setTexture(texture, 0, false);
     }
 
-
-    public static CreateThemed(name: string, context: number, owner?: Frame, overrrides?: ButtonConfiguration): void {
-        //
-    }
-
     /**
      * Automatically handles shrinking and expanding the button icon when clicked and playing a click sound if one is set in the config.
      *
@@ -142,17 +156,12 @@ export class Button extends AbstractFrameBase implements IClickEvent {
 
         t.addAction(() => {
             if (this.buttonFrame) {
-                const soundToPlay = this.config.clickSoundPath || W3TSFrameComponentsThemeUtils.Theme.buttonClickSound;
+                const soundToPlay = this.config.clickSoundPath;
 
-                // if (this.config.clickSoundPath) {
-                // const player = MapPlayer.fromEvent();
-                // PlaySoundLocal(this.config.clickSoundPath || "", player?.isLocal());
-                // } else if (W3TSFrameComponentsTheme.Theme.buttonClickSound) {
                 if (soundToPlay) {
                     const player = MapPlayer.fromEvent();
                     PlaySoundLocal(soundToPlay, player?.isLocal());
                 }
-                // }
 
                 this.iconBackdropFrame?.clearPoints();
                 this.iconBackdropFrame?.setPoint(FRAMEPOINT_BOTTOMLEFT, this.buttonFrame, FRAMEPOINT_BOTTOMLEFT, 0.001, 0.001);
