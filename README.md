@@ -125,6 +125,8 @@ Each grid item can contain any frame type or custom frame components.
 
 The grid allows for a user defined render and update function, allowing for greater customization and for the grid to serve as a template for more complex grid based designs.
 
+The grid does not support sparse data arrays.
+
 ![iconGrid](gridExample.png)
 
 <details>

@@ -58,7 +58,7 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
     /**
      * Reference to frames created in each item.
      */
-    private itemFrames?: (Z | undefined)[] = [];
+    private itemFrames: (Z | undefined)[] = [];
 
     constructor(config: GridConfig<T, Z>, name: string, context: number, owner?: Frame) {
         this.config = config;
@@ -103,12 +103,124 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
         //Arbitrary initial size.
         this.containerFrame.setSize(0.01, 0.01);
 
+        this.renderItems(0, 0);
+
+        // let dataIndex = 0;
+        // let previousFrame: Frame | undefined = undefined;
+        // let firstColumnFrame: Frame | undefined = undefined;
+
+        // for (let row = 0; row < this.config.rows; row++) {
+        //     for (let col = 0; col < this.config.columns; col++) {
+        //         let itemData = undefined;
+
+        //         //The data exists on the config and we can access that data at the index
+        //         if (this.config?.data && this.config.data.length >= dataIndex + 1) {
+        //             itemData = this.config.data[dataIndex];
+        //         }
+
+        //         let newItemFrames = this.config.renderItem(this.containerFrame, row, col, dataIndex, itemData);
+
+        //         if (!itemData) {
+        //             newItemFrames?.container?.setVisible(false);
+        //         }
+
+        //         if (newItemFrames === undefined) {
+        //             print("Stopped rendering items for grid due to failed item frame render.");
+        //             break; // break instead of return so the grid still get's resized
+        //         }
+
+        //         this.itemFrames?.push(newItemFrames);
+
+        //         dataIndex++;
+
+        //         if (!newItemFrames || !newItemFrames.container) {
+        //             print(`Unable to render frame for grid (${this.name}),  item at ` + `row ${row}, col ${col}.`);
+        //             continue;
+        //         }
+
+        //         newItemFrames.container.clearPoints();
+
+        //         //First item created get's attached to grid container. The rest are attached to eachother.
+        //         if (!previousFrame && row === 0 && col === 0) {
+        //             newItemFrames?.container.clearPoints();
+        //             newItemFrames?.container.setPoint(FRAMEPOINT_TOPLEFT, this.containerFrame, FRAMEPOINT_TOPLEFT, 0, 0);
+        //             firstColumnFrame = newItemFrames.container;
+        //         } else if (previousFrame && col !== 0) {
+        //             newItemFrames.container.setPoint(FRAMEPOINT_LEFT, previousFrame, FRAMEPOINT_RIGHT, this.config.gapX, 0);
+        //         } else if (col === 0) {
+        //             if (firstColumnFrame === undefined) {
+        //                 print("Error, unable to attach next row's first column to previous row's first column. First column frame not found for grid.");
+        //                 return;
+        //             }
+
+        //             //negative y gap here so it moves further down from the previous row
+        //             newItemFrames.container.setPoint(FRAMEPOINT_TOP, firstColumnFrame, FRAMEPOINT_BOTTOM, 0, -this.config.gapY);
+        //             firstColumnFrame = newItemFrames.container;
+        //         }
+
+        //         previousFrame = newItemFrames.container;
+        //     }
+        // }
+
+        //Proper sizeing
+        this.resizeGridContainer();
+
+        print("Total item frames created: " + this.itemFrames?.length);
+    }
+
+    /**
+     * Should just render based on the data available?
+     * @returns
+     */
+    private renderItems(startingRow: number, startingColumn: number) {
+        if (!this.containerFrame) {
+            print("Cannot render items, no container frame.");
+            return;
+        }
+
         let dataIndex = 0;
+
+        // determine the starting items and first column frame
+
+        //the item index would be the
+        const startingItemIndex = this.config.columns * startingRow + startingColumn;
+        const previousItemIndex = startingItemIndex - 1;
+
+        if (this.itemFrames.length !== 0 && previousItemIndex > this.itemFrames.length - 1) {
+            //minus one from the row
+            print("Index out of bounds for this.items.");
+            return;
+        }
+
+        // const previousItemFrameIndex = startingColumn * startingRow + startingColumn;
+
         let previousFrame: Frame | undefined = undefined;
         let firstColumnFrame: Frame | undefined = undefined;
 
-        for (let row = 0; row < this.config.rows; row++) {
-            for (let col = 0; col < this.config.columns; col++) {
+        let firstColumnFIndex = 0;
+
+        // Determine first column frame now.
+        if (startingColumn !== 0) {
+            firstColumnFIndex = startingItemIndex - startingColumn;
+        } else {
+            firstColumnFIndex = startingItemIndex - this.config.columns;
+        }
+
+        // Leave undefined if this will be our first frame
+        if (this.itemFrames.length !== 0) {
+            previousFrame = this.itemFrames[previousItemIndex]?.container;
+            firstColumnFrame = this.itemFrames[firstColumnFIndex]?.container;
+        }
+
+        if (this.itemFrames.length !== 0 && startingRow === 0 && startingColumn === 0) {
+            print("Grid already has item frames but startingRow and startingColumn were not both 0. This should not happen.");
+            return;
+        }
+
+        for (let row = startingRow; row < this.config.rows; row++) {
+            for (let col = startingColumn; col < this.config.columns; col++) {
+                //skip all this crap.
+
                 let itemData = undefined;
 
                 //The data exists on the config and we can access that data at the index
@@ -144,7 +256,7 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
                     newItemFrames?.container.setPoint(FRAMEPOINT_TOPLEFT, this.containerFrame, FRAMEPOINT_TOPLEFT, 0, 0);
                     firstColumnFrame = newItemFrames.container;
                 } else if (previousFrame && col !== 0) {
-                    newItemFrames.container.setPoint(FRAMEPOINT_LEFT, previousFrame, FRAMEPOINT_RIGHT, this.config.gapX, 0);
+                    newItemFrames.container.setPoint(FRAMEPOINT_LEFT, previousFrame, FRAMEPOINT_RIGHT, this.config.gapX || DEFAULT_GAP_X, 0);
                 } else if (col === 0) {
                     if (firstColumnFrame === undefined) {
                         print("Error, unable to attach next row's first column to previous row's first column. First column frame not found for grid.");
@@ -152,34 +264,15 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
                     }
 
                     //negative y gap here so it moves further down from the previous row
-                    newItemFrames.container.setPoint(FRAMEPOINT_TOP, firstColumnFrame, FRAMEPOINT_BOTTOM, 0, -this.config.gapY);
+                    newItemFrames.container.setPoint(FRAMEPOINT_TOP, firstColumnFrame, FRAMEPOINT_BOTTOM, 0, -(this.config.gapY || DEFAULT_GAP_Y));
                     firstColumnFrame = newItemFrames.container;
                 }
 
                 previousFrame = newItemFrames.container;
             }
         }
-
-        //Proper sizeing
-        this.resizeGridContainer();
-
-        print("Total item frames created: " + this.itemFrames?.length);
     }
 
-    /**
-     * Calls the updateItems function defined in the GridConfig..
-     *
-     * Render item is called when you there is more data than when then grid was initially created.
-     * Then update item will be called upon all items, including the newly created ones.
-     *
-     * This behavior can be disabled optionally in the configuration.
-     *
-     * @todo if we are updating the grid with more elements than we had when we initially created the grid, then we should call render item function and add the new item to our managed item frames.
-     *
-     * updates rows value in config if additional rows are needed to render additional items.
-     *
-     * @todo grid should retain initial size preset by the rows and columns. new data should not add on to the rows of the grid.
-     */
     public updateGrid(data: T[]) {
         //update the grid data.
         this.config.data = data;
@@ -196,7 +289,7 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
         }
 
         if ((this.itemFrames === undefined || this.itemFrames.length === 0) && data.length > 0) {
-            // print(`Called update grid for ` + this.name + " but no item frames found for grid!");
+            print(`Called update grid for ` + this.name + " but no item frames found for grid!");
 
             // Essentially just doing the first render since there was never any data to begin with.
             print("called render from updateGrid since no items existed!");
@@ -211,78 +304,26 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
         }
 
         /**
-         * When creating the items initially, we should stop rendering items if one of them returns undefined or the container frame is undefined.
+         * Add new item frames if necessary.
          *
-         * When updating, i think it matters less since we are guaranteed to have the container frame.
-         *
-         * If you continued rendering items after coming across an udnefined return object, then the item you see on the grid does not match up with the data index it's associated with.
-         * It would be off by the number of times undefined was returned before that item had been rendered.
-         *
-         * Aside from that, we would also need to update our logic to skip setting the the previous frame, since there actually is none now.
-         * Or, you extend attempt to create an empty frame in place of the undefeined response we got,
-         * however, that is not guaranteed to match the shape of the item frames the player has and also the empty frame may not be the same typ eof frame that would normally be rendered as the item the user has chosen
-         *
-         * Therefore, we should prevent further rendering if we initially come across undefined before reaching the end of the data array.
-         *
-         * We should follow the same rule for updating items when we need to add new items if we haven't reached the max number of items determined by the row and column values.
+         * This could actually be the first frame we are rendering for the grid.
          */
-
-        /**
-         * We need to create some additional frames.
-         *
-         * If an item frame returned undefined, it could mean that something went wrong during intial calls for renderItem, or the user intentionally returned undefined.
-         * In either case, we would want to attempt to re-render those frames again.
-         *
-         * @bug positioninig frames incorrectly
-         */
-        // could be the same length actually
-        if (data.length > this.itemFrames.length || this.itemFrames.includes(undefined) || this.itemFrames.find((f) => f?.container === undefined) !== undefined) {
+        if (data.length > this.itemFrames.length) {
             print("Replacing undefined items and add new frames.");
 
-            /**
-             * Conditions to check for
-             *
-             * itemFrames: [value, value, value, undefined, undefined, value, value, undefined]
-             *
-             * action:     [skip, skip, skip, replace, replace, skip, skip, replace, add ...]
-             *
-             */
-            //the starting index should actually be where we encounter the first undefined value in item frames.
-            const firstUnrenderedItemIndex = this.itemFrames.findIndex((value) => value === undefined || value.container === undefined);
-
-            // it is not finding any undefined items which is weird. nevermind, it is fidning them
             print("/**** ITEMS *****/");
             this.itemFrames.forEach((item, index) => {
                 print(`index: ${index}; item value:${item}; container value: ${item?.container}`);
             });
             print("/**** ***** *****/");
 
-            //since its also possible that these undefined values could be between defined values, we'll want to make sure that we check that if the item frames at this index are not undefined, then we continue;
-
-            //The length would be the starting index, since that index doesn't exist yet.
-            // (ex: length is 3, pre-update final item index was 2. therefore we add an item to index 3,4,5 ... etc)
-            // let startingIndex = this.itemFrames.length;
-            let startingIndex = firstUnrenderedItemIndex === -1 ? this.itemFrames.length : firstUnrenderedItemIndex;
+            let startingIndex = this.itemFrames.length;
 
             print("Starting index: " + startingIndex);
             let currentIndex = 0;
-
             let firstColumnItemFrames = this.itemFrames[0];
             let previousItemFrame = this.itemFrames[0];
 
-            const newRowsLimit = Math.ceil(data.length / this.config.columns);
-
-            if (newRowsLimit !== this.config.rows) {
-                print(`New rows added! New: ${newRowsLimit}, Old: ${this.config.rows}`);
-            }
-
-            this.config.rows = newRowsLimit;
-            // this.resizeGridContainer();
-
-            /**
-             * You should be able to determine what row and column an index would go onto right?
-             */
-            // what would the row be?
             {
                 const dIndex = 0;
                 // rows start at 0
@@ -415,6 +456,9 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
 
     /**
      * Warning, this may change the position if the grid's container frame never used setPoint to attach it to another frame.
+     *
+     * @todo, the grid should resize to the number of visible rows? so it would be based on the rows which can be rendered with teh current data in this.config.data
+     * and perhaps we could make it optional to auto size after updates.
      */
     public resizeGridContainer() {
         if (!this.containerFrame) {
