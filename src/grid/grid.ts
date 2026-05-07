@@ -4,18 +4,6 @@ import { FrameUtils } from "../frame-utils";
 /**
  * Defines what frames exist in each item on the grid.
  * Then your update function will pass you back an object of this shape, allowing you use the correct frame functions on the appropraite frames.
- *
- * @todo need to make it so we can have no data initially and then have the update function have more data items.
- *
- * If it's the case that there are more data items after an update, then new frames should be created.
- *
- *
- * @rename StaticGrid - since it does not dynamically resize if you change grid or columns value.
- *
- * We need a re-ordering of itemsif the rows or columns need to be changed.
- * of course, you could always not include data items, which results in less rows, but not columns.
- *
- *
  */
 export interface GridItemBaseDefinition {
     /**
@@ -34,14 +22,6 @@ const DEFAULT_GAP_X = 0.005;
 const DEFAULT_GAP_Y = 0.005;
 
 /**
- *
- *
- * @tests Test that you can give a grid no data initially, then update it and have it be created like normal.
- *
- * @aboutGridData When there is not data for an item or it is undefined, that item's frame is hidden.
- *
- *
- *
  * @type T - The data shape associated with each item. This same data shape will be passed to update functions
  * @type Z - An object which contains all the child frames in the item.
  */
@@ -105,63 +85,6 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
 
         this.renderItems(0, 0);
 
-        // let dataIndex = 0;
-        // let previousFrame: Frame | undefined = undefined;
-        // let firstColumnFrame: Frame | undefined = undefined;
-
-        // for (let row = 0; row < this.config.rows; row++) {
-        //     for (let col = 0; col < this.config.columns; col++) {
-        //         let itemData = undefined;
-
-        //         //The data exists on the config and we can access that data at the index
-        //         if (this.config?.data && this.config.data.length >= dataIndex + 1) {
-        //             itemData = this.config.data[dataIndex];
-        //         }
-
-        //         let newItemFrames = this.config.renderItem(this.containerFrame, row, col, dataIndex, itemData);
-
-        //         if (!itemData) {
-        //             newItemFrames?.container?.setVisible(false);
-        //         }
-
-        //         if (newItemFrames === undefined) {
-        //             print("Stopped rendering items for grid due to failed item frame render.");
-        //             break; // break instead of return so the grid still get's resized
-        //         }
-
-        //         this.itemFrames?.push(newItemFrames);
-
-        //         dataIndex++;
-
-        //         if (!newItemFrames || !newItemFrames.container) {
-        //             print(`Unable to render frame for grid (${this.name}),  item at ` + `row ${row}, col ${col}.`);
-        //             continue;
-        //         }
-
-        //         newItemFrames.container.clearPoints();
-
-        //         //First item created get's attached to grid container. The rest are attached to eachother.
-        //         if (!previousFrame && row === 0 && col === 0) {
-        //             newItemFrames?.container.clearPoints();
-        //             newItemFrames?.container.setPoint(FRAMEPOINT_TOPLEFT, this.containerFrame, FRAMEPOINT_TOPLEFT, 0, 0);
-        //             firstColumnFrame = newItemFrames.container;
-        //         } else if (previousFrame && col !== 0) {
-        //             newItemFrames.container.setPoint(FRAMEPOINT_LEFT, previousFrame, FRAMEPOINT_RIGHT, this.config.gapX, 0);
-        //         } else if (col === 0) {
-        //             if (firstColumnFrame === undefined) {
-        //                 print("Error, unable to attach next row's first column to previous row's first column. First column frame not found for grid.");
-        //                 return;
-        //             }
-
-        //             //negative y gap here so it moves further down from the previous row
-        //             newItemFrames.container.setPoint(FRAMEPOINT_TOP, firstColumnFrame, FRAMEPOINT_BOTTOM, 0, -this.config.gapY);
-        //             firstColumnFrame = newItemFrames.container;
-        //         }
-
-        //         previousFrame = newItemFrames.container;
-        //     }
-        // }
-
         //Proper sizeing
         this.resizeGridContainer();
 
@@ -181,20 +104,9 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
         let dataIndex = 0;
 
         print(`Starting row: ${startingRow}; Starting Col: ${startingColumn}`);
-        // determine the starting items and first column frame
 
-        //the item index would be the
         const startingItemIndex = this.config.columns * startingRow + startingColumn;
         const previousItemIndex = startingItemIndex - 1;
-
-        // if (this.itemFrames.length !== 0 && previousItemIndex > this.itemFrames.length - 1) {
-        //     //minus one from the row
-        //     print("Index out of bounds for this.items.");
-        //     return;
-        // }
-
-        // const previousItemFrameIndex = startingColumn * startingRow + startingColumn;
-
         let previousFrame: Frame | undefined = undefined;
         let firstColumnFrame: Frame | undefined = undefined;
         let firstColumnFIndex = 0;
@@ -217,9 +129,9 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
             return;
         }
 
+        // Could optionally update rows if there is more data than the current rows accomodates. This allows rendering more items dynamically but also makes the grid container have a greater height, so the new size would need to be handled.
         for (let row = startingRow; row < this.config.rows; row++) {
             for (let col = startingColumn; col < this.config.columns; col++) {
-                //skip all this crap.
                 let itemData = undefined;
 
                 //The data exists on the config and we can access that data at the index
