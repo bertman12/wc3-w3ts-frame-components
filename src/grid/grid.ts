@@ -70,19 +70,9 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
     }
 
     /**
-     * Grid container size is automatically handled so long as each elemnent is a consistent size.
+     * Grid container size is automatically handled so long as each item container is a consistent size.
      * @param config
      * @returns
-     *
-     *
-     *
-     * There is an issue if a user returns undefined for one of their items.
-     * Maybe we should just stop grid rendering at that point?
-     * SAme with data, we should stop grid rendering.
-     *
-     *
-     * I forget why we render the first item outside of the loop, I guess I ought to add documentation for that.
-     *
      */
     private render() {
         //shouldnt do if this is called from update grid
@@ -105,65 +95,20 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
         this.containerFrame.clearPoints();
         this.containerFrame.setPoint(FRAMEPOINT_TOPLEFT, this.owner, FRAMEPOINT_TOPLEFT, this.config.gapX, -this.config.gapY);
 
-        // let firstItemData = undefined;
-
-        //The data exists on the config and we can access that data at the index
-        // if (this.config?.data && this.config.data.length >= 1) {
-        //     firstItemData = this.config.data[0];
-        // }
-
-        // const firstItemFrames = this.config.renderItem(this.containerFrame, 0, 0, 0, firstItemData);
-
-        // if (!firstItemData) {
-        //     firstItemFrames?.container?.setVisible(false);
-        // }
-
-        // Is there an alternative to this?
-        // if (!firstItemFrames || !firstItemFrames?.container) {
-        //     print("First frame failed to render for grid: " + this.name);
-        //     return;
-        // }
-
         if (this.config?.data?.length === 0) {
             print("No data during grid render, unable to create grid items. Container created only.");
             return;
         }
 
-        // // really, this is just an empty grid with no items. not necessarily wrong to have
-        // if (!firstItemFrames?.container) {
-        //     print("Failed to create grid since first frame did not get created! " + this.name);
-        //     return;
-        // }
-
-        // this.itemFrames?.push(firstItemFrames);
-
-        // let firstColumnFrame: Frame | undefined = firstItemFrames?.container;
-
-        /**
-         * If we never have the first frame, then we don't know what the size of the grid will be, even if we have rows and columns.
-         *
-         * Therefore, if we are updating the grid with some data and it's our first render, then we need to set container size.
-         */
-
-        //Arbitrary initial size ?
+        //Arbitrary initial size.
         this.containerFrame.setSize(0.01, 0.01);
-        // this.containerFrame.setSize((firstItemFrames?.container.width + this.config.gapX) * this.config.columns, (firstItemFrames?.container.height + this.config.gapY) * this.config.rows);
-
-        // let previousFrame: Frame | undefined = firstItemFrames?.container;
-
-        // this is what happens for the first frame only
-        // firstItemFrames?.container.clearPoints();
-        // firstItemFrames?.container.setPoint(FRAMEPOINT_TOPLEFT, this.containerFrame, FRAMEPOINT_TOPLEFT, 0, 0);
 
         let dataIndex = 0;
         let previousFrame: Frame | undefined = undefined;
         let firstColumnFrame: Frame | undefined = undefined;
 
-        //Whenever the col is 0, we need to attach to the bottom of the previous first column frame, otherwise pin to the rigth of the previous frame
         for (let row = 0; row < this.config.rows; row++) {
-            //skip to the 2nd column if were on the first row since we already have created the first frame in the grid
             for (let col = 0; col < this.config.columns; col++) {
-                // for (let col = row === 0 ? 1 : 0; col < this.config.columns; col++) {
                 let itemData = undefined;
 
                 //The data exists on the config and we can access that data at the index
@@ -179,7 +124,7 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
 
                 if (newItemFrames === undefined) {
                     print("Stopped rendering items for grid due to failed item frame render.");
-                    break; // break instead of return so the grid stil get's resized
+                    break; // break instead of return so the grid still get's resized
                 }
 
                 this.itemFrames?.push(newItemFrames);
