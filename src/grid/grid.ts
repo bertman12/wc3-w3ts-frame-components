@@ -180,23 +180,23 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
 
         let dataIndex = 0;
 
+        print(`Starting row: ${startingRow}; Starting Col: ${startingColumn}`);
         // determine the starting items and first column frame
 
         //the item index would be the
         const startingItemIndex = this.config.columns * startingRow + startingColumn;
         const previousItemIndex = startingItemIndex - 1;
 
-        if (this.itemFrames.length !== 0 && previousItemIndex > this.itemFrames.length - 1) {
-            //minus one from the row
-            print("Index out of bounds for this.items.");
-            return;
-        }
+        // if (this.itemFrames.length !== 0 && previousItemIndex > this.itemFrames.length - 1) {
+        //     //minus one from the row
+        //     print("Index out of bounds for this.items.");
+        //     return;
+        // }
 
         // const previousItemFrameIndex = startingColumn * startingRow + startingColumn;
 
         let previousFrame: Frame | undefined = undefined;
         let firstColumnFrame: Frame | undefined = undefined;
-
         let firstColumnFIndex = 0;
 
         // Determine first column frame now.
@@ -220,12 +220,16 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
         for (let row = startingRow; row < this.config.rows; row++) {
             for (let col = startingColumn; col < this.config.columns; col++) {
                 //skip all this crap.
-
                 let itemData = undefined;
 
                 //The data exists on the config and we can access that data at the index
                 if (this.config?.data && this.config.data.length >= dataIndex + 1) {
                     itemData = this.config.data[dataIndex];
+                }
+
+                if (!itemData) {
+                    print("Stopped rendering items: No data for item to be rendered.");
+                    return;
                 }
 
                 let newItemFrames = this.config.renderItem(this.containerFrame, row, col, dataIndex, itemData);
@@ -309,144 +313,37 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
          * This could actually be the first frame we are rendering for the grid.
          */
         if (data.length > this.itemFrames.length) {
-            print("Replacing undefined items and add new frames.");
-
-            print("/**** ITEMS *****/");
-            this.itemFrames.forEach((item, index) => {
-                print(`index: ${index}; item value:${item}; container value: ${item?.container}`);
-            });
-            print("/**** ***** *****/");
-
             let startingIndex = this.itemFrames.length;
 
-            print("Starting index: " + startingIndex);
-            let currentIndex = 0;
-            let firstColumnItemFrames = this.itemFrames[0];
-            let previousItemFrame = this.itemFrames[0];
+            // Pick up from the last item
+            const row = Math.floor(startingIndex / this.config.columns);
+            const col = startingIndex % this.config.columns;
 
-            {
-                const dIndex = 0;
-                // rows start at 0
-                const row = Math.floor(data.length / this.config.rows);
-
-                //if cols is 4
-                //0, 1, 2, 3
-                //0, 1, 2, 3
-                const col = dIndex % this.config.columns;
-
-                //4, 5, 6, 7
-                //0, 1, 2, 3
-
-                //etc.
-            }
-
-            /***
-             * Well, we are picking up from where there does not exist frames yet.
-             */
-            for (let row = 0; row < this.config.rows; row++) {
-                for (let col = 0; col < this.config.columns; col++) {
-                    // previousItemFrame?.container?.setVisible(true);
-
-                    //current index before starting index guarantees those are existing item frames and dont need to be replaced and shouldnt trigger adding more frames at their index.
-                    if (currentIndex >= startingIndex) {
-                        // do we really need to know the starting index was before the item farmes lenght? if there exists an item frame at the current index, then we only care if it needs to be replaced.
-                        // if (startingIndex < this.itemFrames.length && (this.itemFrames[currentIndex] !== undefined || this.itemFrames[currentIndex]?.container !== undefined)) {
-                        if (currentIndex < this.itemFrames.length && (this.itemFrames[currentIndex] !== undefined || this.itemFrames[currentIndex]?.container !== undefined)) {
-                            // We started at an earlier index which had undefined for the item frames at that position and now we have come across a defined item frames object.
-                            // if the required container frame is also not undefined, then we may continue
-                            // therefore, that means we do not need to call renderItem again.
-                            // print("item frames confirmed to be spare array, separated by undefined values within it.");
-                            previousItemFrame = this.itemFrames[currentIndex];
-
-                            if (col === 0) {
-                                firstColumnItemFrames = this.itemFrames[currentIndex];
-                            }
-                            print("skipping already defined item at index: " + currentIndex);
-                            continue;
-                        }
-
-                        const item = this.config.renderItem(this.containerFrame, row, col, currentIndex, data[currentIndex]);
-                        //allow chaning of points.
-                        item?.container?.clearPoints();
-
-                        //Save new frame
-                        // replace the undefined value from before
-                        // prevent out of bounds access
-                        if (currentIndex < this.itemFrames.length && (this.itemFrames[currentIndex] === undefined || this.itemFrames[currentIndex]?.container === undefined)) {
-                            this.itemFrames[currentIndex] = item;
-                            print("replaced undefined item frame at index: " + currentIndex);
-                        } else {
-                            // Add to the end if no frames needs to be replaced.
-                            this.itemFrames.push(item);
-                            print(`Added new item ${currentIndex}`);
-                        }
-
-                        // Shouldnt happen
-                        if (!previousItemFrame?.container || !firstColumnItemFrames?.container || !item?.container) {
-                            print("======");
-                            print("missing container while adding item frames at index: " + currentIndex);
-                            print("previousFrame.container: " + previousItemFrame?.container);
-                            print("firstColumnFrame.container: " + firstColumnItemFrames?.container);
-                            print("item.container: " + item?.container);
-                            print("======");
-                            continue;
-                        }
-
-                        //Position new frame
-                        if (previousItemFrame && col !== 0) {
-                            item?.container.setPoint(FRAMEPOINT_LEFT, previousItemFrame.container, FRAMEPOINT_RIGHT, this.config.gapX || DEFAULT_GAP_X, 0);
-                            // print(`previous container width: ${previousItemFrame.container.width}`);
-                            // print(`positioned ${previousItemFrame.container}`);
-                        } else if (col === 0) {
-                            //negative y gap here so it moves further down from the previous row
-                            item?.container.setPoint(FRAMEPOINT_TOP, firstColumnItemFrames?.container, FRAMEPOINT_BOTTOM, 0, -(this.config.gapY || DEFAULT_GAP_Y));
-                            firstColumnItemFrames = item;
-                        }
-
-                        previousItemFrame = item;
-                    } else {
-                        previousItemFrame = this.itemFrames[currentIndex];
-                        if (col === 0) {
-                            firstColumnItemFrames = this.itemFrames[currentIndex];
-                        }
-                    }
-
-                    //End
-                    currentIndex++;
-                }
-            }
+            this.renderItems(row, col);
         }
 
         //Using data that matches the item frame index
         this.itemFrames?.forEach((itemDef, index) => {
+            if (!itemDef || !itemDef.container) {
+                return;
+            }
+
             let data = undefined;
-            let item = undefined;
 
             //The data exists on the config and we can access that data at the index
             if (this.config?.data && this.config.data.length >= index + 1) {
                 data = this.config.data[index];
             }
 
-            if (this.itemFrames && this.itemFrames.length >= index + 1) {
-                item = this.itemFrames[index];
+            if (!data) {
+                itemDef.container.setVisible(false);
+                return;
+            } else {
+                itemDef.container.setVisible(true);
             }
 
             if (this.config.updateItem) {
-                /**
-                 * Set visibility back to true for the item that now has data if we update with more data than we had when the grid was first created.
-                 */
-                if (data !== undefined) {
-                    item?.container?.setVisible(true);
-                } else {
-                    item?.container?.setVisible(false);
-                }
-
-                // print(`Called update for item ${index} with data ${data}`);
-
-                /**
-                 * The function is still called even though data is undefined in case the user needs to do something with it like conditionally displaying some icon there only when data is undefined.
-                 * */
-                this.config.updateItem(data, item, index);
+                this.config.updateItem(data, itemDef, index);
             }
         });
 
@@ -506,7 +403,7 @@ export interface GridConfig<T, Z extends GridItemBaseDefinition> {
      * @param column
      * @param index
      */
-    renderItem: (parent: Frame, row: number, column: number, index: number, data?: T) => Z | undefined;
+    renderItem: (parent: Frame, row: number, column: number, index: number, data: T) => Z | undefined;
     /**
      * A function that will determine how to update the existing frames.
      * @param data
@@ -514,10 +411,12 @@ export interface GridConfig<T, Z extends GridItemBaseDefinition> {
      * @param index
      * @returns
      */
-    updateItem?: (data?: T, itemFrames?: Z, index?: number) => void;
+    updateItem?: (data: T, itemFrames: Z, index: number) => void;
     itemCount?: number;
     /**
      * Frames rendered without data are hidden by default.
+     *
+     * No point allowing undefined here...
      */
-    data?: T[];
+    data: T[];
 }
