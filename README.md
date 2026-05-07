@@ -146,20 +146,12 @@ const g = new Grid<string, GridItemBaseDefinition>(
         rows: 1,
         data: testData,
         renderItem(parent, row, column, index, data) {
-            if (!data) {
-                return;
-            }
-
-            const icon = new Icon(data, "", 0, parent);
+            const icon = new Icon(data, "unimportant-custom-name", 0, parent);
             icon.frame?.setSize(0.03, 0.03);
 
             return { container: icon.frame };
         },
         updateItem(parent, index, data) {
-            if (!data) {
-                return;
-            }
-
             icon.frame?.setTexture(data, 0, false);
         },
     },
