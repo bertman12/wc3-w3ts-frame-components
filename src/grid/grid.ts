@@ -5,7 +5,7 @@ import { FrameUtils } from "../frame-utils";
  * Defines what frames exist in each item on the grid.
  * Then your update function will pass you back an object of this shape, allowing you use the correct frame functions on the appropraite frames.
  */
-export interface GridItemBaseDefinition {
+export interface IGridItemBaseDefinition {
     /**
      * In most cases, this should be one of the frames you created inside the renderItem function.
      *
@@ -25,8 +25,8 @@ const DEFAULT_GAP_Y = 0.005;
  * @type T - The data shape associated with each item. This same data shape will be passed to update functions
  * @type Z - An object which contains all the child frames in the item.
  */
-export class Grid<T, Z extends GridItemBaseDefinition> {
-    public config: GridConfig<T, Z>;
+export class Grid<T, Z extends IGridItemBaseDefinition> {
+    public config: IGridConfig<T, Z>;
     public name: string;
     public owner: Frame;
     public context: number;
@@ -40,7 +40,7 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
      */
     private itemFrames: (Z | undefined)[] = [];
 
-    constructor(config: GridConfig<T, Z>, name: string, context: number, owner?: Frame) {
+    constructor(config: IGridConfig<T, Z>, name: string, context: number, owner?: Frame) {
         this.config = config;
         this.name = name;
         this.owner = owner || FrameUtils.OriginFrameGameUI;
@@ -91,10 +91,6 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
         print("Total item frames created: " + this.itemFrames?.length);
     }
 
-    /**
-     * Should just render based on the data available?
-     * @returns
-     */
     private renderItems(startingRow: number, startingColumn: number) {
         if (!this.containerFrame) {
             print("Cannot render items, no container frame.");
@@ -103,7 +99,7 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
 
         let dataIndex = 0;
 
-        print(`Starting row: ${startingRow}; Starting Col: ${startingColumn}`);
+        // print(`Starting row: ${startingRow}; Starting Col: ${startingColumn}`);
 
         const startingItemIndex = this.config.columns * startingRow + startingColumn;
         const previousItemIndex = startingItemIndex - 1;
@@ -288,7 +284,7 @@ export class Grid<T, Z extends GridItemBaseDefinition> {
     }
 }
 
-export interface GridConfig<T, Z extends GridItemBaseDefinition> {
+export interface IGridConfig<T, Z extends IGridItemBaseDefinition> {
     rows: number;
     columns: number;
     /**
@@ -327,8 +323,6 @@ export interface GridConfig<T, Z extends GridItemBaseDefinition> {
     itemCount?: number;
     /**
      * Frames rendered without data are hidden by default.
-     *
-     * No point allowing undefined here...
      */
     data: T[];
 }

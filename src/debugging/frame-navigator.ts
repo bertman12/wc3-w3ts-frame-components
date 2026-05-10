@@ -67,7 +67,7 @@ export class FrameNavigator {
     }
 
     private render() {
-        this.containerFrame = new Backdrop(this.name + "backdrop", this.context, this.owner, "").frame;
+        this.containerFrame = Backdrop.CreateDefault(0, this.owner).frame;
         this.containerFrame?.clearPoints();
         this.containerFrame?.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.35);
         this.containerFrame?.setSize(0.2, 0.15);

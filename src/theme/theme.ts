@@ -8,7 +8,7 @@ export interface W3TSFrameComponentsTheme {
     /**
      * Applies to all backdrops.
      */
-    globalBackdrop?: string;
+    defaultBackdrop?: string;
     /**
      * The click sound for clicking on Button class
      */

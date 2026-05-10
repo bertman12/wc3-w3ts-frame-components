@@ -44,7 +44,7 @@ Component.Default(...)
 #### CreateType
 
 This creates a frame based on an inherited type.
-The key argument being _inherts_, which determines the blizzard frame it will be based on.
+The key argument being _inherts_, which determines the blizzard frame or custom FDF frame it will be based on.
 
 ```ts
 Component.CreateType(...)
@@ -306,6 +306,10 @@ GlueTextButton.CreateThemed(...);
 ```
 
 The theme configuration is saved on the component class as a static member, making it available to all instances of the class.
+
+#### Multiple Component Themes
+
+If you wish to save multiple themes for a component, you can simple save each theme configuration in a global constant and pass that theme configuration to the overrides argument for the component.
 
 ### Overrides
 

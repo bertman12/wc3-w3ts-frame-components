@@ -1,8 +1,51 @@
 import { Frame } from "w3ts";
 import { FrameUtils } from "../frame-utils";
 
-export type AbstractFrameConstructorArgs = ConstructorParameters<typeof AbstractFrameBase>;
+/**
+ * Contains all argments for the abstract frame base.
+ */
+export type AbstractFrameConstructorArgs = ConstructorParameters<typeof AbstractFrameBase> & {};
 
+// interface A {
+
+// } 
+
+/**
+ * Used for components which are created by inheriting a Blizzard or custom FDF frame type.
+ */
+export type AbstractFrameByTypeArgs = Omit<ConstructorParameters<typeof AbstractFrameBase>, "priority">;
+
+/**
+ * Used for components created by Blizzard frame name
+ */
+export type AbstractFrameByNameArgs = Omit<ConstructorParameters<typeof AbstractFrameBase>, "inherits">;
+
+/**
+ * This would be used for components which are composed of several frames and are not a wrapper for blizzard base frame types
+ */
+export type AbstractFrameCompositeArgs = Omit<ConstructorParameters<typeof AbstractFrameBase>, "inherits" | "priority">;
+
+
+
+export interface IFrameComponentBase {
+    name: string;
+    context: number;
+    owner?: Frame;
+}
+
+export interface IFrameInheritable {
+    inherits?: string;
+}
+
+export interface IFrameNamed {
+    priority?: string;
+}
+
+/**
+ * The abstract class provides a loose framework for what's expected on inheritors of it.
+ *  
+ * It also serves to share documentation for the static functions.
+ */
 export abstract class AbstractFrameBase {
     /**
      * When creating a component with a non empty string for the inherits property, then this will be used as a custom name for the frame.
@@ -24,7 +67,7 @@ export abstract class AbstractFrameBase {
     public owner: Frame;
 
     /**
-     * Defaults to empty string ""
+     * No default.
      */
     protected inherits?: string;
 
@@ -36,12 +79,10 @@ export abstract class AbstractFrameBase {
     protected priority: number;
 
     /**
-     * A frame set by the component which is used for positioning.
+     * A frame reference which can be used to position all frames owned by a component. This could be a container frame of the component, or the parent frame of other child frames.
      */
     protected positioningFrameReference?: Frame;
 
-
-    
     /**
      * Serves as the primary frame for the component.
      */
@@ -74,12 +115,13 @@ export abstract class AbstractFrameBase {
     public static CreateDefault(context: number, owner: Frame) {}
 
     /**
-     * Created the component using any theme properties you have set.
+     * Creates the component using any theme properties you have set.
      *
      * @param overrides Allows overriding saved theme properties.
      */
-    public static CreateThemed(...args: any[]) {
+    public static CreateThemed(...args: any & { overrides: any }[]) {
         // Each component can define their own arguments for this.
+        print("abstract frame base create themed called!");
     }
 
     /**
@@ -97,4 +139,8 @@ export abstract class AbstractFrameBase {
      * @param themeConfiguration
      */
     public static SaveTheme(themeConfiguration: any) {}
+}
+
+function test<T extends AbstractFrameBase>(type: T) {
+    // const obj = new type();
 }

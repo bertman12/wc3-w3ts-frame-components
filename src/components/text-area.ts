@@ -31,6 +31,10 @@ export class TextArea extends AbstractFrameBase implements IMouseEnterEvent {
         return new TextArea({ onMouseEnter: () => {}, initialText: "Sample Text" }, "EscMenuTextAreaTemplate", context, owner);
     }
 
+    // public static CreateThemed(overrides: any): void {
+        
+    // }
+
     protected render() {
         if (this.inherits !== undefined) {
             this.frame = Frame.createType(this.name, this.owner, this.context, FrameType.TextArea, this.inherits);

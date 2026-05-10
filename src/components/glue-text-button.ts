@@ -12,6 +12,9 @@ interface GlueTextButtonConfiguration {
     initialText?: string;
     inherits?: string;
 }
+
+type FunctionThemed = (fart: number) => void;
+
 //DebugButton/ReplayButton (same) BrowserButton (Doesn't work) ScoreScreenBottomButtonTemplate
 export class GlueTextButton extends AbstractFrameBase implements IClickEvent {
     public frame?: Frame;
@@ -23,20 +26,15 @@ export class GlueTextButton extends AbstractFrameBase implements IClickEvent {
     private static Theme: GlueTextButtonConfiguration;
 
     /**
-     * Required indicator since this frame created by name already produces a sound when clicked so this will be used to avoid playing a 2nd sound.
+     * Required indicator since when this frame is created by name, it already produces a sound when clicked so this will be used to avoid playing a 2nd sound.
      */
     private createdByName = false;
 
-    /**
-     * With the introduction of the theme utility faeture, the ConstructorParameters may not be the 1 size fits all as I hoped.
-     * May also need to make the constructor private and use the static functions for component creation.
-     *
-     * This would allow me to change arguments
-     */
     constructor(config?: GlueTextButtonConfiguration, ...baseArgs: ConstructorParameters<typeof AbstractFrameBase>) {
         super(...baseArgs);
         this.config = config || {};
         this.render();
+        // new GlueTextButton()
     }
 
     public static CreateDefault(context: number, owner?: Frame) {

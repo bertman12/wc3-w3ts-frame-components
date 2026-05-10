@@ -43,7 +43,9 @@ export class TimerFrame extends AbstractFrameBase {
     }
 
     protected render() {
-        this.backdrop = new Backdrop(this.name + "timer", this.context, this.owner, this.inherits);
+        this.backdrop = Backdrop.CreateDefault(this.context, this.owner);
+        // new Backdrop(this.name + "timer", this.context, this.owner, this.inherits);
+        // this.backdrop = new Backdrop(this.name + "timer", this.context, this.owner, this.inherits);
 
         if (!this.backdrop.frame) {
             return;
@@ -64,7 +66,8 @@ export class TimerFrame extends AbstractFrameBase {
             this.button.buttonFrame?.setSize(this.button.buttonFrame.width * 0.4, this.button.buttonFrame.height * 0.4); //half the normal size
 
             if (this.config.buttonTooltipText) {
-                this.buttonTooltip = new Tooltip("Timer", "A hero respawn timer.", this.name + "button-tooltip", this.context, this.button.buttonFrame);
+                this.buttonTooltip = new Tooltip(this.name + "button-tooltip", this.context, this.button.buttonFrame, { headerText: "Timer", bodyText: "A Hero respawn timer icon button." });
+                // this.buttonTooltip = new Tooltip("Timer", "A hero respawn timer.", this.name + "button-tooltip", this.context, this.button.buttonFrame);
             }
         }
 

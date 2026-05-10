@@ -1,8 +1,8 @@
 // import { ResourceRequirements, ResourceTypeIconTexture } from "src/resources/data";
-import { W3TSFrameComponentsThemeUtils } from "src/theme";
 import { Frame } from "w3ts";
 import { FrameUtils } from "../frame-utils";
-import { Grid, GridItemBaseDefinition } from "../grid/grid";
+import { Grid, IGridItemBaseDefinition } from "../grid/grid";
+import { AbstractFrameBase } from "./AbstractFrameBase";
 import { EmptyFrame } from "./empty-frame";
 import { Icon } from "./icon";
 import { Text } from "./text";
@@ -13,6 +13,8 @@ interface TooltipIconDataItem {
 }
 
 interface TooltipConfig {
+    headerText: string;
+    bodyText: string;
     /**
      * Default - The tooltip will be pinned to the left side of what it's attached to and expand right if necessary.
      * If reverse orientation is true, the tooltip will be pinned from the right side and expand leftwards.
@@ -52,15 +54,15 @@ interface TooltipConfig {
     tooltipHeaderSpaceX?: number;
 }
 
-interface TooltipGridFramesDefinition extends GridItemBaseDefinition {
+interface TooltipGridFramesDefinition extends IGridItemBaseDefinition {
     icon?: Icon;
     valueText?: Text;
 }
 
-export class Tooltip {
-    name: string;
-    context: number;
-    parent: Frame;
+export class Tooltip extends AbstractFrameBase {
+    // name: string;
+    // context: number;
+    // owner: Frame;
 
     private config?: TooltipConfig;
 
@@ -70,29 +72,28 @@ export class Tooltip {
 
     public tooltipBackdropFrame?: Frame;
 
-    constructor(header: string, body: string, name: string, context: number, parent?: Frame, config?: TooltipConfig) {
-        this.name = name;
-        this.context = context;
-        this.parent = parent || FrameUtils.OriginFrameGameUI;
+    constructor(name: string, context: number, owner?: Frame, config?: TooltipConfig) {
+        super(name, context, owner);
         this.config = config;
-        this.render(header, body, context, name, this.parent, config?.includeBackground, config);
+
+        this.render();
     }
 
-    private render(header: string, text: string, context: number, name: string, parent?: Frame, includeBackground: boolean = true, config?: TooltipConfig) {
-        if (!parent) {
+    protected render() {
+        if (!this.owner) {
             return;
         }
 
-        if (includeBackground) {
+        if (this.config?.includeBackground) {
             //  -- Create the Background a Backdrop
-            this.tooltipBackdropFrame = Frame.fromHandle(BlzCreateFrameByType("BACKDROP", name, parent.handle, W3TSFrameComponentsThemeUtils.Theme.tooltipBackdropInherits || "QuestButtonBaseTemplate", context)); //I'm not sure if we need the parent to be an origin frame, but we'll roll with this for now.
+            this.tooltipBackdropFrame = Frame.fromHandle(BlzCreateFrameByType("BACKDROP", this.name, this.owner.handle, "QuestButtonBaseTemplate", this.context)); 
             if (!this.tooltipBackdropFrame) {
                 return;
             }
 
             // -- Create the Text as child of the Background
-            this.headerTextFrame = Frame.fromHandle(BlzCreateFrameByType("TEXT", this.name + "headerText", this.tooltipBackdropFrame.handle, "", context));
-            this.bodyTextFrame = Frame.fromHandle(BlzCreateFrameByType("TEXT", this.name + "bodyText", this.tooltipBackdropFrame.handle, "", context));
+            this.headerTextFrame = Frame.fromHandle(BlzCreateFrameByType("TEXT", this.name + "headerText", this.tooltipBackdropFrame.handle, "", this.context));
+            this.bodyTextFrame = Frame.fromHandle(BlzCreateFrameByType("TEXT", this.name + "bodyText", this.tooltipBackdropFrame.handle, "", this.context));
 
             if (!this.bodyTextFrame || !this.headerTextFrame) {
                 return;
@@ -103,40 +104,40 @@ export class Tooltip {
              *
              * Shouldn't have to change this based on positioning when adding resource frame tooltip.
              */
-            if (header !== "" && text !== "") {
+            if (this.config.headerText !== "" && this.config.bodyText !== "") {
                 // -- Copy Size and Position with a small offset.
                 BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_TOPRIGHT, this.headerTextFrame.handle, FRAMEPOINT_TOPRIGHT, this.config?.tooltipHeaderSpaceX || 0.01, 0.01);
                 BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_BOTTOMLEFT, this.bodyTextFrame.handle, FRAMEPOINT_BOTTOMLEFT, -(this.config?.tooltipBodySpaceX || 0.01), -0.01);
-            } else if (text === "") {
+            } else if (this.config.bodyText === "") {
                 // -- Copy Size and Position with a small offset.
                 BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_BOTTOMLEFT, this.headerTextFrame.handle, FRAMEPOINT_BOTTOMLEFT, -(this.config?.tooltipHeaderSpaceX || 0.01), -0.01);
                 BlzFrameSetPoint(this.tooltipBackdropFrame.handle, FRAMEPOINT_TOPRIGHT, this.headerTextFrame.handle, FRAMEPOINT_TOPRIGHT, this.config?.tooltipHeaderSpaceX || 0.01, 0.01);
             }
 
             // -- The background becomes the button's tooltip, the Text as child of the background will share the visibility
-            BlzFrameSetTooltip(parent.handle, this.tooltipBackdropFrame.handle);
+            BlzFrameSetTooltip(this.owner.handle, this.tooltipBackdropFrame.handle);
 
             /**
              * Positioning the tooltip on the corners of the parent (which is usually a button or a frame)
              */
-            if (config?.reverseOrientation) {
-                if (text === "") {
-                    this.headerTextFrame.setPoint(FRAMEPOINT_BOTTOMRIGHT, this.parent, FRAMEPOINT_TOPRIGHT, 0, 0.01);
+            if (this.config?.reverseOrientation) {
+                if (this.config.bodyText === "") {
+                    this.headerTextFrame.setPoint(FRAMEPOINT_BOTTOMRIGHT, this.owner, FRAMEPOINT_TOPRIGHT, 0, 0.01);
                 } else {
                     // -- Place the Tooltip above the Button
                     this.headerTextFrame.setPoint(FRAMEPOINT_BOTTOMRIGHT, this.bodyTextFrame, FRAMEPOINT_TOPRIGHT, 0, 0.01);
-                    this.bodyTextFrame.setPoint(FRAMEPOINT_BOTTOMRIGHT, this.parent, FRAMEPOINT_TOPRIGHT, 0, 0.01);
+                    this.bodyTextFrame.setPoint(FRAMEPOINT_BOTTOMRIGHT, this.owner, FRAMEPOINT_TOPRIGHT, 0, 0.01);
                 }
             } else {
                 //no body for tooltip
-                if (text === "") {
-                    this.headerTextFrame.setPoint(FRAMEPOINT_BOTTOMLEFT, this.parent, FRAMEPOINT_TOPLEFT, 0, 0.01);
+                if (this.config.bodyText === "") {
+                    this.headerTextFrame.setPoint(FRAMEPOINT_BOTTOMLEFT, this.owner, FRAMEPOINT_TOPLEFT, 0, 0.01);
                 } else {
                     // -- Place the Tooltip above the Button
                     this.headerTextFrame.setPoint(FRAMEPOINT_BOTTOMLEFT, this.bodyTextFrame, FRAMEPOINT_TOPLEFT, 0, 0.01);
                     //the resource grid would be here and the header would be placed on it
                     //the groupd would be place it's bottom left to the top right of the body instead of the header
-                    this.bodyTextFrame.setPoint(FRAMEPOINT_BOTTOMLEFT, this.parent, FRAMEPOINT_TOPLEFT, 0, 0.01);
+                    this.bodyTextFrame.setPoint(FRAMEPOINT_BOTTOMLEFT, this.owner, FRAMEPOINT_TOPLEFT, 0, 0.01);
                 }
             }
 
@@ -144,20 +145,20 @@ export class Tooltip {
                 this.headerTextFrame.clearPoints();
                 this.bodyTextFrame.clearPoints();
                 // this.tooltipBackdropFrame.
-                this.headerTextFrame.setPoint(FRAMEPOINT_TOPRIGHT, this.parent, FRAMEPOINT_BOTTOMLEFT, 0, -0.01);
+                this.headerTextFrame.setPoint(FRAMEPOINT_TOPRIGHT, this.owner, FRAMEPOINT_BOTTOMLEFT, 0, -0.01);
                 //the resource grid would be here and the header would be placed on it
                 //the groupd would be place it's bottom left to the top right of the body instead of the header
                 this.bodyTextFrame.setPoint(FRAMEPOINT_TOPLEFT, this.headerTextFrame, FRAMEPOINT_BOTTOMLEFT, 0, -0.01);
             }
 
-            if (config?.tooltipIconGridData) {
+            if (this.config?.tooltipIconGridData) {
                 this.iconGrid = new Grid<TooltipIconDataItem, TooltipGridFramesDefinition>(
                     {
                         gapX: 0.005,
                         gapY: 0.005,
                         rows: 1,
                         columns: 4,
-                        data: config.tooltipIconGridData,
+                        data: this.config.tooltipIconGridData,
                         renderItem: (parent, row, column, index, data) => {
                             if (!data) {
                                 return;
@@ -243,20 +244,20 @@ export class Tooltip {
             this.headerTextFrame.setEnabled(false);
             this.bodyTextFrame.setEnabled(false);
 
-            this.StyleTooltipText(header, text);
+            this.StyleTooltipText(this.config.headerText, this.config.bodyText);
         } else {
-            const tooltipFrameText = Frame.fromHandle(BlzCreateFrameByType("TEXT", "MyScriptDialogButtonTooltip", FrameUtils.OriginFrameGameUIHandle, "", context));
+            const tooltipFrameText = Frame.fromHandle(BlzCreateFrameByType("TEXT", "MyScriptDialogButtonTooltip", FrameUtils.OriginFrameGameUIHandle, "", this.context));
             if (!tooltipFrameText) {
                 return;
             }
 
             // -- tooltipFrame becomes button's tooltip
-            BlzFrameSetTooltip(parent.handle, tooltipFrameText.handle);
+            BlzFrameSetTooltip(this.owner.handle, tooltipFrameText.handle);
             // -- Place the Tooltip above the Button
-            BlzFrameSetPoint(tooltipFrameText.handle, FRAMEPOINT_BOTTOM, parent.handle, FRAMEPOINT_TOP, 0, 0.01);
+            BlzFrameSetPoint(tooltipFrameText.handle, FRAMEPOINT_BOTTOM, this.owner.handle, FRAMEPOINT_TOP, 0, 0.01);
             // -- Prevent the TEXT from taking mouse control
             BlzFrameSetEnable(tooltipFrameText.handle, false);
-            BlzFrameSetText(tooltipFrameText.handle, text);
+            BlzFrameSetText(tooltipFrameText.handle, this.config?.bodyText || "");
 
             this.bodyTextFrame = tooltipFrameText;
         }
