@@ -2,7 +2,9 @@
 import { Frame } from "w3ts";
 import { Grid, IGridItemBaseDefinition } from "../grid/grid";
 import { AbstractFrameBase } from "./AbstractFrameBase";
+import { Backdrop } from "./backdrop";
 import { EmptyFrame } from "./empty-frame";
+import { GlueTextButton } from "./glue-text-button";
 import { Icon } from "./icon";
 import { Text } from "./text";
 
@@ -51,7 +53,19 @@ interface TooltipConfig {
      * The space between the tooltip header text and the backdrop
      */
     tooltipHeaderSpaceX?: number;
+    /**
+     * Determines the tooltip's backdrop inherit.
+     */
+    backdropInherits?: string;
+    backdropArguments?: Omit<Partial<Parameters<typeof Backdrop.CreateType>>, "context" | "owner">;
+
+    /**
+     * List of child frames
+     */
+    childFrames?: { [key: string]: () => AbstractFrameBase };
 }
+
+// type TestObject = { [key: string]: <T extends AbstractFrameBase>() => T };
 
 interface TooltipGridFramesDefinition extends IGridItemBaseDefinition {
     icon?: Icon;
@@ -64,14 +78,42 @@ export class Tooltip extends AbstractFrameBase {
     public headerTextFrame?: Frame;
     public bodyTextFrame?: Frame;
     public iconGrid?: Grid<TooltipIconDataItem, TooltipGridFramesDefinition>;
-
     public tooltipBackdropFrame?: Frame;
+    private static DefaultConfiguration: TooltipConfig = {
+        tooltipHeaderSpaceX: 0.01,
+        headerText: "",
+        bodyText: "",
+        backdropInherits: "QuestButtonBaseTemplate",
+    };
+    private static ThemeConfiguration?: TooltipConfig = Tooltip.DefaultConfiguration;
 
-    constructor(name: string, context: number, owner?: Frame, config?: TooltipConfig) {
+    private constructor(name: string, context: number, owner?: Frame, config?: TooltipConfig) {
         super(name, context, owner);
         this.config = config;
 
         this.render();
+    }
+
+    public static CreateDefault(context: number, owner?: Frame) {
+        Tooltip.SaveTheme({
+            headerText: "",
+            bodyText: "",
+            childFrames: {
+                apple: () => {
+                    return GlueTextButton.CreateDefault(0);
+                },
+            },
+        });
+
+        return new Tooltip("", context, owner, Tooltip.DefaultConfiguration);
+    }
+
+    public static SaveTheme(config: TooltipConfig) {
+        this.ThemeConfiguration = config;
+    }
+
+    public static CreateThemed(name: string, context: number, owner?: Frame, overrides?: TooltipConfig) {
+        return new Tooltip(name, context, owner, { headerText: "", bodyText: "", ...Tooltip.ThemeConfiguration, ...overrides });
     }
 
     protected render() {
@@ -79,12 +121,12 @@ export class Tooltip extends AbstractFrameBase {
             return;
         }
 
-        if (!this.config?.includeBackground) {
-            this.renderTextOnlyTooltip();
+        if (!this.config) {
             return;
         }
 
-        if (!this.config) {
+        if (!this.config?.includeBackground) {
+            this.renderTextOnlyTooltip();
             return;
         }
 
@@ -214,7 +256,7 @@ export class Tooltip extends AbstractFrameBase {
         this.headerTextFrame.setEnabled(false);
         this.bodyTextFrame.setEnabled(false);
 
-        this.StyleTooltipText(this.config.headerText, this.config.bodyText);
+        this.update(this.config.headerText, this.config.bodyText);
     }
 
     private renderTextOnlyTooltip() {
@@ -241,10 +283,18 @@ export class Tooltip extends AbstractFrameBase {
      * @returns
      */
     public update(header: string, body: string, tooltipIconData?: TooltipIconDataItem[]) {
-        this.StyleTooltipText(header, body);
+        if (body !== "") {
+            this.headerTextFrame?.setText(header || "");
+            this.bodyTextFrame?.setText(body);
+        } else {
+            this.headerTextFrame?.setText(header || "");
+        }
+
+        const width = this.GetFormattedWidth(header || "", body || "");
+        this.headerTextFrame?.setSize(width, 0);
+        this.bodyTextFrame?.setSize(width, 0);
 
         if (tooltipIconData) {
-            //update with new data
             this.iconGrid?.updateGrid(tooltipIconData);
         }
     }
@@ -268,22 +318,5 @@ export class Tooltip extends AbstractFrameBase {
         }
 
         return width;
-    }
-
-    private StyleTooltipText(header?: string, text?: string) {
-        let _header = header;
-
-        if (text !== undefined && text !== "") {
-            //split
-            this.headerTextFrame?.setText(_header || "");
-            this.bodyTextFrame?.setText(text);
-        } else {
-            //headeronly
-            this.headerTextFrame?.setText(_header || "");
-        }
-
-        const width = this.GetFormattedWidth(header || "", text || "");
-        this.headerTextFrame?.setSize(width, 0);
-        this.bodyTextFrame?.setSize(width, 0);
     }
 }

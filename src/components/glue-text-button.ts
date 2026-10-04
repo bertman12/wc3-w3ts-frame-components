@@ -13,9 +13,11 @@ interface GlueTextButtonConfiguration {
     inherits?: string;
 }
 
-type FunctionThemed = (fart: number) => void;
+// type FunctionThemed = (fart: number) => void;
 
 //DebugButton/ReplayButton (same) BrowserButton (Doesn't work) ScoreScreenBottomButtonTemplate
+
+
 export class GlueTextButton extends AbstractFrameBase implements IClickEvent {
     public frame?: Frame;
     /**
@@ -34,7 +36,6 @@ export class GlueTextButton extends AbstractFrameBase implements IClickEvent {
         super(...baseArgs);
         this.config = config || {};
         this.render();
-        // new GlueTextButton()
     }
 
     public static CreateDefault(context: number, owner?: Frame) {

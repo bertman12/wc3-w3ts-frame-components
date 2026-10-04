@@ -140,7 +140,3 @@ export abstract class AbstractFrameBase {
      */
     public static SaveTheme(themeConfiguration: any) {}
 }
-
-function test<T extends AbstractFrameBase>(type: T) {
-    // const obj = new type();
-}

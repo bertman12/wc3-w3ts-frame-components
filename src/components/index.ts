@@ -1,6 +1,7 @@
 export * from "./AbstractFrameBase";
 export * from "./backdrop";
 export * from "./button";
+export * from "./CompositeComponent";
 export * from "./empty-frame";
 export * from "./glue-text-button";
 export * from "./icon";

@@ -89,7 +89,7 @@ Under the hood, the frame is created by type with the theme configuration.
     - The context which the frame is rendered.
 
 - ##### Owner
-    - Most frames here will have a default owner of `ORIGIN_FRAME_GAME_UI` if one is not provided.
+    - The default owner is `ORIGIN_FRAME_GAME_UI` if one is not provided.
 
 - ##### Inherits
     - Used when a frame is created by type or theme.
