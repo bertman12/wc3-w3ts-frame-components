@@ -1,72 +1,78 @@
 import { Frame } from "w3ts";
 
+interface IFrameConfigurationBase {
+    // stuff ?
+}
+
+/**
+ * Configurable properties all MonoFrames share.
+ */
+export interface IMonoFrameConfigurationBase extends IFrameConfigurationBase {
+    inherits?: string;
+}
+
+export interface ICompositeFrameConfigurationBase extends IFrameConfigurationBase {
+    // stuff
+    somethingRequired: boolean;
+}
+
 /**
  * Requires the configuration object type of the component this is used on
  */
-export interface IFrameBaseMethods<ConfigurationType> {
+export interface IFrameBaseMethods<IFrameConfigurationBase> {
     /**
      * Saves a theme configuration which is used when using the CreateThemed function.
      * @param themeConfiguration
      */
-    SaveTheme: (themeConfiguration: any) => void;
+    SaveTheme: (themeConfiguration: IFrameConfigurationBase) => void;
 }
 
-interface BaseObjArgs {
+/**
+ * Shared properties amongst mono and composite frame classes.
+ */
+interface IFrameBaseProperties<T extends IFrameConfigurationBase> {
     context: number;
     name?: string;
     owner?: Frame;
+    configuration?: T;
 }
 
-export interface IFrameCreationMethodsBase {
-    CreateDefault: (context: number, name?: string, owner?: Frame) => void;
-    CreateThemed: (context: number, name?: string, owner?: Frame, overrides?: { [key: string]: any }) => void;
+export interface IMonoFrameProperties<T extends IFrameConfigurationBase> extends IFrameBaseProperties<T> {
+    //
 }
 
-export interface IFrameCreationMethodsBaseMonoFrames extends IFrameCreationMethodsBase {
-    CreateType: (context: number, name: string, owner?: Frame) => void;
-    CreateNamed: (...args: any[]) => void;
+/**
+ * Contains a list of child frames in the composite component.
+ */
+export interface ICompositeFrameProperties<T extends ICompositeFrameConfigurationBase, ComponentTypes> extends IFrameBaseProperties<T> {
+    childFrames?: ComponentTypes;
+    containerFrame?: Frame;
+}
+
+interface IFrameCreationMethodsBase<T extends IFrameConfigurationBase> {
     /**
-     * Test
-     * @param {{BaseObjArgs}} args
+     * When no configuration exists, the library's default configuration is used.
+     * @param args
      * @returns
      */
-    Func: (args: BaseObjArgs) => void;
+    Create: (args: { context: number; name?: string; owner?: Frame; configuration?: T }) => void;
+    CreateThemed: (args: { context: number; name?: string; owner?: Frame; inherits: string; overrides?: T }) => void;
 }
 
-const o1: IFrameCreationMethodsBaseMonoFrames = {
-    CreateType: function (context: number, name: string, owner?: Frame): void {
-        throw new Error("Function not implemented.");
-    },
-    CreateNamed: function (...args: any[]): void {
-        throw new Error("Function not implemented.");
-    },
-    Func: function (args: BaseObjArgs): void {
-        throw new Error("Function not implemented.");
-    },
-    CreateDefault: function (context: number, name?: string, owner?: Frame): void {
-        throw new Error("Function not implemented.");
-    },
-    CreateThemed: function (context: number, name?: string, owner?: Frame, overrides?: { [key: string]: any }): void {
-        throw new Error("Function not implemented.");
-    },
-};
-
-o1.Func
-
-
-export interface IFrameCreationMethodsBaseCompositeFrames extends IFrameCreationMethodsBase {
-    // CreateType: (context: number, name: string, owner?: Frame) => void;
-    // CreateNamed: (...args: any[]) => void;
+/**
+ * Classes which simlpy serve as a wrapper to standard blizzard frame types
+ */
+export interface IMonoFrameCreationMethodsBase<T extends IMonoFrameConfigurationBase> extends IFrameCreationMethodsBase<T> {
+    CreateType: (args: { context: number; name?: string; owner?: Frame; inherits?: string }) => void;
+    CreateNamed: (args: { context: number; name: string; owner?: Frame }) => void;
 }
 
-// const obj: IFrameCreationMethodsBaseMonoFrames = {
-//     CreateDefault: function (context: number, owner: Frame): void {
-//         throw new Error("Function not implemented.");
-//     },
-//     CreateType: function (...args: any[]): void {
-//         throw new Error("Function not implemented.");
-//     }
-// }
+/**
+ * Inherits does not belong on composite frames.
+ */
+export interface ICompositeFrameCreationMethodsBase<T extends ICompositeFrameConfigurationBase> extends IFrameCreationMethodsBase<T> {
+    CreateThemed: (args: { context: number; name?: string; owner?: Frame; overrides?: T }) => void;
+}
 
 /**
  * Depending on if you are a non composite frame, you can pass in the inherit argument to the

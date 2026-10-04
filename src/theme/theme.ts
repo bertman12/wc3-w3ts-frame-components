@@ -1,10 +1,13 @@
+import { TestCompositeFrameConfiguration } from "src/components/CompositeFrames/test";
+import { IMonoFrameConfigurationBase } from "src/models/FrameTypes";
+
 /**
  * Global Theme.
  *
  * Should include global properties only.
- *
+ * @deprecated
  */
-export interface W3TSFrameComponentsTheme {
+export interface IFrameComponentTheme {
     /**
      * Applies to all backdrops.
      */
@@ -47,19 +50,24 @@ export interface W3TSFrameComponentsTheme {
     timerButtonIconTexture?: string;
 }
 
+export class FrameComponentThemes {
+    static ButtonTheme: IMonoFrameConfigurationBase;
+    static TestTheme: TestCompositeFrameConfiguration;
+}
+
 export class W3TSFrameComponentsThemeUtils {
-    public static createTheme(theme: W3TSFrameComponentsTheme) {
+    public static createTheme(theme: IFrameComponentTheme) {
         this.__theme = theme;
     }
 
-    private static __theme: W3TSFrameComponentsTheme = {};
+    private static __theme: IFrameComponentTheme = {};
 
-    public static get Theme(): W3TSFrameComponentsTheme {
+    public static get Theme(): IFrameComponentTheme {
         return this.__theme;
     }
 }
 
-export const W3TSFrameComponentsDefaultTheme: W3TSFrameComponentsTheme = {
+export const W3TSFrameComponentsDefaultTheme: IFrameComponentTheme = {
     buttonClickSound: "Sound\\Interface\\MouseClick1.flac",
     glueButtonClickSound: "Sound\\Interface\\BigButtonClick.flac",
     tooltipBackdropInherits: "QuestButtonBaseTemplate",
