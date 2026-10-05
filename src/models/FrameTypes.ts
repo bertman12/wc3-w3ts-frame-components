@@ -20,6 +20,7 @@ export interface ICompositeFrameConfigurationBase extends IFrameConfigurationBas
  * Requires the configuration object type of the component this is used on
  */
 interface IFrameBaseMethods {
+    // render(): void;
     //
 }
 
@@ -36,9 +37,9 @@ export interface ICompositeFrameMethods extends IFrameBaseMethods {
  */
 interface IFrameBaseProperties<T extends IFrameConfigurationBase> {
     context: number;
+    configuration: T;
     name?: string;
     owner?: Frame;
-    configuration?: T;
 }
 
 export interface IMonoFrameProperties<T extends IFrameConfigurationBase> extends IFrameBaseProperties<T> {
@@ -69,15 +70,6 @@ interface IFrameCreationMethodsBase<T extends IFrameConfigurationBase> {
 export interface IMonoFrameCreationMethodsBase<T extends IMonoFrameConfigurationBase> extends IFrameCreationMethodsBase<T> {
     CreateType: (args: { context: number; name?: string; owner?: Frame; inherits?: string }) => void;
     CreateNamed: (args: { context: number; name: string; owner?: Frame }) => void;
-}
-
-export abstract class AbstractFrame {
-    /**
-     * When no configuration exists, the library's default configuration is used.
-     * @param args
-     * @returns
-     */
-    static Create: (args: { context: number; name?: string; owner?: Frame; configuration?: T }) => void;
 }
 
 /**

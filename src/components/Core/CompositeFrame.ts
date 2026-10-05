@@ -9,9 +9,9 @@ import { Frame } from "w3ts";
 export abstract class CompositeFrame<Configuration extends ICompositeFrameConfigurationBase, ComponentTypes extends ICompositeFrameComponents> implements ICompositeFrameMethods, ICompositeFrameProperties<Configuration, ComponentTypes> {
     containerFrame?: Frame | undefined;
     context: number;
+    configuration: Configuration;
     name?: string | undefined;
     owner?: Frame | undefined;
-    configuration?: Configuration | undefined;
     childFrames?: ComponentTypes | undefined;
 
     /**
@@ -21,13 +21,17 @@ export abstract class CompositeFrame<Configuration extends ICompositeFrameConfig
      * @param inherits No default.
      * @param priority Defaults to 0
      */
-    constructor(context: number, name?: string, owner?: Frame) {
+    constructor(context: number, configuration: Configuration, name?: string, owner?: Frame) {
         this.name = name;
         this.context = context;
         this.owner = owner || FrameUtils.OriginFrameGameUI;
+        // Configuration type should actually be any which extends the same interface but it's not...
+        this.configuration = configuration;
     }
 
-    static Create<Configuration extends ICompositeFrameConfigurationBase, ComponentTypes extends ICompositeFrameComponents>(args: { context: number; name?: string; owner?: Frame; configuration?: any }) {
+    static Create(args: { context: number; name?: string; owner?: Frame; configuration?: any }): any {
         // replace with component relevant logic
     }
+
+    protected render() {}
 }

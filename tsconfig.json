@@ -30,7 +30,7 @@
             "lua-types/core/table",
             "lua-types/core/os",
             "lua-types/special/5.3",
-            "war3-types-strict/3.0.0",
+            "war3-types-strict/1.33.0",
             "war3-transformer/types",
             "war3-objectdata-th/dist/cjs/objectdata"
         ]
