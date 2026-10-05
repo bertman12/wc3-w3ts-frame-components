@@ -19,12 +19,16 @@ export interface ICompositeFrameConfigurationBase extends IFrameConfigurationBas
 /**
  * Requires the configuration object type of the component this is used on
  */
-export interface IFrameBaseMethods<IFrameConfigurationBase> {
-    /**
-     * Saves a theme configuration which is used when using the CreateThemed function.
-     * @param themeConfiguration
-     */
-    SaveTheme: (themeConfiguration: IFrameConfigurationBase) => void;
+interface IFrameBaseMethods {
+    //
+}
+
+export interface IMonoFrameMethods extends IFrameBaseMethods {
+    //
+}
+
+export interface ICompositeFrameMethods extends IFrameBaseMethods {
+    //
 }
 
 /**
@@ -56,7 +60,7 @@ interface IFrameCreationMethodsBase<T extends IFrameConfigurationBase> {
      * @returns
      */
     Create: (args: { context: number; name?: string; owner?: Frame; configuration?: T }) => void;
-    CreateThemed: (args: { context: number; name?: string; owner?: Frame; inherits: string; overrides?: T }) => void;
+    // CreateThemed: (args: { context: number; name?: string; owner?: Frame; inherits: string; overrides?: T }) => void;
 }
 
 /**
@@ -67,11 +71,20 @@ export interface IMonoFrameCreationMethodsBase<T extends IMonoFrameConfiguration
     CreateNamed: (args: { context: number; name: string; owner?: Frame }) => void;
 }
 
+export abstract class AbstractFrame {
+    /**
+     * When no configuration exists, the library's default configuration is used.
+     * @param args
+     * @returns
+     */
+    static Create: (args: { context: number; name?: string; owner?: Frame; configuration?: T }) => void;
+}
+
 /**
  * Inherits does not belong on composite frames.
  */
 export interface ICompositeFrameCreationMethodsBase<T extends ICompositeFrameConfigurationBase> extends IFrameCreationMethodsBase<T> {
-    CreateThemed: (args: { context: number; name?: string; owner?: Frame; overrides?: T }) => void;
+    // CreateThemed: (args: { context: number; name?: string; owner?: Frame; overrides?: T }) => void;
 }
 
 /**

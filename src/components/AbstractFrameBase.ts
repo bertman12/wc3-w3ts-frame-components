@@ -139,4 +139,5 @@ export abstract class AbstractFrameBase {
      * @param themeConfiguration
      */
     public static SaveTheme(themeConfiguration: any) {}
+
 }
