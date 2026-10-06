@@ -24,7 +24,7 @@ export class TestCompositeFrame extends CompositeFrame<TestCompositeFrameConfigu
     static get DefaultConfiguration(): TestCompositeFrameConfiguration {
         return {
             propTest: 1,
-            somethingRequired: false,
+            // somethingRequired: false,
         };
     }
 
@@ -41,4 +41,4 @@ export class TestCompositeFrame extends CompositeFrame<TestCompositeFrameConfigu
     }
 }
 
-const x = TestCompositeFrame.Create({ context: 0, configuration: { propTest: 1, somethingRequired: false } });
+const x = TestCompositeFrame.Create({ context: 0, configuration: { propTest: 1} });

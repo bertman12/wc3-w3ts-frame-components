@@ -13,7 +13,7 @@ export interface IMonoFrameConfigurationBase extends IFrameConfigurationBase {
 
 export interface ICompositeFrameConfigurationBase extends IFrameConfigurationBase {
     // stuff
-    somethingRequired: boolean;
+    // somethingRequired: boolean;
 }
 
 /**
@@ -43,7 +43,8 @@ interface IFrameBaseProperties<T extends IFrameConfigurationBase> {
 }
 
 export interface IMonoFrameProperties<T extends IFrameConfigurationBase> extends IFrameBaseProperties<T> {
-    //
+    inherits?: string;
+    priority?: number;
 }
 
 /**
@@ -55,12 +56,12 @@ export interface ICompositeFrameProperties<T extends ICompositeFrameConfiguratio
 }
 
 interface IFrameCreationMethodsBase<T extends IFrameConfigurationBase> {
-    /**
-     * When no configuration exists, the library's default configuration is used.
-     * @param args
-     * @returns
-     */
-    Create: (args: { context: number; name?: string; owner?: Frame; configuration?: T }) => void;
+    // /**
+    //  * When no configuration exists, the library's default configuration is used.
+    //  * @param args
+    //  * @returns
+    //  */
+    // Create: (args: { context: number; name?: string; owner?: Frame; configuration?: T }) => void;
     // CreateThemed: (args: { context: number; name?: string; owner?: Frame; inherits: string; overrides?: T }) => void;
 }
 

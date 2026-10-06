@@ -13,10 +13,41 @@ The library is still in early development and is subject to major breaking chang
 # <a id="contents">Contents</a>
 
 - [About Components](#about-components)
+- [MonoFrame](#about-mono-frame)
+- [CompositeFrame](#about-composite-frame)
 - [Components](#components-toc)
 - [Theme](#theme)
 - [Caveats](#caveats)
 - [Frame definitions and TOC Files](#frame-definitions-and-toc-files)
+
+## <a id="about-mono-frame">About MonoFrame</a> - [🔝](#contents)
+
+The MonoFrame class serves as a wrapper class for frame types provided by Blizzard.
+
+#### Properties
+    
+
+## <a id="about-composite-frame">About CompositeFrame</a> - [🔝](#contents)
+
+Composite frames are classes which container other MonoFrames or CompositeFrames.
+
+The CompositeFrame uses a single backdrop frame as the parent for it's direct children.
+This backdrop frame is also referred to as the container frame in the class.
+
+This means you can choose to hide, show or move the contents of the Composite Frame by controlling container frame.
+
+#### Properties
+
+- containerFrame 
+    - An empty backdrop frame which is a parent to the direct children in the CompositeFrame.
+- name
+    - An optional reference name which servers as a prefix in the name of rendered children frames.
+- owner
+    - An optional field to designate the parent of the CompositeFrame's containerFrame.  
+- context
+    - This determines the rendering context for all frames rendered by the class.
+
+
 
 ## <a id="about-components">About Components</a> - [🔝](#contents)
 

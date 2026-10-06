@@ -1,4 +1,3 @@
-import { CompositeFrame } from "src/components";
-import { MonoFrame } from "src/components/Core/MonoFrame";
+import { CompositeFrame, MonoFrame } from "src/components";
 
-export type ICompositeFrameComponents = { [key: string]: CompositeFrame<any, any> | MonoFrame };
+export type ICompositeFrameComponents = { [key: string]: CompositeFrame<any, any> | CompositeFrame<any, any>[] | MonoFrame<any> | MonoFrame<any>[] };
