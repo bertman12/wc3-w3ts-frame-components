@@ -1,5 +1,5 @@
-import { TestCompositeFrameConfiguration } from "src/components/CompositeFrames/test";
-import { IMonoFrameConfigurationBase } from "src/models/FrameTypes";
+import { TestCompositeFrameConfiguration } from "../components";
+import { IMonoFrameConfigurationBase } from "../models";
 
 /**
  * Global Theme.

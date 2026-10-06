@@ -1,7 +1,6 @@
-import { ICompositeFrameComponents } from "src/models/components";
-import { ICompositeFrameConfigurationBase } from "src/models/FrameTypes";
 import { Frame } from "w3ts";
 import { CompositeFrame } from "../Core/CompositeFrame";
+import { ICompositeFrameConfigurationBase, ICompositeFrameChildFrames } from "../../models";
 
 /**
  * The configuration for composite components should also list configurations for it's child components which can be passed into them to make them as configured.
@@ -10,7 +9,7 @@ export interface TestCompositeFrameConfiguration extends ICompositeFrameConfigur
     propTest: number;
 }
 
-interface TestCompositeFrameChildFrames extends ICompositeFrameComponents {}
+interface TestCompositeFrameChildFrames extends ICompositeFrameChildFrames {}
 
 export class TestCompositeFrame extends CompositeFrame<TestCompositeFrameConfiguration, TestCompositeFrameChildFrames> {
     private constructor(...args: ConstructorParameters<typeof CompositeFrame<TestCompositeFrameConfiguration, TestCompositeFrameChildFrames>>) {
@@ -40,5 +39,3 @@ export class TestCompositeFrame extends CompositeFrame<TestCompositeFrameConfigu
          */
     }
 }
-
-const x = TestCompositeFrame.Create({ context: 0, configuration: { propTest: 1} });

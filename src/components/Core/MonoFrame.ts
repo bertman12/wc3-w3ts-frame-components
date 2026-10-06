@@ -1,6 +1,6 @@
-import { FrameUtils } from "src/frame-utils";
-import { IMonoFrameConfigurationBase, IMonoFrameMethods, IMonoFrameProperties } from "src/models/FrameTypes";
 import { Frame } from "w3ts";
+import { FrameUtils } from "../../frame-utils";
+import { IMonoFrameConfigurationBase, IMonoFrameMethods, IMonoFrameProperties } from "../../models";
 
 /**
  * Mono frames are those which act as wrappers a single frame type.

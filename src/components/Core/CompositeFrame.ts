@@ -1,7 +1,6 @@
-import { FrameUtils } from "src/frame-utils";
-import { ICompositeFrameComponents as ICompositeFrameChildFrames } from "src/models/components";
-import { ICompositeFrameConfigurationBase, ICompositeFrameMethods, ICompositeFrameProperties } from "src/models/FrameTypes";
 import { Frame } from "w3ts";
+import { FrameUtils } from "../../frame-utils";
+import { ICompositeFrameConfigurationBase, ICompositeFrameChildFrames, ICompositeFrameMethods, ICompositeFrameProperties } from "../../models";
 
 /**
  * A Composite Frame is composed of other Composite Frames or Mono Frames

@@ -1,5 +1,3 @@
-import { ICompositeFrameComponents } from "src/models/components";
-import { ICompositeFrameConfigurationBase } from "src/models/FrameTypes";
 import { Frame, Timer } from "w3ts";
 import { delay } from "warcraft-3-w3ts-utils";
 import { Backdrop } from "../backdrop";
@@ -8,6 +6,7 @@ import { CompositeFrame } from "../Core/CompositeFrame";
 import { Text } from "../text";
 import { Tooltip } from "../tooltip";
 import { TestCompositeFrame } from "./test";
+import { ICompositeFrameConfigurationBase, ICompositeFrameChildFrames } from "../../models";
 
 export interface TimerCompositeFrameConfiguration extends ICompositeFrameConfigurationBase {
     useTitle?: boolean;
@@ -19,7 +18,7 @@ export interface TimerCompositeFrameConfiguration extends ICompositeFrameConfigu
     xOffset?: number;
 }
 
-interface TimerCompositeFrameChildFrames extends ICompositeFrameComponents {
+interface TimerCompositeFrameChildFrames extends ICompositeFrameChildFrames {
     testFrame: TestCompositeFrame;
 }
 

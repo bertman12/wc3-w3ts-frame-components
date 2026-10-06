@@ -1,6 +1,6 @@
-import { IMonoFrameConfigurationBase } from "src/models/FrameTypes";
 import { Frame } from "w3ts";
 import { MonoFrame } from "../Core/MonoFrame";
+import { IMonoFrameConfigurationBase } from "../../models";
 
 export interface TextMonoFrameConfiguration extends IMonoFrameConfigurationBase {
     initialText?: string;
