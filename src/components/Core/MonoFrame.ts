@@ -37,7 +37,7 @@ export abstract class MonoFrame<Configuration extends IMonoFrameConfigurationBas
 
     /**
      * Creates a component by type using the inherits field.
-     * 
+     *
      * @param args Frame creation options
      * @param args.context The render context of frame.
      * @param args.inherits The frame which this frame will inherit properties from.
@@ -54,13 +54,5 @@ export abstract class MonoFrame<Configuration extends IMonoFrameConfigurationBas
      */
     protected render() {
         //
-    }
-}
-
-interface MonoConfig extends IMonoFrameConfigurationBase {}
-
-export class MonoTest extends MonoFrame<MonoConfig> {
-    constructor() {
-        super(0, {});
     }
 }

@@ -5,7 +5,6 @@ import { delay } from "warcraft-3-w3ts-utils";
 import { Backdrop } from "../backdrop";
 import { Button } from "../button";
 import { CompositeFrame } from "../Core/CompositeFrame";
-import { MonoTest } from "../Core/MonoFrame";
 import { Text } from "../text";
 import { Tooltip } from "../tooltip";
 import { TestCompositeFrame } from "./test";
@@ -22,7 +21,6 @@ export interface TimerCompositeFrameConfiguration extends ICompositeFrameConfigu
 
 interface TimerCompositeFrameChildFrames extends ICompositeFrameComponents {
     testFrame: TestCompositeFrame;
-    monoTestFrame: MonoTest;
 }
 
 export class TimerCompositeFrame extends CompositeFrame<TimerCompositeFrameConfiguration, TimerCompositeFrameChildFrames> {

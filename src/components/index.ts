@@ -2,9 +2,8 @@ export * from "./AbstractFrameBase";
 export * from "./backdrop";
 export * from "./button";
 export * from "./CompositeFrames";
-export * from "./Core/CompositeFrame";
-export * from "./Core/MonoFrame";
-export * from "./MonoFrames";
+export * from "./Core";
+export * from './MonoFrames'
 export * from "./empty-frame";
 export * from "./glue-text-button";
 export * from "./icon";
