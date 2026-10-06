@@ -1,7 +1,7 @@
 import { FrameUtils } from "src/frame-utils";
 import { W3TSFrameComponentsThemeUtils } from "src/theme";
 import { Frame } from "w3ts";
-import { AbstractFrameBase, AbstractFrameByTypeArgs, AbstractFrameConstructorArgs } from "./AbstractFrameBase";
+import { AbstractFrameBase, AbstractFrameConstructorArgs } from "./AbstractFrameBase";
 
 export class Backdrop extends AbstractFrameBase {
     public frame?: Frame;
@@ -13,10 +13,8 @@ export class Backdrop extends AbstractFrameBase {
     }
 
     public static CreateType(...baseArgs: Omit<ConstructorParameters<typeof AbstractFrameBase>, "inherits">): void {
-            // Backdrop.CreateType();
+        // Backdrop.CreateType();
     }
-
-
 
     protected render() {
         //Fallback inherit string not required if someone doesn't want it to have anything in the background.
