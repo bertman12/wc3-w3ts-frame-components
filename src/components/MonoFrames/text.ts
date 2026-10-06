@@ -2,21 +2,21 @@ import { Frame } from "w3ts";
 import { MonoFrame } from "../Core/MonoFrame";
 import { IMonoFrameConfigurationBase } from "../../models";
 
-export interface TextMonoFrameConfiguration extends IMonoFrameConfigurationBase {
+export interface TextFrameConfiguration extends IMonoFrameConfigurationBase {
     initialText?: string;
     autoSizeWidth?: boolean;
     defaultAutoSizeBuffer?: number;
 }
 
-export class TextMonoFrame extends MonoFrame<TextMonoFrameConfiguration> {
+export class TextFrame extends MonoFrame<TextFrameConfiguration> {
     public frame?: Frame;
 
-    private constructor(...args: ConstructorParameters<typeof MonoFrame<TextMonoFrameConfiguration>>) {
+    private constructor(...args: ConstructorParameters<typeof MonoFrame<TextFrameConfiguration>>) {
         super(...args);
         this.render();
     }
 
-    public static get DefaultConfiguration(): TextMonoFrameConfiguration {
+    public static get DefaultConfiguration(): TextFrameConfiguration {
         return {
             autoSizeWidth: true,
             initialText: "Sample Text",
@@ -33,8 +33,8 @@ export class TextMonoFrame extends MonoFrame<TextMonoFrameConfiguration> {
      * @param args.owner Parent frame; defaults to the game UI frame.
      * @param args.overrides Configuration values that replace the defaults.
      */
-    public static CreateNamed(args: { context: number; name: string; priority?: number; owner?: Frame; overrides?: TextMonoFrameConfiguration }): TextMonoFrame {
-        return new TextMonoFrame(args.context, { ...TextMonoFrame.DefaultConfiguration, ...args.overrides }, args.name, args.owner, undefined, args.priority);
+    public static CreateNamed(args: { context: number; name: string; priority?: number; owner?: Frame; overrides?: TextFrameConfiguration }): TextFrame {
+        return new TextFrame(args.context, { ...TextFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
     /**
@@ -47,12 +47,12 @@ export class TextMonoFrame extends MonoFrame<TextMonoFrameConfiguration> {
      * @param args.owner Parent frame; defaults to the game UI frame.
      * @param args.overrides Configuration values that replace the defaults.
      */
-    public static CreateType(args: { context: number; inherits: string; name?: string; owner?: Frame; overrides?: TextMonoFrameConfiguration }): TextMonoFrame {
-        return new TextMonoFrame(args.context, { ...TextMonoFrame.DefaultConfiguration, ...args.overrides }, args.name, args.owner, args.inherits);
+    public static CreateType(args: { context: number; inherits: string; name?: string; owner?: Frame; overrides?: TextFrameConfiguration }): TextFrame {
+        return new TextFrame(args.context, { ...TextFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
 
     protected render(): void {
-        if (this.inherits) {
+        if (this.inherits !== undefined) {
             this.frame = Frame.createType(this.name, this.owner, this.context, "TEXT", this.inherits);
         } else {
             this.frame = Frame.create(this.name, this.owner, this.priority ?? 0, this.context);
