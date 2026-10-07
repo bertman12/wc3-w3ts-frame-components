@@ -207,8 +207,8 @@ customButton.frame?.setAbsPoint(FRAMEPOINT_CENTER, 0.6, 0.45);
 
 ### <a id="icon-frame">IconFrame</a> - [🔝](#components-toc)
 
-`IconFrame` displays a texture using a Blizzard backdrop frame. Use
-`updateTexture` to change the image after construction.
+`IconFrame` displays a texture on a Blizzard button without registering a
+click trigger. Use `updateTexture` to change the image after construction.
 
 ### <a id="backdrop-frame">BackdropFrame</a> - [🔝](#components-toc)
 

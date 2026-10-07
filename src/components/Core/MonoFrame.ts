@@ -18,7 +18,7 @@ export abstract class MonoFrame<Configuration extends IMonoFrameConfigurationBas
         this.configuration = configuration || {};
         this.name = name || "";
         this.owner = owner || FrameUtils.OriginFrameGameUI;
-        this.inherits = inherits || "";
+        this.inherits = inherits;
         this.priority = priority || 0;
     }
 

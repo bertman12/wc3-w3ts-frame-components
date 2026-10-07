@@ -8,6 +8,7 @@ export interface IconFrameConfiguration extends IMonoFrameConfigurationBase {
 
 export class IconFrame extends MonoFrame<IconFrameConfiguration> {
     public frame?: Frame;
+    public iconFrame?: Frame;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<IconFrameConfiguration>>) {
         super(...args);
@@ -27,7 +28,7 @@ export class IconFrame extends MonoFrame<IconFrameConfiguration> {
     }
 
     protected render(): void {
-        this.frame = Frame.createType(this.name, this.owner, this.context, "BACKDROP", this.inherits ?? "");
+        this.frame = this.inherits !== undefined ? Frame.createType(this.name, this.owner, this.context, "BUTTON", this.inherits) : Frame.create(this.name, this.owner, this.priority ?? 0, this.context);
         if (!this.frame) {
             return;
         }
@@ -35,10 +36,16 @@ export class IconFrame extends MonoFrame<IconFrameConfiguration> {
         this.frame.clearPoints();
         this.frame.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
         this.frame.setSize(0.03, 0.03);
-        this.frame.setTexture(this.configuration.texture ?? "", 0, false);
+        this.iconFrame = Frame.createType(`${this.name}Icon`, this.frame, this.context, "BACKDROP", "");
+        if (!this.iconFrame) {
+            return;
+        }
+
+        this.iconFrame.setAllPoints(this.frame);
+        this.iconFrame.setTexture(this.configuration.texture ?? "", 0, false);
     }
 
     public updateTexture(texture: string): void {
-        this.frame?.setTexture(texture, 0, false);
+        this.iconFrame?.setTexture(texture, 0, false);
     }
 }
