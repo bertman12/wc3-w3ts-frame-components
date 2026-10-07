@@ -22,7 +22,7 @@ export abstract class CompositeFrame<Configuration extends ICompositeFrameConfig
         this.name = name;
         this.context = context;
         this.owner = owner || FrameUtils.OriginFrameGameUI;
-        this.configuration = configuration;
+        this.configuration = configuration || {};
     }
 
     /**

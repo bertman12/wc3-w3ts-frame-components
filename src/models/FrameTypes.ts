@@ -7,9 +7,7 @@ interface IFrameConfigurationBase {
 /**
  * Configurable properties all MonoFrames share.
  */
-export interface IMonoFrameConfigurationBase extends IFrameConfigurationBase {
-    inherits?: string;
-}
+export interface IMonoFrameConfigurationBase extends IFrameConfigurationBase {}
 
 export interface ICompositeFrameConfigurationBase extends IFrameConfigurationBase {
     // stuff

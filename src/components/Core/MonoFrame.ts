@@ -15,10 +15,10 @@ export abstract class MonoFrame<Configuration extends IMonoFrameConfigurationBas
 
     constructor(context: number, configuration: Configuration, name?: string, owner?: Frame, inherits?: string, priority?: number) {
         this.context = context;
-        this.configuration = configuration;
+        this.configuration = configuration || {};
         this.name = name || "";
         this.owner = owner || FrameUtils.OriginFrameGameUI;
-        this.inherits = inherits || "";
+        this.inherits = inherits;
         this.priority = priority || 0;
     }
 
