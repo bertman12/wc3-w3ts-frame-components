@@ -81,6 +81,7 @@ export class TooltipFrame extends CompositeFrame<TooltipFrameConfiguration, Tool
         headerText.frame.setText(this.configuration.headerText ?? "");
         bodyText.frame.setText(this.configuration.bodyText ?? "");
         const width = this.getFormattedWidth(this.configuration.headerText ?? "", this.configuration.bodyText ?? "");
+        const bodySpaceX = this.configuration.tooltipBodySpaceX ?? 0.01;
         headerText.frame.setSize(width, 0);
         bodyText.frame.setSize(width, 0);
         headerText.frame.setEnabled(false);
@@ -97,7 +98,7 @@ export class TooltipFrame extends CompositeFrame<TooltipFrameConfiguration, Tool
         if (this.configuration.anchorPoint === "bottom") {
             headerText.frame.clearPoints();
             bodyText.frame.clearPoints();
-            headerText.frame.setPoint(FRAMEPOINT_TOPRIGHT, parent, FRAMEPOINT_BOTTOMLEFT, 0, -0.01);
+            headerText.frame.setPoint(FRAMEPOINT_TOPLEFT, parent, FRAMEPOINT_BOTTOMLEFT, bodySpaceX, -0.01);
             bodyText.frame.setPoint(FRAMEPOINT_TOPLEFT, headerText.frame, FRAMEPOINT_BOTTOMLEFT, 0, -0.01);
         }
 
@@ -180,7 +181,7 @@ export class TooltipFrame extends CompositeFrame<TooltipFrameConfiguration, Tool
 
         if (backdrop?.frame) {
             backdrop.frame.setPoint(FRAMEPOINT_TOPRIGHT, headerText.frame, FRAMEPOINT_TOPRIGHT, this.configuration.tooltipHeaderSpaceX ?? 0.01, 0.01);
-            backdrop.frame.setPoint(FRAMEPOINT_BOTTOMLEFT, bodyText.frame, FRAMEPOINT_BOTTOMLEFT, -(this.configuration.tooltipBodySpaceX ?? 0.01), -0.01);
+            backdrop.frame.setPoint(FRAMEPOINT_BOTTOMLEFT, bodyText.frame, FRAMEPOINT_BOTTOMLEFT, -bodySpaceX, -0.01);
             BlzFrameSetTooltip(parent.handle, backdrop.frame.handle);
         } else {
             BlzFrameSetTooltip(parent.handle, bodyText.frame.handle);
