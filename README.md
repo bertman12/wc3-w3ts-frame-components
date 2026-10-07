@@ -223,6 +223,11 @@ container for positioning related frames.
 
 `TextAreaFrame` wraps a Blizzard text area. Its mouse-enter helper manages
 enablement so the frame does not retain focus after interaction.
+Use the optional `JMT_TextAreaTemplate` after loading the supplied FDF/TOC
+assets when the text area needs a bordered visual container.
+Warcraft III shows its scrollbar only when the content exceeds the text area's
+visible height; `TextAreaMaxLines` limits retained lines but does not force the
+scrollbar to appear.
 
 ### <a id="text-frame">TextFrame</a> - [🔝](#components-toc)
 
@@ -234,6 +239,8 @@ for automatic text sizing.
 `TooltipFrame` attaches a text-only tooltip or an optional backdrop tooltip to
 an owner frame. When `includeBackground` is enabled, resource-style icon/value
 data can be rendered beneath the header through `tooltipIconGridData`.
+Set `anchorPoint: "bottom"` for owners near the top of the screen so the
+tooltip opens beneath, rather than above, its owner.
 
 ![Tooltip example](tooltipExample.png)
 
@@ -283,7 +290,9 @@ optionally, the grid data after construction.
 
 `TimerFrame` displays a countdown within a backdrop. Its optional decoration
 is an `IconFrame`, not a clickable button. Supply `iconTexture` and
-`iconTooltipText` when the icon should include a tooltip.
+`iconTooltipText` when the icon should include a tooltip. Its title and
+counter auto-size, and the backdrop expands when their combined content needs
+more space than `backdropWidth`.
 
 ```ts
 import { TimerFrame } from "warcraft-3-w3ts-frame-components";
@@ -311,3 +320,14 @@ frames.
 The library includes optional frame-definition and TOC files. They provide
 custom styling for backdrops, glue buttons, text areas, and scrollbars, but
 are not required to use the component API.
+
+After importing a TOC and its referenced FDF files into the map, load it
+before creating frames that inherit from its templates:
+
+```ts
+import { FrameUtils } from "warcraft-3-w3ts-frame-components";
+
+if (!FrameUtils.LoadTOC("war3mapImported\\MyFrames.toc")) {
+    print("Failed to load custom frame definitions.");
+}
+```

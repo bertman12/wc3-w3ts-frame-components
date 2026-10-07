@@ -28,14 +28,11 @@ export class GlueTextButtonFrame extends MonoFrame<GlueTextButtonFrameConfigurat
     }
 
     public static CreateType(args: { context: number; inherits: string; name?: string; owner?: Frame; overrides?: GlueTextButtonFrameConfiguration }): GlueTextButtonFrame {
-        print("glue text button create type function")
         return new GlueTextButtonFrame(args.context, { ...GlueTextButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
 
     protected render(): void {
-        print("Start of glue text button render");
         if (this.inherits !== undefined) {
-            print("Arguments for create by type: ", this.name, this.owner, this.context, "GLUETEXTBUTTON", this.inherits);
             this.frame = Frame.createType(this.name, this.owner, this.context, "GLUETEXTBUTTON", this.inherits);
         } else {
             this.createdByName = true;

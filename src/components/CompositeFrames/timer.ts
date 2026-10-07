@@ -65,9 +65,8 @@ export class TimerFrame extends CompositeFrame<TimerFrameConfiguration, TimerFra
         if (!timerText.frame) {
             return;
         }
-        timerText.frame.setText("0");
         timerText.frame.clearPoints();
-        timerText.formatSize();
+        timerText.update("0");
         timerText.frame.setPoint(FRAMEPOINT_RIGHT, backdrop.frame, FRAMEPOINT_RIGHT, 0, 0);
 
         const childFrames: TimerFrameChildFrames = { backdrop, timerText };
@@ -99,9 +98,8 @@ export class TimerFrame extends CompositeFrame<TimerFrameConfiguration, TimerFra
             const titleText = TextFrame.CreateType({ context: this.context, inherits: "", name: `${name}TitleText`, owner: backdrop.frame });
             if (titleText.frame) {
                 titleText.frame.clearPoints();
-                titleText.frame.setSize(0.03, 0);
                 titleText.frame.setPoint(FRAMEPOINT_LEFT, childFrames.icon?.frame ?? backdrop.frame, childFrames.icon?.frame ? FRAMEPOINT_RIGHT : FRAMEPOINT_LEFT, 0.01, 0);
-                titleText.frame.setText(this.configuration.timerTitle);
+                titleText.update(this.configuration.timerTitle);
             }
             childFrames.titleText = titleText;
         }
@@ -111,10 +109,10 @@ export class TimerFrame extends CompositeFrame<TimerFrameConfiguration, TimerFra
     }
 
     public start(duration: number, isRepeating?: boolean, onCompletion?: () => void): void {
-        this.childFrames?.timerText.update(`${duration}`);
+        this.updateTimerText(`${duration}`);
         this.timer.destroy();
         this.timer = Timer.create();
-        this.timer.start(1, true, () => this.childFrames?.timerText.frame?.setText(`${--duration}`));
+        this.timer.start(1, true, () => this.updateTimerText(`${--duration}`));
         this.containerFrame?.setVisible(true);
         this.childFrames?.icon?.frame?.setVisible(true);
 
@@ -132,18 +130,30 @@ export class TimerFrame extends CompositeFrame<TimerFrameConfiguration, TimerFra
         if (!this.containerFrame || !this.childFrames) {
             return;
         }
-        const timerLength = this.childFrames.timerText.frame?.text.length ?? 0;
-        const titleLength = this.childFrames.titleText?.frame?.text.length ?? 0;
+
+        const horizontalPadding = this.configuration.xOffset ?? 0.01;
         const iconWidth = this.childFrames.icon?.frame?.width ?? 0;
-        const width = Math.min(0.2, Math.max(0.03, 0.08 + iconWidth + 0.005 + (titleLength > 0 ? 0.004 * titleLength + 0.005 : 0.005) + 0.004 * timerLength + 0.005 + (buffer ?? 0)));
+        const titleWidth = this.childFrames.titleText?.frame?.width ?? 0;
+        const timerWidth = this.childFrames.timerText.frame?.width ?? 0;
+        const contentGap = 0.005;
+        const titleAndTimerWidth = titleWidth > 0 ? titleWidth + contentGap + timerWidth : timerWidth;
+        const iconAndTextWidth = iconWidth > 0 ? iconWidth + contentGap + titleAndTimerWidth : titleAndTimerWidth;
+        const width = Math.max(this.configuration.backdropWidth ?? 0.08, horizontalPadding * 2 + iconAndTextWidth + (buffer ?? 0));
         this.containerFrame.setSize(width, this.containerFrame.height);
     }
 
     public updateTitle(text: string): void {
-        if (!this.configuration.useTitle) {
+        const titleText = this.childFrames?.titleText;
+        if (!titleText) {
             return;
         }
-        this.childFrames?.titleText?.update(text);
+
+        titleText.update(text);
+        this.autoSize();
+    }
+
+    private updateTimerText(text: string): void {
+        this.childFrames?.timerText.update(text);
         this.autoSize();
     }
 }

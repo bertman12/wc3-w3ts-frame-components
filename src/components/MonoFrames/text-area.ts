@@ -38,7 +38,6 @@ export class TextAreaFrame extends MonoFrame<TextAreaFrameConfiguration> {
         this.frame.setSize(0.1, 0.1);
         this.frame.clearPoints();
         this.frame.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
-        this.frame.setPoint(FRAMEPOINT_BOTTOMLEFT, this.owner, FRAMEPOINT_BOTTOMLEFT, 0.005, 0.005);
 
         if (this.configuration.initialText) {
             this.frame.setText(this.configuration.initialText);

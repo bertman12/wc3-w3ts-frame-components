@@ -46,10 +46,9 @@ export class FrameUtils {
     }
 
     /**
-     * Only to be used when you do not use your own TOC file.
+     * Loads an imported TOC file before frames inherit from its definitions.
      */
-    static LoadTOC() {
-        const success = BlzLoadTOCFile("war3mapImported\\JMT_FramesTOC.toc");
-        print("JMT_FramesTOC loaded successfully? " + success);
+    static LoadTOC(path = "war3mapImported\\JMT_FramesTOC.toc"): boolean {
+        return BlzLoadTOCFile(path);
     }
 }
