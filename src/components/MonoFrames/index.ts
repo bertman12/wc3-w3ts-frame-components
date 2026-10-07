@@ -1,4 +1,3 @@
-export * from "./test";
 export * from "./backdrop";
 export * from "./button";
 export * from "./empty-frame";

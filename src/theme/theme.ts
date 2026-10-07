@@ -1,4 +1,3 @@
-import { TestCompositeFrameConfiguration } from "../components";
 import { IMonoFrameConfigurationBase } from "../models";
 
 /**
@@ -52,7 +51,6 @@ export interface IFrameComponentTheme {
 
 export class FrameComponentThemes {
     static ButtonTheme: IMonoFrameConfigurationBase;
-    static TestTheme: TestCompositeFrameConfiguration;
 }
 
 export class W3TSFrameComponentsThemeUtils {
