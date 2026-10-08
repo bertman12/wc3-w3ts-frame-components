@@ -10,7 +10,6 @@ export interface GlueTextButtonFrameConfiguration extends IMonoFrameConfiguratio
 }
 
 export class GlueTextButtonFrame extends MonoFrame<GlueTextButtonFrameConfiguration> {
-    public frame?: Frame;
     public onClickTrigger?: Trigger;
     private createdByName = false;
 
@@ -57,10 +56,7 @@ export class GlueTextButtonFrame extends MonoFrame<GlueTextButtonFrameConfigurat
         if (!this.frame) {
             return;
         }
-        this.onClickTrigger?.destroy();
-        this.onClickTrigger = Trigger.create();
-        this.onClickTrigger.triggerRegisterFrameEvent(this.frame, FRAMEEVENT_CONTROL_CLICK);
-        this.onClickTrigger.addAction(() => {
+        this.onClickTrigger = this.createFrameEvent(FRAMEEVENT_CONTROL_CLICK, () => {
             const player = MapPlayer.fromEvent();
             if (!this.createdByName && player && this.configuration.clickSoundPath) {
                 PlaySoundLocal(this.configuration.clickSoundPath, player.isLocal());

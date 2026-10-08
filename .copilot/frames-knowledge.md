@@ -28,6 +28,20 @@ the map harness.
 - `inherits: ""` is meaningful: it requests creation by frame type without an
   inheritance template. Do not collapse it into `undefined`, which changes
   creation from typed to named.
+- For a non-simple native type, prefer `CreateType` with `inherits: ""`. This
+  emits `BlzCreateFrameByType` and requires no loaded FDF. Do not add an FDF
+  merely to make a native base type constructible.
+- Use `CreateNamed` only when a caller intentionally needs a loaded,
+  top-level FDF template, including its configured child tree or appearance.
+  A named test is appropriate only when it is specifically verifying this
+  separate construction path.
+- `MonoFrame` owns the public `frame` handle and the protected
+  `createNativeFrame` / `createFrameEvent` helpers. Native MonoFrame wrappers
+  extend `MonoFrame` directly; do not add an intermediate native-frame base
+  class.
+- `createFrameEvent` owns triggers in `frameEventTriggers`, keyed by
+  `frameeventtype`. Re-registering an event destroys its previous trigger
+  before creating, storing, and registering the replacement.
 - A named definition must actually exist **and be loaded**. A top-level
   `Frame "TEXT"` definition is valid for `BlzCreateFrame` /
   `TextFrame.CreateNamed`; a child `Frame` definition is not.
@@ -48,6 +62,71 @@ the map harness.
 Source (version unspecified): local Blizzard extraction,
 `blizzard frame defs\war3.w3mod\ui\framedef\ui\escmenutemplates.fdf`; see also
 [Tasyen: UI - Reading a FDF](https://www.hiveworkshop.com/threads/ui-reading-a-fdf.315850/).
+
+### Native frame type coverage
+
+- The default Blizzard FDF catalog contains these non-simple native types:
+  `BACKDROP`, `BUTTON`, `CHATDISPLAY`, `CHECKBOX`, `CONTROL`, `DIALOG`,
+  `EDITBOX`, `FRAME`, `GLUEBUTTON`, `GLUECHECKBOX`, `GLUEEDITBOX`,
+  `GLUEPOPUPMENU`, `GLUETEXTBUTTON`, `HIGHLIGHT`, `LISTBOX`, `MENU`,
+  `MODEL`, `POPUPMENU`, `SCROLLBAR`, `SLASHCHATBOX`, `SLIDER`, `SPRITE`,
+  `TEXT`, `TEXTAREA`, `TEXTBUTTON`, and `TIMERTEXT`.
+- `EmptyFrame` is the `FRAME` wrapper. The remaining native types have
+  dedicated MonoFrame wrappers, except where an existing component already
+  covers the type (`BackdropFrame`, `ButtonFrame`, `GlueTextButtonFrame`,
+  `TextFrame`, and `TextAreaFrame`).
+- `CONTROL` and `STATUSBAR` are intentionally excluded; see
+  `tasyen-guide-unlisted-frame-types.md`. Tasyen's CONTROL entry has no
+  construction guidance, and his FrameEvents and FrameTypes guide has no
+  non-simple STATUSBAR entry.
+- Do not add `SIMPLE*` types to MonoFrame coverage. They require
+  `BlzCreateSimpleFrame` and the simple-frame layer rather than
+  `BlzCreateFrameByType`.
+- Do not add `BASE`: Tasyen documents that `BlzCreateFrameByType` fails for
+  it.
+- Every added native page has a bare `CreateType` test with `inherits: ""`.
+  This verifies that the native base type can be constructed without an FDF.
+- The harness also loads Blizzard's `UI\FrameDef\Glue\StandardTemplates.fdf`
+  through its TOC and adds a separate built-in-template test for controls
+  whose expected artwork or behavior needs FDF-defined child frames. It does
+  not define custom FDF templates merely to create a native base type.
+- `FrameComponentTestAdvancedFrames.fdf` is the narrow exception for complete
+  test fixtures that public frame natives cannot assemble: a `DIALOG` with
+  accept/cancel buttons, a populated `LISTBOX`, a `MENU` with choices, and a
+  `POPUPMENU` with its title, arrow, menu, and choices. Those fixture pages
+  use `CreateNamed` because their complete top-level FDF templates are loaded;
+  every one retains a preceding FDF-free `CreateType` bare-type test.
+- The local Warcraft III runtime reported that `StandardTitleTextTemplate` was
+  unavailable while loading the dialog fixture. Use the already verified
+  `EscMenuTitleTextTemplate` for that title instead; do not assume every
+  template name in older FDF examples exists in the installed game build.
+- FDF child hierarchies are necessary when no runtime API can bind the
+  required children: dialog accept/cancel events need `DialogOkButton` and
+  `DialogCancelButton`; popup selection needs a title, arrow, `MENU`, and
+  items; list boxes need their item and scrollbar bindings; and
+  `ControlBackdrop`-style visuals are assigned through FDF.
+- `MODEL` and `SPRITE` are code-only visual types. `CHATDISPLAY` exposes
+  `BlzFrameAddText` through `ChatDisplayFrame.addMessage`, but it
+  still does not automatically compose a text input and text area. `GLUEEDITBOX`
+  is an `EDITBOX` with a heavier click sound; Tasyen documents the practical
+  difference of `SLASHCHATBOX` as unknown, so their harness pages only assert
+  native text/event behavior rather than a specific visual treatment.
+- Source references: [Tasyen's DIALOG definition](https://github.com/Tasyen/FDF/blob/master/FrameTypes/DIALOG.html),
+  [LISTBOX definition](https://github.com/Tasyen/FDF/blob/master/FrameTypes/LISTBOX.html),
+  [MENU definition](https://github.com/Tasyen/FDF/blob/master/FrameTypes/MENU.html),
+  [POPUPMENU definition](https://github.com/Tasyen/FDF/blob/master/FrameTypes/POPUPMENU.html),
+  [CHATDISPLAY definition](https://github.com/Tasyen/FDF/blob/master/FrameTypes/CHATDISPLAY.html),
+  and [FrameEvents and FrameTypes](https://www.hiveworkshop.com/threads/ui-frameevents-and-frametypes.318309/).
+
+Sources (version unspecified):
+
+- [Tasyen: UI - Reading a FDF](https://www.hiveworkshop.com/threads/ui-reading-a-fdf.315850/)
+- [Tasyen: UI - FrameEvents and FrameTypes](https://www.hiveworkshop.com/threads/ui-frameevents-and-frametypes.318309/)
+- [Tasyen FDF FrameTypes](https://github.com/Tasyen/FDF/tree/master/FrameTypes)
+- [Tasyen FDF: BASE](https://github.com/Tasyen/FDF/blob/master/FrameTypes/BASE.html)
+- [Tasyen FDF: DIALOG](https://github.com/Tasyen/FDF/blob/master/FrameTypes/DIALOG.html)
+- [Tasyen FDF: POPUPMENU](https://github.com/Tasyen/FDF/blob/master/FrameTypes/POPUPMENU.html)
+- [Promises: Custom UI frame types and templates](https://github.com/Promises/Warcraft-Maul-Reimagined/blob/main/docs/ui-frames.md)
 
 ### Composite frames
 
@@ -115,7 +194,7 @@ These values are specific to `FrameComponentTestHarness`:
 | Element | Validated layout |
 |---|---|
 | Main panel | `0.32 x 0.28`, centered at `(0.2, 0.4)` |
-| Component grid | Three columns; each button `0.09 x 0.028`; horizontal pitch `0.102`; vertical pitch `0.04` |
+| Component grid | Three columns, nine components per home page; each button `0.09 x 0.028`; horizontal pitch `0.102`; vertical pitch `0.04` |
 | Title | `0.28 x 0.025`, fixed width |
 | Description | `0.28 x 0.02`, fixed width |
 | Bottom arrows | `0.03 x 0.024`, `0.012` above the panel bottom |
@@ -215,8 +294,15 @@ Sources (version unspecified):
 - It covers `BackdropFrame`, `ButtonFrame`, `EmptyFrame`,
   `GlueTextButtonFrame`, `IconFrame`, `TextAreaFrame`, `TextFrame`,
   `TooltipFrame`, and `TimerFrame`.
-- Every component page includes creation-by-type, creation-by-name, and a
-  component-specific test.
+- Existing named-template pages retain creation-by-name tests. Added native
+  non-simple pages use FDF-free creation-by-type plus a component-specific
+  test where the type exposes useful configured behavior.
+- The home grid uses the existing previous/next controls to paginate after
+  every nine component entries. Detail pages retain previous/next traversal
+  through individual component types.
+- New native-frame tests place the created frame inside a visible test
+  backdrop. This makes construction observable for types such as `CONTROL`,
+  `HIGHLIGHT`, and `MENU`, which do not draw useful standalone artwork.
 - Test roots are cached. Clicking an existing test toggles visibility rather
   than creating a second frame.
 - The Tooltip test uses a button anchor because tooltip visuals need an owner
@@ -238,3 +324,9 @@ Sources (version unspecified):
 - Use `npm --prefix test\wc3-ts-template run build` to transpile, assemble,
   and archive the map without launching the game.
 - The resulting archive is `test\wc3-ts-template\dist\bin\map.w3x`.
+- In the nested project, `npm run dev` and `npm run test` build first, then
+  launch the archive at `config.outputFolder` + `config.mapFolder`. Do not
+  recompile in the launcher or load the unpacked `dist\map.w3x` directory.
+  Build failures must return a nonzero exit code to prevent launch.
+- `npm run watch:defs` retains the old nested `dev` behavior: watching World
+  Editor map scripts and regenerating `src\war3map.d.ts`.

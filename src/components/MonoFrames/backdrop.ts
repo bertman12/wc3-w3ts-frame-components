@@ -5,8 +5,6 @@ import { IMonoFrameConfigurationBase } from "../../models";
 export interface BackdropFrameConfiguration extends IMonoFrameConfigurationBase {}
 
 export class BackdropFrame extends MonoFrame<BackdropFrameConfiguration> {
-    public frame?: Frame;
-
     private constructor(...args: ConstructorParameters<typeof MonoFrame<BackdropFrameConfiguration>>) {
         super(...args);
         this.render();

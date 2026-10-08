@@ -10,7 +10,6 @@ export interface ButtonFrameConfiguration extends IMonoFrameConfigurationBase {
 }
 
 export class ButtonFrame extends MonoFrame<ButtonFrameConfiguration> {
-    public frame?: Frame;
     public iconFrame?: Frame;
     public onClickTrigger?: Trigger;
 
@@ -63,10 +62,7 @@ export class ButtonFrame extends MonoFrame<ButtonFrameConfiguration> {
         if (!this.frame) {
             return;
         }
-        this.onClickTrigger?.destroy();
-        this.onClickTrigger = Trigger.create();
-        this.onClickTrigger.triggerRegisterFrameEvent(this.frame, FRAMEEVENT_CONTROL_CLICK);
-        this.onClickTrigger.addAction(() => {
+        this.onClickTrigger = this.createFrameEvent(FRAMEEVENT_CONTROL_CLICK, () => {
             const player = MapPlayer.fromEvent();
             if (this.configuration.clickSoundPath) {
                 PlaySoundLocal(this.configuration.clickSoundPath, player?.isLocal());

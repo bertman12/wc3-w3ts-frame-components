@@ -1,6 +1,23 @@
-import { Frame } from "w3ts";
+import { Frame, Trigger } from "w3ts";
 import { FrameUtils } from "../../frame-utils";
 import { IMonoFrameConfigurationBase, IMonoFrameMethods, IMonoFrameProperties } from "../../models";
+import { FrameType } from "../../names";
+
+export interface NamedNativeFrameArguments<Configuration extends IMonoFrameConfigurationBase> {
+    context: number;
+    name: string;
+    priority?: number;
+    owner?: Frame;
+    overrides?: Configuration;
+}
+
+export interface TypedNativeFrameArguments<Configuration extends IMonoFrameConfigurationBase> {
+    context: number;
+    inherits: string;
+    name?: string;
+    owner?: Frame;
+    overrides?: Configuration;
+}
 
 /**
  * Mono frames are those which act as wrappers a single frame type.
@@ -12,6 +29,8 @@ export abstract class MonoFrame<Configuration extends IMonoFrameConfigurationBas
     public inherits?: string;
     public priority?: number | undefined;
     public configuration: Configuration;
+    public frame?: Frame;
+    protected readonly frameEventTriggers = new Map<frameeventtype, Trigger>();
 
     constructor(context: number, configuration: Configuration, name?: string, owner?: Frame, inherits?: string, priority?: number) {
         this.context = context;
@@ -47,6 +66,34 @@ export abstract class MonoFrame<Configuration extends IMonoFrameConfigurationBas
      */
     public static CreateType(args: { context: number; inherits: string; name?: string; owner?: Frame; overrides?: any }) {
         //
+    }
+
+    protected createNativeFrame(frameType: FrameType, width = 0.1, height = 0.04, x = 0.4, y = 0.3): Frame | undefined {
+        this.frame =
+            this.inherits !== undefined
+                ? Frame.createType(this.name, this.owner, this.context, frameType, this.inherits)
+                : Frame.create(this.name, this.owner, this.priority ?? 0, this.context);
+        if (!this.frame) {
+            return undefined;
+        }
+
+        this.frame.clearPoints();
+        this.frame.setAbsPoint(FRAMEPOINT_CENTER, x, y);
+        this.frame.setSize(width, height);
+        return this.frame;
+    }
+
+    protected createFrameEvent(eventType: frameeventtype, action: () => void): Trigger | undefined {
+        if (!this.frame) {
+            return undefined;
+        }
+
+        this.frameEventTriggers.get(eventType)?.destroy();
+        const trigger = Trigger.create();
+        this.frameEventTriggers.set(eventType, trigger);
+        trigger.triggerRegisterFrameEvent(this.frame, eventType);
+        trigger.addAction(action);
+        return trigger;
     }
 
     /**

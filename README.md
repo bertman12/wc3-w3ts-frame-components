@@ -24,9 +24,13 @@ composed from those wrappers.
 `MonoFrame` descendants wrap one Blizzard frame. They expose the underlying
 `Frame` through `frame` and use component-specific configuration objects.
 
-Use `CreateType` to create a frame by Blizzard frame type and optional FDF
-template. Use `CreateNamed` when referencing an existing Blizzard frame name.
-Both accept an `overrides` object for component configuration.
+Use `CreateType` with `inherits: ""` to create a bare non-simple Blizzard
+frame without loading an FDF. Use `CreateNamed` only when an application
+intentionally needs a loaded top-level FDF template and its configured child
+structure. Both accept an `overrides` object for component configuration.
+Calling a component event setter again replaces the existing handler for that
+frame event; its prior native trigger is destroyed before the replacement is
+registered.
 
 ```ts
 import { ButtonFrame } from "warcraft-3-w3ts-frame-components";
@@ -84,6 +88,36 @@ timer.start(10);
 **[TextAreaFrame](#text-area-frame)**
 
 **[TextFrame](#text-frame)**
+
+**[Native MonoFrame wrappers](#native-mono-frame-wrappers)**
+
+### <a id="native-mono-frame-wrappers">Native MonoFrame wrappers</a> - [🔝](#components-toc)
+
+The library wraps supported independently creatable non-simple Blizzard frame
+types documented by the default FDF catalog. `EmptyFrame` is the wrapper for
+`FRAME`.
+
+| Native behavior | Components |
+|---|---|
+| Containers and passive frames | `ChatDisplayFrame`, `HighlightFrame`, `ListBoxFrame`, `MenuFrame` |
+| Buttons and toggles | `GlueButtonFrame`, `TextButtonFrame`, `CheckBoxFrame`, `GlueCheckBoxFrame` |
+| Text input | `EditBoxFrame`, `GlueEditBoxFrame`, `SlashChatBoxFrame` |
+| Selection and values | `PopupMenuFrame`, `GluePopupMenuFrame`, `SliderFrame`, `ScrollBarFrame` |
+| Dialogs and model displays | `DialogFrame`, `ModelFrame`, `SpriteFrame` |
+| Timer text | `TimerTextFrame` |
+
+All wrappers expose `CreateType` and `CreateNamed`. The default construction
+path is typed creation with an empty `inherits` string, which requires no FDF.
+Use named creation only when a loaded top-level FDF template is deliberately
+needed for its configured child hierarchy or appearance; never add an FDF just
+to instantiate one of these native frame types. `SIMPLE*` types are
+intentionally excluded because they require the distinct simple-frame creation
+path, and `BASE` is excluded because native typed creation fails for it.
+
+Typed construction proves that the native base frame exists; it does not
+manufacture optional FDF child hierarchies. For example, dialog accept/cancel
+buttons and popup menu options require a caller-supplied template when an
+application needs those higher-level behaviors.
 
 ### Composite frames - [🔝](#components-toc)
 

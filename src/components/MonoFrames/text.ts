@@ -9,8 +9,6 @@ export interface TextFrameConfiguration extends IMonoFrameConfigurationBase {
 }
 
 export class TextFrame extends MonoFrame<TextFrameConfiguration> {
-    public frame?: Frame;
-
     private constructor(...args: ConstructorParameters<typeof MonoFrame<TextFrameConfiguration>>) {
         super(...args);
         this.render();

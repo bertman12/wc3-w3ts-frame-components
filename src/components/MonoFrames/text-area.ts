@@ -9,7 +9,6 @@ export interface TextAreaFrameConfiguration extends IMonoFrameConfigurationBase 
 }
 
 export class TextAreaFrame extends MonoFrame<TextAreaFrameConfiguration> {
-    public frame?: Frame;
     public onMouseEnterTrigger?: Trigger;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<TextAreaFrameConfiguration>>) {
@@ -51,10 +50,7 @@ export class TextAreaFrame extends MonoFrame<TextAreaFrameConfiguration> {
         if (!this.frame) {
             return;
         }
-        this.onMouseEnterTrigger?.destroy();
-        this.onMouseEnterTrigger = Trigger.create();
-        this.onMouseEnterTrigger.triggerRegisterFrameEvent(this.frame, FRAMEEVENT_MOUSE_ENTER);
-        this.onMouseEnterTrigger.addAction(() => {
+        this.onMouseEnterTrigger = this.createFrameEvent(FRAMEEVENT_MOUSE_ENTER, () => {
             this.frame?.setEnabled(false);
             this.frame?.setEnabled(true);
             onMouseEnter();
