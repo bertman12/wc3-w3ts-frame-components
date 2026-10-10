@@ -38,6 +38,12 @@ documented there. Record only verified behavior and retain relevant sources.
 
 When creating a new skill, it must be in it's own file <skillName.md> and go in a new folder .copilot/skills/<skillName>
 
+# Commit messages
+
+Always leave a descriptive commit message for every commit: a concise summary
+line followed by a body explaining what changed and why (notable renames,
+removals, behavior changes, and validation results).
+
 # Researching
 
 Add any useful information you find as a skill or update/add our knowledge files.

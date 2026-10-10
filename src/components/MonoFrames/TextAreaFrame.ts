@@ -1,7 +1,7 @@
 import { Frame, Trigger } from "w3ts";
 import { IMonoFrameConfigurationBase } from "../../models";
 import { FrameType } from "../../names";
-import { MonoFrame } from "../Core/MonoFrame";
+import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
 export interface TextAreaFrameConfiguration extends IMonoFrameConfigurationBase {
     initialText?: string;
@@ -27,12 +27,12 @@ export class TextAreaFrame extends MonoFrame<TextAreaFrameConfiguration> {
     }
 
     /** @requiresFdf Needs a loaded FDF template for its font, scrollbar, and container art to render. */
-    public static CreateNamed(args: { context: number; name: string; priority?: number; owner?: Frame; overrides?: TextAreaFrameConfiguration }): TextAreaFrame {
+    public static CreateNamed(args: NamedNativeFrameArguments<TextAreaFrameConfiguration>): TextAreaFrame {
         return new TextAreaFrame(args.context, { ...TextAreaFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
     /** @requiresFdf Needs a loaded FDF template for its font, scrollbar, and container art to render. */
-    public static CreateType(args: { context: number; inherits: string; name?: string; owner?: Frame; overrides?: TextAreaFrameConfiguration }): TextAreaFrame {
+    public static CreateType(args: TypedNativeFrameArguments<TextAreaFrameConfiguration>): TextAreaFrame {
         return new TextAreaFrame(args.context, { ...TextAreaFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
 

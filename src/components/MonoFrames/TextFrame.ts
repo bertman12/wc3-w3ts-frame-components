@@ -1,5 +1,5 @@
 import { Frame } from "w3ts";
-import { MonoFrame } from "../Core/MonoFrame";
+import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 import { IMonoFrameConfigurationBase } from "../../models";
 
 export interface TextFrameConfiguration extends IMonoFrameConfigurationBase {
@@ -31,7 +31,7 @@ export class TextFrame extends MonoFrame<TextFrameConfiguration> {
      * @param args.owner Parent frame; defaults to the game UI frame.
      * @param args.overrides Configuration values that replace the defaults.
      */
-    public static CreateNamed(args: { context: number; name: string; priority?: number; owner?: Frame; overrides?: TextFrameConfiguration }): TextFrame {
+    public static CreateNamed(args: NamedNativeFrameArguments<TextFrameConfiguration>): TextFrame {
         return new TextFrame(args.context, { ...TextFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
@@ -45,7 +45,7 @@ export class TextFrame extends MonoFrame<TextFrameConfiguration> {
      * @param args.owner Parent frame; defaults to the game UI frame.
      * @param args.overrides Configuration values that replace the defaults.
      */
-    public static CreateType(args: { context: number; inherits: string; name?: string; owner?: Frame; overrides?: TextFrameConfiguration }): TextFrame {
+    public static CreateType(args: TypedNativeFrameArguments<TextFrameConfiguration>): TextFrame {
         return new TextFrame(args.context, { ...TextFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
 

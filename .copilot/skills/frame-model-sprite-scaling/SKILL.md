@@ -48,7 +48,7 @@ Working examples use different orders: Tasyen's 3D Model on UI: model, size, sca
 - Frotty's guide notes that `setVertexColor` works on model/sprite frames and that reparenting a SPRITE can permanently speed up its animation.
 - Unresolved report (no answer in the thread): Gaspar's SPRITE under `BlzGetFrameByName("ConsoleUIBackdrop", 1)` with `BlzFrameSetAbsPoint(0.4, 0.6)`, scale `0.80`, `UI\\Glues\\MainMenu\\WarCraftIIILogo_exp\\WarCraftIIILogo_expbeta.mdl` and no `BlzFrameSetSize` call "doesn't show up" (post 3521562, Feb 9, 2022, on Tasyen's [Frame Buttons](https://www.hiveworkshop.com/threads/frame-buttons.337943/)). Tasyen's reply above it (Reforged 1.32+) says frames under `ConsoleUIBackdrop` escape the 4:3 limit but draw below SimpleFrames. Inference: the missing size call is the most likely cause, since the Big Tutorial's model examples say size "has to be there"; the thread does not confirm it.
 
-## Repo pattern (src/components/MonoFrames/model.ts)
+## Repo pattern (src/components/MonoFrames/ModelDisplayFrame.ts, ModelFrame.ts, SpriteFrame.ts)
 - `scale`, `width`, `height` are configuration properties; the fallback literals (`0.002`, `0.001`, `0.001`) live in `DefaultConfiguration`.
 - Default render position is 0.4, 0.3 (see [frame-creation](../frame-creation/SKILL.md)).
 - Expose a scale updater so the scale can be tuned per model.

@@ -1,9 +1,9 @@
 import { Frame } from "w3ts";
 import { CompositeFrame } from "../Core/CompositeFrame";
-import { BackdropFrame } from "../MonoFrames/backdrop";
-import { EmptyFrame } from "../MonoFrames/empty-frame";
-import { IconFrame } from "../MonoFrames/icon";
-import { TextFrame } from "../MonoFrames/text";
+import { BackdropFrame } from "../MonoFrames/BackdropFrame";
+import { EmptyFrame } from "../MonoFrames/EmptyFrame";
+import { IconFrame } from "../MonoFrames/IconFrame";
+import { TextFrame } from "../MonoFrames/TextFrame";
 import { Grid, IGridItemBaseDefinition } from "../../grid";
 import { ICompositeFrameChildFrames, ICompositeFrameConfigurationBase } from "../../models";
 

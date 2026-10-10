@@ -1,7 +1,7 @@
 import { Frame, MapPlayer, Trigger } from "w3ts";
 import { delay, PlaySoundLocal } from "warcraft-3-w3ts-utils";
 import { IMonoFrameConfigurationBase } from "../../models";
-import { MonoFrame } from "../Core/MonoFrame";
+import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
 export interface ButtonFrameConfiguration extends IMonoFrameConfigurationBase {
     texture?: string;
@@ -26,11 +26,11 @@ export class ButtonFrame extends MonoFrame<ButtonFrameConfiguration> {
         };
     }
 
-    public static CreateNamed(args: { context: number; name: string; priority?: number; owner?: Frame; overrides?: ButtonFrameConfiguration }): ButtonFrame {
+    public static CreateNamed(args: NamedNativeFrameArguments<ButtonFrameConfiguration>): ButtonFrame {
         return new ButtonFrame(args.context, { ...ButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
-    public static CreateType(args: { context: number; inherits: string; name?: string; owner?: Frame; overrides?: ButtonFrameConfiguration }): ButtonFrame {
+    public static CreateType(args: TypedNativeFrameArguments<ButtonFrameConfiguration>): ButtonFrame {
         return new ButtonFrame(args.context, { ...ButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
 

@@ -1,5 +1,5 @@
 import { Frame } from "w3ts";
-import { MonoFrame } from "../Core/MonoFrame";
+import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 import { IMonoFrameConfigurationBase } from "../../models";
 
 export interface IconFrameConfiguration extends IMonoFrameConfigurationBase {
@@ -18,11 +18,11 @@ export class IconFrame extends MonoFrame<IconFrameConfiguration> {
         return { texture: "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn" };
     }
 
-    public static CreateNamed(args: { context: number; name: string; priority?: number; owner?: Frame; overrides?: IconFrameConfiguration }): IconFrame {
+    public static CreateNamed(args: NamedNativeFrameArguments<IconFrameConfiguration>): IconFrame {
         return new IconFrame(args.context, { ...IconFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
-    public static CreateType(args: { context: number; inherits: string; name?: string; owner?: Frame; overrides?: IconFrameConfiguration }): IconFrame {
+    public static CreateType(args: TypedNativeFrameArguments<IconFrameConfiguration>): IconFrame {
         return new IconFrame(args.context, { ...IconFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
 

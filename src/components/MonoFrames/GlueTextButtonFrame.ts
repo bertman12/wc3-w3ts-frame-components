@@ -1,7 +1,7 @@
 import { Frame, MapPlayer, Trigger } from "w3ts";
 import { PlaySoundLocal } from "warcraft-3-w3ts-utils";
 import { IMonoFrameConfigurationBase } from "../../models";
-import { MonoFrame } from "../Core/MonoFrame";
+import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
 export interface GlueTextButtonFrameConfiguration extends IMonoFrameConfigurationBase {
     clickSoundPath?: string;
@@ -27,12 +27,12 @@ export class GlueTextButtonFrame extends MonoFrame<GlueTextButtonFrameConfigurat
     }
 
     /** @requiresFdf Needs a loaded FDF template for its text child and art to render. */
-    public static CreateNamed(args: { context: number; name: string; priority?: number; owner?: Frame; overrides?: GlueTextButtonFrameConfiguration }): GlueTextButtonFrame {
+    public static CreateNamed(args: NamedNativeFrameArguments<GlueTextButtonFrameConfiguration>): GlueTextButtonFrame {
         return new GlueTextButtonFrame(args.context, { ...GlueTextButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
     /** @requiresFdf Needs a loaded FDF template for its text child and art to render. */
-    public static CreateType(args: { context: number; inherits: string; name?: string; owner?: Frame; overrides?: GlueTextButtonFrameConfiguration }): GlueTextButtonFrame {
+    public static CreateType(args: TypedNativeFrameArguments<GlueTextButtonFrameConfiguration>): GlueTextButtonFrame {
         return new GlueTextButtonFrame(args.context, { ...GlueTextButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
 
