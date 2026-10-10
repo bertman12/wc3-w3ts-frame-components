@@ -2,7 +2,7 @@ import { Frame } from "w3ts";
 import { CompositeFrame } from "../Core/CompositeFrame";
 import { BackdropFrame } from "../MonoFrames/BackdropFrame";
 import { EmptyFrame } from "../MonoFrames/EmptyFrame";
-import { ButtonFrame } from "./button";
+import { ButtonFrame } from "./ButtonFrame";
 import { TextFrame } from "../MonoFrames/TextFrame";
 import { Grid, IGridItemBaseDefinition } from "../../grid";
 import { ICompositeFrameChildFrames, ICompositeFrameConfigurationBase } from "../../models";

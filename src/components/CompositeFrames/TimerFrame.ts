@@ -2,9 +2,9 @@ import { Frame, Timer } from "w3ts";
 import { delay } from "warcraft-3-w3ts-utils";
 import { CompositeFrame } from "../Core/CompositeFrame";
 import { BackdropFrame } from "../MonoFrames/BackdropFrame";
-import { ButtonFrame } from "./button";
+import { ButtonFrame } from "./ButtonFrame";
 import { TextFrame } from "../MonoFrames/TextFrame";
-import { TooltipFrame } from "./tooltip";
+import { TooltipFrame } from "./TooltipFrame";
 import { ICompositeFrameChildFrames, ICompositeFrameConfigurationBase } from "../../models";
 
 export interface TimerFrameConfiguration extends ICompositeFrameConfigurationBase {
