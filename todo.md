@@ -40,3 +40,40 @@ Make the frame event creation handler generic and publicy accessible.
 Based on the frame events, each frame should be able to call the createFrameEvent function on any MonoFrame.
 It should have an argument of a type of enum for the event type that is actually possible for that frame type (ie: Hover event for text area, click for button, etc.)
 You can lookup the frame event types (ie: FRAMEEVENT_CHECKBOX_CHECKED) to determine what is possible and also can cross reference tasyen guides.
+
+# 7
+
+Frames which don't work:
+
+chat display frame
+
+- doesnr render
+
+FDF Dialog doesn't close when clicking it again or navigating to new page.
+
+- spacing is also not correct for text inside the dialog buttons
+
+GlueButtonFrame
+
+- doesnt render anything
+
+GlueCheckBoxFrame
+
+- doesnt render
+
+GluePopupMenuFrame
+
+- no test button to actually render anythign
+
+HighlightFrame
+
+- no test button to actually render anythign
+
+ModelFrame
+
+- still renders black screen instead of an actual model
+
+ScrollBarFrame
+
+- renders nothing
+

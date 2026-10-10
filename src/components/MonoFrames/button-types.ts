@@ -25,7 +25,7 @@ abstract class ClickableFrame<Configuration extends ClickableFrameConfigurationB
     }
 
     public setOnClick(onClick: () => void): void {
-        this.onClickTrigger = this.createFrameEvent(FRAMEEVENT_CONTROL_CLICK, onClick);
+        this.onClickTrigger = this.onFrameEvent(FRAMEEVENT_CONTROL_CLICK, onClick);
     }
 }
 

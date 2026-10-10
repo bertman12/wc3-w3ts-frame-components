@@ -826,7 +826,7 @@ export class FrameComponentTestHarness {
                         inherits: "",
                         name: this.testName("Sprite", "Footman"),
                         owner,
-                        overrides: { modelPath: "Units\\Human\\Footman\\Footman.mdx" },
+                        overrides: { modelPath: "Units\\Human\\Footman\\Footman.mdl" },
                     }),
             }),
             this.createNativeFramePage("TextButton", "Text Btn", (owner) => TextButtonFrame.CreateType({ context: this.context, inherits: "", name: this.testName("TextButton", "Type"), owner }), {
@@ -866,9 +866,7 @@ export class FrameComponentTestHarness {
     ): FrameComponentTestPage {
         const tests = [this.test(baseTestLabel, () => this.createNativeFrameTest(component, baseTestLabel, createType))];
         for (const featureTest of Array.isArray(featureTests) ? featureTests : [featureTests]) {
-            tests.push(
-                this.test(featureTest.label, () => (featureTest.standalone ? featureTest.create(this.owner).frame : this.createNativeFrameTest(component, featureTest.label, featureTest.create))),
-            );
+            tests.push(this.test(featureTest.label, () => (featureTest.standalone ? featureTest.create(this.owner).frame : this.createNativeFrameTest(component, featureTest.label, featureTest.create))));
         }
 
         return {

@@ -56,7 +56,7 @@ export class TextAreaFrame extends MonoFrame<TextAreaFrameConfiguration> {
         if (!this.frame) {
             return;
         }
-        this.onMouseEnterTrigger = this.createFrameEvent(FRAMEEVENT_MOUSE_ENTER, () => {
+        this.onMouseEnterTrigger = this.onFrameEvent(FRAMEEVENT_MOUSE_ENTER, () => {
             this.frame?.setEnabled(false);
             this.frame?.setEnabled(true);
             onMouseEnter();

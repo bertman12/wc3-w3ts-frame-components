@@ -36,11 +36,11 @@ export class DialogFrame extends MonoFrame<DialogFrameConfiguration> {
     }
 
     public setOnAccept(onAccept: () => void): void {
-        this.onAcceptTrigger = this.createFrameEvent(FRAMEEVENT_DIALOG_ACCEPT, onAccept);
+        this.onAcceptTrigger = this.onFrameEvent(FRAMEEVENT_DIALOG_ACCEPT, onAccept);
     }
 
     public setOnCancel(onCancel: () => void): void {
-        this.onCancelTrigger = this.createFrameEvent(FRAMEEVENT_DIALOG_CANCEL, onCancel);
+        this.onCancelTrigger = this.onFrameEvent(FRAMEEVENT_DIALOG_CANCEL, onCancel);
     }
 
     protected render(): void {

@@ -28,11 +28,11 @@ abstract class ToggleFrame<Configuration extends CheckBoxFrameConfigurationBase>
     }
 
     public setOnChecked(onChecked: () => void): void {
-        this.onCheckedTrigger = this.createFrameEvent(FRAMEEVENT_CHECKBOX_CHECKED, onChecked);
+        this.onCheckedTrigger = this.onFrameEvent(FRAMEEVENT_CHECKBOX_CHECKED, onChecked);
     }
 
     public setOnUnchecked(onUnchecked: () => void): void {
-        this.onUncheckedTrigger = this.createFrameEvent(FRAMEEVENT_CHECKBOX_UNCHECKED, onUnchecked);
+        this.onUncheckedTrigger = this.onFrameEvent(FRAMEEVENT_CHECKBOX_UNCHECKED, onUnchecked);
     }
 }
 

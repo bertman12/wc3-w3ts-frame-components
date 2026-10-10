@@ -37,10 +37,10 @@ abstract class ValueFrame<Configuration extends ValueFrameConfigurationBase> ext
         }
     }
 
-    protected configureValueFrame(_frame: Frame): void {    }
+    protected configureValueFrame(_frame: Frame): void {}
 
     public setOnValueChanged(onValueChanged: (value: number) => void): void {
-        this.onValueChangedTrigger = this.createFrameEvent(FRAMEEVENT_SLIDER_VALUE_CHANGED, () => onValueChanged(Frame.getEventValue()));
+        this.onValueChangedTrigger = this.onFrameEvent(FRAMEEVENT_SLIDER_VALUE_CHANGED, () => onValueChanged(Frame.getEventValue()));
     }
 
     public updateValue(value: number): void {

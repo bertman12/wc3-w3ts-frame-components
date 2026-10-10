@@ -62,7 +62,7 @@ export class GlueTextButtonFrame extends MonoFrame<GlueTextButtonFrameConfigurat
         if (!this.frame) {
             return;
         }
-        this.onClickTrigger = this.createFrameEvent(FRAMEEVENT_CONTROL_CLICK, () => {
+        this.onClickTrigger = this.onFrameEvent(FRAMEEVENT_CONTROL_CLICK, () => {
             const player = MapPlayer.fromEvent();
             if (!this.createdByName && player && this.configuration.clickSoundPath) {
                 PlaySoundLocal(this.configuration.clickSoundPath, player.isLocal());

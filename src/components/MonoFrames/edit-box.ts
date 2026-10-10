@@ -33,11 +33,11 @@ abstract class TextInputFrame<Configuration extends EditBoxFrameConfigurationBas
     }
 
     public setOnEnter(onEnter: (text: string) => void): void {
-        this.onEnterTrigger = this.createFrameEvent(FRAMEEVENT_EDITBOX_ENTER, () => onEnter(this.frame?.text ?? ""));
+        this.onEnterTrigger = this.onFrameEvent(FRAMEEVENT_EDITBOX_ENTER, () => onEnter(this.frame?.text ?? ""));
     }
 
     public setOnTextChanged(onTextChanged: (text: string) => void): void {
-        this.onTextChangedTrigger = this.createFrameEvent(FRAMEEVENT_EDITBOX_TEXT_CHANGED, () => onTextChanged(this.frame?.text ?? ""));
+        this.onTextChangedTrigger = this.onFrameEvent(FRAMEEVENT_EDITBOX_TEXT_CHANGED, () => onTextChanged(this.frame?.text ?? ""));
     }
 
     public updateText(text: string): void {

@@ -23,7 +23,7 @@ abstract class PopupMenuFrameBase<Configuration extends PopupMenuFrameConfigurat
     }
 
     public setOnItemChanged(onItemChanged: (value: number) => void): void {
-        this.onItemChangedTrigger = this.createFrameEvent(FRAMEEVENT_POPUPMENU_ITEM_CHANGED, () => onItemChanged(Frame.getEventValue()));
+        this.onItemChangedTrigger = this.onFrameEvent(FRAMEEVENT_POPUPMENU_ITEM_CHANGED, () => onItemChanged(Frame.getEventValue()));
     }
 }
 

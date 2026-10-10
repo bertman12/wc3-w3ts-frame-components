@@ -69,10 +69,7 @@ export abstract class MonoFrame<Configuration extends IMonoFrameConfigurationBas
     }
 
     protected createNativeFrame(frameType: FrameType, width = 0.1, height = 0.04, x = 0.4, y = 0.3): Frame | undefined {
-        this.frame =
-            this.inherits !== undefined
-                ? Frame.createType(this.name, this.owner, this.context, frameType, this.inherits)
-                : Frame.create(this.name, this.owner, this.priority ?? 0, this.context);
+        this.frame = this.inherits !== undefined ? Frame.createType(this.name, this.owner, this.context, frameType, this.inherits) : Frame.create(this.name, this.owner, this.priority ?? 0, this.context);
         if (!this.frame) {
             return undefined;
         }
@@ -83,7 +80,7 @@ export abstract class MonoFrame<Configuration extends IMonoFrameConfigurationBas
         return this.frame;
     }
 
-    protected createFrameEvent(eventType: frameeventtype, action: () => void): Trigger | undefined {
+    protected onFrameEvent(eventType: frameeventtype, action: () => void): Trigger | undefined {
         if (!this.frame) {
             return undefined;
         }
