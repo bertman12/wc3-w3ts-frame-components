@@ -13,7 +13,6 @@ import {
     GluePopupMenuFrame,
     GlueTextButtonFrame,
     HighlightFrame,
-    IconFrame,
     ListBoxFrame,
     MenuFrame,
     ModelFrame,
@@ -249,9 +248,8 @@ export class FrameComponentTestHarness {
     }
 
     private createLauncherButton(): void {
-        this.launcherButton = ButtonFrame.CreateType({
+        this.launcherButton = ButtonFrame.Create({
             context: this.context,
-            inherits: "",
             name: `${this.name}Launcher`,
             owner: this.owner,
             overrides: {
@@ -259,17 +257,17 @@ export class FrameComponentTestHarness {
                 texture: "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn",
             },
         });
-        if (this.launcherButton.frame) {
-            this.positionUnderQuestsButton(this.launcherButton.frame);
+        if (this.launcherButton.containerFrame) {
+            this.positionUnderQuestsButton(this.launcherButton.containerFrame);
         }
-        this.launcherButton.frame?.setSize(0.03, 0.03);
-        this.launcherButton.frame?.setVisible(false);
+        this.launcherButton.containerFrame?.setSize(0.03, 0.03);
+        this.launcherButton.containerFrame?.setVisible(false);
 
-        if (this.launcherButton.frame) {
+        if (this.launcherButton.containerFrame) {
             TooltipFrame.Create({
                 context: this.context,
                 name: `${this.name}LauncherTooltip`,
-                owner: this.launcherButton.frame,
+                owner: this.launcherButton.containerFrame,
                 overrides: {
                     anchorPoint: "bottom",
                     bodyText: "Open the frame component test harness.",
@@ -394,13 +392,13 @@ export class FrameComponentTestHarness {
         this.hideTests();
         this.containerFrame?.setVisible(false);
         this.minimizeButton?.frame?.setVisible(false);
-        this.launcherButton?.frame?.setVisible(true);
+        this.launcherButton?.containerFrame?.setVisible(true);
     }
 
     private restore(): void {
         this.containerFrame?.setVisible(true);
         this.minimizeButton?.frame?.setVisible(true);
-        this.launcherButton?.frame?.setVisible(false);
+        this.launcherButton?.containerFrame?.setVisible(false);
         this.showPage(this.currentPage);
     }
 
@@ -423,20 +421,27 @@ export class FrameComponentTestHarness {
                 label: "ButtonFrame",
                 menuLabel: "Button",
                 tests: [
-                    this.test("Create by type", () => ButtonFrame.CreateType({ context: this.context, inherits: "", name: this.testName("Button", "Type") }).frame),
-                    this.test("Create by name", () => ButtonFrame.CreateNamed({ context: this.context, name: "ScoreScreenTabButtonTemplate" }).frame),
+                    this.test("Create", () => ButtonFrame.Create({ context: this.context, name: this.testName("Button", "Type") }).containerFrame),
                     this.test(
                         "Create click test",
                         () =>
-                            ButtonFrame.CreateType({
+                            ButtonFrame.Create({
                                 context: this.context,
-                                inherits: "",
                                 name: this.testName("Button", "Click"),
                                 overrides: {
                                     onClick: () => print("ButtonFrame test clicked."),
                                     texture: "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn",
                                 },
-                            }).frame,
+                            }).containerFrame,
+                    ),
+                    this.test(
+                        "Create icon (no click sound)",
+                        () =>
+                            ButtonFrame.Create({
+                                context: this.context,
+                                name: this.testName("Button", "Icon"),
+                                overrides: { clickSoundPath: "", texture: "ReplaceableTextures\\CommandButtons\\BTNInfernal.blp" },
+                            }).containerFrame,
                     ),
                 ],
             },
@@ -466,24 +471,6 @@ export class FrameComponentTestHarness {
                                     initialText: "Glue Button Test",
                                     onClick: () => print("GlueTextButtonFrame test clicked."),
                                 },
-                            }).frame,
-                    ),
-                ],
-            },
-            {
-                label: "IconFrame",
-                menuLabel: "Icon",
-                tests: [
-                    this.test("Create by type", () => IconFrame.CreateType({ context: this.context, inherits: "", name: this.testName("Icon", "Type") }).frame),
-                    this.test("Create by name", () => IconFrame.CreateNamed({ context: this.context, name: "ScoreScreenTabButtonTemplate" }).frame),
-                    this.test(
-                        "Create custom texture",
-                        () =>
-                            IconFrame.CreateType({
-                                context: this.context,
-                                inherits: "",
-                                name: this.testName("Icon", "Texture"),
-                                overrides: { texture: "ReplaceableTextures\\CommandButtons\\BTNInfernal.blp" },
                             }).frame,
                     ),
                 ],
@@ -940,21 +927,20 @@ export class FrameComponentTestHarness {
     }
 
     private createTooltipTest(label: string, createTooltip: (owner: Frame) => TooltipFrame): Frame | undefined {
-        const anchor = ButtonFrame.CreateType({
+        const anchor = ButtonFrame.Create({
             context: this.context,
-            inherits: "",
             name: this.testName("TooltipAnchor", label),
             overrides: {
                 texture: "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn",
             },
         });
-        if (!anchor.frame) {
+        if (!anchor.containerFrame) {
             return undefined;
         }
 
-        anchor.frame.setSize(0.04, 0.04);
-        createTooltip(anchor.frame);
-        return anchor.frame;
+        anchor.containerFrame.setSize(0.04, 0.04);
+        createTooltip(anchor.containerFrame);
+        return anchor.containerFrame;
     }
 
     private tooltipConfiguration(bodyText: string) {

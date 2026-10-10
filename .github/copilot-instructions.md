@@ -38,6 +38,18 @@ documented there. Record only verified behavior and retain relevant sources.
 
 When creating a new skill, it must be in it's own file <skillName.md> and go in a new folder .copilot/skills/<skillName>
 
+# Frame creation and modification guidelines
+
+Always follow
+[`.copilot/knowledge/frame-creation-and-modification-guidlines.md`](../.copilot/knowledge/frame-creation-and-modification-guidlines.md)
+whenever creating or changing any frame class or component.
+
+# No non-null assertions
+
+Never use the non-null assertion operator (`!`) on frames or other optional
+values, for example `this.frame!`. Narrow with an `if` check, optional chaining
+(`this.frame?.`), or a fallback instead.
+
 # Commit messages
 
 Always leave a descriptive commit message for every commit: a concise summary

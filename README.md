@@ -31,18 +31,15 @@ frame event; its prior native trigger is destroyed before the replacement is
 registered.
 
 ```ts
-import { ButtonFrame } from "warcraft-3-w3ts-frame-components";
+import { BackdropFrame } from "warcraft-3-w3ts-frame-components";
 
-const button = ButtonFrame.CreateType({
+const backdrop = BackdropFrame.CreateType({
     context: 0,
-    inherits: "",
-    overrides: {
-        texture: "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn",
-    },
+    inherits: "QuestButtonBaseTemplate",
 });
 
-button.frame?.clearPoints();
-button.frame?.setAbsPoint(FRAMEPOINT_CENTER, 0.2, 0.3);
+backdrop.frame?.clearPoints();
+backdrop.frame?.setAbsPoint(FRAMEPOINT_CENTER, 0.2, 0.3);
 ```
 
 Most mono frames wrap native Blizzard frame types. The library wraps supported independently creatable non-simple Blizzard frame
@@ -115,8 +112,6 @@ timer.start(10);
 
 **[BackdropFrame](#backdrop-frame)**
 
-**[ButtonFrame](#button-frame)**
-
 **[ChatDisplayFrame](#chat-display-frame)** 🚫
 
 **[CheckBoxFrame](#check-box-frame)**
@@ -138,8 +133,6 @@ timer.start(10);
 **[GlueTextButtonFrame](#glue-text-button-frame)**
 
 **[HighlightFrame](#highlight-frame)** 🚫
-
-**[IconFrame](#icon-frame)**
 
 **[ListBoxFrame](#list-box-frame)**
 
@@ -167,6 +160,8 @@ timer.start(10);
 
 #### <a id="composite-frames">CompositeFrames</a> - [🔝](#components-toc)
 
+**[ButtonFrame](#button-frame)**
+
 **[TimerFrame](#timer-frame)**
 
 **[TooltipFrame](#tooltip-frame)**
@@ -185,10 +180,10 @@ Sparse data arrays are not supported.
 <summary>Code Example</summary>
 
 ```ts
-import { Grid, IconFrame, IGridItemBaseDefinition } from "warcraft-3-w3ts-frame-components";
+import { ButtonFrame, Grid, IGridItemBaseDefinition } from "warcraft-3-w3ts-frame-components";
 
 interface IconGridItem extends IGridItemBaseDefinition {
-    icon: IconFrame;
+    icon: ButtonFrame;
 }
 
 const textures = ["ReplaceableTextures\\CommandButtons\\BTNTichondrius.blp", "ReplaceableTextures\\CommandButtons\\BTNGargoyle.blp"];
@@ -199,16 +194,15 @@ const grid = new Grid<string, IconGridItem>(
         data: textures,
         rows: 1,
         renderItem(parent, _row, _column, index, texture) {
-            const icon = IconFrame.CreateType({
+            const icon = ButtonFrame.Create({
                 context: 0,
-                inherits: "",
                 name: `GridIcon${index}`,
                 owner: parent,
-                overrides: { texture },
+                overrides: { clickSoundPath: "", texture },
             });
 
-            icon.frame?.setSize(0.03, 0.03);
-            return { container: icon.frame, icon };
+            icon.containerFrame?.setSize(0.03, 0.03);
+            return { container: icon.containerFrame, icon };
         },
         updateItem(texture, item) {
             item.icon.updateTexture(texture);
@@ -242,35 +236,6 @@ const backdrop = BackdropFrame.CreateType({
 });
 backdrop.frame?.setSize(0.2, 0.1);
 backdrop.frame?.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
-```
-
-</details>
-
-#### <a id="button-frame">ButtonFrame</a> - [🔝](#mono-frames)
-
-`ButtonFrame` wraps a Blizzard button and exposes `setOnClick` for click
-handlers. When configured with `clickSoundPath`, the sound is played locally
-for the clicking player.
-
-![ButtonFrame example](assets/button-frame-example.png)
-
-<details>
-<summary>Code Example</summary>
-
-```ts
-import { ButtonFrame } from "warcraft-3-w3ts-frame-components";
-
-const button = ButtonFrame.CreateType({
-    context: 0,
-    inherits: "",
-    overrides: {
-        texture: "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn",
-        onClick: () => print("Clicked"),
-    },
-});
-button.frame?.setSize(0.04, 0.04);
-button.frame?.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
-button.setOnClick(() => print("Replacement handler"));
 ```
 
 </details>
@@ -540,27 +505,6 @@ const highlight = HighlightFrame.CreateType({
     inherits: "MyHighlightTemplate",
 });
 highlight.frame?.setSize(0.1, 0.1);
-```
-
-</details>
-
-#### <a id="icon-frame">IconFrame</a> - [🔝](#mono-frames)
-
-`IconFrame` displays a texture on a Blizzard button without registering a
-click trigger. Use `updateTexture` to change the image after construction.
-
-![IconFrame example](assets/icon-frame-example.png)
-
-<details>
-<summary>Code Example</summary>
-
-```ts
-import { IconFrame } from "warcraft-3-w3ts-frame-components";
-
-const icon = IconFrame.CreateType({ context: 0, inherits: "" });
-icon.frame?.setSize(0.04, 0.04);
-icon.frame?.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
-icon.updateTexture("ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn");
 ```
 
 </details>
@@ -836,10 +780,41 @@ timerText.updateText("01:30");
 
 </details>
 
+#### <a id="button-frame">ButtonFrame</a> - [🔝](#composite-frames)
+
+`ButtonFrame` composes a Blizzard button (`containerFrame`) with a child
+backdrop (`iconFrame`) that shows the texture. It exposes `setOnClick` for click
+handlers and `updateTexture` to change the image. When configured with
+`clickSoundPath`, the sound is played locally for the clicking player. To use
+it as a plain icon, set `clickSoundPath: ""`. It replaces the former
+`IconFrame`.
+
+![ButtonFrame example](assets/button-frame-example.png)
+
+<details>
+<summary>Code Example</summary>
+
+```ts
+import { ButtonFrame } from "warcraft-3-w3ts-frame-components";
+
+const button = ButtonFrame.Create({
+    context: 0,
+    overrides: {
+        texture: "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn",
+        onClick: () => print("Clicked"),
+    },
+});
+button.containerFrame?.setSize(0.04, 0.04);
+button.containerFrame?.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
+button.setOnClick(() => print("Replacement handler"));
+```
+
+</details>
+
 #### <a id="timer-frame">TimerFrame</a> - [🔝](#composite-frames)
 
 `TimerFrame` displays a countdown within a backdrop. Its optional decoration
-is an `IconFrame`, not a clickable button. Supply `iconTexture` and
+is a non-clicking `ButtonFrame` used as an icon. Supply `iconTexture` and
 `iconTooltipText` when the icon should include a tooltip. Its title and
 counter auto-size, and the backdrop expands when their combined content needs
 more space than `backdropWidth`.
@@ -886,9 +861,8 @@ optionally, the grid data after construction.
 ```ts
 import { ButtonFrame, TooltipFrame } from "warcraft-3-w3ts-frame-components";
 
-const button = ButtonFrame.CreateType({
+const button = ButtonFrame.Create({
     context: 0,
-    inherits: "",
     overrides: {
         texture: "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn",
     },
@@ -899,10 +873,10 @@ const tooltipData = [
     { texture: "ReplaceableTextures\\CommandButtons\\BTNGargoyle.blp", value: "50" },
 ];
 
-if (button.frame) {
+if (button.containerFrame) {
     const tooltip = TooltipFrame.Create({
         context: 0,
-        owner: button.frame,
+        owner: button.containerFrame,
         overrides: {
             bodyText: "A tooltip body.",
             headerText: "|cffffcc00Header|r",

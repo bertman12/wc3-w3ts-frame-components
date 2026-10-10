@@ -20,3 +20,12 @@ The two must stay in sync in both directions.
   sizes itself from them).
 - Fallbacks in `render()` or other methods should reference
   `<Class>.DefaultConfiguration` rather than repeating the literal.
+
+## Document defaults on the configuration interface
+
+Every property on a frame class's configuration interface must have a JSDoc
+comment stating its default value, matching the value in that class's
+`DefaultConfiguration` literal (for example `Default value: 0.03`).
+
+- Update the JSDoc whenever the default in `DefaultConfiguration` changes.
+- Describe what the property does in the same comment.

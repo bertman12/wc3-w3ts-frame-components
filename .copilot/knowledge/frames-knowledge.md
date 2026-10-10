@@ -77,8 +77,9 @@ Source (version unspecified): local Blizzard extraction,
   `TEXT`, `TEXTAREA`, `TEXTBUTTON`, and `TIMERTEXT`.
 - `EmptyFrame` is the `FRAME` wrapper. The remaining native types have
   dedicated MonoFrame wrappers, except where an existing component already
-  covers the type (`BackdropFrame`, `ButtonFrame`, `GlueTextButtonFrame`,
-  `TextFrame`, and `TextAreaFrame`).
+  covers the type (`BackdropFrame`, `GlueTextButtonFrame`,
+  `TextFrame`, and `TextAreaFrame`; `BUTTON` is covered by the composite
+  `ButtonFrame`).
 - `CONTROL` and `STATUSBAR` are intentionally excluded; see
   `tasyen-guide-unlisted-frame-types.md`. Tasyen's CONTROL entry has no
   construction guidance, and his FrameEvents and FrameTypes guide has no
@@ -118,7 +119,7 @@ Source (version unspecified): local Blizzard extraction,
   and `TextAreaFrame` (its need for `JMT_TextAreaTemplate` is documented from
   runtime testing; the others are source-based, not runtime-verified), plus
   `GlueTextButtonFrame` (text child and art). Types not
-  marked (`ButtonFrame`, `IconFrame`, `BackdropFrame`, `EmptyFrame`, `TextFrame`,
+  marked (`ButtonFrame`, `BackdropFrame`, `EmptyFrame`, `TextFrame`,
   `GlueButtonFrame`, edit boxes, `ModelFrame`,
   `SpriteFrame`, `TimerTextFrame`) can be created bare; Tasyen documents
   `BACKDROP` textures as settable from script.
@@ -347,11 +348,11 @@ Sources (version unspecified):
 
 ## TimerFrame
 
-- `TimerFrame` uses an `IconFrame`, not a clickable `ButtonFrame`, for its
-  optional icon. Supply `iconTexture` and `iconTooltipText`.
-- `IconFrame` is button-backed for visual and hover behavior, with a child
-  backdrop texture, but intentionally registers no click trigger or click
-  handler API.
+- `TimerFrame` uses a non-clicking `ButtonFrame` (with `clickSoundPath: ""`) for
+  its optional icon. Supply `iconTexture` and `iconTooltipText`.
+- `ButtonFrame` is a composite: a BUTTON `containerFrame` for visual, hover and
+  click behavior, with a child BACKDROP texture (`iconFrame`). It replaced the
+  former `IconFrame`, which duplicated it without the click handler.
 - Create the timer title with `TextFrame.update()` so it sizes itself before
   layout.
 - Update the countdown through `TextFrame.update()` on start and each tick.
@@ -365,7 +366,7 @@ Sources (version unspecified):
 
 - Location: `src\debugging\frame-component-test-harness.ts`.
 - It covers `BackdropFrame`, `ButtonFrame`, `EmptyFrame`,
-  `GlueTextButtonFrame`, `IconFrame`, `TextAreaFrame`, `TextFrame`,
+  `GlueTextButtonFrame`, `TextAreaFrame`, `TextFrame`,
   `TooltipFrame`, and `TimerFrame`.
 - Existing named-template pages retain creation-by-name tests. Added native
   non-simple pages use FDF-free creation-by-type plus a component-specific

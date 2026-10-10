@@ -1,5 +1,4 @@
 export * from "./BackdropFrame";
-export * from "./ButtonFrame";
 export * from "./ChatDisplayFrame";
 export * from "./CheckBoxFrame";
 export * from "./DialogFrame";
@@ -11,7 +10,6 @@ export * from "./GlueEditBoxFrame";
 export * from "./GluePopupMenuFrame";
 export * from "./GlueTextButtonFrame";
 export * from "./HighlightFrame";
-export * from "./IconFrame";
 export * from "./ListBoxFrame";
 export * from "./MenuFrame";
 export * from "./ModelDisplayFrame";

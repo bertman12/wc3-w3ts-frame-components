@@ -2,7 +2,7 @@ import { Frame, Timer } from "w3ts";
 import { delay } from "warcraft-3-w3ts-utils";
 import { CompositeFrame } from "../Core/CompositeFrame";
 import { BackdropFrame } from "../MonoFrames/BackdropFrame";
-import { IconFrame } from "../MonoFrames/IconFrame";
+import { ButtonFrame } from "./button";
 import { TextFrame } from "../MonoFrames/TextFrame";
 import { TooltipFrame } from "./tooltip";
 import { ICompositeFrameChildFrames, ICompositeFrameConfigurationBase } from "../../models";
@@ -18,7 +18,7 @@ export interface TimerFrameConfiguration extends ICompositeFrameConfigurationBas
 
 interface TimerFrameChildFrames extends ICompositeFrameChildFrames {
     backdrop: BackdropFrame;
-    icon?: IconFrame;
+    icon?: ButtonFrame;
     iconTooltip?: TooltipFrame;
     timerText: TextFrame;
     titleText?: TextFrame;
@@ -81,23 +81,22 @@ export class TimerFrame extends CompositeFrame<TimerFrameConfiguration, TimerFra
         const childFrames: TimerFrameChildFrames = { backdrop, timerText };
 
         if (this.configuration.iconTexture) {
-            const icon = IconFrame.CreateType({
+            const icon = ButtonFrame.Create({
                 context: this.context,
-                inherits: "",
                 name: `${name}Icon`,
                 owner: backdrop.frame,
-                overrides: { texture: this.configuration.iconTexture },
+                overrides: { clickSoundPath: "", texture: this.configuration.iconTexture },
             });
-            icon.frame?.clearPoints();
-            icon.frame?.setPoint(FRAMEPOINT_LEFT, backdrop.frame, FRAMEPOINT_LEFT, this.configuration.xOffset ?? 0.01, 0);
-            icon.frame?.setSize((icon.frame?.width ?? 0) * 0.4, (icon.frame?.height ?? 0) * 0.4);
+            icon.containerFrame?.clearPoints();
+            icon.containerFrame?.setPoint(FRAMEPOINT_LEFT, backdrop.frame, FRAMEPOINT_LEFT, this.configuration.xOffset ?? 0.01, 0);
+            icon.containerFrame?.setSize((icon.containerFrame?.width ?? 0) * 0.4, (icon.containerFrame?.height ?? 0) * 0.4);
             childFrames.icon = icon;
 
-            if (this.configuration.iconTooltipText && icon.frame) {
+            if (this.configuration.iconTooltipText && icon.containerFrame) {
                 childFrames.iconTooltip = TooltipFrame.Create({
                     context: this.context,
                     name: `${name}Tooltip`,
-                    owner: icon.frame,
+                    owner: icon.containerFrame,
                     overrides: { bodyText: this.configuration.iconTooltipText, headerText: "Timer", includeBackground: true },
                 });
             }
@@ -107,7 +106,7 @@ export class TimerFrame extends CompositeFrame<TimerFrameConfiguration, TimerFra
             const titleText = TextFrame.CreateType({ context: this.context, inherits: "", name: `${name}TitleText`, owner: backdrop.frame });
             if (titleText.frame) {
                 titleText.frame.clearPoints();
-                titleText.frame.setPoint(FRAMEPOINT_LEFT, childFrames.icon?.frame ?? backdrop.frame, childFrames.icon?.frame ? FRAMEPOINT_RIGHT : FRAMEPOINT_LEFT, 0.01, 0);
+                titleText.frame.setPoint(FRAMEPOINT_LEFT, childFrames.icon?.containerFrame ?? backdrop.frame, childFrames.icon?.containerFrame ? FRAMEPOINT_RIGHT : FRAMEPOINT_LEFT, 0.01, 0);
                 titleText.update(this.configuration.timerTitle);
             }
             childFrames.titleText = titleText;
@@ -123,11 +122,11 @@ export class TimerFrame extends CompositeFrame<TimerFrameConfiguration, TimerFra
         this.timer = Timer.create();
         this.timer.start(1, true, () => this.updateTimerText(`${--duration}`));
         this.containerFrame?.setVisible(true);
-        this.childFrames?.icon?.frame?.setVisible(true);
+        this.childFrames?.icon?.containerFrame?.setVisible(true);
 
         delay(duration, () => {
             this.containerFrame?.setVisible(false);
-            this.childFrames?.icon?.frame?.setVisible(false);
+            this.childFrames?.icon?.containerFrame?.setVisible(false);
             if (onCompletion) {
                 this.timer.destroy();
                 onCompletion();
@@ -141,7 +140,7 @@ export class TimerFrame extends CompositeFrame<TimerFrameConfiguration, TimerFra
         }
 
         const horizontalPadding = this.configuration.xOffset ?? 0.01;
-        const iconWidth = this.childFrames.icon?.frame?.width ?? 0;
+        const iconWidth = this.childFrames.icon?.containerFrame?.width ?? 0;
         const titleWidth = this.childFrames.titleText?.frame?.width ?? 0;
         const timerWidth = this.childFrames.timerText.frame?.width ?? 0;
         const contentGap = 0.005;

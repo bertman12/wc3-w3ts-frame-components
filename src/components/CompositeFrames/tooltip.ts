@@ -2,7 +2,7 @@ import { Frame } from "w3ts";
 import { CompositeFrame } from "../Core/CompositeFrame";
 import { BackdropFrame } from "../MonoFrames/BackdropFrame";
 import { EmptyFrame } from "../MonoFrames/EmptyFrame";
-import { IconFrame } from "../MonoFrames/IconFrame";
+import { ButtonFrame } from "./button";
 import { TextFrame } from "../MonoFrames/TextFrame";
 import { Grid, IGridItemBaseDefinition } from "../../grid";
 import { ICompositeFrameChildFrames, ICompositeFrameConfigurationBase } from "../../models";
@@ -27,7 +27,7 @@ export interface TooltipFrameConfiguration extends ICompositeFrameConfigurationB
 }
 
 interface TooltipGridItemFrames extends IGridItemBaseDefinition {
-    icon: IconFrame;
+    icon: ButtonFrame;
     valueText: TextFrame;
 }
 
@@ -132,14 +132,13 @@ export class TooltipFrame extends CompositeFrame<TooltipFrameConfiguration, Tool
                             return undefined;
                         }
 
-                        const icon = IconFrame.CreateType({
+                        const icon = ButtonFrame.Create({
                             context: this.context,
-                            inherits: "",
                             name: `${name}Icon${index}`,
                             owner: containerFrame,
-                            overrides: { texture: data.texture },
+                            overrides: { clickSoundPath: "", texture: data.texture },
                         });
-                        const iconFrame = icon.frame;
+                        const iconFrame = icon.containerFrame;
                         if (!iconFrame) {
                             return undefined;
                         }
@@ -170,8 +169,8 @@ export class TooltipFrame extends CompositeFrame<TooltipFrameConfiguration, Tool
                         itemFrames.icon.updateTexture(data.texture);
                         itemFrames.valueText.update(data.value ?? "");
                         itemFrames.container?.setSize(
-                            (itemFrames.icon.frame?.width ?? 0) + (itemFrames.valueText.frame?.width ?? 0) + (this.configuration.tooltipIconContainerGapX ?? 0),
-                            itemFrames.icon.frame?.height ?? 0,
+                            (itemFrames.icon.containerFrame?.width ?? 0) + (itemFrames.valueText.frame?.width ?? 0) + (this.configuration.tooltipIconContainerGapX ?? 0),
+                            itemFrames.icon.containerFrame?.height ?? 0,
                         );
                     },
                 },
