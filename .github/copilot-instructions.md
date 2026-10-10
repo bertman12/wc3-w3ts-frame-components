@@ -25,7 +25,7 @@ what the FDF provides.
 
 # Warcraft III frames knowledge
 
-Read [`.copilot/frames-knowledge.md`](../.copilot/frames-knowledge.md) before
+Read [`.copilot/frames-knowledge.md`](../.copilot/knowledge/frames-knowledge.md) before
 changing Warcraft III frame creation, FDF/TOC loading, layout, tooltips, text
 areas, timers, or the component test harness.
 
