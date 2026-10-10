@@ -1,7 +1,7 @@
 import { Frame, MapPlayer, Trigger } from "w3ts";
 import { delay, PlaySoundLocal } from "warcraft-3-w3ts-utils";
-import { MonoFrame } from "../Core/MonoFrame";
 import { IMonoFrameConfigurationBase } from "../../models";
+import { MonoFrame } from "../Core/MonoFrame";
 
 export interface ButtonFrameConfiguration extends IMonoFrameConfigurationBase {
     texture?: string;
@@ -10,7 +10,6 @@ export interface ButtonFrameConfiguration extends IMonoFrameConfigurationBase {
 }
 
 export class ButtonFrame extends MonoFrame<ButtonFrameConfiguration> {
-    public frame?: Frame;
     public iconFrame?: Frame;
     public onClickTrigger?: Trigger;
 
@@ -63,10 +62,7 @@ export class ButtonFrame extends MonoFrame<ButtonFrameConfiguration> {
         if (!this.frame) {
             return;
         }
-        this.onClickTrigger?.destroy();
-        this.onClickTrigger = Trigger.create();
-        this.onClickTrigger.triggerRegisterFrameEvent(this.frame, FRAMEEVENT_CONTROL_CLICK);
-        this.onClickTrigger.addAction(() => {
+        this.onClickTrigger = this.onFrameEvent(FRAMEEVENT_CONTROL_CLICK, () => {
             const player = MapPlayer.fromEvent();
             if (this.configuration.clickSoundPath) {
                 PlaySoundLocal(this.configuration.clickSoundPath, player?.isLocal());

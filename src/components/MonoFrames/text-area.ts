@@ -1,15 +1,18 @@
 import { Frame, Trigger } from "w3ts";
-import { MonoFrame } from "../Core/MonoFrame";
 import { IMonoFrameConfigurationBase } from "../../models";
 import { FrameType } from "../../names";
+import { MonoFrame } from "../Core/MonoFrame";
 
 export interface TextAreaFrameConfiguration extends IMonoFrameConfigurationBase {
     initialText?: string;
     onMouseEnter?: () => void;
 }
 
+/**
+ * @see Tasyen's TEXTAREA reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/TEXTAREA.html
+ * @requiresFdf Font, line height, inset, and scrollbar (FrameFont, TextAreaLineHeight, TextAreaInset, TextAreaScrollBar) are FDF-defined; use a template such as JMT_TextAreaTemplate.
+ */
 export class TextAreaFrame extends MonoFrame<TextAreaFrameConfiguration> {
-    public frame?: Frame;
     public onMouseEnterTrigger?: Trigger;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<TextAreaFrameConfiguration>>) {
@@ -21,10 +24,12 @@ export class TextAreaFrame extends MonoFrame<TextAreaFrameConfiguration> {
         return { initialText: "Sample Text", onMouseEnter: () => {} };
     }
 
+    /** @requiresFdf Needs a loaded FDF template for its font, scrollbar, and container art to render. */
     public static CreateNamed(args: { context: number; name: string; priority?: number; owner?: Frame; overrides?: TextAreaFrameConfiguration }): TextAreaFrame {
         return new TextAreaFrame(args.context, { ...TextAreaFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
+    /** @requiresFdf Needs a loaded FDF template for its font, scrollbar, and container art to render. */
     public static CreateType(args: { context: number; inherits: string; name?: string; owner?: Frame; overrides?: TextAreaFrameConfiguration }): TextAreaFrame {
         return new TextAreaFrame(args.context, { ...TextAreaFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
@@ -51,10 +56,7 @@ export class TextAreaFrame extends MonoFrame<TextAreaFrameConfiguration> {
         if (!this.frame) {
             return;
         }
-        this.onMouseEnterTrigger?.destroy();
-        this.onMouseEnterTrigger = Trigger.create();
-        this.onMouseEnterTrigger.triggerRegisterFrameEvent(this.frame, FRAMEEVENT_MOUSE_ENTER);
-        this.onMouseEnterTrigger.addAction(() => {
+        this.onMouseEnterTrigger = this.onFrameEvent(FRAMEEVENT_MOUSE_ENTER, () => {
             this.frame?.setEnabled(false);
             this.frame?.setEnabled(true);
             onMouseEnter();

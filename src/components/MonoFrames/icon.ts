@@ -7,7 +7,6 @@ export interface IconFrameConfiguration extends IMonoFrameConfigurationBase {
 }
 
 export class IconFrame extends MonoFrame<IconFrameConfiguration> {
-    public frame?: Frame;
     public iconFrame?: Frame;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<IconFrameConfiguration>>) {

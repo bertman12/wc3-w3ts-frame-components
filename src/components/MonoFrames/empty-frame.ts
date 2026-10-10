@@ -5,8 +5,6 @@ import { IMonoFrameConfigurationBase } from "../../models";
 export interface EmptyFrameConfiguration extends IMonoFrameConfigurationBase {}
 
 export class EmptyFrame extends MonoFrame<EmptyFrameConfiguration> {
-    public frame?: Frame;
-
     private constructor(...args: ConstructorParameters<typeof MonoFrame<EmptyFrameConfiguration>>) {
         super(...args);
         this.render();
