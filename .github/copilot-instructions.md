@@ -33,3 +33,7 @@ Treat that file as the source of truth for verified frame behavior. Update it
 in the same change whenever research, source inspection, map compilation, or
 runtime observation establishes a durable frame fact that is not already
 documented there. Record only verified behavior and retain relevant sources.
+
+# Skill Creation
+
+When creating a new skill, it must be in it's own file <skillName.md> and go in a new folder .copilot/skills/<skillName>
