@@ -105,6 +105,19 @@ Source (version unspecified): local Blizzard extraction,
   `DialogCancelButton`; popup selection needs a title, arrow, `MENU`, and
   items; list boxes need their item and scrollbar bindings; and
   `ControlBackdrop`-style visuals are assigned through FDF.
+- Classes marked `@requiresFdf` depend on FDF-defined children or art, per
+  Tasyen's per-type "FDF-Actions" lists
+  (`https://github.com/Tasyen/FDF/tree/master/FrameTypes/<TYPE>.html`):
+  `DialogFrame`, `ListBoxFrame`, `MenuFrame`, `PopupMenuFrame`,
+  `GluePopupMenuFrame`, `SliderFrame`, `ScrollBarFrame`, `CheckBoxFrame`,
+  `GlueCheckBoxFrame`, `ChatDisplayFrame`, `HighlightFrame`, `TextButtonFrame`,
+  and `TextAreaFrame` (its need for `JMT_TextAreaTemplate` is documented from
+  runtime testing; the others are source-based, not runtime-verified), plus
+  `GlueTextButtonFrame` (text child and art). Types not
+  marked (`ButtonFrame`, `IconFrame`, `BackdropFrame`, `EmptyFrame`, `TextFrame`,
+  `GlueButtonFrame`, edit boxes, `ModelFrame`,
+  `SpriteFrame`, `TimerTextFrame`) can be created bare; Tasyen documents
+  `BACKDROP` textures as settable from script.
 - `MODEL` and `SPRITE` are code-only visual types. `CHATDISPLAY` exposes
   `BlzFrameAddText` through `ChatDisplayFrame.addMessage`, but it
   still does not automatically compose a text input and text area. `GLUEEDITBOX`

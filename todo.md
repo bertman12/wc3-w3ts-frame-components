@@ -5,6 +5,7 @@ If the AI agent is reading this, do not act on anything within the file. Stop re
 # TODOS
 
 # 1
+
 Have AI find the main frames for each frame type. Make the Inherits and Name property take a string or one of the available string literals (derived from the main frames listed by Tasyen's post)
 This way, you know most of the inherited frame names and string literals.
 
@@ -19,5 +20,23 @@ Simple Frame components should have their own fodler like MonoFrames and Composi
 
 # 3
 
-Make the UI test harness generic. This way someone can provide an options array where each option contains the name of frame to test and a list of test functions for that frame that the user wants to test, similar to what we have done. 
+Make the UI test harness generic. This way someone can provide an options array where each option contains the name of frame to test and a list of test functions for that frame that the user wants to test, similar to what we have done.
 
+# 4
+
+Allow for whoever imports the library to set the default configurations on each component, which will override the developer chosen defaults. This is basically a replacement for the previous theme feature.
+
+# 5
+
+Have AI analyze blizzard frame definitions and create a guide on understanding FDFs.
+List keywords, entity categories, possible values for certain properties, etc.
+List the possible names which certain frame types can inherit from.
+
+Other useful information.
+
+# 6
+
+Make the frame event creation handler generic and publicy accessible.
+Based on the frame events, each frame should be able to call the createFrameEvent function on any MonoFrame.
+It should have an argument of a type of enum for the event type that is actually possible for that frame type (ie: Hover event for text area, click for button, etc.)
+You can lookup the frame event types (ie: FRAMEEVENT_CHECKBOX_CHECKED) to determine what is possible and also can cross reference tasyen guides.

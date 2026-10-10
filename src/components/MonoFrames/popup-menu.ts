@@ -31,6 +31,7 @@ export interface PopupMenuFrameConfiguration extends PopupMenuFrameConfiguration
 
 /**
  * @see Tasyen's POPUPMENU reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/POPUPMENU.html
+ * @requiresFdf Title, arrow, menu, and items are FDF-bound children; a bare typed frame cannot render a complete popup menu.
  */
 export class PopupMenuFrame extends PopupMenuFrameBase<PopupMenuFrameConfiguration> {
     protected readonly nativeFrameType = FrameType.PopupMenu;
@@ -44,10 +45,12 @@ export class PopupMenuFrame extends PopupMenuFrameBase<PopupMenuFrameConfigurati
         return {};
     }
 
+    /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */
     public static CreateNamed(args: NamedNativeFrameArguments<PopupMenuFrameConfiguration>): PopupMenuFrame {
         return new PopupMenuFrame(args.context, { ...PopupMenuFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
+    /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */
     public static CreateType(args: TypedNativeFrameArguments<PopupMenuFrameConfiguration>): PopupMenuFrame {
         return new PopupMenuFrame(args.context, { ...PopupMenuFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
@@ -57,6 +60,7 @@ export interface GluePopupMenuFrameConfiguration extends PopupMenuFrameConfigura
 
 /**
  * @see Tasyen's GLUEPOPUPMENU reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/GLUEPOPUPMENU.html
+ * @requiresFdf Title, arrow, menu, and items are FDF-bound children; a bare typed frame cannot render a complete popup menu.
  */
 export class GluePopupMenuFrame extends PopupMenuFrameBase<GluePopupMenuFrameConfiguration> {
     protected readonly nativeFrameType = FrameType.GluePopupMenu;
@@ -70,10 +74,12 @@ export class GluePopupMenuFrame extends PopupMenuFrameBase<GluePopupMenuFrameCon
         return {};
     }
 
+    /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */
     public static CreateNamed(args: NamedNativeFrameArguments<GluePopupMenuFrameConfiguration>): GluePopupMenuFrame {
         return new GluePopupMenuFrame(args.context, { ...GluePopupMenuFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
+    /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */
     public static CreateType(args: TypedNativeFrameArguments<GluePopupMenuFrameConfiguration>): GluePopupMenuFrame {
         return new GluePopupMenuFrame(args.context, { ...GluePopupMenuFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }

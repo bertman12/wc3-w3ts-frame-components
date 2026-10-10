@@ -419,16 +419,18 @@ export class FrameComponentTestHarness {
                 tests: [
                     this.test("Create by type", () => ButtonFrame.CreateType({ context: this.context, inherits: "", name: this.testName("Button", "Type") }).frame),
                     this.test("Create by name", () => ButtonFrame.CreateNamed({ context: this.context, name: "ScoreScreenTabButtonTemplate" }).frame),
-                    this.test("Create click test", () =>
-                        ButtonFrame.CreateType({
-                            context: this.context,
-                            inherits: "",
-                            name: this.testName("Button", "Click"),
-                            overrides: {
-                                onClick: () => print("ButtonFrame test clicked."),
-                                texture: "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn",
-                            },
-                        }).frame,
+                    this.test(
+                        "Create click test",
+                        () =>
+                            ButtonFrame.CreateType({
+                                context: this.context,
+                                inherits: "",
+                                name: this.testName("Button", "Click"),
+                                overrides: {
+                                    onClick: () => print("ButtonFrame test clicked."),
+                                    texture: "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn",
+                                },
+                            }).frame,
                     ),
                 ],
             },
@@ -447,16 +449,18 @@ export class FrameComponentTestHarness {
                 tests: [
                     this.test("Create by type", () => GlueTextButtonFrame.CreateType({ context: this.context, inherits: "ScriptDialogButton", name: this.testName("GlueButton", "Type") }).frame),
                     this.test("Create by name", () => GlueTextButtonFrame.CreateNamed({ context: this.context, name: "ScriptDialogButton" }).frame),
-                    this.test("Create custom text", () =>
-                        GlueTextButtonFrame.CreateType({
-                            context: this.context,
-                            inherits: "ScriptDialogButton",
-                            name: this.testName("GlueButton", "Text"),
-                            overrides: {
-                                initialText: "Glue Button Test",
-                                onClick: () => print("GlueTextButtonFrame test clicked."),
-                            },
-                        }).frame,
+                    this.test(
+                        "Create custom text",
+                        () =>
+                            GlueTextButtonFrame.CreateType({
+                                context: this.context,
+                                inherits: "ScriptDialogButton",
+                                name: this.testName("GlueButton", "Text"),
+                                overrides: {
+                                    initialText: "Glue Button Test",
+                                    onClick: () => print("GlueTextButtonFrame test clicked."),
+                                },
+                            }).frame,
                     ),
                 ],
             },
@@ -466,13 +470,15 @@ export class FrameComponentTestHarness {
                 tests: [
                     this.test("Create by type", () => IconFrame.CreateType({ context: this.context, inherits: "", name: this.testName("Icon", "Type") }).frame),
                     this.test("Create by name", () => IconFrame.CreateNamed({ context: this.context, name: "ScoreScreenTabButtonTemplate" }).frame),
-                    this.test("Create custom texture", () =>
-                        IconFrame.CreateType({
-                            context: this.context,
-                            inherits: "",
-                            name: this.testName("Icon", "Texture"),
-                            overrides: { texture: "ReplaceableTextures\\CommandButtons\\BTNInfernal.blp" },
-                        }).frame,
+                    this.test(
+                        "Create custom texture",
+                        () =>
+                            IconFrame.CreateType({
+                                context: this.context,
+                                inherits: "",
+                                name: this.testName("Icon", "Texture"),
+                                overrides: { texture: "ReplaceableTextures\\CommandButtons\\BTNInfernal.blp" },
+                            }).frame,
                     ),
                 ],
             },
@@ -480,31 +486,37 @@ export class FrameComponentTestHarness {
                 label: "TextAreaFrame",
                 menuLabel: "Text Area",
                 tests: [
-                    this.test("Create by type", () =>
-                        TextAreaFrame.CreateType({
-                            context: this.context,
-                            inherits: "JMT_TextAreaTemplate",
-                            name: this.testName("TextArea", "Type"),
-                            overrides: { initialText: this.scrollableTextAreaContent("Text area created by type.") },
-                        }).frame,
+                    this.test(
+                        "Create by type",
+                        () =>
+                            TextAreaFrame.CreateType({
+                                context: this.context,
+                                inherits: "JMT_TextAreaTemplate",
+                                name: this.testName("TextArea", "Type"),
+                                overrides: { initialText: this.scrollableTextAreaContent("Text area created by type.") },
+                            }).frame,
                     ),
-                    this.test("Create by name", () =>
-                        TextAreaFrame.CreateNamed({
-                            context: this.context,
-                            name: "JMT_TextAreaTemplate",
-                            overrides: { initialText: this.scrollableTextAreaContent("Text area created by name.") },
-                        }).frame,
+                    this.test(
+                        "Create by name",
+                        () =>
+                            TextAreaFrame.CreateNamed({
+                                context: this.context,
+                                name: "JMT_TextAreaTemplate",
+                                overrides: { initialText: this.scrollableTextAreaContent("Text area created by name.") },
+                            }).frame,
                     ),
-                    this.test("Create mouse-enter test", () =>
-                        TextAreaFrame.CreateType({
-                            context: this.context,
-                            inherits: "JMT_TextAreaTemplate",
-                            name: this.testName("TextArea", "MouseEnter"),
-                            overrides: {
-                                initialText: this.scrollableTextAreaContent("Move the mouse over this text area."),
-                                onMouseEnter: () => print("TextAreaFrame mouse-enter test triggered."),
-                            },
-                        }).frame,
+                    this.test(
+                        "Create mouse-enter test",
+                        () =>
+                            TextAreaFrame.CreateType({
+                                context: this.context,
+                                inherits: "JMT_TextAreaTemplate",
+                                name: this.testName("TextArea", "MouseEnter"),
+                                overrides: {
+                                    initialText: this.scrollableTextAreaContent("Move the mouse over this text area."),
+                                    onMouseEnter: () => print("TextAreaFrame mouse-enter test triggered."),
+                                },
+                            }).frame,
                     ),
                 ],
             },
@@ -525,16 +537,18 @@ export class FrameComponentTestHarness {
                         textFrame.frame?.setSize(0.2, 0.03);
                         return textFrame.frame;
                     }),
-                    this.test("Create auto-sized text", () =>
-                        TextFrame.CreateType({
-                            context: this.context,
-                            inherits: "",
-                            name: this.testName("Text", "AutoSize"),
-                            overrides: {
-                                autoSizeWidth: true,
-                                initialText: "TextFrame automatic width test",
-                            },
-                        }).frame,
+                    this.test(
+                        "Create auto-sized text",
+                        () =>
+                            TextFrame.CreateType({
+                                context: this.context,
+                                inherits: "",
+                                name: this.testName("Text", "AutoSize"),
+                                overrides: {
+                                    autoSizeWidth: true,
+                                    initialText: "TextFrame automatic width test",
+                                },
+                            }).frame,
                     ),
                 ],
             },
@@ -542,8 +556,12 @@ export class FrameComponentTestHarness {
                 label: "TooltipFrame",
                 menuLabel: "Tooltip",
                 tests: [
-                    this.test("Create by type", () => this.createTooltipTest("Type", (owner) => TooltipFrame.CreateTyped({ context: this.context, name: this.testName("Tooltip", "Type"), owner, overrides: this.tooltipConfiguration("Tooltip created by type.") }))),
-                    this.test("Create by name", () => this.createTooltipTest("Named", (owner) => TooltipFrame.CreateNamed({ context: this.context, name: this.testName("Tooltip", "Named"), owner, overrides: this.tooltipConfiguration("Tooltip created by name.") }))),
+                    this.test("Create by type", () =>
+                        this.createTooltipTest("Type", (owner) => TooltipFrame.CreateTyped({ context: this.context, name: this.testName("Tooltip", "Type"), owner, overrides: this.tooltipConfiguration("Tooltip created by type.") })),
+                    ),
+                    this.test("Create by name", () =>
+                        this.createTooltipTest("Named", (owner) => TooltipFrame.CreateNamed({ context: this.context, name: this.testName("Tooltip", "Named"), owner, overrides: this.tooltipConfiguration("Tooltip created by name.") })),
+                    ),
                     this.test("Create resource grid", () =>
                         this.createTooltipTest("Grid", (owner) =>
                             TooltipFrame.Create({
@@ -592,330 +610,231 @@ export class FrameComponentTestHarness {
 
     private createNativeFramePages(): FrameComponentTestPage[] {
         return [
-            this.createNativeFramePage(
-                "ChatDisplay",
-                "Chat",
-                (owner) => ChatDisplayFrame.CreateType({ context: this.context, inherits: "", name: this.testName("ChatDisplay", "Type"), owner }),
-                {
-                    label: "Add native messages",
-                    create: (owner) =>
-                        ChatDisplayFrame.CreateType({
-                            context: this.context,
-                            inherits: "",
-                            name: this.testName("ChatDisplay", "Messages"),
-                            owner,
-                            overrides: {
-                                initialMessages: ["ChatDisplayFrame message 1", "ChatDisplayFrame message 2"],
-                            },
-                        }),
+            this.createNativeFramePage("ChatDisplay", "Chat", (owner) => ChatDisplayFrame.CreateType({ context: this.context, inherits: "", name: this.testName("ChatDisplay", "Type"), owner }), {
+                label: "Add native messages",
+                create: (owner) =>
+                    ChatDisplayFrame.CreateType({
+                        context: this.context,
+                        inherits: "",
+                        name: this.testName("ChatDisplay", "Messages"),
+                        owner,
+                        overrides: {
+                            initialMessages: ["ChatDisplayFrame message 1", "ChatDisplayFrame message 2"],
+                        },
+                    }),
+            }),
+            this.createNativeFramePage("CheckBox", "Check", (owner) => CheckBoxFrame.CreateType({ context: this.context, inherits: "", name: this.testName("CheckBox", "Type"), owner }), {
+                label: "Use Standard checkbox",
+                create: (owner) =>
+                    CheckBoxFrame.CreateType({
+                        context: this.context,
+                        inherits: NativeFrameTemplates.StandardCheckBox,
+                        name: this.testName("CheckBox", "Events"),
+                        owner,
+                        overrides: {
+                            onChecked: () => print("CheckBoxFrame checked."),
+                            onUnchecked: () => print("CheckBoxFrame unchecked."),
+                        },
+                    }),
+            }),
+            this.createNativeFramePage("Dialog", "Dialog", (owner) => DialogFrame.CreateType({ context: this.context, inherits: "", name: this.testName("Dialog", "Type"), owner }), {
+                label: "Use FDF dialog actions",
+                create: (owner) =>
+                    DialogFrame.CreateNamed({
+                        context: this.context,
+                        name: NativeFrameTemplates.AdvancedDialog,
+                        owner,
+                        overrides: {
+                            onAccept: () => print("DialogFrame accepted."),
+                            onCancel: () => print("DialogFrame cancelled."),
+                        },
+                    }),
+            }),
+            this.createNativeFramePage("EditBox", "Edit", (owner) => EditBoxFrame.CreateType({ context: this.context, inherits: "", name: this.testName("EditBox", "Type"), owner }), {
+                label: "Use Standard text input",
+                create: (owner) =>
+                    EditBoxFrame.CreateType({
+                        context: this.context,
+                        inherits: NativeFrameTemplates.StandardEditBox,
+                        name: this.testName("EditBox", "Input"),
+                        owner,
+                        overrides: {
+                            initialText: "EditBoxFrame input",
+                            onEnter: (text) => print(`EditBoxFrame entered: ${text}`),
+                        },
+                    }),
+            }),
+            this.createNativeFramePage("GlueButton", "Glue Btn", (owner) => GlueButtonFrame.CreateType({ context: this.context, inherits: "", name: this.testName("GlueButton", "Type"), owner }), {
+                label: "Use Standard icon button",
+                create: (owner) =>
+                    GlueButtonFrame.CreateType({
+                        context: this.context,
+                        inherits: NativeFrameTemplates.StandardIconicButton,
+                        name: this.testName("GlueButton", "Click"),
+                        owner,
+                        overrides: { onClick: () => print("GlueButtonFrame clicked.") },
+                    }),
+            }),
+            this.createNativeFramePage("GlueCheckBox", "Glue Check", (owner) => GlueCheckBoxFrame.CreateType({ context: this.context, inherits: "", name: this.testName("GlueCheckBox", "Type"), owner }), {
+                label: "Use Esc checkbox",
+                create: (owner) =>
+                    GlueCheckBoxFrame.CreateType({
+                        context: this.context,
+                        inherits: NativeFrameTemplates.EscMenuCheckBox,
+                        name: this.testName("GlueCheckBox", "Events"),
+                        owner,
+                        overrides: {
+                            onChecked: () => print("GlueCheckBoxFrame checked."),
+                            onUnchecked: () => print("GlueCheckBoxFrame unchecked."),
+                        },
+                    }),
+            }),
+            this.createNativeFramePage("GlueEditBox", "Glue Edit", (owner) => GlueEditBoxFrame.CreateType({ context: this.context, inherits: "", name: this.testName("GlueEditBox", "Type"), owner }), {
+                label: "Set input text",
+                create: (owner) =>
+                    GlueEditBoxFrame.CreateType({
+                        context: this.context,
+                        inherits: "",
+                        name: this.testName("GlueEditBox", "Input"),
+                        owner,
+                        overrides: {
+                            initialText: "GlueEditBoxFrame input",
+                            onEnter: (text) => print(`GlueEditBoxFrame entered: ${text}`),
+                        },
+                    }),
+            }),
+            this.createNativeFramePage("GluePopupMenu", "Glue Menu", (owner) => GluePopupMenuFrame.CreateType({ context: this.context, inherits: "", name: this.testName("GluePopupMenu", "Type"), owner })),
+            this.createNativeFramePage("Highlight", "Highlight", (owner) => HighlightFrame.CreateType({ context: this.context, inherits: "", name: this.testName("Highlight", "Type"), owner })),
+            this.createNativeFramePage("ListBox", "List Box", (owner) => ListBoxFrame.CreateType({ context: this.context, inherits: "", name: this.testName("ListBox", "Type"), owner }), {
+                label: "Use FDF list items",
+                create: (owner) =>
+                    ListBoxFrame.CreateNamed({
+                        context: this.context,
+                        name: NativeFrameTemplates.AdvancedListBox,
+                        owner,
+                    }),
+            }),
+            this.createNativeFramePage("Menu", "Menu", (owner) => MenuFrame.CreateType({ context: this.context, inherits: "", name: this.testName("Menu", "Type"), owner }), {
+                label: "Use FDF menu items",
+                create: (owner) =>
+                    MenuFrame.CreateNamed({
+                        context: this.context,
+                        name: NativeFrameTemplates.AdvancedMenu,
+                        owner,
+                    }),
+            }),
+            this.createNativeFramePage("Model", "Model", (owner) => ModelFrame.CreateType({ context: this.context, inherits: "", name: this.testName("Model", "Type"), owner }), {
+                label: "Set Footman model",
+                create: (owner) =>
+                    ModelFrame.CreateType({
+                        context: this.context,
+                        inherits: "",
+                        name: this.testName("Model", "Footman"),
+                        owner,
+                        overrides: { modelPath: "Units\\Human\\Footman\\Footman.mdx" },
+                    }),
+            }),
+            this.createNativeFramePage("PopupMenu", "Popup", (owner) => PopupMenuFrame.CreateType({ context: this.context, inherits: "", name: this.testName("PopupMenu", "Type"), owner }), {
+                label: "Use FDF popup choices",
+                create: (owner) =>
+                    PopupMenuFrame.CreateNamed({
+                        context: this.context,
+                        name: NativeFrameTemplates.AdvancedPopupMenu,
+                        owner,
+                        overrides: {
+                            onItemChanged: (value) => print(`PopupMenuFrame value: ${value}`),
+                        },
+                    }),
+            }),
+            this.createNativeFramePage("ScrollBar", "Scroll", (owner) => ScrollBarFrame.CreateType({ context: this.context, inherits: "", name: this.testName("ScrollBar", "Type"), owner }), {
+                label: "Use Esc scrollbar",
+                create: (owner) =>
+                    ScrollBarFrame.CreateType({
+                        context: this.context,
+                        inherits: NativeFrameTemplates.EscMenuScrollBar,
+                        name: this.testName("ScrollBar", "Value"),
+                        owner,
+                        overrides: {
+                            initialValue: 75,
+                            maxValue: 100,
+                            minValue: 0,
+                            onValueChanged: (value) => print(`ScrollBarFrame value: ${value}`),
+                        },
+                    }),
+            }),
+            this.createNativeFramePage("SlashChatBox", "Slash Chat", (owner) => SlashChatBoxFrame.CreateType({ context: this.context, inherits: "", name: this.testName("SlashChatBox", "Type"), owner }), {
+                label: "Set input text",
+                create: (owner) =>
+                    SlashChatBoxFrame.CreateType({
+                        context: this.context,
+                        inherits: "",
+                        name: this.testName("SlashChatBox", "Input"),
+                        owner,
+                        overrides: {
+                            initialText: "/test",
+                            onEnter: (text) => print(`SlashChatBoxFrame entered: ${text}`),
+                        },
+                    }),
+            }),
+            this.createNativeFramePage("Slider", "Slider", (owner) => SliderFrame.CreateType({ context: this.context, inherits: "", name: this.testName("Slider", "Type"), owner }), {
+                label: "Use quest-list slider",
+                create: (owner) => {
+                    const slider = SliderFrame.CreateType({
+                        context: this.context,
+                        inherits: NativeFrameTemplates.QuestMainListScrollBar,
+                        name: this.testName("Slider", "Value"),
+                        owner,
+                        overrides: {
+                            initialValue: 75,
+                            maxValue: 100,
+                            minValue: 0,
+                            onValueChanged: (value) => print(`SliderFrame value: ${value}`),
+                        },
+                    });
+                    slider.frame?.setSize(0.02, 0.12);
+                    return slider;
                 },
-            ),
-            this.createNativeFramePage(
-                "CheckBox",
-                "Check",
-                (owner) => CheckBoxFrame.CreateType({ context: this.context, inherits: "", name: this.testName("CheckBox", "Type"), owner }),
-                {
-                    label: "Use Standard checkbox",
-                    create: (owner) =>
-                        CheckBoxFrame.CreateType({
-                            context: this.context,
-                            inherits: NativeFrameTemplates.StandardCheckBox,
-                            name: this.testName("CheckBox", "Events"),
-                            owner,
-                            overrides: {
-                                onChecked: () => print("CheckBoxFrame checked."),
-                                onUnchecked: () => print("CheckBoxFrame unchecked."),
-                            },
-                        }),
-                },
-            ),
-            this.createNativeFramePage(
-                "Dialog",
-                "Dialog",
-                (owner) => DialogFrame.CreateType({ context: this.context, inherits: "", name: this.testName("Dialog", "Type"), owner }),
-                {
-                    label: "Use FDF dialog actions",
-                    create: (owner) =>
-                        DialogFrame.CreateNamed({
-                            context: this.context,
-                            name: NativeFrameTemplates.AdvancedDialog,
-                            owner,
-                            overrides: {
-                                onAccept: () => print("DialogFrame accepted."),
-                                onCancel: () => print("DialogFrame cancelled."),
-                            },
-                        }),
-                },
-            ),
-            this.createNativeFramePage(
-                "EditBox",
-                "Edit",
-                (owner) => EditBoxFrame.CreateType({ context: this.context, inherits: "", name: this.testName("EditBox", "Type"), owner }),
-                {
-                    label: "Use Standard text input",
-                    create: (owner) =>
-                        EditBoxFrame.CreateType({
-                            context: this.context,
-                            inherits: NativeFrameTemplates.StandardEditBox,
-                            name: this.testName("EditBox", "Input"),
-                            owner,
-                            overrides: {
-                                initialText: "EditBoxFrame input",
-                                onEnter: (text) => print(`EditBoxFrame entered: ${text}`),
-                            },
-                        }),
-                },
-            ),
-            this.createNativeFramePage(
-                "GlueButton",
-                "Glue Btn",
-                (owner) => GlueButtonFrame.CreateType({ context: this.context, inherits: "", name: this.testName("GlueButton", "Type"), owner }),
-                {
-                    label: "Use Standard icon button",
-                    create: (owner) =>
-                        GlueButtonFrame.CreateType({
-                            context: this.context,
-                            inherits: NativeFrameTemplates.StandardIconicButton,
-                            name: this.testName("GlueButton", "Click"),
-                            owner,
-                            overrides: { onClick: () => print("GlueButtonFrame clicked.") },
-                        }),
-                },
-            ),
-            this.createNativeFramePage(
-                "GlueCheckBox",
-                "Glue Check",
-                (owner) => GlueCheckBoxFrame.CreateType({ context: this.context, inherits: "", name: this.testName("GlueCheckBox", "Type"), owner }),
-                {
-                    label: "Use Esc checkbox",
-                    create: (owner) =>
-                        GlueCheckBoxFrame.CreateType({
-                            context: this.context,
-                            inherits: NativeFrameTemplates.EscMenuCheckBox,
-                            name: this.testName("GlueCheckBox", "Events"),
-                            owner,
-                            overrides: {
-                                onChecked: () => print("GlueCheckBoxFrame checked."),
-                                onUnchecked: () => print("GlueCheckBoxFrame unchecked."),
-                            },
-                        }),
-                },
-            ),
-            this.createNativeFramePage(
-                "GlueEditBox",
-                "Glue Edit",
-                (owner) => GlueEditBoxFrame.CreateType({ context: this.context, inherits: "", name: this.testName("GlueEditBox", "Type"), owner }),
-                {
-                    label: "Set input text",
-                    create: (owner) =>
-                        GlueEditBoxFrame.CreateType({
-                            context: this.context,
-                            inherits: "",
-                            name: this.testName("GlueEditBox", "Input"),
-                            owner,
-                            overrides: {
-                                initialText: "GlueEditBoxFrame input",
-                                onEnter: (text) => print(`GlueEditBoxFrame entered: ${text}`),
-                            },
-                        }),
-                },
-            ),
-            this.createNativeFramePage(
-                "GluePopupMenu",
-                "Glue Menu",
-                (owner) => GluePopupMenuFrame.CreateType({ context: this.context, inherits: "", name: this.testName("GluePopupMenu", "Type"), owner }),
-            ),
-            this.createNativeFramePage(
-                "Highlight",
-                "Highlight",
-                (owner) => HighlightFrame.CreateType({ context: this.context, inherits: "", name: this.testName("Highlight", "Type"), owner }),
-            ),
-            this.createNativeFramePage(
-                "ListBox",
-                "List Box",
-                (owner) => ListBoxFrame.CreateType({ context: this.context, inherits: "", name: this.testName("ListBox", "Type"), owner }),
-                {
-                    label: "Use FDF list items",
-                    create: (owner) =>
-                        ListBoxFrame.CreateNamed({
-                            context: this.context,
-                            name: NativeFrameTemplates.AdvancedListBox,
-                            owner,
-                        }),
-                },
-            ),
-            this.createNativeFramePage(
-                "Menu",
-                "Menu",
-                (owner) => MenuFrame.CreateType({ context: this.context, inherits: "", name: this.testName("Menu", "Type"), owner }),
-                {
-                    label: "Use FDF menu items",
-                    create: (owner) =>
-                        MenuFrame.CreateNamed({
-                            context: this.context,
-                            name: NativeFrameTemplates.AdvancedMenu,
-                            owner,
-                        }),
-                },
-            ),
-            this.createNativeFramePage(
-                "Model",
-                "Model",
-                (owner) => ModelFrame.CreateType({ context: this.context, inherits: "", name: this.testName("Model", "Type"), owner }),
-                {
-                    label: "Set Footman model",
-                    create: (owner) =>
-                        ModelFrame.CreateType({
-                            context: this.context,
-                            inherits: "",
-                            name: this.testName("Model", "Footman"),
-                            owner,
-                            overrides: { modelPath: "Units\\Human\\Footman\\Footman.mdx" },
-                        }),
-                },
-            ),
-            this.createNativeFramePage(
-                "PopupMenu",
-                "Popup",
-                (owner) => PopupMenuFrame.CreateType({ context: this.context, inherits: "", name: this.testName("PopupMenu", "Type"), owner }),
-                {
-                    label: "Use FDF popup choices",
-                    create: (owner) =>
-                        PopupMenuFrame.CreateNamed({
-                            context: this.context,
-                            name: NativeFrameTemplates.AdvancedPopupMenu,
-                            owner,
-                            overrides: {
-                                onItemChanged: (value) => print(`PopupMenuFrame value: ${value}`),
-                            },
-                        }),
-                },
-            ),
-            this.createNativeFramePage(
-                "ScrollBar",
-                "Scroll",
-                (owner) => ScrollBarFrame.CreateType({ context: this.context, inherits: "", name: this.testName("ScrollBar", "Type"), owner }),
-                {
-                    label: "Use Esc scrollbar",
-                    create: (owner) =>
-                        ScrollBarFrame.CreateType({
-                            context: this.context,
-                            inherits: NativeFrameTemplates.EscMenuScrollBar,
-                            name: this.testName("ScrollBar", "Value"),
-                            owner,
-                            overrides: {
-                                initialValue: 75,
-                                maxValue: 100,
-                                minValue: 0,
-                                onValueChanged: (value) => print(`ScrollBarFrame value: ${value}`),
-                            },
-                        }),
-                },
-            ),
-            this.createNativeFramePage(
-                "SlashChatBox",
-                "Slash Chat",
-                (owner) => SlashChatBoxFrame.CreateType({ context: this.context, inherits: "", name: this.testName("SlashChatBox", "Type"), owner }),
-                {
-                    label: "Set input text",
-                    create: (owner) =>
-                        SlashChatBoxFrame.CreateType({
-                            context: this.context,
-                            inherits: "",
-                            name: this.testName("SlashChatBox", "Input"),
-                            owner,
-                            overrides: {
-                                initialText: "/test",
-                                onEnter: (text) => print(`SlashChatBoxFrame entered: ${text}`),
-                            },
-                        }),
-                },
-            ),
-            this.createNativeFramePage(
-                "Slider",
-                "Slider",
-                (owner) => SliderFrame.CreateType({ context: this.context, inherits: "", name: this.testName("Slider", "Type"), owner }),
-                {
-                    label: "Use quest-list slider",
-                    create: (owner) => {
-                        const slider = SliderFrame.CreateType({
-                            context: this.context,
-                            inherits: NativeFrameTemplates.QuestMainListScrollBar,
-                            name: this.testName("Slider", "Value"),
-                            owner,
-                            overrides: {
-                                initialValue: 75,
-                                maxValue: 100,
-                                minValue: 0,
-                                onValueChanged: (value) => print(`SliderFrame value: ${value}`),
-                            },
-                        });
-                        slider.frame?.setSize(0.02, 0.12);
-                        return slider;
-                    },
-                },
-            ),
-            this.createNativeFramePage(
-                "Sprite",
-                "Sprite",
-                (owner) => SpriteFrame.CreateType({ context: this.context, inherits: "", name: this.testName("Sprite", "Type"), owner }),
-                {
-                    label: "Set Footman sprite",
-                    create: (owner) =>
-                        SpriteFrame.CreateType({
-                            context: this.context,
-                            inherits: "",
-                            name: this.testName("Sprite", "Footman"),
-                            owner,
-                            overrides: { modelPath: "Units\\Human\\Footman\\Footman.mdx" },
-                        }),
-                },
-            ),
-            this.createNativeFramePage(
-                "TextButton",
-                "Text Btn",
-                (owner) => TextButtonFrame.CreateType({ context: this.context, inherits: "", name: this.testName("TextButton", "Type"), owner }),
-                {
-                    label: "Use Standard text button",
-                    create: (owner) =>
-                        TextButtonFrame.CreateType({
-                            context: this.context,
-                            inherits: NativeFrameTemplates.StandardTextButton,
-                            name: this.testName("TextButton", "Click"),
-                            owner,
-                            overrides: {
-                                initialText: "TextButtonFrame",
-                                onClick: () => print("TextButtonFrame clicked."),
-                            },
-                        }),
-                },
-            ),
-            this.createNativeFramePage(
-                "TimerText",
-                "Timer Text",
-                (owner) => TimerTextFrame.CreateType({ context: this.context, inherits: "", name: this.testName("TimerText", "Type"), owner }),
-                {
-                    label: "Set timer text",
-                    create: (owner) =>
-                        TimerTextFrame.CreateType({
-                            context: this.context,
-                            inherits: "",
-                            name: this.testName("TimerText", "Value"),
-                            owner,
-                            overrides: { initialText: "01:30" },
-                        }),
-                },
-            ),
+            }),
+            this.createNativeFramePage("Sprite", "Sprite", (owner) => SpriteFrame.CreateType({ context: this.context, inherits: "", name: this.testName("Sprite", "Type"), owner }), {
+                label: "Set Footman sprite",
+                create: (owner) =>
+                    SpriteFrame.CreateType({
+                        context: this.context,
+                        inherits: "",
+                        name: this.testName("Sprite", "Footman"),
+                        owner,
+                        overrides: { modelPath: "Units\\Human\\Footman\\Footman.mdx" },
+                    }),
+            }),
+            this.createNativeFramePage("TextButton", "Text Btn", (owner) => TextButtonFrame.CreateType({ context: this.context, inherits: "", name: this.testName("TextButton", "Type"), owner }), {
+                label: "Use Standard text button",
+                create: (owner) =>
+                    TextButtonFrame.CreateType({
+                        context: this.context,
+                        inherits: NativeFrameTemplates.StandardTextButton,
+                        name: this.testName("TextButton", "Click"),
+                        owner,
+                        overrides: {
+                            initialText: "TextButtonFrame",
+                            onClick: () => print("TextButtonFrame clicked."),
+                        },
+                    }),
+            }),
+            this.createNativeFramePage("TimerText", "Timer Text", (owner) => TimerTextFrame.CreateType({ context: this.context, inherits: "", name: this.testName("TimerText", "Type"), owner }), {
+                label: "Set timer text",
+                create: (owner) =>
+                    TimerTextFrame.CreateType({
+                        context: this.context,
+                        inherits: "",
+                        name: this.testName("TimerText", "Value"),
+                        owner,
+                        overrides: { initialText: "01:30" },
+                    }),
+            }),
         ];
     }
 
-    private createNativeFramePage(
-        component: string,
-        menuLabel: string,
-        createType: (owner: Frame) => TestFrameComponent,
-        featureTest?: NativeFrameFeatureTest,
-        baseTestLabel = "Create bare type",
-    ): FrameComponentTestPage {
+    private createNativeFramePage(component: string, menuLabel: string, createType: (owner: Frame) => TestFrameComponent, featureTest?: NativeFrameFeatureTest, baseTestLabel = "Create bare type"): FrameComponentTestPage {
         const tests = [this.test(baseTestLabel, () => this.createNativeFrameTest(component, baseTestLabel, createType))];
         if (featureTest) {
             tests.push(this.test(featureTest.label, () => this.createNativeFrameTest(component, featureTest.label, featureTest.create)));

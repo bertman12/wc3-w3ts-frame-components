@@ -40,6 +40,7 @@ export interface CheckBoxFrameConfiguration extends CheckBoxFrameConfigurationBa
 
 /**
  * @see Tasyen's CHECKBOX reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/CHECKBOX.html
+ * @requiresFdf Box and check art (ControlBackdrop, CheckBoxCheckHighlight) are FDF-defined; a bare typed check box only fires events.
  */
 export class CheckBoxFrame extends ToggleFrame<CheckBoxFrameConfiguration> {
     protected readonly nativeFrameType = FrameType.CheckBox;
@@ -53,10 +54,12 @@ export class CheckBoxFrame extends ToggleFrame<CheckBoxFrameConfiguration> {
         return {};
     }
 
+    /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
     public static CreateNamed(args: NamedNativeFrameArguments<CheckBoxFrameConfiguration>): CheckBoxFrame {
         return new CheckBoxFrame(args.context, { ...CheckBoxFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
+    /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
     public static CreateType(args: TypedNativeFrameArguments<CheckBoxFrameConfiguration>): CheckBoxFrame {
         return new CheckBoxFrame(args.context, { ...CheckBoxFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
@@ -66,6 +69,7 @@ export interface GlueCheckBoxFrameConfiguration extends CheckBoxFrameConfigurati
 
 /**
  * @see Tasyen's GLUECHECKBOX reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/GLUECHECKBOX.html
+ * @requiresFdf Box and check art (ControlBackdrop, CheckBoxCheckHighlight) are FDF-defined; a bare typed check box only fires events.
  */
 export class GlueCheckBoxFrame extends ToggleFrame<GlueCheckBoxFrameConfiguration> {
     protected readonly nativeFrameType = FrameType.GlueCheckBox;
@@ -79,10 +83,12 @@ export class GlueCheckBoxFrame extends ToggleFrame<GlueCheckBoxFrameConfiguratio
         return {};
     }
 
+    /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
     public static CreateNamed(args: NamedNativeFrameArguments<GlueCheckBoxFrameConfiguration>): GlueCheckBoxFrame {
         return new GlueCheckBoxFrame(args.context, { ...GlueCheckBoxFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
+    /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
     public static CreateType(args: TypedNativeFrameArguments<GlueCheckBoxFrameConfiguration>): GlueCheckBoxFrame {
         return new GlueCheckBoxFrame(args.context, { ...GlueCheckBoxFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }

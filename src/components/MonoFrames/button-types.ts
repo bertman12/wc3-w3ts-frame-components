@@ -61,6 +61,7 @@ export interface TextButtonFrameConfiguration extends ClickableFrameConfiguratio
 
 /**
  * @see Tasyen's TEXTBUTTON reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/TEXTBUTTON.html
+ * @requiresFdf Its linked text child (ButtonText) is FDF-defined; a bare typed frame has no text child.
  */
 export class TextButtonFrame extends ClickableFrame<TextButtonFrameConfiguration> {
     protected readonly nativeFrameType = FrameType.TextButton;
@@ -76,10 +77,12 @@ export class TextButtonFrame extends ClickableFrame<TextButtonFrameConfiguration
         return { initialText: "Text Button" };
     }
 
+    /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
     public static CreateNamed(args: NamedNativeFrameArguments<TextButtonFrameConfiguration>): TextButtonFrame {
         return new TextButtonFrame(args.context, { ...TextButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
+    /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
     public static CreateType(args: TypedNativeFrameArguments<TextButtonFrameConfiguration>): TextButtonFrame {
         return new TextButtonFrame(args.context, { ...TextButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }

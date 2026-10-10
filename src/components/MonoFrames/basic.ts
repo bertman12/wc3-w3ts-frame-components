@@ -21,6 +21,7 @@ export interface ChatDisplayFrameConfiguration extends BasicFrameConfiguration {
 
 /**
  * @see Tasyen's CHATDISPLAY reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/CHATDISPLAY.html
+ * @requiresFdf Its edit box and scrollbar (ChatDisplayEditBox, ChatDisplayScrollBar) are FDF-bound; a bare typed frame is not a composed chat UI.
  */
 export class ChatDisplayFrame extends BasicFrame<ChatDisplayFrameConfiguration> {
     protected readonly nativeFrameType = FrameType.ChatDisplay;
@@ -36,10 +37,12 @@ export class ChatDisplayFrame extends BasicFrame<ChatDisplayFrameConfiguration> 
         return { initialMessages: [] };
     }
 
+    /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
     public static CreateNamed(args: NamedNativeFrameArguments<ChatDisplayFrameConfiguration>): ChatDisplayFrame {
         return new ChatDisplayFrame(args.context, { ...ChatDisplayFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
+    /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
     public static CreateType(args: TypedNativeFrameArguments<ChatDisplayFrameConfiguration>): ChatDisplayFrame {
         return new ChatDisplayFrame(args.context, { ...ChatDisplayFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
@@ -62,6 +65,7 @@ export interface HighlightFrameConfiguration extends BasicFrameConfiguration {}
 
 /**
  * @see Tasyen's HIGHLIGHT reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/HIGHLIGHT.html
+ * @requiresFdf Its texture and mode (HighlightAlphaFile, HighlightType) are FDF-defined and cannot be changed at runtime.
  */
 export class HighlightFrame extends BasicFrame<HighlightFrameConfiguration> {
     protected readonly nativeFrameType = FrameType.Highlight;
@@ -77,10 +81,12 @@ export class HighlightFrame extends BasicFrame<HighlightFrameConfiguration> {
         return {};
     }
 
+    /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
     public static CreateNamed(args: NamedNativeFrameArguments<HighlightFrameConfiguration>): HighlightFrame {
         return new HighlightFrame(args.context, { ...HighlightFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
+    /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
     public static CreateType(args: TypedNativeFrameArguments<HighlightFrameConfiguration>): HighlightFrame {
         return new HighlightFrame(args.context, { ...HighlightFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
@@ -90,6 +96,7 @@ export interface ListBoxFrameConfiguration extends BasicFrameConfiguration {}
 
 /**
  * @see Tasyen's LISTBOX reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/LISTBOX.html
+ * @requiresFdf Items and scrollbar are FDF-bound children; a bare typed frame cannot render a complete list box.
  */
 export class ListBoxFrame extends BasicFrame<ListBoxFrameConfiguration> {
     protected readonly nativeFrameType = FrameType.ListBox;
@@ -105,10 +112,12 @@ export class ListBoxFrame extends BasicFrame<ListBoxFrameConfiguration> {
         return {};
     }
 
+    /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */
     public static CreateNamed(args: NamedNativeFrameArguments<ListBoxFrameConfiguration>): ListBoxFrame {
         return new ListBoxFrame(args.context, { ...ListBoxFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
+    /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */
     public static CreateType(args: TypedNativeFrameArguments<ListBoxFrameConfiguration>): ListBoxFrame {
         return new ListBoxFrame(args.context, { ...ListBoxFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
@@ -118,6 +127,7 @@ export interface MenuFrameConfiguration extends BasicFrameConfiguration {}
 
 /**
  * @see Tasyen's MENU reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/MENU.html
+ * @requiresFdf Menu choices are FDF-bound children; a bare typed frame cannot render a complete menu.
  */
 export class MenuFrame extends BasicFrame<MenuFrameConfiguration> {
     protected readonly nativeFrameType = FrameType.Menu;
@@ -133,10 +143,12 @@ export class MenuFrame extends BasicFrame<MenuFrameConfiguration> {
         return {};
     }
 
+    /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */
     public static CreateNamed(args: NamedNativeFrameArguments<MenuFrameConfiguration>): MenuFrame {
         return new MenuFrame(args.context, { ...MenuFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
+    /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */
     public static CreateType(args: TypedNativeFrameArguments<MenuFrameConfiguration>): MenuFrame {
         return new MenuFrame(args.context, { ...MenuFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }

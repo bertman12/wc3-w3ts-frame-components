@@ -10,6 +10,7 @@ export interface DialogFrameConfiguration extends IMonoFrameConfigurationBase {
 
 /**
  * @see Tasyen's DIALOG reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/DIALOG.html
+ * @requiresFdf Accept/cancel buttons (DialogOkButton/DialogCancelButton) are FDF-bound children; a bare typed frame cannot render a complete dialog.
  */
 export class DialogFrame extends MonoFrame<DialogFrameConfiguration> {
     public onAcceptTrigger?: Trigger;
@@ -24,10 +25,12 @@ export class DialogFrame extends MonoFrame<DialogFrameConfiguration> {
         return {};
     }
 
+    /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */
     public static CreateNamed(args: NamedNativeFrameArguments<DialogFrameConfiguration>): DialogFrame {
         return new DialogFrame(args.context, { ...DialogFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
+    /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */
     public static CreateType(args: TypedNativeFrameArguments<DialogFrameConfiguration>): DialogFrame {
         return new DialogFrame(args.context, { ...DialogFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }

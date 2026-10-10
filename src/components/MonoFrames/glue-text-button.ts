@@ -9,6 +9,10 @@ export interface GlueTextButtonFrameConfiguration extends IMonoFrameConfiguratio
     onClick?: (button: GlueTextButtonFrame) => void;
 }
 
+/**
+ * @see Tasyen's GLUETEXTBUTTON reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/GLUETEXTBUTTON.html
+ * @requiresFdf Its linked text child (ButtonText) and button art are FDF-defined; use a template such as ScriptDialogButton.
+ */
 export class GlueTextButtonFrame extends MonoFrame<GlueTextButtonFrameConfiguration> {
     public onClickTrigger?: Trigger;
     private createdByName = false;
@@ -22,10 +26,12 @@ export class GlueTextButtonFrame extends MonoFrame<GlueTextButtonFrameConfigurat
         return { clickSoundPath: "Sound\\Interface\\BigButtonClick.flac", initialText: "Default", onClick: () => {} };
     }
 
+    /** @requiresFdf Needs a loaded FDF template for its text child and art to render. */
     public static CreateNamed(args: { context: number; name: string; priority?: number; owner?: Frame; overrides?: GlueTextButtonFrameConfiguration }): GlueTextButtonFrame {
         return new GlueTextButtonFrame(args.context, { ...GlueTextButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
+    /** @requiresFdf Needs a loaded FDF template for its text child and art to render. */
     public static CreateType(args: { context: number; inherits: string; name?: string; owner?: Frame; overrides?: GlueTextButtonFrameConfiguration }): GlueTextButtonFrame {
         return new GlueTextButtonFrame(args.context, { ...GlueTextButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
