@@ -37,3 +37,7 @@ documented there. Record only verified behavior and retain relevant sources.
 # Skill Creation
 
 When creating a new skill, it must be in it's own file <skillName.md> and go in a new folder .copilot/skills/<skillName>
+
+# Researching
+
+Add any useful information you find as a skill or update/add our knowledge files.

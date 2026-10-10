@@ -15,6 +15,10 @@ the map harness.
 - Keep test-harness measurements separate from reusable engine behavior.
 - Preserve source links for researched engine and FDF behavior.
 
+## Related references
+
+- [Tasyen's Big UI-Frame Tutorial digest](./tasyen-big-ui-frame-guide.md): sectioned notes from the guide, each tied to a guide section, with links to the task-specific skills in `.copilot/skills/`. This file stays the reference for this repository's construction model and measured behavior.
+
 ## Construction model
 
 ### Mono frames
@@ -140,6 +144,62 @@ Sources (version unspecified):
 - [Tasyen FDF: DIALOG](https://github.com/Tasyen/FDF/blob/master/FrameTypes/DIALOG.html)
 - [Tasyen FDF: POPUPMENU](https://github.com/Tasyen/FDF/blob/master/FrameTypes/POPUPMENU.html)
 - [Promises: Custom UI frame types and templates](https://github.com/Promises/Warcraft-Maul-Reimagined/blob/main/docs/ui-frames.md)
+
+### MODEL and SPRITE frames
+
+Research-backed (Hive Workshop; versions as each source states). The harness has
+not yet confirmed in-game which of these combinations render, so the rendering
+claims below are unverified in this repository.
+
+- World-object models (units, doodads) are huge in UI space. Every working
+  example of one shrinks it with `BlzFrameSetScale`; an unscaled one covers the
+  screen in black (reported by rolandc85 and by the 3D Model thread's original
+  poster, Rigborn warns of "weird screen blackouts", and Tasyen attributes it to
+  unit models being huge, so size as the cause is an inference). Footman:
+  `0.002` with a `0.001 x 0.001` frame (Tasyen, [3D Model on
+  UI](https://www.hiveworkshop.com/threads/3d-model-on-ui.320434/), Dec 4, 2019,
+  "Reforge Beta"). Hero model: `0.001` ([UI: Adding
+  Sprite](https://www.hiveworkshop.com/threads/ui-adding-sprite.321423/), Jan 13,
+  2020, version unspecified). `RockBoltMissile`: `0.00006` (Big UI-Frame
+  Tutorial). The one example with no scale, the [Animated Model
+  Frames](https://www.hiveworkshop.com/threads/animated-model-frames.332330/)
+  resource (recommended version 1.32), ships a custom model its author says
+  took about 8 hours to fit on the screen.
+- Every example found that renders a unit or doodad model creates a `SPRITE`
+  under `ORIGIN_FRAME_GAME_UI` (or the world frame) with inherits `""`. No source
+  found renders one in a `MODEL` frame. Tasyen's only MODEL-specific guidance is
+  a Jun 2019 reply ("MODEL" or "SPRITE"; SPRITE if the frame should animate) and
+  the reply "That needs special 2d models. (Edit: In Warcraft 3 Version
+  1.31.1)" with `ui\\feedback\\xpbar\\xpbarconsole.mdx` as the example (edited
+  Nov 27, 2019, in [3d model on game UI
+  interface](https://www.hiveworkshop.com/threads/3d-model-on-game-ui-interface.315940/)).
+  In that thread an unscaled `MODEL` frame showing a Footman at `0.2 x 0.2`
+  turned the screen black (Jun 17, 2019). Version caveat: the restriction is
+  tagged 1.31.1 while Tasyen's working Footman recipe is from the Reforge Beta,
+  and no source says whether the restriction still applies. The 3D Model thread's
+  original poster also reported a black screen from a `SPRITE` at `0.2 x 0.2`
+  with the default scale whose active model line was `xpbarconsole.mdx`, so even
+  that model is not known to render unscaled. `ModelFrame` stays a plain `MODEL`
+  wrapper; use `SpriteFrame` for unit and doodad models.
+- Call order is not what makes a model render. Working examples use model,
+  size, scale, point (Tasyen); point, size, scale, model ("UI: Adding Sprite");
+  and point, size, model, scale (wiselen, [How to rotate a sprite
+  frame](https://www.hiveworkshop.com/threads/how-to-rotate-a-sprite-frame-without-editing-the-model.369193/),
+  Dec 6, 2025, version unspecified).
+- `inherits` is the FDF template name, not the frame type; the type is
+  `FrameType.Model` or `FrameType.Sprite`.
+- `BlzFrameSetSpriteAnimate` is reported to work only on SPRITE and STATUSBAR
+  (wiselen's reverse-engineered
+  [crib](https://www.hiveworkshop.com/pastebin/b13e7da43793ff34065ff0cc91836f51.36568),
+  Jun 2025, version unspecified), so `ModelFrame` does not call it.
+- UI model support is limited (TriggerHappy, Apr 2020, [custom cooldown
+  model](https://www.hiveworkshop.com/threads/custom-cooldown-model-as-ui-sprite.324298/)):
+  only some animations work, with no timescale control, rotation, or
+  attachments. Unit models appear top-down, a model with its own camera may need
+  another `cameraIndex`, and particle emitters or glow can cover the whole
+  screen. Details and sources: the
+  [frame-model-sprite-scaling](../skills/frame-model-sprite-scaling/SKILL.md)
+  skill.
 
 ### Composite frames
 
@@ -315,7 +375,15 @@ Sources (version unspecified):
   through individual component types.
 - New native-frame tests place the created frame inside a visible test
   backdrop. This makes construction observable for types such as `CONTROL`,
-  `HIGHLIGHT`, and `MENU`, which do not draw useful standalone artwork.
+  `HIGHLIGHT`, and `MENU`, which do not draw useful standalone artwork. The
+  exception is a feature test marked `standalone`, used for the Model and Sprite
+  model tests: it is created directly under the harness owner with inherits `""`
+  and is never re-anchored or resized afterward, matching Tasyen's examples (see
+  [MODEL and SPRITE frames](#model-and-sprite-frames)). The harness only moves
+  it to the shared test position. The Model page also has a "Set XP bar model"
+  test (`ui\\feedback\\xpbar\\xpbarconsole.mdx`, scale `1`) so a failing Footman
+  test can be told apart from MODEL being unable to show world models; that
+  model is not known to render unscaled either (see the previous section).
 - Test roots are cached. Clicking an existing test toggles visibility rather
   than creating a second frame.
 - The Tooltip test uses a button anchor because tooltip visuals need an owner

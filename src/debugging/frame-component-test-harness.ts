@@ -69,6 +69,12 @@ interface TestFrameComponent {
 interface NativeFrameFeatureTest {
     create: (owner: Frame) => TestFrameComponent;
     label: string;
+    /**
+     * Creates the component directly under the harness owner, like Tasyen's MODEL/SPRITE
+     * examples: no test container, no relative re-anchor and no resize after creation.
+     * The harness only moves the created frame to the shared test position.
+     */
+    standalone?: boolean;
 }
 
 /**
@@ -723,17 +729,33 @@ export class FrameComponentTestHarness {
                         owner,
                     }),
             }),
-            this.createNativeFramePage("Model", "Model", (owner) => ModelFrame.CreateType({ context: this.context, inherits: "", name: this.testName("Model", "Type"), owner }), {
-                label: "Set Footman model",
-                create: (owner) =>
-                    ModelFrame.CreateType({
-                        context: this.context,
-                        inherits: "",
-                        name: this.testName("Model", "Footman"),
-                        owner,
-                        overrides: { modelPath: "Units\\Human\\Footman\\Footman.mdx" },
-                    }),
-            }),
+            this.createNativeFramePage("Model", "Model", (owner) => ModelFrame.CreateType({ context: this.context, inherits: "", name: this.testName("Model", "Type"), owner }), [
+                {
+                    label: "Set Footman model",
+                    standalone: true,
+                    create: (owner) =>
+                        ModelFrame.CreateType({
+                            context: this.context,
+                            inherits: "",
+                            name: this.testName("Model", "Footman"),
+                            owner,
+                            overrides: { modelPath: "units\\human\\Footman\\Footman.mdx" },
+                        }),
+                },
+                {
+                    // Tasyen (1.31.1): MODEL frames need special 2D models such as xpbarconsole. Scale 1 follows his STATUSBAR UI-model example.
+                    label: "Set XP bar model",
+                    standalone: true,
+                    create: (owner) =>
+                        ModelFrame.CreateType({
+                            context: this.context,
+                            inherits: "",
+                            name: this.testName("Model", "XpBar"),
+                            owner,
+                            overrides: { modelPath: "ui\\feedback\\xpbar\\xpbarconsole.mdx", scale: 1 },
+                        }),
+                },
+            ]),
             this.createNativeFramePage("PopupMenu", "Popup", (owner) => PopupMenuFrame.CreateType({ context: this.context, inherits: "", name: this.testName("PopupMenu", "Type"), owner }), {
                 label: "Use FDF popup choices",
                 create: (owner) =>
@@ -797,6 +819,7 @@ export class FrameComponentTestHarness {
             }),
             this.createNativeFramePage("Sprite", "Sprite", (owner) => SpriteFrame.CreateType({ context: this.context, inherits: "", name: this.testName("Sprite", "Type"), owner }), {
                 label: "Set Footman sprite",
+                standalone: true,
                 create: (owner) =>
                     SpriteFrame.CreateType({
                         context: this.context,
@@ -834,10 +857,18 @@ export class FrameComponentTestHarness {
         ];
     }
 
-    private createNativeFramePage(component: string, menuLabel: string, createType: (owner: Frame) => TestFrameComponent, featureTest?: NativeFrameFeatureTest, baseTestLabel = "Create bare type"): FrameComponentTestPage {
+    private createNativeFramePage(
+        component: string,
+        menuLabel: string,
+        createType: (owner: Frame) => TestFrameComponent,
+        featureTests: NativeFrameFeatureTest | NativeFrameFeatureTest[] = [],
+        baseTestLabel = "Create bare type",
+    ): FrameComponentTestPage {
         const tests = [this.test(baseTestLabel, () => this.createNativeFrameTest(component, baseTestLabel, createType))];
-        if (featureTest) {
-            tests.push(this.test(featureTest.label, () => this.createNativeFrameTest(component, featureTest.label, featureTest.create)));
+        for (const featureTest of Array.isArray(featureTests) ? featureTests : [featureTests]) {
+            tests.push(
+                this.test(featureTest.label, () => (featureTest.standalone ? featureTest.create(this.owner).frame : this.createNativeFrameTest(component, featureTest.label, featureTest.create))),
+            );
         }
 
         return {

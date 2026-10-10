@@ -6,13 +6,24 @@ import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from 
 interface ModelFrameConfigurationBase extends IMonoFrameConfigurationBase {
     cameraIndex?: number;
     modelPath?: string;
+    /**
+     * Native unit/doodad models are world-scale and vastly larger than the frame's
+     * 0-1 UI bounding box. Without shrinking the model via BlzFrameSetScale, its
+     * geometry overflows the frame and renders as a solid black/garbled fill
+     * covering the screen instead of a small preview.
+     * @see Tasyen's working example (BlzFrameSetScale(frame, 0.002) for a Footman
+     * sized to a 0.001 x 0.001 frame): https://www.hiveworkshop.com/threads/3d-model-on-ui.320434/post-3387861
+     */
+    scale?: number;
+    width?: number;
+    height?: number;
 }
 
 abstract class ModelDisplayFrame<Configuration extends ModelFrameConfigurationBase> extends MonoFrame<Configuration> {
     protected abstract readonly nativeFrameType: FrameType;
 
     protected render(): void {
-        const frame = this.createNativeFrame(this.nativeFrameType, 0.12, 0.12);
+        const frame = this.createNativeFrame(this.nativeFrameType, this.configuration.width ?? 0.001, this.configuration.height ?? 0.001, 0.4, 0.3);
         if (!frame) {
             return;
         }
@@ -24,17 +35,35 @@ abstract class ModelDisplayFrame<Configuration extends ModelFrameConfigurationBa
         if (this.configuration.modelPath) {
             frame.setModel(this.configuration.modelPath, this.configuration.cameraIndex ?? 0);
         }
+
+        // Without an explicit scale, unit/doodad models overflow the frame's bounding
+        // box and render as a black/garbled fill across the screen instead of a preview.
+        // Working Hive examples use different call orders (Tasyen's "3D Model on UI":
+        // model, size, scale, point; "UI: Adding Sprite": point, size, scale, model),
+        // so the order is not what makes a model render.
+        frame.setSize(this.configuration.width || 0.001, this.configuration.height || 0.001);
+        frame.setScale(this.configuration.scale ?? 0.002);
     }
 
     public updateModel(modelPath: string, cameraIndex = this.configuration.cameraIndex ?? 0): void {
         this.frame?.setModel(modelPath, cameraIndex);
+    }
+
+    public updateScale(scale: number): void {
+        this.configuration.scale = scale;
+        this.frame?.setScale(scale);
     }
 }
 
 export interface ModelFrameConfiguration extends ModelFrameConfigurationBase {}
 
 /**
+ * Every Hive/GitHub example that renders a unit or doodad model uses a SPRITE frame (see
+ * {@link SpriteFrame}); none shows one in a MODEL frame. Tasyen says MODEL needs "special 2d
+ * models", for example `ui\\feedback\\xpbar\\xpbarconsole.mdx` (Warcraft III 1.31.1); whether that
+ * still applies on the current patch is unverified.
  * @see Tasyen's MODEL reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/MODEL.html
+ * @see Tasyen's MODEL vs SPRITE reply: https://www.hiveworkshop.com/threads/3d-model-on-game-ui-interface.315940/
  */
 export class ModelFrame extends ModelDisplayFrame<ModelFrameConfiguration> {
     protected readonly nativeFrameType = FrameType.Model;
@@ -45,7 +74,7 @@ export class ModelFrame extends ModelDisplayFrame<ModelFrameConfiguration> {
     }
 
     public static get DefaultConfiguration(): ModelFrameConfiguration {
-        return { cameraIndex: 0 };
+        return { cameraIndex: 0, scale: 0.002, width: 0.001, height: 0.001 };
     }
 
     public static CreateNamed(args: NamedNativeFrameArguments<ModelFrameConfiguration>): ModelFrame {
@@ -74,7 +103,7 @@ export class SpriteFrame extends ModelDisplayFrame<SpriteFrameConfiguration> {
     }
 
     public static get DefaultConfiguration(): SpriteFrameConfiguration {
-        return { animationFlags: 0, animationPrimaryProp: 2, cameraIndex: 0 };
+        return { animationFlags: 0, animationPrimaryProp: 2, cameraIndex: 0, scale: 0.002, width: 0.001, height: 0.001 };
     }
 
     public static CreateNamed(args: NamedNativeFrameArguments<SpriteFrameConfiguration>): SpriteFrame {
