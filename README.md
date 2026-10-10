@@ -177,7 +177,7 @@ timer.start(10);
 Each rendered item must return a `container` frame that the grid can position.
 Sparse data arrays are not supported.
 
-![Grid example](gridExample.png)
+![Grid example](assets/grid-example.png)
 
 <details>
 <summary>Code Example</summary>
@@ -226,7 +226,7 @@ grid.containerFrame?.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.5);
 
 `BackdropFrame` is a lightweight wrapper around a Blizzard backdrop frame.
 
-![alt text](image.png)
+![BackdropFrame example](assets/backdrop-frame-example.png)
 <details>
 <summary>Code Example</summary>
 
@@ -249,7 +249,7 @@ backdrop.frame?.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
 handlers. When configured with `clickSoundPath`, the sound is played locally
 for the clicking player.
 
-![alt text](image-1.png)
+![ButtonFrame example](assets/button-frame-example.png)
 <details>
 <summary>Code Example</summary>
 
@@ -294,7 +294,7 @@ chat.addMessage("Another message");
 #### <a id="check-box-frame">CheckBoxFrame</a> - [🔝](#mono-frames)
 
 **Requires FDF** ❗
-![alt text](image-8.png)
+![CheckBoxFrame example](assets/check-box-frame-example.png)
 <details>
 <summary>Code Example</summary>
 
@@ -317,7 +317,7 @@ const checkBox = CheckBoxFrame.CreateType({
 
 **Requires FDF** ❗
 
-![alt text](image-9.png)
+![DialogFrame example](assets/dialog-frame-example.png)
 <details>
 <summary>Code Example</summary>
 
@@ -338,7 +338,7 @@ const dialog = DialogFrame.CreateType({
 
 #### <a id="edit-box-frame">EditBoxFrame</a> - [🔝](#mono-frames)
 
-![alt text](image-10.png)
+![EditBoxFrame example](assets/edit-box-frame-example.png)
 <details>
 <summary>Code Example</summary>
 
@@ -416,7 +416,7 @@ checkBox.setOnUnchecked(() => print("Unchecked"));
 </details>
 
 #### <a id="glue-edit-box-frame">GlueEditBoxFrame</a> - [🔝](#mono-frames)
-![alt text](image-11.png)
+![GlueEditBoxFrame example](assets/glue-edit-box-frame-example.png)
 <details>
 <summary>Code Example</summary>
 
@@ -457,7 +457,7 @@ popup.setOnItemChanged((index) => print(`Selected item ${index}`));
 `GlueTextButtonFrame` is the equivalent wrapper for glue text button frames.
 It also supports `setOnClick` and optional local click sounds.
 
-![alt text](image-2.png)
+![GlueTextButtonFrame example](assets/glue-text-button-frame-example.png)
 
 <details>
 <summary>Code Example</summary>
@@ -530,7 +530,7 @@ highlight.frame?.setSize(0.1, 0.1);
 `IconFrame` displays a texture on a Blizzard button without registering a
 click trigger. Use `updateTexture` to change the image after construction.
 
-![alt text](image-3.png)
+![IconFrame example](assets/icon-frame-example.png)
 
 <details>
 <summary>Code Example</summary>
@@ -549,7 +549,7 @@ icon.updateTexture("ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn");
 #### <a id="list-box-frame">ListBoxFrame</a> - [🔝](#mono-frames)
 
 **Requires FDF** ❗
-![alt text](image-12.png)
+![ListBoxFrame example](assets/list-box-frame-example.png)
 <details>
 <summary>Code Example</summary>
 
@@ -569,7 +569,7 @@ list.frame?.setSize(0.2, 0.2);
 
 **Requires FDF** ❗
 
-![alt text](image-13.png)
+![MenuFrame example](assets/menu-frame-example.png)
 <details>
 <summary>Code Example</summary>
 
@@ -606,7 +606,7 @@ model.updateModel("units\\orc\\Grunt\\Grunt.mdx");
 #### <a id="popup-menu-frame">PopupMenuFrame</a> - [🔝](#mono-frames)
 
 **Requires FDF** ❗
-![alt text](image-14.png)
+![PopupMenuFrame example](assets/popup-menu-frame-example.png)
 <details>
 <summary>Code Example</summary>
 
@@ -644,7 +644,7 @@ scrollBar.updateValue(10);
 
 #### <a id="slash-chat-box-frame">SlashChatBoxFrame</a> - [🔝](#mono-frames)
 
-![alt text](image-15.png)
+![SlashChatBoxFrame example](assets/slash-chat-box-frame-example.png)
 <details>
 <summary>Code Example</summary>
 
@@ -663,7 +663,7 @@ const chatBox = SlashChatBoxFrame.CreateType({
 #### <a id="slider-frame">SliderFrame</a> - [🔝](#mono-frames)
 
 **Requires FDF** ❗
-![alt text](image-16.png)
+![SliderFrame example](assets/slider-frame-example.png)
 <details>
 <summary>Code Example</summary>
 
@@ -715,7 +715,7 @@ Warcraft III shows its scrollbar only when the content exceeds the text area's
 visible height; `TextAreaMaxLines` limits retained lines but does not force the
 scrollbar to appear.
 
-![alt text](image-4.png)
+![TextAreaFrame example](assets/text-area-frame-example.png)
 
 <details>
 <summary>Code Example</summary>
@@ -737,7 +737,7 @@ area.setOnMouseEnter(() => print("Mouse entered"));
 #### <a id="text-button-frame">TextButtonFrame</a> - [🔝](#mono-frames)
 
 **Requires FDF** ❗
-![alt text](image-17.png)
+![TextButtonFrame example](assets/text-button-frame-example.png)
 <details>
 <summary>Code Example</summary>
 
@@ -765,7 +765,7 @@ only with a caller-supplied template loaded through
 are placeholders for your own templates. Position a frame with
 `frame?.setAbsPoint(...)` as in the examples above.
 
-![alt text](image-5.png)
+![TextFrame example](assets/text-frame-example.png)
 
 <details>
 <summary>Code Example</summary>
@@ -788,7 +788,7 @@ text.formatSize();
 
 
 #### <a id="timer-text-frame">TimerTextFrame</a> - [🔝](#mono-frames)
-![alt text](image-18.png)
+![TimerTextFrame example](assets/timer-text-frame-example.png)
 <details>
 <summary>Code Example</summary>
 
@@ -813,7 +813,7 @@ is an `IconFrame`, not a clickable button. Supply `iconTexture` and
 counter auto-size, and the backdrop expands when their combined content needs
 more space than `backdropWidth`.
 
-![alt text](image-7.png)
+![TimerFrame example](assets/timer-frame-example.png)
 
 <details>
 <summary>Code Example</summary>
@@ -846,8 +846,8 @@ tooltip opens beneath, rather than above, its owner.
 Call `TooltipFrame#update(header, body, iconData)` to update the text and,
 optionally, the grid data after construction.
 
-![Tooltip example](tooltipExample.png)
-![alt text](image-6.png)
+![Tooltip example](assets/tooltip-frame-example.png)
+![TooltipFrame example 2](assets/tooltip-frame-example-2.png)
 
 <details>
 <summary>Code Example</summary>
