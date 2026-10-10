@@ -4,8 +4,14 @@ import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
 export interface DialogFrameConfiguration extends IMonoFrameConfigurationBase {
+    /** Height of the dialog. Default value: 0.12 */
+    height?: number;
+    /** Handler called when the dialog is accepted. Default value: undefined */
     onAccept?: () => void;
+    /** Handler called when the dialog is cancelled. Default value: undefined */
     onCancel?: () => void;
+    /** Width of the dialog. Default value: 0.2 */
+    width?: number;
 }
 
 /**
@@ -24,7 +30,7 @@ export class DialogFrame extends MonoFrame<DialogFrameConfiguration> {
     }
 
     public static get DefaultConfiguration(): DialogFrameConfiguration {
-        return { width: 0.2, height: 0.12 };
+        return { height: 0.12, onAccept: undefined, onCancel: undefined, width: 0.2 };
     }
 
     /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */

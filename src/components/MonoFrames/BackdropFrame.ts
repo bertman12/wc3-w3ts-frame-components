@@ -2,7 +2,14 @@ import { Frame } from "w3ts";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 import { IMonoFrameConfigurationBase } from "../../models";
 
-export interface BackdropFrameConfiguration extends IMonoFrameConfigurationBase {}
+export interface BackdropFrameConfiguration extends IMonoFrameConfigurationBase {
+    /** Height of the backdrop. Default value: 0.1 */
+    height?: number;
+    /** Width of the backdrop. Default value: 0.1 */
+    width?: number;
+}
+
+type BackdropFrameDefaultConfiguration = Required<Pick<BackdropFrameConfiguration, "height" | "width">>;
 
 export class BackdropFrame extends MonoFrame<BackdropFrameConfiguration> {
     private constructor(...args: ConstructorParameters<typeof MonoFrame<BackdropFrameConfiguration>>) {
@@ -10,8 +17,8 @@ export class BackdropFrame extends MonoFrame<BackdropFrameConfiguration> {
         this.render();
     }
 
-    public static get DefaultConfiguration(): BackdropFrameConfiguration {
-        return {};
+    public static get DefaultConfiguration(): BackdropFrameDefaultConfiguration {
+        return { height: 0.1, width: 0.1 };
     }
 
     public static CreateNamed(args: NamedNativeFrameArguments<BackdropFrameConfiguration>): BackdropFrame {
@@ -30,6 +37,6 @@ export class BackdropFrame extends MonoFrame<BackdropFrameConfiguration> {
 
         this.frame.clearPoints();
         this.frame.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
-        this.frame.setSize(0.1, 0.1);
+        this.frame.setSize(this.configuration.width ?? BackdropFrame.DefaultConfiguration.width, this.configuration.height ?? BackdropFrame.DefaultConfiguration.height);
     }
 }

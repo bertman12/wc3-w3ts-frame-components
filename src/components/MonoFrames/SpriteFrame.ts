@@ -1,12 +1,16 @@
 import { Frame } from "w3ts";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
-import { ModelDisplayFrame, ModelFrameConfigurationBase } from "./ModelDisplayFrame";
+import { ModelDisplayFrame, ModelFrameConfigurationBase, ModelFrameDefaultConfigurationBase } from "./ModelDisplayFrame";
 
 export interface SpriteFrameConfiguration extends ModelFrameConfigurationBase {
+    /** Animation flags passed to the sprite animation. Default value: 0 */
     animationFlags?: number;
+    /** Primary animation property passed to the sprite animation. Default value: 2 */
     animationPrimaryProp?: number;
 }
+
+type SpriteFrameDefaultConfiguration = ModelFrameDefaultConfigurationBase & Required<Pick<SpriteFrameConfiguration, "animationFlags" | "animationPrimaryProp">>;
 
 /**
  * @see Tasyen's SPRITE reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/SPRITE.html
@@ -19,8 +23,12 @@ export class SpriteFrame extends ModelDisplayFrame<SpriteFrameConfiguration> {
         this.render();
     }
 
-    public static get DefaultConfiguration(): SpriteFrameConfiguration {
-        return { animationFlags: 0, animationPrimaryProp: 2, cameraIndex: 0, scale: 0.002, width: 0.001, height: 0.001 };
+    protected get defaultModelConfiguration(): ModelFrameDefaultConfigurationBase {
+        return SpriteFrame.DefaultConfiguration;
+    }
+
+    public static get DefaultConfiguration(): SpriteFrameDefaultConfiguration {
+        return { animationFlags: 0, animationPrimaryProp: 2, cameraIndex: 0, height: 0.001, modelPath: undefined, scale: 0.002, width: 0.001 };
     }
 
     public static CreateNamed(args: NamedNativeFrameArguments<SpriteFrameConfiguration>): SpriteFrame {
@@ -31,12 +39,12 @@ export class SpriteFrame extends ModelDisplayFrame<SpriteFrameConfiguration> {
         return new SpriteFrame(args.context, { ...SpriteFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
 
-    public setAnimation(primaryProp: number, flags = this.configuration.animationFlags ?? 0): void {
+    public setAnimation(primaryProp: number, flags = this.configuration.animationFlags ?? SpriteFrame.DefaultConfiguration.animationFlags): void {
         this.frame?.setSpriteAnimate(primaryProp, flags);
     }
 
     protected configureModelFrame(frame: Frame): void {
         super.configureModelFrame(frame);
-        frame.setSpriteAnimate(this.configuration.animationPrimaryProp ?? 2, this.configuration.animationFlags ?? 0);
+        frame.setSpriteAnimate(this.configuration.animationPrimaryProp ?? SpriteFrame.DefaultConfiguration.animationPrimaryProp, this.configuration.animationFlags ?? SpriteFrame.DefaultConfiguration.animationFlags);
     }
 }

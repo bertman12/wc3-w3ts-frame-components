@@ -3,7 +3,12 @@ import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
 export interface TimerTextFrameConfiguration extends IMonoFrameConfigurationBase {
+    /** Height of the timer text. Default value: 0.03 */
+    height?: number;
+    /** Text shown when the frame is created. Default value: "00:00" */
     initialText?: string;
+    /** Width of the timer text. Default value: 0.12 */
+    width?: number;
 }
 
 /**
@@ -17,7 +22,7 @@ export class TimerTextFrame extends MonoFrame<TimerTextFrameConfiguration> {
     }
 
     public static get DefaultConfiguration(): TimerTextFrameConfiguration {
-        return { initialText: "00:00", width: 0.12, height: 0.03 };
+        return { height: 0.03, initialText: "00:00", width: 0.12 };
     }
 
     public static CreateNamed(args: NamedNativeFrameArguments<TimerTextFrameConfiguration>): TimerTextFrame {

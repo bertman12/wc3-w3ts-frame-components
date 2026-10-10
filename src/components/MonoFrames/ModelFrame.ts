@@ -1,8 +1,10 @@
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
-import { ModelDisplayFrame, ModelFrameConfigurationBase } from "./ModelDisplayFrame";
+import { ModelDisplayFrame, ModelFrameConfigurationBase, ModelFrameDefaultConfigurationBase } from "./ModelDisplayFrame";
 
 export interface ModelFrameConfiguration extends ModelFrameConfigurationBase {}
+
+type ModelFrameDefaultConfiguration = ModelFrameDefaultConfigurationBase;
 
 /**
  * Every Hive/GitHub example that renders a unit or doodad model uses a SPRITE frame (see
@@ -21,8 +23,12 @@ export class ModelFrame extends ModelDisplayFrame<ModelFrameConfiguration> {
         this.render();
     }
 
-    public static get DefaultConfiguration(): ModelFrameConfiguration {
-        return { cameraIndex: 0, scale: 0.002, width: 0.001, height: 0.001 };
+    protected get defaultModelConfiguration(): ModelFrameDefaultConfigurationBase {
+        return ModelFrame.DefaultConfiguration;
+    }
+
+    public static get DefaultConfiguration(): ModelFrameDefaultConfiguration {
+        return { cameraIndex: 0, height: 0.001, modelPath: undefined, scale: 0.002, width: 0.001 };
     }
 
     public static CreateNamed(args: NamedNativeFrameArguments<ModelFrameConfiguration>): ModelFrame {

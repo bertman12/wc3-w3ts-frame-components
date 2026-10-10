@@ -8,13 +8,21 @@ import { TooltipFrame } from "./TooltipFrame";
 import { ICompositeFrameChildFrames, ICompositeFrameConfigurationBase } from "../../models";
 
 export interface TimerFrameConfiguration extends ICompositeFrameConfigurationBase {
+    /** Minimum width of the backdrop; it grows to fit its content. Default value: 0.08 */
     backdropWidth?: number;
+    /** Texture of the optional icon. The icon is not created when unset. Default value: undefined */
     iconTexture?: string;
+    /** Tooltip text for the icon. No tooltip is created when unset. Default value: undefined */
     iconTooltipText?: string;
+    /** Title text shown before the counter. No title is created when unset. Default value: undefined */
     timerTitle?: string;
+    /** Currently unused. Default value: false */
     useTitle?: boolean;
+    /** Horizontal padding between the backdrop edge and its content. Default value: 0.01 */
     xOffset?: number;
 }
+
+type TimerFrameDefaultConfiguration = Required<Pick<TimerFrameConfiguration, "backdropWidth" | "useTitle" | "xOffset">> & Pick<TimerFrameConfiguration, "iconTexture" | "iconTooltipText" | "timerTitle">;
 
 interface TimerFrameChildFrames extends ICompositeFrameChildFrames {
     backdrop: BackdropFrame;
@@ -33,8 +41,15 @@ export class TimerFrame extends CompositeFrame<TimerFrameConfiguration, TimerFra
         this.render();
     }
 
-    public static get DefaultConfiguration(): TimerFrameConfiguration {
-        return {};
+    public static get DefaultConfiguration(): TimerFrameDefaultConfiguration {
+        return {
+            backdropWidth: 0.08,
+            iconTexture: undefined,
+            iconTooltipText: undefined,
+            timerTitle: undefined,
+            useTitle: false,
+            xOffset: 0.01,
+        };
     }
 
     /**
@@ -67,7 +82,7 @@ export class TimerFrame extends CompositeFrame<TimerFrameConfiguration, TimerFra
 
         backdrop.frame.clearPoints();
         backdrop.frame.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
-        backdrop.frame.setSize(this.configuration.backdropWidth ?? 0.08, 0.025);
+        backdrop.frame.setSize(this.configuration.backdropWidth ?? TimerFrame.DefaultConfiguration.backdropWidth, 0.025);
         this.containerFrame = backdrop.frame;
 
         const timerText = TextFrame.CreateType({ context: this.context, inherits: "", name: `${name}TimerText`, owner: backdrop.frame });
@@ -88,7 +103,7 @@ export class TimerFrame extends CompositeFrame<TimerFrameConfiguration, TimerFra
                 overrides: { clickSoundPath: "", texture: this.configuration.iconTexture },
             });
             icon.containerFrame?.clearPoints();
-            icon.containerFrame?.setPoint(FRAMEPOINT_LEFT, backdrop.frame, FRAMEPOINT_LEFT, this.configuration.xOffset ?? 0.01, 0);
+            icon.containerFrame?.setPoint(FRAMEPOINT_LEFT, backdrop.frame, FRAMEPOINT_LEFT, this.configuration.xOffset ?? TimerFrame.DefaultConfiguration.xOffset, 0);
             icon.containerFrame?.setSize((icon.containerFrame?.width ?? 0) * 0.4, (icon.containerFrame?.height ?? 0) * 0.4);
             childFrames.icon = icon;
 
@@ -139,14 +154,14 @@ export class TimerFrame extends CompositeFrame<TimerFrameConfiguration, TimerFra
             return;
         }
 
-        const horizontalPadding = this.configuration.xOffset ?? 0.01;
+        const horizontalPadding = this.configuration.xOffset ?? TimerFrame.DefaultConfiguration.xOffset;
         const iconWidth = this.childFrames.icon?.containerFrame?.width ?? 0;
         const titleWidth = this.childFrames.titleText?.frame?.width ?? 0;
         const timerWidth = this.childFrames.timerText.frame?.width ?? 0;
         const contentGap = 0.005;
         const titleAndTimerWidth = titleWidth > 0 ? titleWidth + contentGap + timerWidth : timerWidth;
         const iconAndTextWidth = iconWidth > 0 ? iconWidth + contentGap + titleAndTimerWidth : titleAndTimerWidth;
-        const width = Math.max(this.configuration.backdropWidth ?? 0.08, horizontalPadding * 2 + iconAndTextWidth + (buffer ?? 0));
+        const width = Math.max(this.configuration.backdropWidth ?? TimerFrame.DefaultConfiguration.backdropWidth, horizontalPadding * 2 + iconAndTextWidth + (buffer ?? 0));
         this.containerFrame.setSize(width, this.containerFrame.height);
     }
 

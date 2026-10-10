@@ -2,7 +2,12 @@ import { IMonoFrameConfigurationBase } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
-export interface HighlightFrameConfiguration extends IMonoFrameConfigurationBase {}
+export interface HighlightFrameConfiguration extends IMonoFrameConfigurationBase {
+    /** Height of the highlight. Default value: 0.08 */
+    height?: number;
+    /** Width of the highlight. Default value: 0.12 */
+    width?: number;
+}
 
 /**
  * @see Tasyen's HIGHLIGHT reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/HIGHLIGHT.html
@@ -18,7 +23,7 @@ export class HighlightFrame extends MonoFrame<HighlightFrameConfiguration> {
     }
 
     public static get DefaultConfiguration(): HighlightFrameConfiguration {
-        return { width: 0.12, height: 0.08 };
+        return { height: 0.08, width: 0.12 };
     }
 
     /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */

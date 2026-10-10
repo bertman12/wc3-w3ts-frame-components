@@ -3,10 +3,19 @@ import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from 
 import { IMonoFrameConfigurationBase } from "../../models";
 
 export interface TextFrameConfiguration extends IMonoFrameConfigurationBase {
-    initialText?: string;
+    /** Whether update() resizes the frame width to fit the new text. Default value: true */
     autoSizeWidth?: boolean;
+    /** Extra width added when auto-sizing the frame to its text. Default value: 0 */
     defaultAutoSizeBuffer?: number;
+    /** Height of the text frame. Default value: 0.005 */
+    height?: number;
+    /** Text shown when the frame is created. Default value: "Sample Text" */
+    initialText?: string;
+    /** Width of the text frame. Default value: 0.1 */
+    width?: number;
 }
+
+type TextFrameDefaultConfiguration = Required<Pick<TextFrameConfiguration, "autoSizeWidth" | "defaultAutoSizeBuffer" | "height" | "initialText" | "width">>;
 
 export class TextFrame extends MonoFrame<TextFrameConfiguration> {
     private constructor(...args: ConstructorParameters<typeof MonoFrame<TextFrameConfiguration>>) {
@@ -14,10 +23,13 @@ export class TextFrame extends MonoFrame<TextFrameConfiguration> {
         this.render();
     }
 
-    public static get DefaultConfiguration(): TextFrameConfiguration {
+    public static get DefaultConfiguration(): TextFrameDefaultConfiguration {
         return {
             autoSizeWidth: true,
+            defaultAutoSizeBuffer: 0,
+            height: 0.005,
             initialText: "Sample Text",
+            width: 0.1,
         };
     }
 
@@ -62,7 +74,7 @@ export class TextFrame extends MonoFrame<TextFrameConfiguration> {
 
         this.frame.clearPoints();
         this.frame.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
-        this.frame.setSize(0.1, 0.005);
+        this.frame.setSize(this.configuration.width ?? TextFrame.DefaultConfiguration.width, this.configuration.height ?? TextFrame.DefaultConfiguration.height);
 
         if (this.configuration.initialText) {
             this.frame.setText(this.configuration.initialText);
@@ -79,7 +91,7 @@ export class TextFrame extends MonoFrame<TextFrameConfiguration> {
 
     public formatSize(buffer?: number): void {
         if (this.frame) {
-            const width = 0.02 + 0.004 * this.frame.text.length + (buffer ?? 0);
+            const width = 0.02 + 0.004 * this.frame.text.length + (buffer ?? TextFrame.DefaultConfiguration.defaultAutoSizeBuffer);
             this.frame.setSize(width, 0);
         }
     }

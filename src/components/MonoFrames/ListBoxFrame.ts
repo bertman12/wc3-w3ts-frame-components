@@ -2,7 +2,12 @@ import { IMonoFrameConfigurationBase } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
-export interface ListBoxFrameConfiguration extends IMonoFrameConfigurationBase {}
+export interface ListBoxFrameConfiguration extends IMonoFrameConfigurationBase {
+    /** Height of the list box. Default value: 0.1 */
+    height?: number;
+    /** Width of the list box. Default value: 0.15 */
+    width?: number;
+}
 
 /**
  * @see Tasyen's LISTBOX reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/LISTBOX.html
@@ -17,7 +22,7 @@ export class ListBoxFrame extends MonoFrame<ListBoxFrameConfiguration> {
     }
 
     public static get DefaultConfiguration(): ListBoxFrameConfiguration {
-        return { width: 0.15, height: 0.1 };
+        return { height: 0.1, width: 0.15 };
     }
 
     /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */

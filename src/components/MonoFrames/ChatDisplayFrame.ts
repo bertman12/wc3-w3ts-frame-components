@@ -3,7 +3,12 @@ import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
 export interface ChatDisplayFrameConfiguration extends IMonoFrameConfigurationBase {
+    /** Height of the chat display. Default value: 0.1 */
+    height?: number;
+    /** Messages added to the chat display when it is created. Default value: [] */
     initialMessages?: string[];
+    /** Width of the chat display. Default value: 0.2 */
+    width?: number;
 }
 
 /**
@@ -20,7 +25,7 @@ export class ChatDisplayFrame extends MonoFrame<ChatDisplayFrameConfiguration> {
     }
 
     public static get DefaultConfiguration(): ChatDisplayFrameConfiguration {
-        return { initialMessages: [], width: 0.2, height: 0.1 };
+        return { height: 0.1, initialMessages: [], width: 0.2 };
     }
 
     /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */

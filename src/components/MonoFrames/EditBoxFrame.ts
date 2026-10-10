@@ -4,9 +4,16 @@ import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
 export interface EditBoxFrameConfiguration extends IMonoFrameConfigurationBase {
+    /** Height of the edit box. Default value: 0.04 */
+    height?: number;
+    /** Text shown in the edit box when it is created. Default value: "" */
     initialText?: string;
+    /** Handler called with the current text when Enter is pressed. Default value: undefined */
     onEnter?: (text: string) => void;
+    /** Handler called with the current text whenever it changes. Default value: undefined */
     onTextChanged?: (text: string) => void;
+    /** Width of the edit box. Default value: 0.2 */
+    width?: number;
 }
 
 /**
@@ -24,7 +31,7 @@ export class EditBoxFrame extends MonoFrame<EditBoxFrameConfiguration> {
     }
 
     public static get DefaultConfiguration(): EditBoxFrameConfiguration {
-        return { initialText: "", width: 0.2, height: 0.04 };
+        return { height: 0.04, initialText: "", onEnter: undefined, onTextChanged: undefined, width: 0.2 };
     }
 
     public static CreateNamed(args: NamedNativeFrameArguments<EditBoxFrameConfiguration>): EditBoxFrame {

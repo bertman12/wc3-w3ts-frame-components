@@ -2,7 +2,12 @@ import { IMonoFrameConfigurationBase } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
-export interface MenuFrameConfiguration extends IMonoFrameConfigurationBase {}
+export interface MenuFrameConfiguration extends IMonoFrameConfigurationBase {
+    /** Height of the menu. Default value: 0.1 */
+    height?: number;
+    /** Width of the menu. Default value: 0.15 */
+    width?: number;
+}
 
 /**
  * @see Tasyen's MENU reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/MENU.html
@@ -17,7 +22,7 @@ export class MenuFrame extends MonoFrame<MenuFrameConfiguration> {
     }
 
     public static get DefaultConfiguration(): MenuFrameConfiguration {
-        return { width: 0.15, height: 0.1 };
+        return { height: 0.1, width: 0.15 };
     }
 
     /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */

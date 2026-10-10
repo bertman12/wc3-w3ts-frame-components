@@ -4,7 +4,12 @@ import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
 export interface GlueButtonFrameConfiguration extends IMonoFrameConfigurationBase {
+    /** Height of the button. Default value: 0.04 */
+    height?: number;
+    /** Handler called when the button is clicked. Default value: undefined */
     onClick?: () => void;
+    /** Width of the button. Default value: 0.1 */
+    width?: number;
 }
 
 /**
@@ -22,7 +27,7 @@ export class GlueButtonFrame extends MonoFrame<GlueButtonFrameConfiguration> {
     }
 
     public static get DefaultConfiguration(): GlueButtonFrameConfiguration {
-        return { width: 0.1, height: 0.04 };
+        return { height: 0.04, onClick: undefined, width: 0.1 };
     }
 
     public static CreateNamed(args: NamedNativeFrameArguments<GlueButtonFrameConfiguration>): GlueButtonFrame {

@@ -4,12 +4,23 @@ import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
 export interface ScrollBarFrameConfiguration extends IMonoFrameConfigurationBase {
+    /** Height of the scroll bar. Default value: 0.12 */
+    height?: number;
+    /** Value the scroll bar is set to when it is created. Default value: 50 */
     initialValue?: number;
+    /** Maximum value of the scroll bar. Default value: 100 */
     maxValue?: number;
+    /** Minimum value of the scroll bar. Default value: 0 */
     minValue?: number;
+    /** Handler called with the new value when the scroll bar value changes. Default value: undefined */
     onValueChanged?: (value: number) => void;
+    /** Amount the value changes per step. Default value: 1 */
     stepSize?: number;
+    /** Width of the scroll bar. Default value: 0.02 */
+    width?: number;
 }
+
+type ScrollBarFrameDefaultConfiguration = Required<Pick<ScrollBarFrameConfiguration, "height" | "initialValue" | "maxValue" | "minValue" | "stepSize" | "width">> & Pick<ScrollBarFrameConfiguration, "onValueChanged">;
 
 /**
  * @see Tasyen's SCROLLBAR reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/SCROLLBAR.html
@@ -26,8 +37,8 @@ export class ScrollBarFrame extends MonoFrame<ScrollBarFrameConfiguration> {
         this.render();
     }
 
-    public static get DefaultConfiguration(): ScrollBarFrameConfiguration {
-        return { initialValue: 50, maxValue: 100, minValue: 0, stepSize: 1, width: 0.02, height: 0.12 };
+    public static get DefaultConfiguration(): ScrollBarFrameDefaultConfiguration {
+        return { height: 0.12, initialValue: 50, maxValue: 100, minValue: 0, onValueChanged: undefined, stepSize: 1, width: 0.02 };
     }
 
     /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
@@ -54,7 +65,7 @@ export class ScrollBarFrame extends MonoFrame<ScrollBarFrameConfiguration> {
             return;
         }
 
-        frame.setMinMaxValue(this.configuration.minValue ?? 0, this.configuration.maxValue ?? 100);
+        frame.setMinMaxValue(this.configuration.minValue ?? ScrollBarFrame.DefaultConfiguration.minValue, this.configuration.maxValue ?? ScrollBarFrame.DefaultConfiguration.maxValue);
         if (this.configuration.stepSize !== undefined) {
             frame.setStepSize(this.configuration.stepSize);
         }

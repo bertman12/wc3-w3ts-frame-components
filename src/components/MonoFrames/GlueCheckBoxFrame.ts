@@ -4,8 +4,14 @@ import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
 export interface GlueCheckBoxFrameConfiguration extends IMonoFrameConfigurationBase {
+    /** Height of the check box. Default value: 0.03 */
+    height?: number;
+    /** Handler called when the check box is checked. Default value: undefined */
     onChecked?: () => void;
+    /** Handler called when the check box is unchecked. Default value: undefined */
     onUnchecked?: () => void;
+    /** Width of the check box. Default value: 0.03 */
+    width?: number;
 }
 
 /**
@@ -25,7 +31,7 @@ export class GlueCheckBoxFrame extends MonoFrame<GlueCheckBoxFrameConfiguration>
     }
 
     public static get DefaultConfiguration(): GlueCheckBoxFrameConfiguration {
-        return { width: 0.03, height: 0.03 };
+        return { height: 0.03, onChecked: undefined, onUnchecked: undefined, width: 0.03 };
     }
 
     /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */

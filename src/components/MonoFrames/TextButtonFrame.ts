@@ -4,8 +4,14 @@ import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
 export interface TextButtonFrameConfiguration extends IMonoFrameConfigurationBase {
+    /** Height of the button. Default value: 0.031 */
+    height?: number;
+    /** Text shown on the button when it is created. Default value: "Text Button" */
     initialText?: string;
+    /** Handler called when the button is clicked. Default value: undefined */
     onClick?: () => void;
+    /** Width of the button. Default value: 0.18 */
+    width?: number;
 }
 
 /**
@@ -23,7 +29,7 @@ export class TextButtonFrame extends MonoFrame<TextButtonFrameConfiguration> {
     }
 
     public static get DefaultConfiguration(): TextButtonFrameConfiguration {
-        return { initialText: "Text Button", width: 0.18, height: 0.031 };
+        return { height: 0.031, initialText: "Text Button", onClick: undefined, width: 0.18 };
     }
 
     /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */

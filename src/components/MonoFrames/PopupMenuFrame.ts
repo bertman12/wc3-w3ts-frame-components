@@ -4,7 +4,12 @@ import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
 export interface PopupMenuFrameConfiguration extends IMonoFrameConfigurationBase {
+    /** Height of the popup menu. Default value: 0.03 */
+    height?: number;
+    /** Handler called with the selected item value when the selection changes. Default value: undefined */
     onItemChanged?: (value: number) => void;
+    /** Width of the popup menu. Default value: 0.16 */
+    width?: number;
 }
 
 /**
@@ -22,7 +27,7 @@ export class PopupMenuFrame extends MonoFrame<PopupMenuFrameConfiguration> {
     }
 
     public static get DefaultConfiguration(): PopupMenuFrameConfiguration {
-        return { width: 0.16, height: 0.03 };
+        return { height: 0.03, onItemChanged: undefined, width: 0.16 };
     }
 
     /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */

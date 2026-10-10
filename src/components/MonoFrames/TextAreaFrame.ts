@@ -4,9 +4,17 @@ import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
 export interface TextAreaFrameConfiguration extends IMonoFrameConfigurationBase {
+    /** Height of the text area. Default value: 0.1 */
+    height?: number;
+    /** Text shown in the text area when it is created. Default value: "Sample Text" */
     initialText?: string;
+    /** Handler called when the mouse enters the text area. Default value: a no-op function */
     onMouseEnter?: () => void;
+    /** Width of the text area. Default value: 0.1 */
+    width?: number;
 }
+
+type TextAreaFrameDefaultConfiguration = Required<Pick<TextAreaFrameConfiguration, "height" | "initialText" | "onMouseEnter" | "width">>;
 
 /**
  * @see Tasyen's TEXTAREA reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/TEXTAREA.html
@@ -22,8 +30,8 @@ export class TextAreaFrame extends MonoFrame<TextAreaFrameConfiguration> {
         this.render();
     }
 
-    public static get DefaultConfiguration(): TextAreaFrameConfiguration {
-        return { initialText: "Sample Text", onMouseEnter: () => {}, width: 0.1, height: 0.1 };
+    public static get DefaultConfiguration(): TextAreaFrameDefaultConfiguration {
+        return { height: 0.1, initialText: "Sample Text", onMouseEnter: () => {}, width: 0.1 };
     }
 
     /** @requiresFdf Needs a loaded FDF template for its font, scrollbar, and container art to render. */
@@ -42,7 +50,7 @@ export class TextAreaFrame extends MonoFrame<TextAreaFrameConfiguration> {
             return;
         }
 
-        this.frame.setSize(this.configuration.width ?? 0.1, this.configuration.height ?? 0.1);
+        this.frame.setSize(this.configuration.width ?? TextAreaFrame.DefaultConfiguration.width, this.configuration.height ?? TextAreaFrame.DefaultConfiguration.height);
         this.frame.clearPoints();
         this.frame.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
 
