@@ -31,8 +31,8 @@ export abstract class MonoFrame<Configuration extends IMonoFrameConfigurationBas
     public configuration: Configuration;
     public frame?: Frame;
     /** The native frame type created by type (see CreateType). Derived classes that wrap a native type set it. */
-    protected readonly nativeFrameType?: FrameType;
-    protected readonly frameEventTriggers = new Map<frameeventtype, Trigger>();
+    public readonly nativeFrameType?: FrameType;
+    public readonly frameEventTriggers = new Map<frameeventtype, Trigger>();
 
     constructor(context: number, configuration: Configuration, name?: string, owner?: Frame, inherits?: string, priority?: number) {
         this.context = context;
@@ -86,7 +86,13 @@ export abstract class MonoFrame<Configuration extends IMonoFrameConfigurationBas
         return this.frame;
     }
 
-    protected onFrameEvent(eventType: frameeventtype, action: () => void): Trigger | undefined {
+    /**
+     * Allows for quick setup of frame event triggers. Also manages storing and cleaning up triggers per event type for the frame.
+     * @param eventType Event type to listen to
+     * @param action callback function executed in a Trigger action context.
+     * @returns
+     */
+    public onFrameEvent(eventType: frameeventtype, action: () => void): Trigger | undefined {
         if (!this.frame) {
             return undefined;
         }
