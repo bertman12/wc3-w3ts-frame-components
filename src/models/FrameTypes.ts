@@ -72,8 +72,8 @@ interface IFrameCreationMethodsBase<T extends IFrameConfigurationBase> {
  * Classes which simlpy serve as a wrapper to standard blizzard frame types
  */
 export interface IMonoFrameCreationMethodsBase<T extends IMonoFrameConfigurationBase> extends IFrameCreationMethodsBase<T> {
-    CreateType: (args: { context: number; name?: string; owner?: Frame; inherits?: string }) => void;
-    CreateNamed: (args: { context: number; name: string; owner?: Frame }) => void;
+    CreateType: (args: { context?: number; name?: string; owner?: Frame; inherits?: string }) => void;
+    CreateNamed: (args: { context?: number; name: string; owner?: Frame }) => void;
 }
 
 /**

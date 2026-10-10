@@ -48,15 +48,24 @@ export class TooltipFrame extends CompositeFrame<TooltipFrameConfiguration, Tool
         return { backdropInherits: "QuestButtonBaseTemplate", bodyText: "", headerText: "", includeBackground: false, tooltipHeaderSpaceX: 0.01 };
     }
 
-    public static Create(args: { context: number; name?: string; owner?: Frame; overrides?: TooltipFrameConfiguration }): TooltipFrame {
+    /**
+     * @param args.context The context of the container frame and all child frames. Default value: 0
+     */
+    public static Create(args: { context?: number; name?: string; owner?: Frame; overrides?: TooltipFrameConfiguration }): TooltipFrame {
         return new TooltipFrame(args.context, { ...TooltipFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner);
     }
 
-    public static CreateNamed(args: { context: number; name: string; owner?: Frame; overrides?: TooltipFrameConfiguration }): TooltipFrame {
+    /**
+     * @param args.context The context of the container frame and all child frames. Default value: 0
+     */
+    public static CreateNamed(args: { context?: number; name: string; owner?: Frame; overrides?: TooltipFrameConfiguration }): TooltipFrame {
         return TooltipFrame.Create(args);
     }
 
-    public static CreateTyped(args: { context: number; name?: string; owner?: Frame; overrides?: TooltipFrameConfiguration }): TooltipFrame {
+    /**
+     * @param args.context The context of the container frame and all child frames. Default value: 0
+     */
+    public static CreateTyped(args: { context?: number; name?: string; owner?: Frame; overrides?: TooltipFrameConfiguration }): TooltipFrame {
         return TooltipFrame.Create(args);
     }
 

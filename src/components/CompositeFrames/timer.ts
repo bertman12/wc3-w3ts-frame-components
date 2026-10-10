@@ -37,15 +37,24 @@ export class TimerFrame extends CompositeFrame<TimerFrameConfiguration, TimerFra
         return {};
     }
 
-    public static Create(args: { context: number; name?: string; owner?: Frame; overrides?: TimerFrameConfiguration }): TimerFrame {
+    /**
+     * @param args.context The context of the container frame and all child frames. Default value: 0
+     */
+    public static Create(args: { context?: number; name?: string; owner?: Frame; overrides?: TimerFrameConfiguration }): TimerFrame {
         return new TimerFrame(args.context, { ...TimerFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner);
     }
 
-    public static CreateNamed(args: { context: number; name: string; owner?: Frame; overrides?: TimerFrameConfiguration }): TimerFrame {
+    /**
+     * @param args.context The context of the container frame and all child frames. Default value: 0
+     */
+    public static CreateNamed(args: { context?: number; name: string; owner?: Frame; overrides?: TimerFrameConfiguration }): TimerFrame {
         return TimerFrame.Create(args);
     }
 
-    public static CreateTyped(args: { context: number; name?: string; owner?: Frame; overrides?: TimerFrameConfiguration }): TimerFrame {
+    /**
+     * @param args.context The context of the container frame and all child frames. Default value: 0
+     */
+    public static CreateTyped(args: { context?: number; name?: string; owner?: Frame; overrides?: TimerFrameConfiguration }): TimerFrame {
         return TimerFrame.Create(args);
     }
 

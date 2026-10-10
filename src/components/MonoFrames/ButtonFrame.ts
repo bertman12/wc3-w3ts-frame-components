@@ -4,9 +4,11 @@ import { IMonoFrameConfigurationBase } from "../../models";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
 export interface ButtonFrameConfiguration extends IMonoFrameConfigurationBase {
-    texture?: string;
-    onClick?: (button: ButtonFrame) => void;
     clickSoundPath?: string;
+    height?: number;
+    onClick?: (button: ButtonFrame) => void;
+    texture?: string;
+    width?: number;
 }
 
 export class ButtonFrame extends MonoFrame<ButtonFrameConfiguration> {
