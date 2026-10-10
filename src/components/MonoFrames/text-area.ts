@@ -15,13 +15,15 @@ export interface TextAreaFrameConfiguration extends IMonoFrameConfigurationBase 
 export class TextAreaFrame extends MonoFrame<TextAreaFrameConfiguration> {
     public onMouseEnterTrigger?: Trigger;
 
+    protected readonly nativeFrameType = FrameType.TextArea;
+
     private constructor(...args: ConstructorParameters<typeof MonoFrame<TextAreaFrameConfiguration>>) {
         super(...args);
         this.render();
     }
 
     public static get DefaultConfiguration(): TextAreaFrameConfiguration {
-        return { initialText: "Sample Text", onMouseEnter: () => {} };
+        return { initialText: "Sample Text", onMouseEnter: () => {}, width: 0.1, height: 0.1 };
     }
 
     /** @requiresFdf Needs a loaded FDF template for its font, scrollbar, and container art to render. */
@@ -35,12 +37,12 @@ export class TextAreaFrame extends MonoFrame<TextAreaFrameConfiguration> {
     }
 
     protected render(): void {
-        this.frame = this.inherits !== undefined ? Frame.createType(this.name, this.owner, this.context, FrameType.TextArea, this.inherits) : Frame.create(this.name, this.owner, this.priority ?? 0, this.context);
+        this.frame = this.inherits !== undefined ? Frame.createType(this.name, this.owner, this.context, this.nativeFrameType, this.inherits) : Frame.create(this.name, this.owner, this.priority ?? 0, this.context);
         if (!this.frame) {
             return;
         }
 
-        this.frame.setSize(0.1, 0.1);
+        this.frame.setSize(this.configuration.width ?? 0.1, this.configuration.height ?? 0.1);
         this.frame.clearPoints();
         this.frame.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
 

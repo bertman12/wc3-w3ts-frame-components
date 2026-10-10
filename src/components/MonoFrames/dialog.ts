@@ -16,13 +16,15 @@ export class DialogFrame extends MonoFrame<DialogFrameConfiguration> {
     public onAcceptTrigger?: Trigger;
     public onCancelTrigger?: Trigger;
 
+    protected readonly nativeFrameType = FrameType.Dialog;
+
     private constructor(...args: ConstructorParameters<typeof MonoFrame<DialogFrameConfiguration>>) {
         super(...args);
         this.render();
     }
 
     public static get DefaultConfiguration(): DialogFrameConfiguration {
-        return {};
+        return { width: 0.2, height: 0.12 };
     }
 
     /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */
@@ -44,7 +46,7 @@ export class DialogFrame extends MonoFrame<DialogFrameConfiguration> {
     }
 
     protected render(): void {
-        if (!this.createNativeFrame(FrameType.Dialog, 0.2, 0.12)) {
+        if (!this.createNativeFrame()) {
             return;
         }
 

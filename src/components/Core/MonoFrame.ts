@@ -30,6 +30,8 @@ export abstract class MonoFrame<Configuration extends IMonoFrameConfigurationBas
     public priority?: number | undefined;
     public configuration: Configuration;
     public frame?: Frame;
+    /** The native frame type created by type (see CreateType). Derived classes that wrap a native type set it. */
+    protected readonly nativeFrameType?: FrameType;
     protected readonly frameEventTriggers = new Map<frameeventtype, Trigger>();
 
     constructor(context: number, configuration: Configuration, name?: string, owner?: Frame, inherits?: string, priority?: number) {
@@ -68,15 +70,19 @@ export abstract class MonoFrame<Configuration extends IMonoFrameConfigurationBas
         //
     }
 
-    protected createNativeFrame(frameType: FrameType, width = 0.1, height = 0.04, x = 0.4, y = 0.3): Frame | undefined {
-        this.frame = this.inherits !== undefined ? Frame.createType(this.name, this.owner, this.context, frameType, this.inherits) : Frame.create(this.name, this.owner, this.priority ?? 0, this.context);
+    protected createNativeFrame(x = 0.4, y = 0.3): Frame | undefined {
+        if (this.inherits !== undefined && this.nativeFrameType === undefined) {
+            return undefined;
+        }
+
+        this.frame = this.inherits !== undefined ? Frame.createType(this.name, this.owner, this.context, this.nativeFrameType as FrameType, this.inherits) : Frame.create(this.name, this.owner, this.priority ?? 0, this.context);
         if (!this.frame) {
             return undefined;
         }
 
         this.frame.clearPoints();
         this.frame.setAbsPoint(FRAMEPOINT_CENTER, x, y);
-        this.frame.setSize(width, height);
+        this.frame.setSize(this.configuration.width ?? 0.1, this.configuration.height ?? 0.04);
         return this.frame;
     }
 

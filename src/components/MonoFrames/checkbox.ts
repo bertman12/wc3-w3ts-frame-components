@@ -3,46 +3,19 @@ import { IMonoFrameConfigurationBase } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
-interface CheckBoxFrameConfigurationBase extends IMonoFrameConfigurationBase {
+export interface CheckBoxFrameConfiguration extends IMonoFrameConfigurationBase {
     onChecked?: () => void;
     onUnchecked?: () => void;
 }
-
-abstract class ToggleFrame<Configuration extends CheckBoxFrameConfigurationBase> extends MonoFrame<Configuration> {
-    public onCheckedTrigger?: Trigger;
-    public onUncheckedTrigger?: Trigger;
-
-    protected abstract readonly nativeFrameType: FrameType;
-
-    protected render(): void {
-        if (!this.createNativeFrame(this.nativeFrameType, 0.03, 0.03)) {
-            return;
-        }
-
-        if (this.configuration.onChecked) {
-            this.setOnChecked(this.configuration.onChecked);
-        }
-        if (this.configuration.onUnchecked) {
-            this.setOnUnchecked(this.configuration.onUnchecked);
-        }
-    }
-
-    public setOnChecked(onChecked: () => void): void {
-        this.onCheckedTrigger = this.onFrameEvent(FRAMEEVENT_CHECKBOX_CHECKED, onChecked);
-    }
-
-    public setOnUnchecked(onUnchecked: () => void): void {
-        this.onUncheckedTrigger = this.onFrameEvent(FRAMEEVENT_CHECKBOX_UNCHECKED, onUnchecked);
-    }
-}
-
-export interface CheckBoxFrameConfiguration extends CheckBoxFrameConfigurationBase {}
 
 /**
  * @see Tasyen's CHECKBOX reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/CHECKBOX.html
  * @requiresFdf Box and check art (ControlBackdrop, CheckBoxCheckHighlight) are FDF-defined; a bare typed check box only fires events.
  */
-export class CheckBoxFrame extends ToggleFrame<CheckBoxFrameConfiguration> {
+export class CheckBoxFrame extends MonoFrame<CheckBoxFrameConfiguration> {
+    public onCheckedTrigger?: Trigger;
+    public onUncheckedTrigger?: Trigger;
+
     protected readonly nativeFrameType = FrameType.CheckBox;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<CheckBoxFrameConfiguration>>) {
@@ -51,7 +24,7 @@ export class CheckBoxFrame extends ToggleFrame<CheckBoxFrameConfiguration> {
     }
 
     public static get DefaultConfiguration(): CheckBoxFrameConfiguration {
-        return {};
+        return { width: 0.03, height: 0.03 };
     }
 
     /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
@@ -63,15 +36,42 @@ export class CheckBoxFrame extends ToggleFrame<CheckBoxFrameConfiguration> {
     public static CreateType(args: TypedNativeFrameArguments<CheckBoxFrameConfiguration>): CheckBoxFrame {
         return new CheckBoxFrame(args.context, { ...CheckBoxFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
+
+    public setOnChecked(onChecked: () => void): void {
+        this.onCheckedTrigger = this.onFrameEvent(FRAMEEVENT_CHECKBOX_CHECKED, onChecked);
+    }
+
+    public setOnUnchecked(onUnchecked: () => void): void {
+        this.onUncheckedTrigger = this.onFrameEvent(FRAMEEVENT_CHECKBOX_UNCHECKED, onUnchecked);
+    }
+
+    protected render(): void {
+        if (!this.createNativeFrame()) {
+            return;
+        }
+
+        if (this.configuration.onChecked) {
+            this.setOnChecked(this.configuration.onChecked);
+        }
+        if (this.configuration.onUnchecked) {
+            this.setOnUnchecked(this.configuration.onUnchecked);
+        }
+    }
 }
 
-export interface GlueCheckBoxFrameConfiguration extends CheckBoxFrameConfigurationBase {}
+export interface GlueCheckBoxFrameConfiguration extends IMonoFrameConfigurationBase {
+    onChecked?: () => void;
+    onUnchecked?: () => void;
+}
 
 /**
  * @see Tasyen's GLUECHECKBOX reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/GLUECHECKBOX.html
  * @requiresFdf Box and check art (ControlBackdrop, CheckBoxCheckHighlight) are FDF-defined; a bare typed check box only fires events.
  */
-export class GlueCheckBoxFrame extends ToggleFrame<GlueCheckBoxFrameConfiguration> {
+export class GlueCheckBoxFrame extends MonoFrame<GlueCheckBoxFrameConfiguration> {
+    public onCheckedTrigger?: Trigger;
+    public onUncheckedTrigger?: Trigger;
+
     protected readonly nativeFrameType = FrameType.GlueCheckBox;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<GlueCheckBoxFrameConfiguration>>) {
@@ -80,7 +80,7 @@ export class GlueCheckBoxFrame extends ToggleFrame<GlueCheckBoxFrameConfiguratio
     }
 
     public static get DefaultConfiguration(): GlueCheckBoxFrameConfiguration {
-        return {};
+        return { width: 0.03, height: 0.03 };
     }
 
     /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
@@ -91,5 +91,26 @@ export class GlueCheckBoxFrame extends ToggleFrame<GlueCheckBoxFrameConfiguratio
     /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
     public static CreateType(args: TypedNativeFrameArguments<GlueCheckBoxFrameConfiguration>): GlueCheckBoxFrame {
         return new GlueCheckBoxFrame(args.context, { ...GlueCheckBoxFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+    }
+
+    public setOnChecked(onChecked: () => void): void {
+        this.onCheckedTrigger = this.onFrameEvent(FRAMEEVENT_CHECKBOX_CHECKED, onChecked);
+    }
+
+    public setOnUnchecked(onUnchecked: () => void): void {
+        this.onUncheckedTrigger = this.onFrameEvent(FRAMEEVENT_CHECKBOX_UNCHECKED, onUnchecked);
+    }
+
+    protected render(): void {
+        if (!this.createNativeFrame()) {
+            return;
+        }
+
+        if (this.configuration.onChecked) {
+            this.setOnChecked(this.configuration.onChecked);
+        }
+        if (this.configuration.onUnchecked) {
+            this.setOnUnchecked(this.configuration.onUnchecked);
+        }
     }
 }

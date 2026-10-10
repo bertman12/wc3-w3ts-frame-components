@@ -15,15 +15,11 @@ interface ModelFrameConfigurationBase extends IMonoFrameConfigurationBase {
      * sized to a 0.001 x 0.001 frame): https://www.hiveworkshop.com/threads/3d-model-on-ui.320434/post-3387861
      */
     scale?: number;
-    width?: number;
-    height?: number;
 }
 
 abstract class ModelDisplayFrame<Configuration extends ModelFrameConfigurationBase> extends MonoFrame<Configuration> {
-    protected abstract readonly nativeFrameType: FrameType;
-
     protected render(): void {
-        const frame = this.createNativeFrame(this.nativeFrameType, this.configuration.width ?? 0.001, this.configuration.height ?? 0.001, 0.4, 0.3);
+        const frame = this.createNativeFrame();
         if (!frame) {
             return;
         }

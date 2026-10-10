@@ -1,21 +1,8 @@
-import { Frame } from "w3ts";
 import { IMonoFrameConfigurationBase } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
-interface BasicFrameConfiguration extends IMonoFrameConfigurationBase {}
-
-abstract class BasicFrame<Configuration extends BasicFrameConfiguration> extends MonoFrame<Configuration> {
-    protected abstract readonly nativeFrameType: FrameType;
-    protected defaultHeight = 0.04;
-    protected defaultWidth = 0.1;
-
-    protected render(): void {
-        this.createNativeFrame(this.nativeFrameType, this.defaultWidth, this.defaultHeight);
-    }
-}
-
-export interface ChatDisplayFrameConfiguration extends BasicFrameConfiguration {
+export interface ChatDisplayFrameConfiguration extends IMonoFrameConfigurationBase {
     initialMessages?: string[];
 }
 
@@ -23,10 +10,8 @@ export interface ChatDisplayFrameConfiguration extends BasicFrameConfiguration {
  * @see Tasyen's CHATDISPLAY reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/CHATDISPLAY.html
  * @requiresFdf Its edit box and scrollbar (ChatDisplayEditBox, ChatDisplayScrollBar) are FDF-bound; a bare typed frame is not a composed chat UI.
  */
-export class ChatDisplayFrame extends BasicFrame<ChatDisplayFrameConfiguration> {
+export class ChatDisplayFrame extends MonoFrame<ChatDisplayFrameConfiguration> {
     protected readonly nativeFrameType = FrameType.ChatDisplay;
-    protected defaultHeight = 0.1;
-    protected defaultWidth = 0.2;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<ChatDisplayFrameConfiguration>>) {
         super(...args);
@@ -34,7 +19,7 @@ export class ChatDisplayFrame extends BasicFrame<ChatDisplayFrameConfiguration> 
     }
 
     public static get DefaultConfiguration(): ChatDisplayFrameConfiguration {
-        return { initialMessages: [] };
+        return { initialMessages: [], width: 0.2, height: 0.1 };
     }
 
     /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
@@ -52,7 +37,7 @@ export class ChatDisplayFrame extends BasicFrame<ChatDisplayFrameConfiguration> 
     }
 
     protected render(): void {
-        const frame = this.createNativeFrame(this.nativeFrameType, this.defaultWidth, this.defaultHeight);
+        const frame = this.createNativeFrame();
         if (!frame) {
             return;
         }
@@ -61,16 +46,14 @@ export class ChatDisplayFrame extends BasicFrame<ChatDisplayFrameConfiguration> 
     }
 }
 
-export interface HighlightFrameConfiguration extends BasicFrameConfiguration {}
+export interface HighlightFrameConfiguration extends IMonoFrameConfigurationBase {}
 
 /**
  * @see Tasyen's HIGHLIGHT reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/HIGHLIGHT.html
  * @requiresFdf Its texture and mode (HighlightAlphaFile, HighlightType) are FDF-defined and cannot be changed at runtime.
  */
-export class HighlightFrame extends BasicFrame<HighlightFrameConfiguration> {
+export class HighlightFrame extends MonoFrame<HighlightFrameConfiguration> {
     protected readonly nativeFrameType = FrameType.Highlight;
-    protected defaultHeight = 0.08;
-    protected defaultWidth = 0.12;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<HighlightFrameConfiguration>>) {
         super(...args);
@@ -78,7 +61,7 @@ export class HighlightFrame extends BasicFrame<HighlightFrameConfiguration> {
     }
 
     public static get DefaultConfiguration(): HighlightFrameConfiguration {
-        return {};
+        return { width: 0.12, height: 0.08 };
     }
 
     /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
@@ -90,18 +73,20 @@ export class HighlightFrame extends BasicFrame<HighlightFrameConfiguration> {
     public static CreateType(args: TypedNativeFrameArguments<HighlightFrameConfiguration>): HighlightFrame {
         return new HighlightFrame(args.context, { ...HighlightFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
+
+    protected render(): void {
+        this.createNativeFrame();
+    }
 }
 
-export interface ListBoxFrameConfiguration extends BasicFrameConfiguration {}
+export interface ListBoxFrameConfiguration extends IMonoFrameConfigurationBase {}
 
 /**
  * @see Tasyen's LISTBOX reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/LISTBOX.html
  * @requiresFdf Items and scrollbar are FDF-bound children; a bare typed frame cannot render a complete list box.
  */
-export class ListBoxFrame extends BasicFrame<ListBoxFrameConfiguration> {
+export class ListBoxFrame extends MonoFrame<ListBoxFrameConfiguration> {
     protected readonly nativeFrameType = FrameType.ListBox;
-    protected defaultHeight = 0.1;
-    protected defaultWidth = 0.15;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<ListBoxFrameConfiguration>>) {
         super(...args);
@@ -109,7 +94,7 @@ export class ListBoxFrame extends BasicFrame<ListBoxFrameConfiguration> {
     }
 
     public static get DefaultConfiguration(): ListBoxFrameConfiguration {
-        return {};
+        return { width: 0.15, height: 0.1 };
     }
 
     /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */
@@ -121,18 +106,20 @@ export class ListBoxFrame extends BasicFrame<ListBoxFrameConfiguration> {
     public static CreateType(args: TypedNativeFrameArguments<ListBoxFrameConfiguration>): ListBoxFrame {
         return new ListBoxFrame(args.context, { ...ListBoxFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
+
+    protected render(): void {
+        this.createNativeFrame();
+    }
 }
 
-export interface MenuFrameConfiguration extends BasicFrameConfiguration {}
+export interface MenuFrameConfiguration extends IMonoFrameConfigurationBase {}
 
 /**
  * @see Tasyen's MENU reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/MENU.html
  * @requiresFdf Menu choices are FDF-bound children; a bare typed frame cannot render a complete menu.
  */
-export class MenuFrame extends BasicFrame<MenuFrameConfiguration> {
+export class MenuFrame extends MonoFrame<MenuFrameConfiguration> {
     protected readonly nativeFrameType = FrameType.Menu;
-    protected defaultHeight = 0.1;
-    protected defaultWidth = 0.15;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<MenuFrameConfiguration>>) {
         super(...args);
@@ -140,7 +127,7 @@ export class MenuFrame extends BasicFrame<MenuFrameConfiguration> {
     }
 
     public static get DefaultConfiguration(): MenuFrameConfiguration {
-        return {};
+        return { width: 0.15, height: 0.1 };
     }
 
     /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */
@@ -151,5 +138,9 @@ export class MenuFrame extends BasicFrame<MenuFrameConfiguration> {
     /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */
     public static CreateType(args: TypedNativeFrameArguments<MenuFrameConfiguration>): MenuFrame {
         return new MenuFrame(args.context, { ...MenuFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+    }
+
+    protected render(): void {
+        this.createNativeFrame();
     }
 }

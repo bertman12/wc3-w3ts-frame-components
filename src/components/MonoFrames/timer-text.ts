@@ -10,13 +10,14 @@ export interface TimerTextFrameConfiguration extends IMonoFrameConfigurationBase
  * @see Tasyen's TIMERTEXT reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/TIMERTEXT.html
  */
 export class TimerTextFrame extends MonoFrame<TimerTextFrameConfiguration> {
+    protected readonly nativeFrameType = FrameType.TimerText;
     private constructor(...args: ConstructorParameters<typeof MonoFrame<TimerTextFrameConfiguration>>) {
         super(...args);
         this.render();
     }
 
     public static get DefaultConfiguration(): TimerTextFrameConfiguration {
-        return { initialText: "00:00" };
+        return { initialText: "00:00", width: 0.12, height: 0.03 };
     }
 
     public static CreateNamed(args: NamedNativeFrameArguments<TimerTextFrameConfiguration>): TimerTextFrame {
@@ -32,7 +33,7 @@ export class TimerTextFrame extends MonoFrame<TimerTextFrameConfiguration> {
     }
 
     protected render(): void {
-        const frame = this.createNativeFrame(FrameType.TimerText, 0.12, 0.03);
+        const frame = this.createNativeFrame();
         if (frame && this.configuration.initialText !== undefined) {
             frame.setText(this.configuration.initialText);
         }

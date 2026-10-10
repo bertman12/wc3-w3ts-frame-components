@@ -7,7 +7,12 @@ interface IFrameConfigurationBase {
 /**
  * Configurable properties all MonoFrames share.
  */
-export interface IMonoFrameConfigurationBase extends IFrameConfigurationBase {}
+export interface IMonoFrameConfigurationBase extends IFrameConfigurationBase {
+    /** Initial width used when the frame is created. */
+    width?: number;
+    /** Initial height used when the frame is created. */
+    height?: number;
+}
 
 export interface ICompositeFrameConfigurationBase extends IFrameConfigurationBase {
     // stuff
