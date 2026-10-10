@@ -14,7 +14,7 @@ export interface PopupMenuFrameConfiguration extends IMonoFrameConfigurationBase
 export class PopupMenuFrame extends MonoFrame<PopupMenuFrameConfiguration> {
     public onItemChangedTrigger?: Trigger;
 
-    protected readonly nativeFrameType = FrameType.PopupMenu;
+    public readonly nativeFrameType = FrameType.PopupMenu;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<PopupMenuFrameConfiguration>>) {
         super(...args);

@@ -18,7 +18,7 @@ export interface SliderFrameConfiguration extends IMonoFrameConfigurationBase {
 export class SliderFrame extends MonoFrame<SliderFrameConfiguration> {
     public onValueChangedTrigger?: Trigger;
 
-    protected readonly nativeFrameType = FrameType.Slider;
+    public readonly nativeFrameType = FrameType.Slider;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<SliderFrameConfiguration>>) {
         super(...args);

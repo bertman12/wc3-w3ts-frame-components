@@ -16,7 +16,7 @@ export class SlashChatBoxFrame extends MonoFrame<SlashChatBoxFrameConfiguration>
     public onEnterTrigger?: Trigger;
     public onTextChangedTrigger?: Trigger;
 
-    protected readonly nativeFrameType = FrameType.SlashChatBox;
+    public readonly nativeFrameType = FrameType.SlashChatBox;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<SlashChatBoxFrameConfiguration>>) {
         super(...args);

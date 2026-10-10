@@ -16,7 +16,7 @@ export class DialogFrame extends MonoFrame<DialogFrameConfiguration> {
     public onAcceptTrigger?: Trigger;
     public onCancelTrigger?: Trigger;
 
-    protected readonly nativeFrameType = FrameType.Dialog;
+    public readonly nativeFrameType = FrameType.Dialog;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<DialogFrameConfiguration>>) {
         super(...args);

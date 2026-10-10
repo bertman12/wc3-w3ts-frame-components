@@ -15,7 +15,7 @@ export interface GluePopupMenuFrameConfiguration extends IMonoFrameConfiguration
 export class GluePopupMenuFrame extends MonoFrame<GluePopupMenuFrameConfiguration> {
     public onItemChangedTrigger?: Trigger;
 
-    protected readonly nativeFrameType = FrameType.GluePopupMenu;
+    public readonly nativeFrameType = FrameType.GluePopupMenu;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<GluePopupMenuFrameConfiguration>>) {
         super(...args);

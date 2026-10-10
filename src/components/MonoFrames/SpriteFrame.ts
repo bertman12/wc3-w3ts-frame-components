@@ -12,7 +12,7 @@ export interface SpriteFrameConfiguration extends ModelFrameConfigurationBase {
  * @see Tasyen's SPRITE reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/SPRITE.html
  */
 export class SpriteFrame extends ModelDisplayFrame<SpriteFrameConfiguration> {
-    protected readonly nativeFrameType = FrameType.Sprite;
+    public readonly nativeFrameType = FrameType.Sprite;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<SpriteFrameConfiguration>>) {
         super(...args);

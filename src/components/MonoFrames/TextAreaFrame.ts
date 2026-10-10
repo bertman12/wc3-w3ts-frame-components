@@ -15,7 +15,7 @@ export interface TextAreaFrameConfiguration extends IMonoFrameConfigurationBase 
 export class TextAreaFrame extends MonoFrame<TextAreaFrameConfiguration> {
     public onMouseEnterTrigger?: Trigger;
 
-    protected readonly nativeFrameType = FrameType.TextArea;
+    public readonly nativeFrameType = FrameType.TextArea;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<TextAreaFrameConfiguration>>) {
         super(...args);

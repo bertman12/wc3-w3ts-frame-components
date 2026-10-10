@@ -10,7 +10,7 @@ export interface TimerTextFrameConfiguration extends IMonoFrameConfigurationBase
  * @see Tasyen's TIMERTEXT reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/TIMERTEXT.html
  */
 export class TimerTextFrame extends MonoFrame<TimerTextFrameConfiguration> {
-    protected readonly nativeFrameType = FrameType.TimerText;
+    public readonly nativeFrameType = FrameType.TimerText;
     private constructor(...args: ConstructorParameters<typeof MonoFrame<TimerTextFrameConfiguration>>) {
         super(...args);
         this.render();

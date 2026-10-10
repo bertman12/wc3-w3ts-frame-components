@@ -19,7 +19,7 @@ export interface ScrollBarFrameConfiguration extends IMonoFrameConfigurationBase
 export class ScrollBarFrame extends MonoFrame<ScrollBarFrameConfiguration> {
     public onValueChangedTrigger?: Trigger;
 
-    protected readonly nativeFrameType = FrameType.ScrollBar;
+    public readonly nativeFrameType = FrameType.ScrollBar;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<ScrollBarFrameConfiguration>>) {
         super(...args);

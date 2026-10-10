@@ -14,7 +14,7 @@ export interface ModelFrameConfiguration extends ModelFrameConfigurationBase {}
  * @deprecated Development deferred. Do not use; this class is still under development.
  */
 export class ModelFrame extends ModelDisplayFrame<ModelFrameConfiguration> {
-    protected readonly nativeFrameType = FrameType.Model;
+    public readonly nativeFrameType = FrameType.Model;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<ModelFrameConfiguration>>) {
         super(...args);

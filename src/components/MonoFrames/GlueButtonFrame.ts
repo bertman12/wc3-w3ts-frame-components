@@ -14,7 +14,7 @@ export interface GlueButtonFrameConfiguration extends IMonoFrameConfigurationBas
 export class GlueButtonFrame extends MonoFrame<GlueButtonFrameConfiguration> {
     public onClickTrigger?: Trigger;
 
-    protected readonly nativeFrameType = FrameType.GlueButton;
+    public readonly nativeFrameType = FrameType.GlueButton;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<GlueButtonFrameConfiguration>>) {
         super(...args);

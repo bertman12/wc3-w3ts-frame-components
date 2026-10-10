@@ -9,7 +9,7 @@ export interface MenuFrameConfiguration extends IMonoFrameConfigurationBase {}
  * @requiresFdf Menu choices are FDF-bound children; a bare typed frame cannot render a complete menu.
  */
 export class MenuFrame extends MonoFrame<MenuFrameConfiguration> {
-    protected readonly nativeFrameType = FrameType.Menu;
+    public readonly nativeFrameType = FrameType.Menu;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<MenuFrameConfiguration>>) {
         super(...args);

@@ -16,7 +16,7 @@ export class EditBoxFrame extends MonoFrame<EditBoxFrameConfiguration> {
     public onEnterTrigger?: Trigger;
     public onTextChangedTrigger?: Trigger;
 
-    protected readonly nativeFrameType = FrameType.EditBox;
+    public readonly nativeFrameType = FrameType.EditBox;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<EditBoxFrameConfiguration>>) {
         super(...args);

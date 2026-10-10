@@ -17,7 +17,7 @@ export class GlueCheckBoxFrame extends MonoFrame<GlueCheckBoxFrameConfiguration>
     public onCheckedTrigger?: Trigger;
     public onUncheckedTrigger?: Trigger;
 
-    protected readonly nativeFrameType = FrameType.GlueCheckBox;
+    public readonly nativeFrameType = FrameType.GlueCheckBox;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<GlueCheckBoxFrameConfiguration>>) {
         super(...args);

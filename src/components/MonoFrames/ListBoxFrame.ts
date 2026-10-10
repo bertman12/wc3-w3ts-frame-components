@@ -9,7 +9,7 @@ export interface ListBoxFrameConfiguration extends IMonoFrameConfigurationBase {
  * @requiresFdf Items and scrollbar are FDF-bound children; a bare typed frame cannot render a complete list box.
  */
 export class ListBoxFrame extends MonoFrame<ListBoxFrameConfiguration> {
-    protected readonly nativeFrameType = FrameType.ListBox;
+    public readonly nativeFrameType = FrameType.ListBox;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<ListBoxFrameConfiguration>>) {
         super(...args);

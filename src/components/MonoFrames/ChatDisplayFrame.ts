@@ -12,7 +12,7 @@ export interface ChatDisplayFrameConfiguration extends IMonoFrameConfigurationBa
  * @deprecated Development deferred. Do not use; this class is still under development.
  */
 export class ChatDisplayFrame extends MonoFrame<ChatDisplayFrameConfiguration> {
-    protected readonly nativeFrameType = FrameType.ChatDisplay;
+    public readonly nativeFrameType = FrameType.ChatDisplay;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<ChatDisplayFrameConfiguration>>) {
         super(...args);

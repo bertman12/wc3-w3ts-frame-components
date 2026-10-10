@@ -16,7 +16,7 @@ export class GlueEditBoxFrame extends MonoFrame<GlueEditBoxFrameConfiguration> {
     public onEnterTrigger?: Trigger;
     public onTextChangedTrigger?: Trigger;
 
-    protected readonly nativeFrameType = FrameType.GlueEditBox;
+    public readonly nativeFrameType = FrameType.GlueEditBox;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<GlueEditBoxFrameConfiguration>>) {
         super(...args);

@@ -15,7 +15,7 @@ export interface TextButtonFrameConfiguration extends IMonoFrameConfigurationBas
 export class TextButtonFrame extends MonoFrame<TextButtonFrameConfiguration> {
     public onClickTrigger?: Trigger;
 
-    protected readonly nativeFrameType = FrameType.TextButton;
+    public readonly nativeFrameType = FrameType.TextButton;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<TextButtonFrameConfiguration>>) {
         super(...args);

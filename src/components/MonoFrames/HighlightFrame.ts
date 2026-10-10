@@ -10,7 +10,7 @@ export interface HighlightFrameConfiguration extends IMonoFrameConfigurationBase
  * @deprecated Development deferred. Do not use; this class is still under development.
  */
 export class HighlightFrame extends MonoFrame<HighlightFrameConfiguration> {
-    protected readonly nativeFrameType = FrameType.Highlight;
+    public readonly nativeFrameType = FrameType.Highlight;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<HighlightFrameConfiguration>>) {
         super(...args);

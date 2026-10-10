@@ -16,7 +16,7 @@ export class CheckBoxFrame extends MonoFrame<CheckBoxFrameConfiguration> {
     public onCheckedTrigger?: Trigger;
     public onUncheckedTrigger?: Trigger;
 
-    protected readonly nativeFrameType = FrameType.CheckBox;
+    public readonly nativeFrameType = FrameType.CheckBox;
 
     private constructor(...args: ConstructorParameters<typeof MonoFrame<CheckBoxFrameConfiguration>>) {
         super(...args);

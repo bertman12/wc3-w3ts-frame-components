@@ -87,7 +87,10 @@ export abstract class MonoFrame<Configuration extends IMonoFrameConfigurationBas
     }
 
     /**
-     * Allows for quick setup of frame event triggers. Also manages storing and cleaning up triggers per event type for the frame.
+     * Allows for quick setup of frame event triggers.
+     * Also manages storing and cleaning up triggers per event type for the frame.
+     *
+     * Setting another frame event for an already stored event type will destroy the previously saved trigger.
      * @param eventType Event type to listen to
      * @param action callback function executed in a Trigger action context.
      * @returns

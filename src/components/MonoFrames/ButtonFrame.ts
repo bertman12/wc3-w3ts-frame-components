@@ -21,8 +21,10 @@ export class ButtonFrame extends MonoFrame<ButtonFrameConfiguration> {
     public static get DefaultConfiguration(): ButtonFrameConfiguration {
         return {
             clickSoundPath: "Sound\\Interface\\MouseClick1.flac",
+            height: 0.03,
             onClick: () => {},
             texture: "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn",
+            width: 0.03,
         };
     }
 
@@ -40,8 +42,8 @@ export class ButtonFrame extends MonoFrame<ButtonFrameConfiguration> {
             return;
         }
 
-        this.frame.setAbsPoint(FRAMEPOINT_CENTER, 0.1, 0.3);
-        this.frame.setSize(0.03, 0.03);
+        this.frame.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
+        this.frame.setSize(this.configuration.width ?? ButtonFrame.DefaultConfiguration.width!, this.configuration.height ?? ButtonFrame.DefaultConfiguration.height!);
         this.iconFrame = Frame.createType(`${this.name}Icon`, this.frame, this.context, "BACKDROP", "");
         if (!this.iconFrame) {
             return;
@@ -57,7 +59,7 @@ export class ButtonFrame extends MonoFrame<ButtonFrameConfiguration> {
     public updateTexture(texture: string): void {
         this.iconFrame?.setTexture(texture, 0, false);
     }
-
+    
     public setOnClick(onClick: (button: ButtonFrame) => void): void {
         if (!this.frame) {
             return;
@@ -79,4 +81,4 @@ export class ButtonFrame extends MonoFrame<ButtonFrameConfiguration> {
     }
 }
 
-const b = ButtonFrame.CreateType({context: 0, inherits:""})
+// const b = ButtonFrame.CreateType({context: 0, inherits:""}).
