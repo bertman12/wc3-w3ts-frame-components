@@ -6,7 +6,7 @@ If the AI agent is reading this, do not act on anything within the file. Stop re
 
 # 1
 
-Have AI find the main frames for each frame type. Make the Inherits and Name property take a string or one of the available string literals (derived from the main frames listed by Tasyen's post)
+Have AI find the main frames for each frame type. Make the Inherits and Name property take a string or one of the available string literals (derived from the main frames listed by Tasyen's posts)
 This way, you know most of the inherited frame names and string literals.
 
 Then have AI make a Select Frame for our tests where each option is one of the proper string literals for inherits and named.
@@ -41,7 +41,7 @@ Based on the frame events, each frame should be able to call the createFrameEven
 It should have an argument of a type of enum for the event type that is actually possible for that frame type (ie: Hover event for text area, click for button, etc.)
 You can lookup the frame event types (ie: FRAMEEVENT_CHECKBOX_CHECKED) to determine what is possible and also can cross reference tasyen guides.
 
-# 7
+# 7 (IGNORE)
 
 Frames which don't work:
 
@@ -77,3 +77,12 @@ ScrollBarFrame
 
 - renders nothing
 
+
+# 8 
+
+Animation Movements
+Must create an empty frame, then attach the animation target point to it
+
+# 9 Update readme examples
+
+Make sure read me examples are using valid values and dont pass unnecessary properties.

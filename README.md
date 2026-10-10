@@ -102,6 +102,24 @@ const timer = TimerFrame.Create({
 timer.start(10);
 ```
 
+#### <a id="composite-frame">Frame Configurations</a> - [🔝](#contents)
+
+Both MonoFrame and CompositeFrame classes are preconfigured to use default values when rendering.
+This provides an easy way to quickly render a frame onto the screen without much knowledge or configuration.
+
+The construction methods for both classes provide an overrides property which allows you to override any of the default values the frame is rendered with.
+
+You can also save configurations for specific frame types and pass that constant to the overrides property to easily reuse common configurations. This allows for soft-theme support without requiring any architectural changes on the core frame classes.
+
+You also have the option to override the frame defaults of every frame type via the function below.
+
+```ts
+ThemeUtils.SetDefaultConfigurations({
+    buttonFrame: {...}, // new button frame default configuration
+    tooltipFrame: {...} // new tooltip frame default configuration
+})
+```
+
 ## <a id="components-toc">Components</a> - [🔝](#contents)
 
 #### <a id="layout">Layout</a> - [🔝](#components-toc)
