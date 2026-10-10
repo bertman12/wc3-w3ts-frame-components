@@ -9,6 +9,7 @@ export interface GlueButtonFrameConfiguration extends IMonoFrameConfigurationBas
 
 /**
  * @see Tasyen's GLUEBUTTON reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/GLUEBUTTON.html
+ * @deprecated Development deferred. Do not use; this class is still under development.
  */
 export class GlueButtonFrame extends MonoFrame<GlueButtonFrameConfiguration> {
     public onClickTrigger?: Trigger;

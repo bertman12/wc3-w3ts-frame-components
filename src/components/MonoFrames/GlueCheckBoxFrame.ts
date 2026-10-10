@@ -11,6 +11,7 @@ export interface GlueCheckBoxFrameConfiguration extends IMonoFrameConfigurationB
 /**
  * @see Tasyen's GLUECHECKBOX reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/GLUECHECKBOX.html
  * @requiresFdf Box and check art (ControlBackdrop, CheckBoxCheckHighlight) are FDF-defined; a bare typed check box only fires events.
+ * @deprecated Development deferred. Do not use; this class is still under development.
  */
 export class GlueCheckBoxFrame extends MonoFrame<GlueCheckBoxFrameConfiguration> {
     public onCheckedTrigger?: Trigger;

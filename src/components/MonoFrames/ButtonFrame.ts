@@ -78,3 +78,5 @@ export class ButtonFrame extends MonoFrame<ButtonFrameConfiguration> {
         });
     }
 }
+
+const b = ButtonFrame.CreateType({context: 0, inherits:""})

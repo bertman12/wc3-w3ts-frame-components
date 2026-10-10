@@ -9,6 +9,7 @@ export interface ChatDisplayFrameConfiguration extends IMonoFrameConfigurationBa
 /**
  * @see Tasyen's CHATDISPLAY reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/CHATDISPLAY.html
  * @requiresFdf Its edit box and scrollbar (ChatDisplayEditBox, ChatDisplayScrollBar) are FDF-bound; a bare typed frame is not a composed chat UI.
+ * @deprecated Development deferred. Do not use; this class is still under development.
  */
 export class ChatDisplayFrame extends MonoFrame<ChatDisplayFrameConfiguration> {
     protected readonly nativeFrameType = FrameType.ChatDisplay;

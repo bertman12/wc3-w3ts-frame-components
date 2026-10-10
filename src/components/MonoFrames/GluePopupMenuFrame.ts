@@ -10,6 +10,7 @@ export interface GluePopupMenuFrameConfiguration extends IMonoFrameConfiguration
 /**
  * @see Tasyen's GLUEPOPUPMENU reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/GLUEPOPUPMENU.html
  * @requiresFdf Title, arrow, menu, and items are FDF-bound children; a bare typed frame cannot render a complete popup menu.
+ * @deprecated Development deferred. Do not use; this class is still under development.
  */
 export class GluePopupMenuFrame extends MonoFrame<GluePopupMenuFrameConfiguration> {
     public onItemChangedTrigger?: Trigger;

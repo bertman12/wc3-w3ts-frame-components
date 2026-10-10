@@ -73,5 +73,3 @@ This file complements [frames-knowledge.md](./frames-knowledge.md) (repo constru
 - [frame-multiplayer-and-events](../skills/frame-multiplayer-and-events/SKILL.md)
 - [frame-fdf-and-toc](../skills/frame-fdf-and-toc/SKILL.md)
 - [frame-text-and-fonts](../skills/frame-text-and-fonts/SKILL.md)
-
-Related catalog of other Tasyen threads: `C:\Users\Eddy\.copilot\research-data\tasyen-hive-frame-posts.md`.

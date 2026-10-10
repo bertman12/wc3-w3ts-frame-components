@@ -11,6 +11,7 @@ export interface ModelFrameConfiguration extends ModelFrameConfigurationBase {}
  * still applies on the current patch is unverified.
  * @see Tasyen's MODEL reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/MODEL.html
  * @see Tasyen's MODEL vs SPRITE reply: https://www.hiveworkshop.com/threads/3d-model-on-game-ui-interface.315940/
+ * @deprecated Development deferred. Do not use; this class is still under development.
  */
 export class ModelFrame extends ModelDisplayFrame<ModelFrameConfiguration> {
     protected readonly nativeFrameType = FrameType.Model;

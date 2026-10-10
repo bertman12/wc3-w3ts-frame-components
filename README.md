@@ -107,15 +107,17 @@ timer.start(10);
 
 ## <a id="components-toc">Components</a> - [🔝](#contents)
 
+#### <a id="layout">Layout</a> - [🔝](#components-toc)
+
 **[Grid](#grid)**
 
-#### <a id="mono-frames">Mono frames</a> - [🔝](#components-toc)
+#### <a id="mono-frames">MonoFrames</a> - [🔝](#components-toc)
 
 **[BackdropFrame](#backdrop-frame)**
 
 **[ButtonFrame](#button-frame)**
 
-**[ChatDisplayFrame](#chat-display-frame)**
+**[ChatDisplayFrame](#chat-display-frame)** 🚫
 
 **[CheckBoxFrame](#check-box-frame)**
 
@@ -125,17 +127,17 @@ timer.start(10);
 
 **[EmptyFrame](#empty-frame)**
 
-**[GlueButtonFrame](#glue-button-frame)**
+**[GlueButtonFrame](#glue-button-frame)** 🚫
 
-**[GlueCheckBoxFrame](#glue-check-box-frame)**
+**[GlueCheckBoxFrame](#glue-check-box-frame)** 🚫
 
 **[GlueEditBoxFrame](#glue-edit-box-frame)**
 
-**[GluePopupMenuFrame](#glue-popup-menu-frame)**
+**[GluePopupMenuFrame](#glue-popup-menu-frame)** 🚫
 
 **[GlueTextButtonFrame](#glue-text-button-frame)**
 
-**[HighlightFrame](#highlight-frame)**
+**[HighlightFrame](#highlight-frame)** 🚫
 
 **[IconFrame](#icon-frame)**
 
@@ -143,11 +145,11 @@ timer.start(10);
 
 **[MenuFrame](#menu-frame)**
 
-**[ModelFrame](#model-frame)**
+**[ModelFrame](#model-frame)** 🚫
 
 **[PopupMenuFrame](#popup-menu-frame)**
 
-**[ScrollBarFrame](#scroll-bar-frame)**
+**[ScrollBarFrame](#scroll-bar-frame)** 🚫
 
 **[SlashChatBoxFrame](#slash-chat-box-frame)**
 
@@ -163,7 +165,7 @@ timer.start(10);
 
 **[TimerTextFrame](#timer-text-frame)**
 
-#### <a id="composite-frames">Composite frames</a> - [🔝](#components-toc)
+#### <a id="composite-frames">CompositeFrames</a> - [🔝](#components-toc)
 
 **[TimerFrame](#timer-frame)**
 
@@ -171,7 +173,7 @@ timer.start(10);
 
 <hr />
 
-#### <a id="grid">Grid</a> - [🔝](#components-toc)
+#### <a id="grid">Grid</a> - [🔝](#layout)
 
 `Grid` arranges like items using caller-provided render and update callbacks.
 Each rendered item must return a `container` frame that the grid can position.
@@ -227,6 +229,7 @@ grid.containerFrame?.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.5);
 `BackdropFrame` is a lightweight wrapper around a Blizzard backdrop frame.
 
 ![BackdropFrame example](assets/backdrop-frame-example.png)
+
 <details>
 <summary>Code Example</summary>
 
@@ -250,6 +253,7 @@ handlers. When configured with `clickSoundPath`, the sound is played locally
 for the clicking player.
 
 ![ButtonFrame example](assets/button-frame-example.png)
+
 <details>
 <summary>Code Example</summary>
 
@@ -273,6 +277,8 @@ button.setOnClick(() => print("Replacement handler"));
 
 #### <a id="chat-display-frame">ChatDisplayFrame</a> - [🔝](#mono-frames)
 
+Development deferred. 🚫
+
 **Requires FDF** ❗
 
 <details>
@@ -295,6 +301,7 @@ chat.addMessage("Another message");
 
 **Requires FDF** ❗
 ![CheckBoxFrame example](assets/check-box-frame-example.png)
+
 <details>
 <summary>Code Example</summary>
 
@@ -318,6 +325,7 @@ const checkBox = CheckBoxFrame.CreateType({
 **Requires FDF** ❗
 
 ![DialogFrame example](assets/dialog-frame-example.png)
+
 <details>
 <summary>Code Example</summary>
 
@@ -339,6 +347,7 @@ const dialog = DialogFrame.CreateType({
 #### <a id="edit-box-frame">EditBoxFrame</a> - [🔝](#mono-frames)
 
 ![EditBoxFrame example](assets/edit-box-frame-example.png)
+
 <details>
 <summary>Code Example</summary>
 
@@ -379,6 +388,8 @@ container.frame?.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
 
 #### <a id="glue-button-frame">GlueButtonFrame</a> - [🔝](#mono-frames)
 
+Development deferred. 🚫
+
 <details>
 <summary>Code Example</summary>
 
@@ -396,6 +407,8 @@ button.setOnClick(() => print("Replacement handler"));
 </details>
 
 #### <a id="glue-check-box-frame">GlueCheckBoxFrame</a> - [🔝](#mono-frames)
+
+Development deferred. 🚫
 
 **Requires FDF** ❗
 
@@ -416,7 +429,9 @@ checkBox.setOnUnchecked(() => print("Unchecked"));
 </details>
 
 #### <a id="glue-edit-box-frame">GlueEditBoxFrame</a> - [🔝](#mono-frames)
+
 ![GlueEditBoxFrame example](assets/glue-edit-box-frame-example.png)
+
 <details>
 <summary>Code Example</summary>
 
@@ -434,6 +449,8 @@ editBox.setOnTextChanged((text) => print(`Changed: ${text}`));
 </details>
 
 #### <a id="glue-popup-menu-frame">GluePopupMenuFrame</a> - [🔝](#mono-frames)
+
+Development deferred. 🚫
 
 **Requires FDF** ❗
 
@@ -508,6 +525,8 @@ customButton.frame?.setAbsPoint(FRAMEPOINT_CENTER, 0.6, 0.45);
 
 #### <a id="highlight-frame">HighlightFrame</a> - [🔝](#mono-frames)
 
+Development deferred. 🚫
+
 **Requires FDF** ❗
 
 <details>
@@ -550,6 +569,7 @@ icon.updateTexture("ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn");
 
 **Requires FDF** ❗
 ![ListBoxFrame example](assets/list-box-frame-example.png)
+
 <details>
 <summary>Code Example</summary>
 
@@ -570,6 +590,7 @@ list.frame?.setSize(0.2, 0.2);
 **Requires FDF** ❗
 
 ![MenuFrame example](assets/menu-frame-example.png)
+
 <details>
 <summary>Code Example</summary>
 
@@ -586,6 +607,8 @@ menu.frame?.setSize(0.2, 0.2);
 </details>
 
 #### <a id="model-frame">ModelFrame</a> - [🔝](#mono-frames)
+
+Development deferred. 🚫
 
 <details>
 <summary>Code Example</summary>
@@ -607,6 +630,7 @@ model.updateModel("units\\orc\\Grunt\\Grunt.mdx");
 
 **Requires FDF** ❗
 ![PopupMenuFrame example](assets/popup-menu-frame-example.png)
+
 <details>
 <summary>Code Example</summary>
 
@@ -623,6 +647,8 @@ const popup = PopupMenuFrame.CreateType({
 </details>
 
 #### <a id="scroll-bar-frame">ScrollBarFrame</a> - [🔝](#mono-frames)
+
+Development deferred. 🚫
 
 **Requires FDF** ❗
 
@@ -645,6 +671,7 @@ scrollBar.updateValue(10);
 #### <a id="slash-chat-box-frame">SlashChatBoxFrame</a> - [🔝](#mono-frames)
 
 ![SlashChatBoxFrame example](assets/slash-chat-box-frame-example.png)
+
 <details>
 <summary>Code Example</summary>
 
@@ -664,6 +691,7 @@ const chatBox = SlashChatBoxFrame.CreateType({
 
 **Requires FDF** ❗
 ![SliderFrame example](assets/slider-frame-example.png)
+
 <details>
 <summary>Code Example</summary>
 
@@ -705,6 +733,7 @@ sprite.setAnimation(0);
 </details>
 
 #### <a id="text-area-frame">TextAreaFrame</a> - [🔝](#mono-frames)
+
 **Requires FDF** ❗
 
 `TextAreaFrame` wraps a Blizzard text area. Its mouse-enter helper manages
@@ -732,12 +761,14 @@ area.frame?.setSize(0.25, 0.12);
 area.frame?.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
 area.setOnMouseEnter(() => print("Mouse entered"));
 ```
+
 </details>
 
 #### <a id="text-button-frame">TextButtonFrame</a> - [🔝](#mono-frames)
 
 **Requires FDF** ❗
 ![TextButtonFrame example](assets/text-button-frame-example.png)
+
 <details>
 <summary>Code Example</summary>
 
@@ -785,10 +816,10 @@ text.formatSize();
 
 </details>
 
-
-
 #### <a id="timer-text-frame">TimerTextFrame</a> - [🔝](#mono-frames)
+
 ![TimerTextFrame example](assets/timer-text-frame-example.png)
+
 <details>
 <summary>Code Example</summary>
 
@@ -887,8 +918,6 @@ if (button.frame) {
 ```
 
 </details>
-
-
 
 ## <a id="debugging-tools">Debugging tools</a> - [🔝](#contents)
 

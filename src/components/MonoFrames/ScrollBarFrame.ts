@@ -14,6 +14,7 @@ export interface ScrollBarFrameConfiguration extends IMonoFrameConfigurationBase
 /**
  * @see Tasyen's SCROLLBAR reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/SCROLLBAR.html
  * @requiresFdf Thumb and inc/dec buttons are FDF-bound children; a bare typed scrollbar has no art.
+ * @deprecated Development deferred. Do not use; this class is still under development.
  */
 export class ScrollBarFrame extends MonoFrame<ScrollBarFrameConfiguration> {
     public onValueChangedTrigger?: Trigger;

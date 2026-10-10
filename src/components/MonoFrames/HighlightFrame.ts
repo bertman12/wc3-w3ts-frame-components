@@ -7,6 +7,7 @@ export interface HighlightFrameConfiguration extends IMonoFrameConfigurationBase
 /**
  * @see Tasyen's HIGHLIGHT reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/HIGHLIGHT.html
  * @requiresFdf Its texture and mode (HighlightAlphaFile, HighlightType) are FDF-defined and cannot be changed at runtime.
+ * @deprecated Development deferred. Do not use; this class is still under development.
  */
 export class HighlightFrame extends MonoFrame<HighlightFrameConfiguration> {
     protected readonly nativeFrameType = FrameType.Highlight;
