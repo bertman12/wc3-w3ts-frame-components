@@ -1,6 +1,6 @@
 import { Frame } from "w3ts";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
-import { IMonoFrameConfigurationBase } from "../../models";
+import { IMonoFrameConfigurationBase, LoadedEmptyTemplate } from "../../models";
 
 export interface EmptyFrameConfiguration extends IMonoFrameConfigurationBase {}
 
@@ -18,7 +18,7 @@ export class EmptyFrame extends MonoFrame<EmptyFrameConfiguration> {
         return new EmptyFrame(args.context, { ...EmptyFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
-    public static CreateType(args: TypedNativeFrameArguments<EmptyFrameConfiguration>): EmptyFrame {
+    public static CreateType(args: TypedNativeFrameArguments<EmptyFrameConfiguration, LoadedEmptyTemplate>): EmptyFrame {
         return new EmptyFrame(args.context, { ...EmptyFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
 

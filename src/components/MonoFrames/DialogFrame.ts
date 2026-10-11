@@ -1,5 +1,5 @@
 import { Trigger } from "w3ts";
-import { IMonoFrameConfigurationBase } from "../../models";
+import { IMonoFrameConfigurationBase, LoadedDialogTemplate } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
@@ -39,7 +39,7 @@ export class DialogFrame extends MonoFrame<DialogFrameConfiguration> {
     }
 
     /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */
-    public static CreateType(args: TypedNativeFrameArguments<DialogFrameConfiguration>): DialogFrame {
+    public static CreateType(args: TypedNativeFrameArguments<DialogFrameConfiguration, LoadedDialogTemplate>): DialogFrame {
         return new DialogFrame(args.context, { ...DialogFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
 

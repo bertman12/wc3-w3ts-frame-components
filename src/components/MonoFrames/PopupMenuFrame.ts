@@ -1,5 +1,5 @@
 import { Frame, Trigger } from "w3ts";
-import { IMonoFrameConfigurationBase } from "../../models";
+import { IMonoFrameConfigurationBase, LoadedPopupMenuTemplate } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
@@ -36,7 +36,7 @@ export class PopupMenuFrame extends MonoFrame<PopupMenuFrameConfiguration> {
     }
 
     /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */
-    public static CreateType(args: TypedNativeFrameArguments<PopupMenuFrameConfiguration>): PopupMenuFrame {
+    public static CreateType(args: TypedNativeFrameArguments<PopupMenuFrameConfiguration, LoadedPopupMenuTemplate>): PopupMenuFrame {
         return new PopupMenuFrame(args.context, { ...PopupMenuFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
 

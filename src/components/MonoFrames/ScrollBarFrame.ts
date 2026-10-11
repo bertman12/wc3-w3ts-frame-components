@@ -1,5 +1,5 @@
 import { Frame, Trigger } from "w3ts";
-import { IMonoFrameConfigurationBase } from "../../models";
+import { IMonoFrameConfigurationBase, LoadedScrollBarTemplate } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
@@ -47,7 +47,7 @@ export class ScrollBarFrame extends MonoFrame<ScrollBarFrameConfiguration> {
     }
 
     /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
-    public static CreateType(args: TypedNativeFrameArguments<ScrollBarFrameConfiguration>): ScrollBarFrame {
+    public static CreateType(args: TypedNativeFrameArguments<ScrollBarFrameConfiguration, LoadedScrollBarTemplate>): ScrollBarFrame {
         return new ScrollBarFrame(args.context, { ...ScrollBarFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
 
