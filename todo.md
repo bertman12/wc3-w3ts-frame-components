@@ -1,6 +1,7 @@
 # Rules
 
-If the AI agent is reading this, do not act on anything within the file. Stop reading at this point.
+If the AI agent is reading this, do not act on anything within the file unless specifically asked to.
+If you have been asked to perform the tasks in the read me, then you must not do anything marked with ignore.
 
 # TODOS
 
@@ -11,22 +12,22 @@ This way, you know most of the inherited frame names and string literals.
 
 Then have AI make a Select Frame for our tests where each option is one of the proper string literals for inherits and named.
 
-# 2
+# 2 (IGNORE)
 
 Have AI create a new Core abstract class for SimpleFrames called SimpleFrame.
 This will be similar to MonoFrame except that it will be the parent class of all Simple Frame components.
 
 Simple Frame components should have their own fodler like MonoFrames and CompositeFrames
 
-# 3
+# 3 (IGNORE)
 
 Make the UI test harness generic. This way someone can provide an options array where each option contains the name of frame to test and a list of test functions for that frame that the user wants to test, similar to what we have done.
 
-# 4
+# 4 (IGNORE)
 
 Allow for whoever imports the library to set the default configurations on each component, which will override the developer chosen defaults. This is basically a replacement for the previous theme feature.
 
-# 5
+# 5 (IGNORE)
 
 Have AI analyze blizzard frame definitions and create a guide on understanding FDFs.
 List keywords, entity categories, possible values for certain properties, etc.
@@ -34,7 +35,7 @@ List the possible names which certain frame types can inherit from.
 
 Other useful information.
 
-# 6
+# 6 (IGNORE)
 
 Make the frame event creation handler generic and publicy accessible.
 Based on the frame events, each frame should be able to call the createFrameEvent function on any MonoFrame.
@@ -77,8 +78,7 @@ ScrollBarFrame
 
 - renders nothing
 
-
-# 8 
+# 8 (IGNORE)
 
 Animation Movements
 Must create an empty frame, then attach the animation target point to it
