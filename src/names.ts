@@ -31,10 +31,29 @@ export enum JMT_Inheritables {
 
 export enum FrameType {
     Backdrop = "BACKDROP",
-    GlueTextButton = "GLUETEXTBUTTON",
-    Button=  "BUTTON",
+    Button = "BUTTON",
+    ChatDisplay = "CHATDISPLAY",
+    CheckBox = "CHECKBOX",
+    Dialog = "DIALOG",
+    EditBox = "EDITBOX",
     Frame = "FRAME",
+    GlueButton = "GLUEBUTTON",
+    GlueCheckBox = "GLUECHECKBOX",
+    GlueEditBox = "GLUEEDITBOX",
+    GluePopupMenu = "GLUEPOPUPMENU",
+    GlueTextButton = "GLUETEXTBUTTON",
+    Highlight = "HIGHLIGHT",
+    ListBox = "LISTBOX",
+    Menu = "MENU",
+    Model = "MODEL",
+    PopupMenu = "POPUPMENU",
+    ScrollBar = "SCROLLBAR",
+    SlashChatBox = "SLASHCHATBOX",
+    Slider = "SLIDER",
+    Sprite = "SPRITE",
+    Text = "TEXT",
+    TextArea = "TEXTAREA",
+    TextButton = "TEXTBUTTON",
+    TimerText = "TIMERTEXT",
     Tooltip = "TOOLTIP",
-    TextArea = "TEXTAREA"
-    
 }

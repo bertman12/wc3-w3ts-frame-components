@@ -1,9 +1,10 @@
 import { Frame } from "w3ts";
 import { CompositeFrame } from "../Core/CompositeFrame";
-import { BackdropFrame } from "../MonoFrames/backdrop";
-import { EmptyFrame } from "../MonoFrames/empty-frame";
-import { IconFrame } from "../MonoFrames/icon";
-import { TextFrame } from "../MonoFrames/text";
+import { FrameUtils } from "../../frame-utils";
+import { BackdropFrame } from "../MonoFrames/BackdropFrame";
+import { EmptyFrame } from "../MonoFrames/EmptyFrame";
+import { ButtonFrame } from "./ButtonFrame";
+import { TextFrame } from "../MonoFrames/TextFrame";
 import { Grid, IGridItemBaseDefinition } from "../../grid";
 import { ICompositeFrameChildFrames, ICompositeFrameConfigurationBase } from "../../models";
 
@@ -13,21 +14,37 @@ export interface TooltipIconDataItem {
 }
 
 export interface TooltipFrameConfiguration extends ICompositeFrameConfigurationBase {
+    /** Set to "bottom" to open the tooltip beneath its owner instead of above. Default value: undefined */
     anchorPoint?: "bottom";
+    /** FDF template the backdrop inherits from when `includeBackground` is true. Default value: "QuestButtonBaseTemplate" */
     backdropInherits?: string;
+    /** Body text of the tooltip. Default value: "" */
     bodyText?: string;
+    /** Header text of the tooltip. Default value: "" */
     headerText?: string;
+    /** Whether the tooltip is rendered inside a backdrop. Default value: false */
     includeBackground?: boolean;
+    /** Anchors the tooltip to the top right of its owner instead of the top left. Default value: false */
     reverseOrientation?: boolean;
+    /** Horizontal space between the backdrop edge and the text on the left. Default value: 0.01 */
     tooltipBodySpaceX?: number;
+    /** Horizontal gap added after each icon and value pair in the icon grid. Default value: 0 */
     tooltipIconContainerGapX?: number;
+    /** Icon and value data rendered beneath the header. No grid is created when unset. Default value: undefined */
     tooltipIconGridData?: TooltipIconDataItem[];
+    /** Space between an icon and its value text in the icon grid. Default value: 0.005 */
     tooltipIconValueLeftPadding?: number;
+    /** Horizontal space between the backdrop edge and the header on the right. Default value: 0.01 */
     tooltipHeaderSpaceX?: number;
 }
 
+type TooltipFrameDefaultConfiguration = Required<
+    Pick<TooltipFrameConfiguration, "backdropInherits" | "bodyText" | "headerText" | "includeBackground" | "reverseOrientation" | "tooltipBodySpaceX" | "tooltipHeaderSpaceX" | "tooltipIconContainerGapX" | "tooltipIconValueLeftPadding">
+> &
+    Pick<TooltipFrameConfiguration, "anchorPoint" | "tooltipIconGridData">;
+
 interface TooltipGridItemFrames extends IGridItemBaseDefinition {
-    icon: IconFrame;
+    icon: ButtonFrame;
     valueText: TextFrame;
 }
 
@@ -44,28 +61,48 @@ export class TooltipFrame extends CompositeFrame<TooltipFrameConfiguration, Tool
         this.render();
     }
 
-    public static get DefaultConfiguration(): TooltipFrameConfiguration {
-        return { backdropInherits: "QuestButtonBaseTemplate", bodyText: "", headerText: "", includeBackground: false, tooltipHeaderSpaceX: 0.01 };
+    public static get DefaultConfiguration(): TooltipFrameDefaultConfiguration {
+        return {
+            anchorPoint: undefined,
+            backdropInherits: "QuestButtonBaseTemplate",
+            bodyText: "",
+            headerText: "",
+            includeBackground: false,
+            reverseOrientation: false,
+            tooltipBodySpaceX: 0.01,
+            tooltipHeaderSpaceX: 0.01,
+            tooltipIconContainerGapX: 0,
+            tooltipIconGridData: undefined,
+            tooltipIconValueLeftPadding: 0.005,
+        };
     }
 
-    public static Create(args: { context: number; name?: string; owner?: Frame; overrides?: TooltipFrameConfiguration }): TooltipFrame {
+    /**
+     * @param args.context The context of the container frame and all child frames. Default value: 0
+     */
+    public static Create(args: { context?: number; name?: string; owner?: Frame; overrides?: TooltipFrameConfiguration }): TooltipFrame {
         return new TooltipFrame(args.context, { ...TooltipFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner);
     }
 
-    public static CreateNamed(args: { context: number; name: string; owner?: Frame; overrides?: TooltipFrameConfiguration }): TooltipFrame {
+    /**
+     * @param args.context The context of the container frame and all child frames. Default value: 0
+     */
+    public static CreateNamed(args: { context?: number; name: string; owner?: Frame; overrides?: TooltipFrameConfiguration }): TooltipFrame {
         return TooltipFrame.Create(args);
     }
 
-    public static CreateTyped(args: { context: number; name?: string; owner?: Frame; overrides?: TooltipFrameConfiguration }): TooltipFrame {
+    /**
+     * @param args.context The context of the container frame and all child frames. Default value: 0
+     */
+    public static CreateTyped(args: { context?: number; name?: string; owner?: Frame; overrides?: TooltipFrameConfiguration }): TooltipFrame {
         return TooltipFrame.Create(args);
     }
 
     protected render(): void {
         const name = this.name ?? "TooltipFrame";
-        const parent = this.owner!;
-        const backdrop = this.configuration.includeBackground
-            ? BackdropFrame.CreateType({ context: this.context, inherits: this.configuration.backdropInherits ?? "QuestButtonBaseTemplate", name: `${name}Backdrop`, owner: parent })
-            : undefined;
+        const defaults = TooltipFrame.DefaultConfiguration;
+        const parent = this.owner ?? FrameUtils.OriginFrameGameUI;
+        const backdrop = this.configuration.includeBackground ? BackdropFrame.CreateType({ context: this.context, inherits: this.configuration.backdropInherits ?? defaults.backdropInherits, name: `${name}Backdrop`, owner: parent }) : undefined;
         const contentOwner = backdrop?.frame ?? parent;
         const headerText = TextFrame.CreateType({ context: this.context, inherits: "", name: `${name}Header`, owner: contentOwner });
         const bodyText = TextFrame.CreateType({ context: this.context, inherits: "", name: `${name}Body`, owner: contentOwner });
@@ -78,10 +115,10 @@ export class TooltipFrame extends CompositeFrame<TooltipFrameConfiguration, Tool
         backdrop?.frame?.clearPoints();
         headerText.frame.clearPoints();
         bodyText.frame.clearPoints();
-        headerText.frame.setText(this.configuration.headerText ?? "");
-        bodyText.frame.setText(this.configuration.bodyText ?? "");
-        const width = this.getFormattedWidth(this.configuration.headerText ?? "", this.configuration.bodyText ?? "");
-        const bodySpaceX = this.configuration.tooltipBodySpaceX ?? 0.01;
+        headerText.frame.setText(this.configuration.headerText ?? defaults.headerText);
+        bodyText.frame.setText(this.configuration.bodyText ?? defaults.bodyText);
+        const width = this.getFormattedWidth(this.configuration.headerText ?? defaults.headerText, this.configuration.bodyText ?? defaults.bodyText);
+        const bodySpaceX = this.configuration.tooltipBodySpaceX ?? defaults.tooltipBodySpaceX;
         headerText.frame.setSize(width, 0);
         bodyText.frame.setSize(width, 0);
         headerText.frame.setEnabled(false);
@@ -123,14 +160,13 @@ export class TooltipFrame extends CompositeFrame<TooltipFrameConfiguration, Tool
                             return undefined;
                         }
 
-                        const icon = IconFrame.CreateType({
+                        const icon = ButtonFrame.Create({
                             context: this.context,
-                            inherits: "",
                             name: `${name}Icon${index}`,
                             owner: containerFrame,
-                            overrides: { texture: data.texture },
+                            overrides: { clickSoundPath: "", texture: data.texture },
                         });
-                        const iconFrame = icon.frame;
+                        const iconFrame = icon.containerFrame;
                         if (!iconFrame) {
                             return undefined;
                         }
@@ -150,19 +186,19 @@ export class TooltipFrame extends CompositeFrame<TooltipFrameConfiguration, Tool
                             return undefined;
                         }
                         valueTextFrame.clearPoints();
-                        valueTextFrame.setPoint(FRAMEPOINT_LEFT, iconFrame, FRAMEPOINT_RIGHT, this.configuration.tooltipIconValueLeftPadding ?? 0.005, 0);
+                        valueTextFrame.setPoint(FRAMEPOINT_LEFT, iconFrame, FRAMEPOINT_RIGHT, this.configuration.tooltipIconValueLeftPadding ?? defaults.tooltipIconValueLeftPadding, 0);
                         valueTextFrame.setScale(0.8);
                         valueText.formatSize();
 
-                        containerFrame.setSize(iconFrame.width + valueTextFrame.width + (this.configuration.tooltipIconContainerGapX ?? 0), iconFrame.height);
+                        containerFrame.setSize(iconFrame.width + valueTextFrame.width + (this.configuration.tooltipIconContainerGapX ?? defaults.tooltipIconContainerGapX), iconFrame.height);
                         return { container: containerFrame, icon, valueText };
                     },
                     updateItem: (data, itemFrames) => {
                         itemFrames.icon.updateTexture(data.texture);
                         itemFrames.valueText.update(data.value ?? "");
                         itemFrames.container?.setSize(
-                            (itemFrames.icon.frame?.width ?? 0) + (itemFrames.valueText.frame?.width ?? 0) + (this.configuration.tooltipIconContainerGapX ?? 0),
-                            itemFrames.icon.frame?.height ?? 0,
+                            (itemFrames.icon.containerFrame?.width ?? 0) + (itemFrames.valueText.frame?.width ?? 0) + (this.configuration.tooltipIconContainerGapX ?? defaults.tooltipIconContainerGapX),
+                            itemFrames.icon.containerFrame?.height ?? 0,
                         );
                     },
                 },
@@ -180,7 +216,7 @@ export class TooltipFrame extends CompositeFrame<TooltipFrameConfiguration, Tool
         }
 
         if (backdrop?.frame) {
-            backdrop.frame.setPoint(FRAMEPOINT_TOPRIGHT, headerText.frame, FRAMEPOINT_TOPRIGHT, this.configuration.tooltipHeaderSpaceX ?? 0.01, 0.01);
+            backdrop.frame.setPoint(FRAMEPOINT_TOPRIGHT, headerText.frame, FRAMEPOINT_TOPRIGHT, this.configuration.tooltipHeaderSpaceX ?? defaults.tooltipHeaderSpaceX, 0.01);
             backdrop.frame.setPoint(FRAMEPOINT_BOTTOMLEFT, bodyText.frame, FRAMEPOINT_BOTTOMLEFT, -bodySpaceX, -0.01);
             BlzFrameSetTooltip(parent.handle, backdrop.frame.handle);
         } else {

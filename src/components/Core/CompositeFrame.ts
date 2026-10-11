@@ -15,10 +15,10 @@ export abstract class CompositeFrame<Configuration extends ICompositeFrameConfig
 
     /**
      * @param name When creating a component with a non empty string for the inherits property, then this will be used as a custom name for the frame. When creating a component without an empty string or undefined for inherits, this will be used to reference an existing blizzard frame name.
-     * @param context
+     * @param context Default value: 0
      * @param owner Defaults to ORIGIN_FRAME_GAME_UI
      */
-    constructor(context: number, configuration: Configuration, name?: string, owner?: Frame) {
+    constructor(context: number = 0, configuration: Configuration, name?: string, owner?: Frame) {
         this.name = name;
         this.context = context;
         this.owner = owner || FrameUtils.OriginFrameGameUI;
@@ -28,12 +28,12 @@ export abstract class CompositeFrame<Configuration extends ICompositeFrameConfig
     /**
      *
      * @param args Frame creation options
-     * @param args.context The context of the container frame and all child frames.
+     * @param args.context The context of the container frame and all child frames. Default value: 0
      * @param args.name An arbitrary name for the container frame, which is used as a prefix for generic child frame names in the composite frame.
      * @param args.owner The parent frame for the container frame. Default value: ORIGIN_FRAME_GAME_UI
      * @param args.overrides Allows overriding the CompositeFrame's default configuration with your own.
      */
-    static Create(args: { context: number; name?: string; owner?: Frame; overrides?: any }): any {
+    static Create(args: { context?: number; name?: string; owner?: Frame; overrides?: any }): any {
         // replace with component relevant logic
     }
 

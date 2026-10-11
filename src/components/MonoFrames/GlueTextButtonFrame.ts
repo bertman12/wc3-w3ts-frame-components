@@ -1,16 +1,28 @@
 import { Frame, MapPlayer, Trigger } from "w3ts";
 import { PlaySoundLocal } from "warcraft-3-w3ts-utils";
 import { IMonoFrameConfigurationBase } from "../../models";
-import { MonoFrame } from "../Core/MonoFrame";
+import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
 export interface GlueTextButtonFrameConfiguration extends IMonoFrameConfigurationBase {
+    /** Sound played locally for the clicking player. An empty string plays no sound. Default value: "Sound\\Interface\\BigButtonClick.flac" */
     clickSoundPath?: string;
+    /** Height of the button. Default value: 0.1 */
+    height?: number;
+    /** Text shown on the button when it is created. Default value: "Default" */
     initialText?: string;
+    /** Handler called when the button is clicked. Default value: a no-op function */
     onClick?: (button: GlueTextButtonFrame) => void;
+    /** Width of the button. Default value: 0.1 */
+    width?: number;
 }
 
+type GlueTextButtonFrameDefaultConfiguration = Required<Pick<GlueTextButtonFrameConfiguration, "clickSoundPath" | "height" | "initialText" | "onClick" | "width">>;
+
+/**
+ * @see Tasyen's GLUETEXTBUTTON reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/GLUETEXTBUTTON.html
+ * @requiresFdf Its linked text child (ButtonText) and button art are FDF-defined; use a template such as ScriptDialogButton.
+ */
 export class GlueTextButtonFrame extends MonoFrame<GlueTextButtonFrameConfiguration> {
-    public frame?: Frame;
     public onClickTrigger?: Trigger;
     private createdByName = false;
 
@@ -19,15 +31,17 @@ export class GlueTextButtonFrame extends MonoFrame<GlueTextButtonFrameConfigurat
         this.render();
     }
 
-    public static get DefaultConfiguration(): GlueTextButtonFrameConfiguration {
-        return { clickSoundPath: "Sound\\Interface\\BigButtonClick.flac", initialText: "Default", onClick: () => {} };
+    public static get DefaultConfiguration(): GlueTextButtonFrameDefaultConfiguration {
+        return { clickSoundPath: "Sound\\Interface\\BigButtonClick.flac", height: 0.1, initialText: "Default", onClick: () => {}, width: 0.1 };
     }
 
-    public static CreateNamed(args: { context: number; name: string; priority?: number; owner?: Frame; overrides?: GlueTextButtonFrameConfiguration }): GlueTextButtonFrame {
+    /** @requiresFdf Needs a loaded FDF template for its text child and art to render. */
+    public static CreateNamed(args: NamedNativeFrameArguments<GlueTextButtonFrameConfiguration>): GlueTextButtonFrame {
         return new GlueTextButtonFrame(args.context, { ...GlueTextButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
-    public static CreateType(args: { context: number; inherits: string; name?: string; owner?: Frame; overrides?: GlueTextButtonFrameConfiguration }): GlueTextButtonFrame {
+    /** @requiresFdf Needs a loaded FDF template for its text child and art to render. */
+    public static CreateType(args: TypedNativeFrameArguments<GlueTextButtonFrameConfiguration>): GlueTextButtonFrame {
         return new GlueTextButtonFrame(args.context, { ...GlueTextButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
 
@@ -46,21 +60,18 @@ export class GlueTextButtonFrame extends MonoFrame<GlueTextButtonFrameConfigurat
 
         this.frame.clearPoints();
         this.frame.setAbsPoint(FRAMEPOINT_CENTER, 0.3, 0.3);
-        this.frame.setSize(0.1, 0.1);
+        this.frame.setSize(this.configuration.width ?? GlueTextButtonFrame.DefaultConfiguration.width, this.configuration.height ?? GlueTextButtonFrame.DefaultConfiguration.height);
         if (this.configuration.initialText) {
             this.frame.setText(this.configuration.initialText);
         }
-        this.setOnClick(this.configuration.onClick ?? (() => {}));
+        this.setOnClick(this.configuration.onClick ?? GlueTextButtonFrame.DefaultConfiguration.onClick);
     }
 
     public setOnClick(onClick: (button: GlueTextButtonFrame) => void): void {
         if (!this.frame) {
             return;
         }
-        this.onClickTrigger?.destroy();
-        this.onClickTrigger = Trigger.create();
-        this.onClickTrigger.triggerRegisterFrameEvent(this.frame, FRAMEEVENT_CONTROL_CLICK);
-        this.onClickTrigger.addAction(() => {
+        this.onClickTrigger = this.onFrameEvent(FRAMEEVENT_CONTROL_CLICK, () => {
             const player = MapPlayer.fromEvent();
             if (!this.createdByName && player && this.configuration.clickSoundPath) {
                 PlaySoundLocal(this.configuration.clickSoundPath, player.isLocal());

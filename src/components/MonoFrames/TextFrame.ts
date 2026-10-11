@@ -1,25 +1,35 @@
 import { Frame } from "w3ts";
-import { MonoFrame } from "../Core/MonoFrame";
+import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 import { IMonoFrameConfigurationBase } from "../../models";
 
 export interface TextFrameConfiguration extends IMonoFrameConfigurationBase {
-    initialText?: string;
+    /** Whether update() resizes the frame width to fit the new text. Default value: true */
     autoSizeWidth?: boolean;
+    /** Extra width added when auto-sizing the frame to its text. Default value: 0 */
     defaultAutoSizeBuffer?: number;
+    /** Height of the text frame. Default value: 0.005 */
+    height?: number;
+    /** Text shown when the frame is created. Default value: "Sample Text" */
+    initialText?: string;
+    /** Width of the text frame. Default value: 0.1 */
+    width?: number;
 }
 
-export class TextFrame extends MonoFrame<TextFrameConfiguration> {
-    public frame?: Frame;
+type TextFrameDefaultConfiguration = Required<Pick<TextFrameConfiguration, "autoSizeWidth" | "defaultAutoSizeBuffer" | "height" | "initialText" | "width">>;
 
+export class TextFrame extends MonoFrame<TextFrameConfiguration> {
     private constructor(...args: ConstructorParameters<typeof MonoFrame<TextFrameConfiguration>>) {
         super(...args);
         this.render();
     }
 
-    public static get DefaultConfiguration(): TextFrameConfiguration {
+    public static get DefaultConfiguration(): TextFrameDefaultConfiguration {
         return {
             autoSizeWidth: true,
+            defaultAutoSizeBuffer: 0,
+            height: 0.005,
             initialText: "Sample Text",
+            width: 0.1,
         };
     }
 
@@ -33,7 +43,7 @@ export class TextFrame extends MonoFrame<TextFrameConfiguration> {
      * @param args.owner Parent frame; defaults to the game UI frame.
      * @param args.overrides Configuration values that replace the defaults.
      */
-    public static CreateNamed(args: { context: number; name: string; priority?: number; owner?: Frame; overrides?: TextFrameConfiguration }): TextFrame {
+    public static CreateNamed(args: NamedNativeFrameArguments<TextFrameConfiguration>): TextFrame {
         return new TextFrame(args.context, { ...TextFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
@@ -47,7 +57,7 @@ export class TextFrame extends MonoFrame<TextFrameConfiguration> {
      * @param args.owner Parent frame; defaults to the game UI frame.
      * @param args.overrides Configuration values that replace the defaults.
      */
-    public static CreateType(args: { context: number; inherits: string; name?: string; owner?: Frame; overrides?: TextFrameConfiguration }): TextFrame {
+    public static CreateType(args: TypedNativeFrameArguments<TextFrameConfiguration>): TextFrame {
         return new TextFrame(args.context, { ...TextFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
 
@@ -64,7 +74,7 @@ export class TextFrame extends MonoFrame<TextFrameConfiguration> {
 
         this.frame.clearPoints();
         this.frame.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
-        this.frame.setSize(0.1, 0.005);
+        this.frame.setSize(this.configuration.width ?? TextFrame.DefaultConfiguration.width, this.configuration.height ?? TextFrame.DefaultConfiguration.height);
 
         if (this.configuration.initialText) {
             this.frame.setText(this.configuration.initialText);
@@ -81,7 +91,7 @@ export class TextFrame extends MonoFrame<TextFrameConfiguration> {
 
     public formatSize(buffer?: number): void {
         if (this.frame) {
-            const width = 0.02 + 0.004 * this.frame.text.length + (buffer ?? 0);
+            const width = 0.02 + 0.004 * this.frame.text.length + (buffer ?? TextFrame.DefaultConfiguration.defaultAutoSizeBuffer);
             this.frame.setSize(width, 0);
         }
     }

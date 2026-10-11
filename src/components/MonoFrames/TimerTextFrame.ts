@@ -1,0 +1,46 @@
+import { IMonoFrameConfigurationBase } from "../../models";
+import { FrameType } from "../../names";
+import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
+
+export interface TimerTextFrameConfiguration extends IMonoFrameConfigurationBase {
+    /** Height of the timer text. Default value: 0.03 */
+    height?: number;
+    /** Text shown when the frame is created. Default value: "00:00" */
+    initialText?: string;
+    /** Width of the timer text. Default value: 0.12 */
+    width?: number;
+}
+
+/**
+ * @see Tasyen's TIMERTEXT reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/TIMERTEXT.html
+ */
+export class TimerTextFrame extends MonoFrame<TimerTextFrameConfiguration> {
+    public readonly nativeFrameType = FrameType.TimerText;
+    private constructor(...args: ConstructorParameters<typeof MonoFrame<TimerTextFrameConfiguration>>) {
+        super(...args);
+        this.render();
+    }
+
+    public static get DefaultConfiguration(): TimerTextFrameConfiguration {
+        return { height: 0.03, initialText: "00:00", width: 0.12 };
+    }
+
+    public static CreateNamed(args: NamedNativeFrameArguments<TimerTextFrameConfiguration>): TimerTextFrame {
+        return new TimerTextFrame(args.context, { ...TimerTextFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
+    }
+
+    public static CreateType(args: TypedNativeFrameArguments<TimerTextFrameConfiguration>): TimerTextFrame {
+        return new TimerTextFrame(args.context, { ...TimerTextFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+    }
+
+    public updateText(text: string): void {
+        this.frame?.setText(text);
+    }
+
+    protected render(): void {
+        const frame = this.createNativeFrame();
+        if (frame && this.configuration.initialText !== undefined) {
+            frame.setText(this.configuration.initialText);
+        }
+    }
+}

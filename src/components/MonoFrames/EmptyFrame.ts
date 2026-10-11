@@ -1,12 +1,10 @@
 import { Frame } from "w3ts";
-import { MonoFrame } from "../Core/MonoFrame";
+import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 import { IMonoFrameConfigurationBase } from "../../models";
 
 export interface EmptyFrameConfiguration extends IMonoFrameConfigurationBase {}
 
 export class EmptyFrame extends MonoFrame<EmptyFrameConfiguration> {
-    public frame?: Frame;
-
     private constructor(...args: ConstructorParameters<typeof MonoFrame<EmptyFrameConfiguration>>) {
         super(...args);
         this.render();
@@ -16,11 +14,11 @@ export class EmptyFrame extends MonoFrame<EmptyFrameConfiguration> {
         return {};
     }
 
-    public static CreateNamed(args: { context: number; name: string; priority?: number; owner?: Frame; overrides?: EmptyFrameConfiguration }): EmptyFrame {
+    public static CreateNamed(args: NamedNativeFrameArguments<EmptyFrameConfiguration>): EmptyFrame {
         return new EmptyFrame(args.context, { ...EmptyFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
-    public static CreateType(args: { context: number; inherits: string; name?: string; owner?: Frame; overrides?: EmptyFrameConfiguration }): EmptyFrame {
+    public static CreateType(args: TypedNativeFrameArguments<EmptyFrameConfiguration>): EmptyFrame {
         return new EmptyFrame(args.context, { ...EmptyFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
 

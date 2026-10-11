@@ -7,7 +7,12 @@ interface IFrameConfigurationBase {
 /**
  * Configurable properties all MonoFrames share.
  */
-export interface IMonoFrameConfigurationBase extends IFrameConfigurationBase {}
+export interface IMonoFrameConfigurationBase extends IFrameConfigurationBase {
+    /** Initial width used when the frame is created. */
+    width?: number;
+    /** Initial height used when the frame is created. */
+    height?: number;
+}
 
 export interface ICompositeFrameConfigurationBase extends IFrameConfigurationBase {
     // stuff
@@ -67,8 +72,8 @@ interface IFrameCreationMethodsBase<T extends IFrameConfigurationBase> {
  * Classes which simlpy serve as a wrapper to standard blizzard frame types
  */
 export interface IMonoFrameCreationMethodsBase<T extends IMonoFrameConfigurationBase> extends IFrameCreationMethodsBase<T> {
-    CreateType: (args: { context: number; name?: string; owner?: Frame; inherits?: string }) => void;
-    CreateNamed: (args: { context: number; name: string; owner?: Frame }) => void;
+    CreateType: (args: { context?: number; name?: string; owner?: Frame; inherits?: string }) => void;
+    CreateNamed: (args: { context?: number; name: string; owner?: Frame }) => void;
 }
 
 /**
