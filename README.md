@@ -33,10 +33,7 @@ registered.
 ```ts
 import { BackdropFrame } from "warcraft-3-w3ts-frame-components";
 
-const backdrop = BackdropFrame.CreateType({
-    context: 0,
-    inherits: "QuestButtonBaseTemplate",
-});
+const backdrop = BackdropFrame.CreateType({ inherits: "QuestButtonBaseTemplate" });
 
 backdrop.frame?.clearPoints();
 backdrop.frame?.setAbsPoint(FRAMEPOINT_CENTER, 0.2, 0.3);
@@ -92,7 +89,6 @@ Composite components use `Create` with an optional `overrides` configuration:
 import { TimerFrame } from "warcraft-3-w3ts-frame-components";
 
 const timer = TimerFrame.Create({
-    context: 0,
     overrides: {
         iconTexture: "ReplaceableTextures\\CommandButtons\\BTNTichondrius.blp",
         timerTitle: "Hero respawn",
@@ -213,13 +209,11 @@ const grid = new Grid<string, IconGridItem>(
         rows: 1,
         renderItem(parent, _row, _column, index, texture) {
             const icon = ButtonFrame.Create({
-                context: 0,
                 name: `GridIcon${index}`,
                 owner: parent,
                 overrides: { clickSoundPath: "", texture },
             });
 
-            icon.containerFrame?.setSize(0.03, 0.03);
             return { container: icon.containerFrame, icon };
         },
         updateItem(texture, item) {
@@ -232,6 +226,10 @@ const grid = new Grid<string, IconGridItem>(
 
 grid.containerFrame?.clearPoints();
 grid.containerFrame?.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.5);
+
+// Update: reuses existing items via updateItem, renders extra items for new
+// data (up to rows x columns) and hides items that no longer have data.
+grid.updateGrid(["ReplaceableTextures\\CommandButtons\\BTNInfernal.blp"]);
 ```
 
 </details>
@@ -248,10 +246,7 @@ grid.containerFrame?.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.5);
 ```ts
 import { BackdropFrame } from "warcraft-3-w3ts-frame-components";
 
-const backdrop = BackdropFrame.CreateType({
-    context: 0,
-    inherits: "QuestButtonBaseTemplate",
-});
+const backdrop = BackdropFrame.CreateType({ inherits: "QuestButtonBaseTemplate" });
 backdrop.frame?.setSize(0.2, 0.1);
 backdrop.frame?.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
 ```
@@ -271,7 +266,6 @@ Development deferred. 🚫
 import { ChatDisplayFrame } from "warcraft-3-w3ts-frame-components";
 
 const chat = ChatDisplayFrame.CreateType({
-    context: 0,
     inherits: "MyChatDisplayTemplate",
     overrides: { initialMessages: ["Welcome"] },
 });
@@ -292,7 +286,6 @@ chat.addMessage("Another message");
 import { CheckBoxFrame } from "warcraft-3-w3ts-frame-components";
 
 const checkBox = CheckBoxFrame.CreateType({
-    context: 0,
     inherits: "StandardCheckBoxTemplate",
     overrides: {
         onChecked: () => print("Checked"),
@@ -316,7 +309,6 @@ const checkBox = CheckBoxFrame.CreateType({
 import { DialogFrame } from "warcraft-3-w3ts-frame-components";
 
 const dialog = DialogFrame.CreateType({
-    context: 0,
     inherits: "MyDialogTemplate",
     overrides: {
         onAccept: () => print("Accepted"),
@@ -338,7 +330,6 @@ const dialog = DialogFrame.CreateType({
 import { EditBoxFrame } from "warcraft-3-w3ts-frame-components";
 
 const editBox = EditBoxFrame.CreateType({
-    context: 0,
     inherits: "StandardEditBoxTemplate",
     overrides: {
         initialText: "Type here",
@@ -362,7 +353,7 @@ container for positioning related frames.
 ```ts
 import { EmptyFrame } from "warcraft-3-w3ts-frame-components";
 
-const container = EmptyFrame.CreateType({ context: 0, inherits: "" });
+const container = EmptyFrame.CreateType({ inherits: "" });
 container.frame?.setSize(0.3, 0.2);
 container.frame?.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
 ```
@@ -380,7 +371,6 @@ Development deferred. 🚫
 import { GlueButtonFrame } from "warcraft-3-w3ts-frame-components";
 
 const button = GlueButtonFrame.CreateType({
-    context: 0,
     inherits: "",
     overrides: { onClick: () => print("Glue button clicked") },
 });
@@ -402,7 +392,6 @@ Development deferred. 🚫
 import { GlueCheckBoxFrame } from "warcraft-3-w3ts-frame-components";
 
 const checkBox = GlueCheckBoxFrame.CreateType({
-    context: 0,
     inherits: "EscMenuCheckBoxTemplate",
     overrides: { onChecked: () => print("Checked") },
 });
@@ -422,7 +411,6 @@ checkBox.setOnUnchecked(() => print("Unchecked"));
 import { GlueEditBoxFrame } from "warcraft-3-w3ts-frame-components";
 
 const editBox = GlueEditBoxFrame.CreateType({
-    context: 0,
     inherits: "",
     overrides: { onEnter: (text) => print(`Entered: ${text}`) },
 });
@@ -443,10 +431,7 @@ Development deferred. 🚫
 ```ts
 import { GluePopupMenuFrame } from "warcraft-3-w3ts-frame-components";
 
-const popup = GluePopupMenuFrame.CreateType({
-    context: 0,
-    inherits: "MyGluePopupMenuTemplate",
-});
+const popup = GluePopupMenuFrame.CreateType({ inherits: "MyGluePopupMenuTemplate" });
 popup.setOnItemChanged((index) => print(`Selected item ${index}`));
 ```
 
@@ -465,15 +450,11 @@ It also supports `setOnClick` and optional local click sounds.
 ```ts
 import { GlueTextButtonFrame } from "warcraft-3-w3ts-frame-components";
 
-const defaultButton = GlueTextButtonFrame.CreateType({
-    context: 0,
-    inherits: "ScriptDialogButton",
-});
+const defaultButton = GlueTextButtonFrame.CreateType({ inherits: "ScriptDialogButton" });
 defaultButton.frame?.clearPoints();
 defaultButton.frame?.setAbsPoint(FRAMEPOINT_CENTER, 0.2, 0.25);
 
 const typedButton = GlueTextButtonFrame.CreateType({
-    context: 0,
     inherits: "ScriptDialogButton",
     overrides: {
         clickSoundPath: "Units\\Undead\\Ghoul\\GhoulYesAttack4.flac",
@@ -484,7 +465,6 @@ typedButton.frame?.clearPoints();
 typedButton.frame?.setAbsPoint(FRAMEPOINT_CENTER, 0.6, 0.25);
 
 const namedButton = GlueTextButtonFrame.CreateNamed({
-    context: 0,
     name: "ScriptDialogButton",
     overrides: { initialText: "Named!" },
 });
@@ -492,8 +472,7 @@ namedButton.frame?.clearPoints();
 namedButton.frame?.setAbsPoint(FRAMEPOINT_CENTER, 0.2, 0.45);
 
 const customButton = GlueTextButtonFrame.CreateType({
-    context: 0,
-    inherits: "DebugButton",
+    inherits: "ScriptDialogButton",
     name: "CustomButton",
     overrides: {
         clickSoundPath: "Units\\Undead\\Abomination\\AbominationYesAttack1.flac",
@@ -518,10 +497,7 @@ Development deferred. 🚫
 ```ts
 import { HighlightFrame } from "warcraft-3-w3ts-frame-components";
 
-const highlight = HighlightFrame.CreateType({
-    context: 0,
-    inherits: "MyHighlightTemplate",
-});
+const highlight = HighlightFrame.CreateType({ inherits: "MyHighlightTemplate" });
 highlight.frame?.setSize(0.1, 0.1);
 ```
 
@@ -538,10 +514,7 @@ highlight.frame?.setSize(0.1, 0.1);
 ```ts
 import { ListBoxFrame } from "warcraft-3-w3ts-frame-components";
 
-const list = ListBoxFrame.CreateType({
-    context: 0,
-    inherits: "MyListBoxTemplate",
-});
+const list = ListBoxFrame.CreateType({ inherits: "MyListBoxTemplate" });
 list.frame?.setSize(0.2, 0.2);
 ```
 
@@ -559,10 +532,7 @@ list.frame?.setSize(0.2, 0.2);
 ```ts
 import { MenuFrame } from "warcraft-3-w3ts-frame-components";
 
-const menu = MenuFrame.CreateType({
-    context: 0,
-    inherits: "MyMenuTemplate",
-});
+const menu = MenuFrame.CreateType({ inherits: "MyMenuTemplate" });
 menu.frame?.setSize(0.2, 0.2);
 ```
 
@@ -579,9 +549,8 @@ Development deferred. 🚫
 import { ModelFrame } from "warcraft-3-w3ts-frame-components";
 
 const model = ModelFrame.CreateType({
-    context: 0,
     inherits: "",
-    overrides: { modelPath: "units\\human\\Footman\\Footman.mdx", cameraIndex: 0 },
+    overrides: { modelPath: "units\\human\\Footman\\Footman.mdx" },
 });
 model.updateModel("units\\orc\\Grunt\\Grunt.mdx");
 ```
@@ -600,7 +569,6 @@ model.updateModel("units\\orc\\Grunt\\Grunt.mdx");
 import { PopupMenuFrame } from "warcraft-3-w3ts-frame-components";
 
 const popup = PopupMenuFrame.CreateType({
-    context: 0,
     inherits: "MyPopupMenuTemplate",
     overrides: { onItemChanged: (index) => print(`Selected item ${index}`) },
 });
@@ -621,7 +589,6 @@ Development deferred. 🚫
 import { ScrollBarFrame } from "warcraft-3-w3ts-frame-components";
 
 const scrollBar = ScrollBarFrame.CreateType({
-    context: 0,
     inherits: "EscMenuScrollBarTemplate",
     overrides: { onValueChanged: (value) => print(`Scroll: ${value}`) },
 });
@@ -641,7 +608,6 @@ scrollBar.updateValue(10);
 import { SlashChatBoxFrame } from "warcraft-3-w3ts-frame-components";
 
 const chatBox = SlashChatBoxFrame.CreateType({
-    context: 0,
     inherits: "",
     overrides: { onEnter: (text) => print(`Submitted: ${text}`) },
 });
@@ -661,13 +627,9 @@ const chatBox = SlashChatBoxFrame.CreateType({
 import { SliderFrame } from "warcraft-3-w3ts-frame-components";
 
 const slider = SliderFrame.CreateType({
-    context: 0,
-    inherits: "EscMenuSliderTemplate",
+    inherits: "QuestMainListScrollBar",
     overrides: {
-        minValue: 0,
-        maxValue: 100,
         stepSize: 5,
-        initialValue: 50,
         onValueChanged: (value) => print(`Value: ${value}`),
     },
 });
@@ -685,7 +647,6 @@ slider.updateValue(75);
 import { SpriteFrame } from "warcraft-3-w3ts-frame-components";
 
 const sprite = SpriteFrame.CreateType({
-    context: 0,
     inherits: "",
     overrides: { modelPath: "UI\\Feedback\\Autocast\\UI-ModalButtonOn.mdx" },
 });
@@ -715,7 +676,6 @@ scrollbar to appear.
 import { TextAreaFrame } from "warcraft-3-w3ts-frame-components";
 
 const area = TextAreaFrame.CreateType({
-    context: 0,
     inherits: "JMT_TextAreaTemplate",
     overrides: { initialText: "Line one\nLine two" },
 });
@@ -738,7 +698,6 @@ area.setOnMouseEnter(() => print("Mouse entered"));
 import { TextButtonFrame } from "warcraft-3-w3ts-frame-components";
 
 const button = TextButtonFrame.CreateType({
-    context: 0,
     inherits: "StandardButtonTemplate",
     overrides: { initialText: "Confirm", onClick: () => print("Confirmed") },
 });
@@ -767,7 +726,6 @@ are placeholders for your own templates. Position a frame with
 import { TextFrame } from "warcraft-3-w3ts-frame-components";
 
 const text = TextFrame.CreateType({
-    context: 0,
     inherits: "",
     overrides: { initialText: "Hello", autoSizeWidth: true },
 });
@@ -788,11 +746,7 @@ text.formatSize();
 ```ts
 import { TimerTextFrame } from "warcraft-3-w3ts-frame-components";
 
-const timerText = TimerTextFrame.CreateType({
-    context: 0,
-    inherits: "",
-    overrides: { initialText: "00:00" },
-});
+const timerText = TimerTextFrame.CreateType({ inherits: "" });
 timerText.updateText("01:30");
 ```
 
@@ -816,13 +770,11 @@ it as a plain icon, set `clickSoundPath: ""`. It replaces the former
 import { ButtonFrame } from "warcraft-3-w3ts-frame-components";
 
 const button = ButtonFrame.Create({
-    context: 0,
     overrides: {
-        texture: "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn",
+        texture: "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn.blp",
         onClick: () => print("Clicked"),
     },
 });
-button.containerFrame?.setSize(0.04, 0.04);
 button.containerFrame?.setAbsPoint(FRAMEPOINT_CENTER, 0.4, 0.3);
 button.setOnClick(() => print("Replacement handler"));
 ```
@@ -846,7 +798,6 @@ more space than `backdropWidth`.
 import { TimerFrame } from "warcraft-3-w3ts-frame-components";
 
 const timer = TimerFrame.Create({
-    context: 0,
     overrides: {
         iconTexture: "ReplaceableTextures\\CommandButtons\\BTNInfernal.blp",
         iconTooltipText: "Hero respawn timer",
@@ -880,9 +831,8 @@ optionally, the grid data after construction.
 import { ButtonFrame, TooltipFrame } from "warcraft-3-w3ts-frame-components";
 
 const button = ButtonFrame.Create({
-    context: 0,
     overrides: {
-        texture: "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn",
+        texture: "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn.blp",
     },
 });
 
@@ -893,17 +843,12 @@ const tooltipData = [
 
 if (button.containerFrame) {
     const tooltip = TooltipFrame.Create({
-        context: 0,
         owner: button.containerFrame,
         overrides: {
             bodyText: "A tooltip body.",
             headerText: "|cffffcc00Header|r",
             includeBackground: true,
-            tooltipBodySpaceX: 0.01,
-            tooltipHeaderSpaceX: 0.01,
-            tooltipIconContainerGapX: 0.005,
             tooltipIconGridData: tooltipData,
-            tooltipIconValueLeftPadding: 0,
         },
     });
 }
