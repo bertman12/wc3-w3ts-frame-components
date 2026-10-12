@@ -29,19 +29,7 @@ import {
     TooltipFrame,
 } from "../components";
 import { FrameUtils } from "../frame-utils";
-import {
-    LoadedBackdropTemplates,
-    LoadedDialogTemplates,
-    LoadedEmptyTemplates,
-    LoadedGlueButtonTemplates,
-    LoadedGlueCheckBoxTemplates,
-    LoadedGlueTextButtonTemplates,
-    LoadedHighlightTemplates,
-    LoadedPopupMenuTemplates,
-    LoadedScrollBarTemplates,
-    LoadedTextButtonTemplates,
-    LoadedTextTemplates,
-} from "../models";
+import { FrameTemplates } from "../models";
 
 const NativeFrameTemplates = {
     AdvancedDialog: "FrameComponentTestDialogTemplate",
@@ -880,17 +868,17 @@ export class FrameComponentTestHarness {
     private addInheritsTests(pages: FrameComponentTestPage[]): FrameComponentTestPage[] {
         const context = this.context;
         const definitions: Record<string, { templates: readonly string[]; create: (inherits: string, name: string, owner: Frame) => TestFrameComponent }> = {
-            Backdrop: { templates: LoadedBackdropTemplates, create: (inherits, name, owner) => BackdropFrame.CreateType({ context, inherits, name, owner }) },
-            Dialog: { templates: LoadedDialogTemplates, create: (inherits, name, owner) => DialogFrame.CreateType({ context, inherits, name, owner }) },
-            Empty: { templates: LoadedEmptyTemplates, create: (inherits, name, owner) => EmptyFrame.CreateType({ context, inherits, name, owner }) },
-            GlueButton: { templates: LoadedGlueButtonTemplates, create: (inherits, name, owner) => GlueButtonFrame.CreateType({ context, inherits, name, owner }) },
-            GlueCheckBox: { templates: LoadedGlueCheckBoxTemplates, create: (inherits, name, owner) => GlueCheckBoxFrame.CreateType({ context, inherits, name, owner }) },
-            GlueTextButton: { templates: LoadedGlueTextButtonTemplates, create: (inherits, name, owner) => GlueTextButtonFrame.CreateType({ context, inherits, name, owner }) },
-            Highlight: { templates: LoadedHighlightTemplates, create: (inherits, name, owner) => HighlightFrame.CreateType({ context, inherits, name, owner }) },
-            PopupMenu: { templates: LoadedPopupMenuTemplates, create: (inherits, name, owner) => PopupMenuFrame.CreateType({ context, inherits, name, owner }) },
-            ScrollBar: { templates: LoadedScrollBarTemplates, create: (inherits, name, owner) => ScrollBarFrame.CreateType({ context, inherits, name, owner }) },
-            Text: { templates: LoadedTextTemplates, create: (inherits, name, owner) => TextFrame.CreateType({ context, inherits, name, owner }) },
-            TextButton: { templates: LoadedTextButtonTemplates, create: (inherits, name, owner) => TextButtonFrame.CreateType({ context, inherits, name, owner }) },
+            Backdrop: { templates: FrameTemplates.BACKDROP.loaded, create: (inherits, name, owner) => BackdropFrame.CreateType({ context, inherits, name, owner }) },
+            Dialog: { templates: FrameTemplates.DIALOG.loaded, create: (inherits, name, owner) => DialogFrame.CreateType({ context, inherits, name, owner }) },
+            Empty: { templates: FrameTemplates.FRAME.loaded, create: (inherits, name, owner) => EmptyFrame.CreateType({ context, inherits, name, owner }) },
+            GlueButton: { templates: FrameTemplates.GLUEBUTTON.loaded, create: (inherits, name, owner) => GlueButtonFrame.CreateType({ context, inherits, name, owner }) },
+            GlueCheckBox: { templates: FrameTemplates.GLUECHECKBOX.loaded, create: (inherits, name, owner) => GlueCheckBoxFrame.CreateType({ context, inherits, name, owner }) },
+            GlueTextButton: { templates: FrameTemplates.GLUETEXTBUTTON.loaded, create: (inherits, name, owner) => GlueTextButtonFrame.CreateType({ context, inherits, name, owner }) },
+            Highlight: { templates: FrameTemplates.HIGHLIGHT.loaded, create: (inherits, name, owner) => HighlightFrame.CreateType({ context, inherits, name, owner }) },
+            PopupMenu: { templates: FrameTemplates.POPUPMENU.loaded, create: (inherits, name, owner) => PopupMenuFrame.CreateType({ context, inherits, name, owner }) },
+            ScrollBar: { templates: FrameTemplates.SCROLLBAR.loaded, create: (inherits, name, owner) => ScrollBarFrame.CreateType({ context, inherits, name, owner }) },
+            Text: { templates: FrameTemplates.TEXT.loaded, create: (inherits, name, owner) => TextFrame.CreateType({ context, inherits, name, owner }) },
+            TextButton: { templates: FrameTemplates.TEXTBUTTON.loaded, create: (inherits, name, owner) => TextButtonFrame.CreateType({ context, inherits, name, owner }) },
         };
 
         for (const page of pages) {
@@ -905,7 +893,7 @@ export class FrameComponentTestHarness {
     }
 
     /**
-     * Adds a test with an "Inherits" popup listing the loaded templates (see LoadedFrameTemplates)
+     * Adds a test with an "Inherits" popup listing the loaded templates (see FrameTemplates)
      * of the page's frame type. Choosing an item creates the frame once with that item as `inherits`
      * and shows it, hiding the previously chosen frame.
      */

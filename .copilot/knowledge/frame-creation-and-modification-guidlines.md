@@ -30,14 +30,16 @@ comment stating its default value, matching the value in that class's
 - Update the JSDoc whenever the default in `DefaultConfiguration` changes.
 - Describe what the property does in the same comment.
 
-## Loaded template autocomplete for `inherits`
+## Template autocomplete for `inherits`
 
 A MonoFrame's `CreateType` must type its arguments as
-`TypedNativeFrameArguments<Configuration, LoadedXTemplate>`. The
-`LoadedXTemplate` union lives in `src/models/LoadedFrameTemplates.ts` and holds
-only the default mainframes that Tasyen's guide
-(https://www.hiveworkshop.com/threads/ui-list-default-mainframes.317884/) lists
-as "Loaded" for that native frame type. Any other string is still accepted.
+`TypedNativeFrameArguments<Configuration, FrameTemplate<"NATIVETYPE">>`, e.g.
+`FrameTemplate<"BACKDROP">`. The data lives in `src/models/frame-templates.json`
+(`loaded` and `unloaded` names per native frame type) and is mirrored by the `FrameTemplates`
+const in `src/models/FrameTemplates.ts`; keep them in sync. It is generated from the game's FDF files
+(`_BlzFrameDefs`) and Tasyen's guide
+(https://www.hiveworkshop.com/threads/ui-list-default-mainframes.317884/). Any other string is still accepted.
 
-- Never add "Not Loaded" templates; they need their fdf/toc loaded first.
-- When a frame type has no loaded templates in the guide, leave the second type argument off.
+- loaded: usable immediately (listed "Loaded" in the guide, or defined in a file listed by `framedef.toc`).
+- unloaded: defined in the default FDF files but their file must be loaded from a toc first.
+- Types with no known templates resolve to `never`, so only arbitrary strings are suggested.

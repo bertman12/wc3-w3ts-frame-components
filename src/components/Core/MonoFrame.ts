@@ -13,13 +13,14 @@ export interface NamedNativeFrameArguments<Configuration extends IMonoFrameConfi
 }
 
 /**
- * @typeParam LoadedTemplate Already-loaded default templates for the frame type. They show up as autocomplete suggestions, and any other string is still accepted.
+ * @typeParam Template Known default templates for the frame type (see FrameTemplate, loaded and unloaded).
+ * They show up as autocomplete suggestions, and any other string (e.g. from your own FDF) is still accepted.
  */
-export interface TypedNativeFrameArguments<Configuration extends IMonoFrameConfigurationBase, LoadedTemplate extends string = string> {
+export interface TypedNativeFrameArguments<Configuration extends IMonoFrameConfigurationBase, Template extends string = string> {
     /** The render context of the frame. Default value: 0 */
     context?: number;
     /** The frame definition to inherit from. Use "" to create a bare frame. */
-    inherits: InheritsOf<LoadedTemplate>;
+    inherits: InheritsOf<Template>;
     name?: string;
     owner?: Frame;
     overrides?: Configuration;

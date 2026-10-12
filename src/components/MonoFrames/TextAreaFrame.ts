@@ -1,5 +1,5 @@
 import { Frame, Trigger } from "w3ts";
-import { IMonoFrameConfigurationBase } from "../../models";
+import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
@@ -40,7 +40,7 @@ export class TextAreaFrame extends MonoFrame<TextAreaFrameConfiguration> {
     }
 
     /** @requiresFdf Needs a loaded FDF template for its font, scrollbar, and container art to render. */
-    public static CreateType(args: TypedNativeFrameArguments<TextAreaFrameConfiguration>): TextAreaFrame {
+    public static CreateType(args: TypedNativeFrameArguments<TextAreaFrameConfiguration, FrameTemplate<"TEXTAREA">>): TextAreaFrame {
         return new TextAreaFrame(args.context, { ...TextAreaFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
 

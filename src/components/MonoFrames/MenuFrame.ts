@@ -1,4 +1,4 @@
-import { IMonoFrameConfigurationBase } from "../../models";
+import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
@@ -31,7 +31,7 @@ export class MenuFrame extends MonoFrame<MenuFrameConfiguration> {
     }
 
     /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */
-    public static CreateType(args: TypedNativeFrameArguments<MenuFrameConfiguration>): MenuFrame {
+    public static CreateType(args: TypedNativeFrameArguments<MenuFrameConfiguration, FrameTemplate<"MENU">>): MenuFrame {
         return new MenuFrame(args.context, { ...MenuFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
 

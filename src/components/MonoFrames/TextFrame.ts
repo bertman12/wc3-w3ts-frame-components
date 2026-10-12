@@ -1,6 +1,6 @@
 import { Frame } from "w3ts";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
-import { IMonoFrameConfigurationBase, LoadedTextTemplate } from "../../models";
+import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 
 export interface TextFrameConfiguration extends IMonoFrameConfigurationBase {
     /** Whether update() resizes the frame width to fit the new text. Default value: true */
@@ -57,7 +57,7 @@ export class TextFrame extends MonoFrame<TextFrameConfiguration> {
      * @param args.owner Parent frame; defaults to the game UI frame.
      * @param args.overrides Configuration values that replace the defaults.
      */
-    public static CreateType(args: TypedNativeFrameArguments<TextFrameConfiguration, LoadedTextTemplate>): TextFrame {
+    public static CreateType(args: TypedNativeFrameArguments<TextFrameConfiguration, FrameTemplate<"TEXT">>): TextFrame {
         return new TextFrame(args.context, { ...TextFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
 

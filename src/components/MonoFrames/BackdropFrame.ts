@@ -1,5 +1,5 @@
 import { Frame } from "w3ts";
-import { IMonoFrameConfigurationBase, LoadedBackdropTemplate } from "../../models";
+import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
 export interface BackdropFrameConfiguration extends IMonoFrameConfigurationBase {
@@ -25,7 +25,7 @@ export class BackdropFrame extends MonoFrame<BackdropFrameConfiguration> {
         return new BackdropFrame(args.context, { ...BackdropFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
-    public static CreateType(args: TypedNativeFrameArguments<BackdropFrameConfiguration, LoadedBackdropTemplate>): BackdropFrame {
+    public static CreateType(args: TypedNativeFrameArguments<BackdropFrameConfiguration, FrameTemplate<"BACKDROP">>): BackdropFrame {
         return new BackdropFrame(args.context, { ...BackdropFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
 
