@@ -84,20 +84,6 @@ export class TooltipFrame extends CompositeFrame<TooltipFrameConfiguration, Tool
         return new TooltipFrame(args.context, { ...TooltipFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner);
     }
 
-    /**
-     * @param args.context The context of the container frame and all child frames. Default value: 0
-     */
-    public static CreateNamed(args: { context?: number; name: string; owner?: Frame; overrides?: TooltipFrameConfiguration }): TooltipFrame {
-        return TooltipFrame.Create(args);
-    }
-
-    /**
-     * @param args.context The context of the container frame and all child frames. Default value: 0
-     */
-    public static CreateTyped(args: { context?: number; name?: string; owner?: Frame; overrides?: TooltipFrameConfiguration }): TooltipFrame {
-        return TooltipFrame.Create(args);
-    }
-
     protected render(): void {
         const name = this.name ?? "TooltipFrame";
         const defaults = TooltipFrame.DefaultConfiguration;

@@ -1,11 +1,10 @@
 import { Frame, Timer } from "w3ts";
-import { delay } from "warcraft-3-w3ts-utils";
+import { ICompositeFrameChildFrames, ICompositeFrameConfigurationBase } from "../../models";
 import { CompositeFrame } from "../Core/CompositeFrame";
 import { BackdropFrame } from "../MonoFrames/BackdropFrame";
-import { ButtonFrame } from "./ButtonFrame";
 import { TextFrame } from "../MonoFrames/TextFrame";
+import { ButtonFrame } from "./ButtonFrame";
 import { TooltipFrame } from "./TooltipFrame";
-import { ICompositeFrameChildFrames, ICompositeFrameConfigurationBase } from "../../models";
 
 export interface TimerFrameConfiguration extends ICompositeFrameConfigurationBase {
     /** Minimum width of the backdrop; it grows to fit its content. Default value: 0.08 */
@@ -33,11 +32,13 @@ interface TimerFrameChildFrames extends ICompositeFrameChildFrames {
 }
 
 export class TimerFrame extends CompositeFrame<TimerFrameConfiguration, TimerFrameChildFrames> {
-    public timer: Timer;
+    public textUpdateTimer: Timer;
+    public timeElapsedTimer: Timer;
 
     private constructor(...args: ConstructorParameters<typeof CompositeFrame<TimerFrameConfiguration, TimerFrameChildFrames>>) {
         super(...args);
-        this.timer = Timer.create();
+        this.textUpdateTimer = Timer.create();
+        this.timeElapsedTimer = Timer.create();
         this.render();
     }
 
@@ -57,20 +58,6 @@ export class TimerFrame extends CompositeFrame<TimerFrameConfiguration, TimerFra
      */
     public static Create(args: { context?: number; name?: string; owner?: Frame; overrides?: TimerFrameConfiguration }): TimerFrame {
         return new TimerFrame(args.context, { ...TimerFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner);
-    }
-
-    /**
-     * @param args.context The context of the container frame and all child frames. Default value: 0
-     */
-    public static CreateNamed(args: { context?: number; name: string; owner?: Frame; overrides?: TimerFrameConfiguration }): TimerFrame {
-        return TimerFrame.Create(args);
-    }
-
-    /**
-     * @param args.context The context of the container frame and all child frames. Default value: 0
-     */
-    public static CreateTyped(args: { context?: number; name?: string; owner?: Frame; overrides?: TimerFrameConfiguration }): TimerFrame {
-        return TimerFrame.Create(args);
     }
 
     protected render(): void {
@@ -131,20 +118,39 @@ export class TimerFrame extends CompositeFrame<TimerFrameConfiguration, TimerFra
         this.autoSize();
     }
 
+    /**
+     * Starts your timer, calling onCompletion once the duration reaches 0.
+     *
+     * It also destroys the public Timer resources for you, esnuring no leakage.
+     *
+     * @param duration
+     * @param isRepeating
+     * @param onCompletion
+     */
     public start(duration: number, isRepeating?: boolean, onCompletion?: () => void): void {
+        let remainingDuration = duration;
         this.updateTimerText(`${duration}`);
-        this.timer.destroy();
-        this.timer = Timer.create();
-        this.timer.start(1, true, () => this.updateTimerText(`${--duration}`));
+        this.textUpdateTimer.destroy();
+        this.textUpdateTimer = Timer.create();
+        this.textUpdateTimer.start(1, true, () => this.updateTimerText(`${--remainingDuration}`));
         this.containerFrame?.setVisible(true);
         this.childFrames?.icon?.containerFrame?.setVisible(true);
 
-        delay(duration, () => {
-            this.containerFrame?.setVisible(false);
-            this.childFrames?.icon?.containerFrame?.setVisible(false);
+        this.timeElapsedTimer.destroy();
+        this.timeElapsedTimer = Timer.create();
+        this.timeElapsedTimer.start(duration, isRepeating || false, () => {
             if (onCompletion) {
-                this.timer.destroy();
                 onCompletion();
+            }
+
+            if (isRepeating) {
+                this.updateTimerText(`${duration}`);
+                remainingDuration = duration; // reset to original again.
+            } else {
+                this.containerFrame?.setVisible(false);
+                this.childFrames?.icon?.containerFrame?.setVisible(false);
+                this.textUpdateTimer.destroy();
+                this.timeElapsedTimer.destroy();
             }
         });
     }

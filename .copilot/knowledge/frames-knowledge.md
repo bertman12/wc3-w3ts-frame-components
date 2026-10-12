@@ -205,10 +205,9 @@ claims below are unverified in this repository.
 ### Composite frames
 
 - Composite frames own and lay out several child Mono frames.
-- `TimerFrame` and `TooltipFrame` retain `Create`, `CreateNamed`, and
-  `CreateTyped` API entry points. Their current named/typed paths normalize to
-  the component renderer; they are useful test API paths, not separate native
-  frame construction mechanisms.
+- `TimerFrame` and `TooltipFrame` expose only `Create`. They have no
+  `CreateNamed` or `CreateTyped`, since they are not backed by a single native
+  frame name or type.
 - Composite renderers must clear default child points before assigning their
   final layout.
 

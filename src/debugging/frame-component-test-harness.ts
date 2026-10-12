@@ -550,11 +550,8 @@ export class FrameComponentTestHarness {
                 label: "TooltipFrame",
                 menuLabel: "Tooltip",
                 tests: [
-                    this.test("Create by type", () =>
-                        this.createTooltipTest("Type", (owner) => TooltipFrame.CreateTyped({ context: this.context, name: this.testName("Tooltip", "Type"), owner, overrides: this.tooltipConfiguration("Tooltip created by type.") })),
-                    ),
-                    this.test("Create by name", () =>
-                        this.createTooltipTest("Named", (owner) => TooltipFrame.CreateNamed({ context: this.context, name: this.testName("Tooltip", "Named"), owner, overrides: this.tooltipConfiguration("Tooltip created by name.") })),
+                    this.test("Create", () =>
+                        this.createTooltipTest("Basic", (owner) => TooltipFrame.Create({ context: this.context, name: this.testName("Tooltip", "Basic"), owner, overrides: this.tooltipConfiguration("Tooltip created with Create.") })),
                     ),
                     this.test("Create resource grid", () =>
                         this.createTooltipTest("Grid", (owner) =>
@@ -581,8 +578,7 @@ export class FrameComponentTestHarness {
                 label: "TimerFrame",
                 menuLabel: "Timer",
                 tests: [
-                    this.test("Create by type", () => TimerFrame.CreateTyped({ context: this.context, name: this.testName("Timer", "Type"), overrides: { timerTitle: "Typed timer" } }).containerFrame),
-                    this.test("Create by name", () => TimerFrame.CreateNamed({ context: this.context, name: this.testName("Timer", "Named"), overrides: { timerTitle: "Named timer" } }).containerFrame),
+                    this.test("Create", () => TimerFrame.Create({ context: this.context, name: this.testName("Timer", "Basic"), overrides: { timerTitle: "Basic timer" } }).containerFrame),
                     this.test("Create countdown", () => {
                         const timer = TimerFrame.Create({
                             context: this.context,
