@@ -1,4 +1,4 @@
-import { IMonoFrameConfigurationBase } from "../../models";
+import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
@@ -34,7 +34,7 @@ export class ChatDisplayFrame extends MonoFrame<ChatDisplayFrameConfiguration> {
     }
 
     /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
-    public static CreateType(args: TypedNativeFrameArguments<ChatDisplayFrameConfiguration>): ChatDisplayFrame {
+    public static CreateType(args: TypedNativeFrameArguments<ChatDisplayFrameConfiguration, FrameTemplate<"CHATDISPLAY">>): ChatDisplayFrame {
         return new ChatDisplayFrame(args.context, { ...ChatDisplayFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
 

@@ -1,4 +1,4 @@
-import { IMonoFrameConfigurationBase } from "../../models";
+import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
@@ -31,7 +31,7 @@ export class ListBoxFrame extends MonoFrame<ListBoxFrameConfiguration> {
     }
 
     /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */
-    public static CreateType(args: TypedNativeFrameArguments<ListBoxFrameConfiguration>): ListBoxFrame {
+    public static CreateType(args: TypedNativeFrameArguments<ListBoxFrameConfiguration, FrameTemplate<"LISTBOX">>): ListBoxFrame {
         return new ListBoxFrame(args.context, { ...ListBoxFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
 

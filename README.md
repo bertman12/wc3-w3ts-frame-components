@@ -107,6 +107,7 @@ The construction methods for both classes provide an overrides property which al
 
 You can also save configurations for specific frame types and pass that constant to the overrides property to easily reuse common configurations. This allows for soft-theme support without requiring any architectural changes on the core frame classes.
 
+🚧 **WIP** 🚧
 You also have the option to override the frame defaults of every frame type via the function below.
 
 ```ts

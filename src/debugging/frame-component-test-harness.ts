@@ -29,6 +29,7 @@ import {
     TooltipFrame,
 } from "../components";
 import { FrameUtils } from "../frame-utils";
+import { FrameTemplates } from "../models";
 
 const NativeFrameTemplates = {
     AdvancedDialog: "FrameComponentTestDialogTemplate",
@@ -107,7 +108,7 @@ export class FrameComponentTestHarness {
         this.context = context;
         this.name = name;
         this.owner = owner;
-        this.pages = this.createPages();
+        this.pages = this.addInheritsTests(this.createPages());
         this.render();
     }
 
@@ -549,11 +550,8 @@ export class FrameComponentTestHarness {
                 label: "TooltipFrame",
                 menuLabel: "Tooltip",
                 tests: [
-                    this.test("Create by type", () =>
-                        this.createTooltipTest("Type", (owner) => TooltipFrame.CreateTyped({ context: this.context, name: this.testName("Tooltip", "Type"), owner, overrides: this.tooltipConfiguration("Tooltip created by type.") })),
-                    ),
-                    this.test("Create by name", () =>
-                        this.createTooltipTest("Named", (owner) => TooltipFrame.CreateNamed({ context: this.context, name: this.testName("Tooltip", "Named"), owner, overrides: this.tooltipConfiguration("Tooltip created by name.") })),
+                    this.test("Create", () =>
+                        this.createTooltipTest("Basic", (owner) => TooltipFrame.Create({ context: this.context, name: this.testName("Tooltip", "Basic"), owner, overrides: this.tooltipConfiguration("Tooltip created with Create.") })),
                     ),
                     this.test("Create resource grid", () =>
                         this.createTooltipTest("Grid", (owner) =>
@@ -580,8 +578,7 @@ export class FrameComponentTestHarness {
                 label: "TimerFrame",
                 menuLabel: "Timer",
                 tests: [
-                    this.test("Create by type", () => TimerFrame.CreateTyped({ context: this.context, name: this.testName("Timer", "Type"), overrides: { timerTitle: "Typed timer" } }).containerFrame),
-                    this.test("Create by name", () => TimerFrame.CreateNamed({ context: this.context, name: this.testName("Timer", "Named"), overrides: { timerTitle: "Named timer" } }).containerFrame),
+                    this.test("Create", () => TimerFrame.Create({ context: this.context, name: this.testName("Timer", "Basic"), overrides: { timerTitle: "Basic timer" } }).containerFrame),
                     this.test("Create countdown", () => {
                         const timer = TimerFrame.Create({
                             context: this.context,
@@ -861,6 +858,116 @@ export class FrameComponentTestHarness {
             menuLabel,
             tests,
         };
+    }
+
+    /** Adds the "Choose inherits" test to every page whose frame type has known loaded templates. */
+    private addInheritsTests(pages: FrameComponentTestPage[]): FrameComponentTestPage[] {
+        const context = this.context;
+        const definitions: Record<string, { templates: readonly string[]; create: (inherits: string, name: string, owner: Frame) => TestFrameComponent }> = {
+            Backdrop: { templates: FrameTemplates.BACKDROP.loaded, create: (inherits, name, owner) => BackdropFrame.CreateType({ context, inherits, name, owner }) },
+            Dialog: { templates: FrameTemplates.DIALOG.loaded, create: (inherits, name, owner) => DialogFrame.CreateType({ context, inherits, name, owner }) },
+            Empty: { templates: FrameTemplates.FRAME.loaded, create: (inherits, name, owner) => EmptyFrame.CreateType({ context, inherits, name, owner }) },
+            GlueButton: { templates: FrameTemplates.GLUEBUTTON.loaded, create: (inherits, name, owner) => GlueButtonFrame.CreateType({ context, inherits, name, owner }) },
+            GlueCheckBox: { templates: FrameTemplates.GLUECHECKBOX.loaded, create: (inherits, name, owner) => GlueCheckBoxFrame.CreateType({ context, inherits, name, owner }) },
+            GlueTextButton: { templates: FrameTemplates.GLUETEXTBUTTON.loaded, create: (inherits, name, owner) => GlueTextButtonFrame.CreateType({ context, inherits, name, owner }) },
+            Highlight: { templates: FrameTemplates.HIGHLIGHT.loaded, create: (inherits, name, owner) => HighlightFrame.CreateType({ context, inherits, name, owner }) },
+            PopupMenu: { templates: FrameTemplates.POPUPMENU.loaded, create: (inherits, name, owner) => PopupMenuFrame.CreateType({ context, inherits, name, owner }) },
+            ScrollBar: { templates: FrameTemplates.SCROLLBAR.loaded, create: (inherits, name, owner) => ScrollBarFrame.CreateType({ context, inherits, name, owner }) },
+            Text: { templates: FrameTemplates.TEXT.loaded, create: (inherits, name, owner) => TextFrame.CreateType({ context, inherits, name, owner }) },
+            TextButton: { templates: FrameTemplates.TEXTBUTTON.loaded, create: (inherits, name, owner) => TextButtonFrame.CreateType({ context, inherits, name, owner }) },
+        };
+
+        for (const page of pages) {
+            const component = page.label.slice(0, -"Frame".length);
+            const definition = definitions[component];
+            if (definition) {
+                this.withInheritsTest(page, component, definition.templates, definition.create);
+            }
+        }
+
+        return pages;
+    }
+
+    /**
+     * Adds a test with an "Inherits" popup listing the loaded templates (see FrameTemplates)
+     * of the page's frame type. Choosing an item creates the frame once with that item as `inherits`
+     * and shows it, hiding the previously chosen frame.
+     */
+    private withInheritsTest(page: FrameComponentTestPage, component: string, templates: readonly string[], create: (inherits: string, name: string, owner: Frame) => TestFrameComponent): FrameComponentTestPage {
+        const popupTemplate = `FrameComponentTestInherits${component}PopupMenu`;
+        page.tests.push(this.test("Choose inherits", () => this.createInheritsTest(component, popupTemplate, templates, create)));
+        return page;
+    }
+
+    private createInheritsTest(component: string, popupTemplate: string, templates: readonly string[], create: (inherits: string, name: string, owner: Frame) => TestFrameComponent): Frame | undefined {
+        const containerFrame = Frame.createType(this.testName(component, "InheritsContainer"), this.owner, this.context, "FRAME", "");
+        if (!containerFrame) {
+            return undefined;
+        }
+
+        containerFrame.clearPoints();
+        containerFrame.setAbsPoint(FRAMEPOINT_CENTER, 0.6, 0.38);
+        const emptyTestSize = component === "Empty" ? 0.2 : undefined;
+        containerFrame.setSize(0.34, emptyTestSize === undefined ? 0.2 : emptyTestSize + 0.08);
+
+        const inheritsLabel = TextFrame.CreateType({
+            context: this.context,
+            inherits: "",
+            name: this.testName(component, "InheritsLabel"),
+            owner: containerFrame,
+            overrides: { autoSizeWidth: false, initialText: "Inherits" },
+        });
+        inheritsLabel.frame?.clearPoints();
+        inheritsLabel.frame?.setPoint(FRAMEPOINT_TOPLEFT, containerFrame, FRAMEPOINT_TOPLEFT, 0, 0);
+        inheritsLabel.frame?.setSize(0.1, 0.02);
+        inheritsLabel.frame?.setEnabled(false);
+
+        const created = new Map<number, Frame | undefined>();
+        let shown: Frame | undefined;
+        const popup = PopupMenuFrame.CreateNamed({
+            context: this.context,
+            name: popupTemplate,
+            owner: containerFrame,
+            overrides: {
+                width: 0.34,
+                onItemChanged: (value) => {
+                    const inherits = templates[value];
+                    if (inherits === undefined) {
+                        return;
+                    }
+
+                    if (shown) {
+                        shown.visible = false;
+                    }
+
+                    if (!created.has(value)) {
+                        const componentFrame = create(inherits, this.testName(component, `Inherits${inherits}`), containerFrame).frame;
+                        if (componentFrame) {
+                            const width = emptyTestSize ?? (componentFrame.width || 0.1);
+                            const height = emptyTestSize ?? (componentFrame.height || 0.04);
+                            componentFrame.clearPoints();
+                            componentFrame.setPoint(FRAMEPOINT_BOTTOM, containerFrame, FRAMEPOINT_BOTTOM, 0, 0.01);
+                            componentFrame.setSize(width, height);
+                        } else {
+                            print(`Failed to create ${component}Frame inheriting ${inherits}.`);
+                        }
+
+                        created.set(value, componentFrame);
+                    }
+
+                    shown = created.get(value);
+                    if (shown) {
+                        shown.visible = true;
+                    }
+
+                    print(`${component}Frame inherits: ${inherits}`);
+                },
+            },
+        });
+        popup.frame?.clearPoints();
+        popup.frame?.setPoint(FRAMEPOINT_TOPLEFT, containerFrame, FRAMEPOINT_TOPLEFT, 0, -0.022);
+        popup.frame?.setSize(0.34, 0.03);
+        return containerFrame;
     }
 
     private createNativeFrameTest(component: string, test: string, create: (owner: Frame) => TestFrameComponent): Frame | undefined {

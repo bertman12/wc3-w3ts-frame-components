@@ -29,3 +29,17 @@ comment stating its default value, matching the value in that class's
 
 - Update the JSDoc whenever the default in `DefaultConfiguration` changes.
 - Describe what the property does in the same comment.
+
+## Template autocomplete for `inherits`
+
+A MonoFrame's `CreateType` must type its arguments as
+`TypedNativeFrameArguments<Configuration, FrameTemplate<"NATIVETYPE">>`, e.g.
+`FrameTemplate<"BACKDROP">`. The data lives in `src/models/frame-templates.json`
+(`loaded` and `unloaded` names per native frame type) and is mirrored by the `FrameTemplates`
+const in `src/models/FrameTemplates.ts`; keep them in sync. It is generated from the game's FDF files
+(`_BlzFrameDefs`) and Tasyen's guide
+(https://www.hiveworkshop.com/threads/ui-list-default-mainframes.317884/). Any other string is still accepted.
+
+- loaded: usable immediately (listed "Loaded" in the guide, or defined in a file listed by `framedef.toc`).
+- unloaded: defined in the default FDF files but their file must be loaded from a toc first.
+- Types with no known templates resolve to `never`, so only arbitrary strings are suggested.

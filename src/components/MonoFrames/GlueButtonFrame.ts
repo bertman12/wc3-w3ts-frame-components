@@ -1,5 +1,5 @@
 import { Trigger } from "w3ts";
-import { IMonoFrameConfigurationBase } from "../../models";
+import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
@@ -34,7 +34,7 @@ export class GlueButtonFrame extends MonoFrame<GlueButtonFrameConfiguration> {
         return new GlueButtonFrame(args.context, { ...GlueButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
-    public static CreateType(args: TypedNativeFrameArguments<GlueButtonFrameConfiguration>): GlueButtonFrame {
+    public static CreateType(args: TypedNativeFrameArguments<GlueButtonFrameConfiguration, FrameTemplate<"GLUEBUTTON">>): GlueButtonFrame {
         return new GlueButtonFrame(args.context, { ...GlueButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
 

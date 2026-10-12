@@ -1,0 +1,549 @@
+{
+    "BACKDROP": {
+        "loaded": [
+            "BNetPopupMenuBackdropTemplate",
+            "LadderButtonBackdropTemplate",
+            "LadderButtonPushedBackdropTemplate",
+            "LadderButtonDisabledBackdropTemplate",
+            "LadderButtonDisabledPushedBackdropTemplate",
+            "ClanButtonBackdropTemplate",
+            "ClanButtonPushedBackdropTemplate",
+            "ClanButtonDisabledBackdropTemplate",
+            "ClanButtonDisabledPushedBackdropTemplate",
+            "TeamPopupMenuBackdropTemplate",
+            "OptionsPopupMenuBackdropTemplate",
+            "ScoreScreenButtonBackdropTemplate",
+            "SkirmishPopupMenuBackdropTemplate",
+            "EscMenuBackdrop",
+            "QuestButtonBaseTemplate",
+            "QuestButtonBackdropTemplate",
+            "QuestButtonPushedBackdropTemplate",
+            "QuestButtonDisabledBackdropTemplate",
+            "QuestButtonDisabledPushedBackdropTemplate",
+            "BNetMMPopupMenuBackdropTemplate",
+            "ConsoleUIBackdrop",
+            "ObserverConsoleUIBackdrop",
+            "FullScreenHelperDE",
+            "EquipmentPanelBackdrop",
+            "TalentPanelBackdrop"
+        ],
+        "unloaded": [
+            "CustomPopupMenuBackdropTemplate",
+            "CustomPopupMenuSmallBackdropTemplate",
+            "CustomPopupMenuLargeBackdropTemplate",
+            "BattleNetHeavyBackdropTemplate",
+            "BattleNetMediumBackdropTemplate",
+            "BattleNetLightBackdropTemplate",
+            "BattleNetControlBackdropTemplate",
+            "BattleNetEditBoxBackdropTemplate",
+            "BattleNetMenuSmallButtonBaseBackdrop",
+            "BattleNetMenuLargeButtonBaseBackdrop",
+            "BattleNetMenuSingleButtonBaseBackdrop",
+            "BattleNetMenuSingleSmallButtonBaseBackdrop",
+            "BattleNetMenuSingleLargeButtonBaseBackdrop",
+            "BattleNetMenuButtonBaseBackdrop",
+            "BattleNetButtonBackdropTemplate",
+            "BattleNetButtonPushedBackdropTemplate",
+            "BattleNetButtonDisabledBackdropTemplate",
+            "BattleNetButtonDisabledPushedBackdropTemplate",
+            "BattleNetBorderedButtonBackdropTemplate",
+            "BattleNetBorderedButtonPushedBackdropTemplate",
+            "BattleNetBorderedButtonDisabledBackdropTemplate",
+            "BattleNetBorderedButtonDisabledPushedBackdropTemplate",
+            "BattleNetPopupMenuBaseBackdrop",
+            "StandardHeavyBackdropTemplate",
+            "StandardMediumBackdropTemplate",
+            "StandardLightBackdropTemplate",
+            "StandardControlBackdropTemplate",
+            "StandardMenuTinyButtonBaseBackdrop",
+            "StandardMenuSmallButtonBaseBackdrop",
+            "StandardMenuLargeButtonBaseBackdrop",
+            "StandardMenuSingleButtonBaseBackdrop",
+            "StandardMenuSingleSmallButtonBaseBackdrop",
+            "StandardMenuSingleLargeButtonBaseBackdrop",
+            "StandardMenuButtonBaseBackdrop",
+            "StandardButtonBackdropTemplate",
+            "StandardButtonPushedBackdropTemplate",
+            "StandardButtonDisabledBackdropTemplate",
+            "StandardButtonDisabledPushedBackdropTemplate",
+            "StandardBorderedButtonBackdropTemplate",
+            "StandardBorderedButtonPushedBackdropTemplate",
+            "StandardBorderedButtonDisabledBackdropTemplate",
+            "StandardBorderedButtonDisabledPushedBackdropTemplate",
+            "StandardSmallButtonBackdropTemplate",
+            "StandardSmallButtonPushedBackdropTemplate",
+            "StandardSmallButtonDisabledBackdropTemplate",
+            "StandardSmallButtonDisabledPushedBackdropTemplate",
+            "StandardCampaignButtonBackdropTemplate",
+            "StandardCampaignButtonPushedBackdropTemplate",
+            "StandardCampaignButtonDisabledBackdropTemplate",
+            "StandardCampaignButtonDisabledPushedBackdropTemplate",
+            "StandardCampaignArrowButtonBackdropTemplate",
+            "StandardCampaignArrowButtonPushedBackdropTemplate",
+            "StandardCampaignArrowButtonDisabledBackdropTemplate",
+            "StandardCampaignArrowButtonDisabledPushedBackdropTemplate",
+            "StandardCampaignCameraButtonBackdropTemplate",
+            "StandardCampaignCameraButtonPushedBackdropTemplate",
+            "StandardCampaignCameraButtonDisabledBackdropTemplate",
+            "StandardCampaignCameraButtonDisabledPushedBackdropTemplate",
+            "StandardEditBoxBackdropTemplate",
+            "StandardDecoratedEditBoxBackdropTemplate",
+            "StandardPopupMenuBaseBackdrop",
+            "CampaignPopupMenuBaseBackdrop",
+            "EscMenuButtonBackdropTemplate",
+            "EscMenuButtonPushedBackdropTemplate",
+            "EscMenuButtonDisabledBackdropTemplate",
+            "EscMenuButtonDisabledPushedBackdropTemplate",
+            "EscMenuControlBackdropTemplate",
+            "EscMenuEditBoxBackdropTemplate"
+        ]
+    },
+    "BUTTON": {
+        "loaded": [
+            "ScoreScreenTabButtonTemplate"
+        ],
+        "unloaded": [
+            "BattleNetPopupMenuArrowTemplate",
+            "StandardPopupMenuArrowTemplate",
+            "StandardPopupMenuSmallArrowTemplate",
+            "StandardPopupMenuExtraSmallArrowTemplate",
+            "CampaignPopupMenuArrowTemplate",
+            "EscMenuPopupMenuArrowTemplate"
+        ]
+    },
+    "CHATDISPLAY": {
+        "loaded": [],
+        "unloaded": [
+            "BattleNetChatDisplayTemplate"
+        ]
+    },
+    "CHECKBOX": {
+        "loaded": [],
+        "unloaded": [
+            "BattleNetRadioButtonTemplate",
+            "StandardCheckBoxTemplate"
+        ]
+    },
+    "CONTROL": {
+        "loaded": [
+            "BattleNetChatActionMenu",
+            "BattleNetIconSelectBox",
+            "MMPlayerSlot",
+            "BattleNetNewsBox",
+            "CheckListBox",
+            "DecoratedMapListBox",
+            "MapListBox",
+            "MapPreferenceBox",
+            "PlayerSlot",
+            "TeamColorMenu",
+            "TeamSetup"
+        ],
+        "unloaded": [
+            "ListBoxWar3"
+        ]
+    },
+    "DIALOG": {
+        "loaded": [
+            "BattleNetHelpDialog",
+            "BattleNetClanInviteDialog",
+            "BattleNetCustomFilterDialog",
+            "BattleNetMatchmakerTeamInviteDialog",
+            "BattleNetMatchmakerPendingInviteDialog",
+            "BattleNetIconSelectDialog",
+            "BattleNetScheduledGame",
+            "BattleNetTeamInviteDialog",
+            "DialogWar3",
+            "QuickReplayDialog",
+            "QuickReplayConfirmDialog",
+            "BattleNetPatchDialog",
+            "BattleNetConnectDialog",
+            "UserDataMigrationDialog",
+            "OptionsConfirmDialog",
+            "AllianceDialog",
+            "EscMenuOptionsConfirmDialog",
+            "GameResultDialog",
+            "GameSaveSplashDialog",
+            "ScriptDialog",
+            "SuspendDialog",
+            "UnresponsiveDialog"
+        ],
+        "unloaded": [
+            "BattleNetDialogTemplate",
+            "StandardDialogTemplate"
+        ]
+    },
+    "EDITBOX": {
+        "loaded": [],
+        "unloaded": [
+            "BattleNetEditBoxTemplate",
+            "StandardEditBoxTemplate",
+            "StandardDecoratedEditBoxTemplate",
+            "EscMenuEditBoxTemplate"
+        ]
+    },
+    "FRAME": {
+        "loaded": [
+            "AdvancedOptionsDisplay",
+            "AdvancedOptionsPane",
+            "AdBanner",
+            "BattleNetChatPanel",
+            "BattleNetChatroom",
+            "BattleNetClanInvitation",
+            "BattleNetClanMateListBox",
+            "BattleNetClanPane",
+            "BattleNetCustomCreatePanel",
+            "BattleNetCustomJoinPanel",
+            "BattleNetCustomLoadPanel",
+            "BattleNetFriendsListBox",
+            "BattleNetFriendsPane",
+            "BattleNetMainFrame",
+            "BattleNetMatchmakerPanel",
+            "BattleNetProfilePanel",
+            "BattleNetProfileListBox",
+            "BattleNetProfileListItem",
+            "BattleNetStandardPanel",
+            "BattleNetStatusBox",
+            "BattleNetTeamInvitation",
+            "BattleNetTeamPanel",
+            "BattleNetUserListBox",
+            "CampaignListBox",
+            "CampaignMenu",
+            "CustomCampaignMenu",
+            "GameChatroom",
+            "Loading",
+            "LoadingPlayerSlot",
+            "LoadSavedGameScreen",
+            "LocalMultiplayerCreate",
+            "LocalMultiplayerJoin",
+            "LocalMultiplayerLoad",
+            "MainMenuFrame",
+            "MapInfoPane",
+            "MovieScreen",
+            "OptionsMenu",
+            "ScoreScreenFrame",
+            "SaveReplayPanel",
+            "SinglePlayerMenu",
+            "Skirmish",
+            "ViewReplayScreen",
+            "AllianceSlot",
+            "BrowserFrame",
+            "ChatDialog",
+            "CinematicPanel",
+            "EscMenuMainPanel",
+            "EscMenuOptionsPanel",
+            "EscMenuSaveGamePanel",
+            "Leaderboard",
+            "LogDialog",
+            "Multiboard",
+            "QuestDialog",
+            "QuestListItem",
+            "QuestItemListItem",
+            "SuspendPlayerSlot",
+            "TimerDialog",
+            "SplashScreen",
+            "MiniMapFrame"
+        ],
+        "unloaded": [
+            "BattleNetChannelList",
+            "BattleNetCustomPanel",
+            "BattleNetFrameTemplate",
+            "BattleNetUserListBoxItem",
+            "StandardFrameTemplate",
+            "InfoPanelBuildingDetail",
+            "InfoPanelItemDetail",
+            "InfoPanelUnitDetail"
+        ]
+    },
+    "GLUEBUTTON": {
+        "loaded": [
+            "IconicButtonTemplate",
+            "IconButtonTemplate",
+            "ClanButtonTemplate",
+            "QuestButtonTemplate"
+        ],
+        "unloaded": [
+            "StandardIconicButtonTemplate"
+        ]
+    },
+    "GLUECHECKBOX": {
+        "loaded": [
+            "ScoreScreen5ColumnButtonTemplate",
+            "ScoreScreen4ColumnButtonTemplate",
+            "ScoreScreenBottomCheckButtonTemplate",
+            "QuestCheckBox",
+            "QuestCheckBox2",
+            "QuestCheckBox3"
+        ],
+        "unloaded": [
+            "EscMenuCheckBoxTemplate",
+            "EscMenuRadioButtonTemplate"
+        ]
+    },
+    "GLUETEXTBUTTON": {
+        "loaded": [
+            "DebugButton",
+            "ReplayButton",
+            "BrowserButton",
+            "ScoreScreenBottomButtonTemplate",
+            "ScriptDialogButton"
+        ],
+        "unloaded": [
+            "EscMenuButtonTemplate",
+            "EscMenuPopupMenuTitleTemplate"
+        ]
+    },
+    "HIGHLIGHT": {
+        "loaded": [
+            "LadderButtonFocusHighlightBackdropTemplate",
+            "LadderButtonMouseOverHighlightBackdropTemplate",
+            "ClanButtonFocusHighlightBackdropTemplate",
+            "ClanButtonMouseOverHighlightBackdropTemplate",
+            "QuestButtonMouseOverHighlightTemplate"
+        ],
+        "unloaded": [
+            "BattleNetButtonFocusHighlightTemplate",
+            "BattleNetButtonMouseOverHighlightTemplate",
+            "BattleNetBorderedButtonFocusHighlightTemplate",
+            "BattleNetBorderedButtonMouseOverHighlightTemplate",
+            "StandardButtonFocusHighlightTemplate",
+            "StandardButtonMouseOverHighlightTemplate",
+            "StandardBorderedButtonFocusHighlightTemplate",
+            "StandardBorderedButtonMouseOverHighlightTemplate",
+            "StandardSmallButtonFocusHighlightTemplate",
+            "StandardSmallButtonMouseOverHighlightTemplate",
+            "StandardCampaignButtonFocusHighlightTemplate",
+            "StandardCampaignButtonMouseOverHighlightTemplate",
+            "StandardCampaignArrowButtonFocusHighlightTemplate",
+            "StandardCampaignArrowButtonMouseOverHighlightTemplate",
+            "StandardCampaignCameraButtonFocusHighlightTemplate",
+            "StandardCampaignCameraButtonMouseOverHighlightTemplate",
+            "EscMenuButtonMouseOverHighlightTemplate"
+        ]
+    },
+    "LISTBOX": {
+        "loaded": [],
+        "unloaded": [
+            "BattleNetListBoxTemplate",
+            "StandardListBoxTemplate"
+        ]
+    },
+    "MENU": {
+        "loaded": [],
+        "unloaded": [
+            "BattleNetPopupMenuMenuTemplate",
+            "StandardPopupMenuMenuTemplate",
+            "StandardSmallPopupMenuMenuTemplate",
+            "StandardExtraSmallPopupMenuMenuTemplate",
+            "CampaignPopupMenuMenuTemplate",
+            "EscMenuPopupMenuMenuTemplate"
+        ]
+    },
+    "POPUPMENU": {
+        "loaded": [
+            "AdvancedPopupMenuTemplate",
+            "ClanPopupMenuTemplate",
+            "FilterPopupMenuTemplate",
+            "BNetPopupMenuTemplate",
+            "PlayerSlotPopupMenu",
+            "TeamPopupMenuTemplate",
+            "TeamMemberPopupMenu",
+            "OptionsPopupMenuTemplate",
+            "SkirmishPopupMenuTemplate",
+            "BNetMMPopupMenuTemplate",
+            "MMPlayerSlotPopupMenu"
+        ],
+        "unloaded": [
+            "CustomPopupMenuTemplate",
+            "BattleNetPopupMenuTemplate",
+            "StandardPopupMenuTemplate",
+            "CampaignPopupMenuTemplate",
+            "EscMenuPopupMenuTemplate"
+        ]
+    },
+    "SCROLLBAR": {
+        "loaded": [
+            "QuestMainListScrollBar",
+            "QuestOptionalListScrollBar",
+            "QuestItemListScrollBar",
+            "QuestConditionListScrollBar"
+        ],
+        "unloaded": [
+            "BattleNetScrollBarTemplate",
+            "StandardScrollBarTemplate",
+            "EscMenuScrollBarTemplate"
+        ]
+    },
+    "SIMPLEBUTTON": {
+        "loaded": [
+            "CommandButtonTemplate",
+            "ObserverInventoryButtonTemplate",
+            "InventoryButtonTemplate",
+            "EquipmentButtonTemplate",
+            "MinimapButtonTemplate",
+            "ObserverButtonBarButtonTemplate",
+            "ObserverButtonBarInfoButtonTemplate",
+            "PlayerRowButtonTemplate",
+            "UpperButtonBarButtonTemplate"
+        ],
+        "unloaded": []
+    },
+    "SIMPLECHECKBOX": {
+        "loaded": [
+            "ObserverButtonBarCheckBoxTemplate"
+        ],
+        "unloaded": []
+    },
+    "SIMPLEFRAME": {
+        "loaded": [
+            "CommandBarFrame",
+            "ReplayCommandBarFrame",
+            "ConsoleUI",
+            "HeroPanelFrame",
+            "HeroPanelElementFrame",
+            "SimpleObserverInventoryBar",
+            "SimpleInventoryBar",
+            "SimpleInventoryCover",
+            "SimpleEquipmentInventoryPanel",
+            "SimpleEquipmentPanel",
+            "SimpleTalentsPanel",
+            "MinimapButtonBar",
+            "ObserverButtonBarFrame",
+            "SimpleObserverPanel",
+            "SimpleObserverInfoPanelUnitDetail",
+            "PlayerStatisticsPanelFrame",
+            "PlayerStatisticsRowFrame",
+            "ProductionPanelFrame",
+            "ProductionPanelRowFrame",
+            "ProductionPanelUnitFrame",
+            "SimpleReplayPanelV1",
+            "SimpleReplayPanelV2",
+            "ResourceBarFrame",
+            "SimpleInfoPanelUnitDetail",
+            "SimpleInfoPanelCargoDetail",
+            "SimpleObserverInfoPanelCargoDetail",
+            "SimpleInfoPanelBuildingDetail",
+            "SimpleObserverInfoPanelBuildingDetail",
+            "SimpleInfoPanelItemDetail",
+            "SimpleObserverInfoPanelItemDetail",
+            "SimpleInfoPanelDestructableDetail",
+            "SimpleInfoPanelIconDamage",
+            "SimpleInfoPanelIconArmor",
+            "SimpleObserverInfoPanelIconDamage",
+            "SimpleObserverInfoPanelIconArmor",
+            "SimpleInfoPanelIconRank",
+            "SimpleInfoPanelIconFood",
+            "SimpleInfoPanelIconGold",
+            "SimpleObserverInfoPanelIconFood",
+            "SimpleObserverInfoPanelIconGold",
+            "SimpleInfoPanelIconHero",
+            "SimpleObserverInfoPanelIconHero",
+            "SimpleInfoPanelIconAlly",
+            "SimpleTimeElapsedPanel",
+            "SimpleStatDetailsPanel",
+            "SimpleStatDetailsItem",
+            "SimpleStatDetailsHealthRegen",
+            "SimpleStatDetailsManaRegen",
+            "SimpleStatDetailsAttackSpeed",
+            "SimpleStatDetailsCriticalChance",
+            "SimpleStatDetailsCriticalDamage",
+            "SimpleStatDetailsSpellCriticalChance",
+            "SimpleStatDetailsSpellCriticalDamage",
+            "SimpleStatDetailsAbilitySpeedFlat",
+            "SimpleStatDetailsAbilitySpeedPercentage",
+            "SimpleStatDetailsAbilityAmpFlat",
+            "SimpleStatDetailsAbilityAmpPercentage",
+            "SimpleStatDetailsLifesteal",
+            "SimpleStatDetailsAbilityVampFlat",
+            "SimpleStatDetailsAbilityVampPercentage",
+            "SimpleStatDetailsResolveFlat",
+            "SimpleStatDetailsResolvePercentage",
+            "SimpleStatDetailsMagicResistance",
+            "UpperButtonBarFrame"
+        ],
+        "unloaded": []
+    },
+    "SLIDER": {
+        "loaded": [],
+        "unloaded": [
+            "BattleNetSliderTemplate",
+            "StandardSliderTemplate",
+            "EscMenuSliderTemplate"
+        ]
+    },
+    "TEXT": {
+        "loaded": [
+            "TeamLabelTextTemplate",
+            "LadderNameTextTemplate",
+            "TeamValueTextTemplate",
+            "TeamLadderRankValueTextTemplate",
+            "ScoreScreenTabTextTemplate",
+            "ScoreScreenTabTextSelectedTemplate",
+            "ScoreScreenColumnHeaderTemplate",
+            "EscMenuMainPanelDialogTextTemplate",
+            "EscMenuSaveDialogTextTemplate",
+            "TextTemplate",
+            "PlayerNameTextTemplate",
+            "TeamNameTextTemplate",
+            "ResourceTextTemplate"
+        ],
+        "unloaded": [
+            "BattleNetButtonTextTemplate",
+            "BattleNetButtonBarTextTemplate",
+            "BattleNetTitleTextTemplate",
+            "BattleNetLabelTextTemplate",
+            "BattleNetValueTextTemplate",
+            "BattleNetListBoxTextTemplate",
+            "BattleNetInfoTextTemplate",
+            "BattleNetEditBoxTextTemplate",
+            "StandardButtonTextTemplate",
+            "StandardInfoTextTemplate",
+            "StandardTitleTextTemplate",
+            "StandardLabelTextTemplate",
+            "StandardValueTextTemplate",
+            "StandardSmallTextTemplate",
+            "StandardSmallTitleTextTemplate",
+            "StandardExtraSmallTextTemplate",
+            "StandardExtraSmallTitleTextTemplate",
+            "StandardEditBoxTextTemplate",
+            "StandardDecoratedEditBoxTextTemplate",
+            "EscMenuButtonTextTemplate",
+            "EscMenuInfoTextTemplate",
+            "EscMenuTitleTextTemplate",
+            "EscMenuLabelTextTemplate",
+            "EscMenuLabelTextSmallTemplate",
+            "EscMenuEditBoxTextTemplate",
+            "InfoPanelTitleTextTemplate",
+            "InfoPanelDescriptionTextTemplate",
+            "InfoPanelLabelTextTemplate",
+            "InfoPanelAttributeTextTemplate"
+        ]
+    },
+    "TEXTAREA": {
+        "loaded": [],
+        "unloaded": [
+            "BattleNetTextAreaTemplate",
+            "EscMenuTextAreaTemplate"
+        ]
+    },
+    "TEXTBUTTON": {
+        "loaded": [
+            "LadderButtonTemplate"
+        ],
+        "unloaded": [
+            "ChatroomButtonTemplate",
+            "BattleNetButtonTemplate",
+            "BattleNetBorderedButtonTemplate",
+            "BattleNetPopupMenuTitleTemplate",
+            "StandardButtonTemplate",
+            "StandardBorderedButtonTemplate",
+            "StandardSmallButtonTemplate",
+            "CampaignButtonTemplate",
+            "CampaignArrowButtonTemplate",
+            "CampaignCameraButtonTemplate",
+            "StandardPopupMenuTitleTemplate",
+            "StandardPopupMenuSmallTitleTemplate",
+            "StandardPopupMenuExtraSmallTitleTemplate",
+            "CampaignPopupMenuTitleTemplate"
+        ]
+    }
+}

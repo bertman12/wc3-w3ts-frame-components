@@ -1,4 +1,4 @@
-import { IMonoFrameConfigurationBase } from "../../models";
+import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
@@ -32,7 +32,7 @@ export class HighlightFrame extends MonoFrame<HighlightFrameConfiguration> {
     }
 
     /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
-    public static CreateType(args: TypedNativeFrameArguments<HighlightFrameConfiguration>): HighlightFrame {
+    public static CreateType(args: TypedNativeFrameArguments<HighlightFrameConfiguration, FrameTemplate<"HIGHLIGHT">>): HighlightFrame {
         return new HighlightFrame(args.context, { ...HighlightFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
 

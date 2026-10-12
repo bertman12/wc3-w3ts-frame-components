@@ -1,5 +1,5 @@
 import { Trigger } from "w3ts";
-import { IMonoFrameConfigurationBase } from "../../models";
+import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
@@ -38,7 +38,7 @@ export class EditBoxFrame extends MonoFrame<EditBoxFrameConfiguration> {
         return new EditBoxFrame(args.context, { ...EditBoxFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
-    public static CreateType(args: TypedNativeFrameArguments<EditBoxFrameConfiguration>): EditBoxFrame {
+    public static CreateType(args: TypedNativeFrameArguments<EditBoxFrameConfiguration, FrameTemplate<"EDITBOX">>): EditBoxFrame {
         return new EditBoxFrame(args.context, { ...EditBoxFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
     }
 

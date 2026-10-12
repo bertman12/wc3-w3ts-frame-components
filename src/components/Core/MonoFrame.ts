@@ -1,6 +1,6 @@
 import { Frame, Trigger } from "w3ts";
 import { FrameUtils } from "../../frame-utils";
-import { IMonoFrameConfigurationBase, IMonoFrameMethods, IMonoFrameProperties } from "../../models";
+import { IMonoFrameConfigurationBase, IMonoFrameMethods, IMonoFrameProperties, InheritsOf } from "../../models";
 import { FrameType } from "../../names";
 
 export interface NamedNativeFrameArguments<Configuration extends IMonoFrameConfigurationBase> {
@@ -12,10 +12,15 @@ export interface NamedNativeFrameArguments<Configuration extends IMonoFrameConfi
     overrides?: Configuration;
 }
 
-export interface TypedNativeFrameArguments<Configuration extends IMonoFrameConfigurationBase> {
+/**
+ * @typeParam Template Known default templates for the frame type (see FrameTemplate, loaded and unloaded).
+ * They show up as autocomplete suggestions, and any other string (e.g. from your own FDF) is still accepted.
+ */
+export interface TypedNativeFrameArguments<Configuration extends IMonoFrameConfigurationBase, Template extends string = string> {
     /** The render context of the frame. Default value: 0 */
     context?: number;
-    inherits: string;
+    /** The frame definition to inherit from. Use "" to create a bare frame. */
+    inherits: InheritsOf<Template>;
     name?: string;
     owner?: Frame;
     overrides?: Configuration;
