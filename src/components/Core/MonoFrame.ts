@@ -22,7 +22,7 @@ export interface TypedNativeFrameArguments<Configuration extends IMonoFrameConfi
     /**
      * The frame definition to inherit from. Use "" to create a bare frame.
      * When set, it overrides any `inherits` in the configuration, including one passed through `overrides`.
-     * Default value: undefined (falls back to `overrides.inherits`, then "")
+     * Default value: undefined (falls back to `overrides.inherits`, then the component's default `inherits`, then "")
      */
     inherits?: InheritsOf<Template>;
     name?: string;
@@ -73,7 +73,7 @@ export abstract class MonoFrame<Configuration extends IMonoFrameConfigurationBas
      * @param args Frame creation options
      * @param args.context The render context of frame. Default value: 0
      * @param args.inherits The frame which this frame will inherit properties from. When set, it overrides any `inherits`
-     * in the configuration, including one passed through `overrides`. Default value: undefined (falls back to `overrides.inherits`, then "")
+     * in the configuration, including one passed through `overrides`. Default value: undefined (falls back to `overrides.inherits`, then the component's default `inherits`, then "")
      * @param args.name An arbitrary name for the frame.
      * @param args.owner Default value: ORIGIN_FRAME_GAME_UI
      * @param args.overrides Allows overriding the MonoFrame's default configuration with your own.

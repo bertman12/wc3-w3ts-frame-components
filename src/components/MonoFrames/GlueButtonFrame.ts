@@ -1,9 +1,11 @@
 import { Trigger } from "w3ts";
-import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
+import { FrameTemplate, IMonoFrameConfigurationBase, InheritsOf } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
 export interface GlueButtonFrameConfiguration extends IMonoFrameConfigurationBase<FrameTemplate<"GLUEBUTTON">> {
+    /** The frame definition CreateType inherits from. Overridden by the CreateType inherits argument; ignored by CreateNamed. Default value: "IconButtonTemplate" */
+    inherits?: InheritsOf<FrameTemplate<"GLUEBUTTON">>;
     /** Height of the button. Default value: 0.04 */
     height?: number;
     /** Handler called when the button is clicked. Default value: undefined */
@@ -14,7 +16,6 @@ export interface GlueButtonFrameConfiguration extends IMonoFrameConfigurationBas
 
 /**
  * @see Tasyen's GLUEBUTTON reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/GLUEBUTTON.html
- * @deprecated Development deferred. Do not use; this class is still under development.
  */
 export class GlueButtonFrame extends MonoFrame<GlueButtonFrameConfiguration> {
     public onClickTrigger?: Trigger;
@@ -26,8 +27,8 @@ export class GlueButtonFrame extends MonoFrame<GlueButtonFrameConfiguration> {
         this.render();
     }
 
-    public static get DefaultConfiguration(): GlueButtonFrameConfiguration {
-        return { height: 0.04, onClick: undefined, width: 0.1 };
+    public static get DefaultConfiguration(): GlueButtonFrameConfiguration & Required<Pick<GlueButtonFrameConfiguration, "inherits">> {
+        return { inherits: "IconButtonTemplate", height: 0.04, onClick: undefined, width: 0.1 };
     }
 
     public static CreateNamed(args: NamedNativeFrameArguments<GlueButtonFrameConfiguration>): GlueButtonFrame {
@@ -35,7 +36,7 @@ export class GlueButtonFrame extends MonoFrame<GlueButtonFrameConfiguration> {
     }
 
     public static CreateType(args: TypedNativeFrameArguments<GlueButtonFrameConfiguration, FrameTemplate<"GLUEBUTTON">>): GlueButtonFrame {
-        return new GlueButtonFrame(args.context, { ...GlueButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
+        return new GlueButtonFrame(args.context, { ...GlueButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? GlueButtonFrame.DefaultConfiguration.inherits);
     }
 
     public setOnClick(onClick: () => void): void {

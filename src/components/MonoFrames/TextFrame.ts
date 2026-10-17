@@ -1,8 +1,10 @@
 import { Frame } from "w3ts";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
-import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
+import { FrameTemplate, IMonoFrameConfigurationBase, InheritsOf } from "../../models";
 
 export interface TextFrameConfiguration extends IMonoFrameConfigurationBase<FrameTemplate<"TEXT">> {
+    /** The frame definition CreateType inherits from. Overridden by the CreateType inherits argument; ignored by CreateNamed. Default value: "TextTemplate" */
+    inherits?: InheritsOf<FrameTemplate<"TEXT">>;
     /** Whether update() resizes the frame width to fit the new text. Default value: true */
     autoSizeWidth?: boolean;
     /** Extra width added when auto-sizing the frame to its text. Default value: 0 */
@@ -15,7 +17,7 @@ export interface TextFrameConfiguration extends IMonoFrameConfigurationBase<Fram
     width?: number;
 }
 
-type TextFrameDefaultConfiguration = Required<Pick<TextFrameConfiguration, "autoSizeWidth" | "defaultAutoSizeBuffer" | "height" | "initialText" | "width">>;
+type TextFrameDefaultConfiguration = Required<Pick<TextFrameConfiguration, "inherits" | "autoSizeWidth" | "defaultAutoSizeBuffer" | "height" | "initialText" | "width">>;
 
 export class TextFrame extends MonoFrame<TextFrameConfiguration> {
     private constructor(...args: ConstructorParameters<typeof MonoFrame<TextFrameConfiguration>>) {
@@ -24,13 +26,7 @@ export class TextFrame extends MonoFrame<TextFrameConfiguration> {
     }
 
     public static get DefaultConfiguration(): TextFrameDefaultConfiguration {
-        return {
-            autoSizeWidth: true,
-            defaultAutoSizeBuffer: 0,
-            height: 0.005,
-            initialText: "Sample Text",
-            width: 0.1,
-        };
+        return { inherits: "TextTemplate", autoSizeWidth: true, defaultAutoSizeBuffer: 0, height: 0.005, initialText: "Sample Text", width: 0.1 };
     }
 
     /**
@@ -58,7 +54,7 @@ export class TextFrame extends MonoFrame<TextFrameConfiguration> {
      * @param args.overrides Configuration values that replace the defaults.
      */
     public static CreateType(args: TypedNativeFrameArguments<TextFrameConfiguration, FrameTemplate<"TEXT">>): TextFrame {
-        return new TextFrame(args.context, { ...TextFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
+        return new TextFrame(args.context, { ...TextFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? TextFrame.DefaultConfiguration.inherits);
     }
 
     protected render(): void {

@@ -1,9 +1,11 @@
 import { Frame, MapPlayer, Trigger } from "w3ts";
 import { PlaySoundLocal } from "warcraft-3-w3ts-utils";
-import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
+import { FrameTemplate, IMonoFrameConfigurationBase, InheritsOf } from "../../models";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
 export interface GlueTextButtonFrameConfiguration extends IMonoFrameConfigurationBase<FrameTemplate<"GLUETEXTBUTTON">> {
+    /** The frame definition CreateType inherits from. Overridden by the CreateType inherits argument; ignored by CreateNamed. Default value: "ScriptDialogButton" */
+    inherits?: InheritsOf<FrameTemplate<"GLUETEXTBUTTON">>;
     /** Sound played locally for the clicking player. An empty string plays no sound. Default value: "Sound\\Interface\\BigButtonClick.flac" */
     clickSoundPath?: string;
     /** Height of the button. Default value: 0.1 */
@@ -16,11 +18,11 @@ export interface GlueTextButtonFrameConfiguration extends IMonoFrameConfiguratio
     width?: number;
 }
 
-type GlueTextButtonFrameDefaultConfiguration = Required<Pick<GlueTextButtonFrameConfiguration, "clickSoundPath" | "height" | "initialText" | "onClick" | "width">>;
+type GlueTextButtonFrameDefaultConfiguration = Required<Pick<GlueTextButtonFrameConfiguration, "inherits" | "clickSoundPath" | "height" | "initialText" | "onClick" | "width">>;
 
 /**
+ * Its linked text child (ButtonText) and button art are FDF-defined. The default inherits, "ScriptDialogButton", is a loaded template that supplies them, so no FDF is needed; created with inherits "" it has no text child or art.
  * @see Tasyen's GLUETEXTBUTTON reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/GLUETEXTBUTTON.html
- * @requiresFdf Its linked text child (ButtonText) and button art are FDF-defined; use a template such as ScriptDialogButton.
  */
 export class GlueTextButtonFrame extends MonoFrame<GlueTextButtonFrameConfiguration> {
     public onClickTrigger?: Trigger;
@@ -32,17 +34,15 @@ export class GlueTextButtonFrame extends MonoFrame<GlueTextButtonFrameConfigurat
     }
 
     public static get DefaultConfiguration(): GlueTextButtonFrameDefaultConfiguration {
-        return { clickSoundPath: "Sound\\Interface\\BigButtonClick.flac", height: 0.1, initialText: "Default", onClick: () => {}, width: 0.1 };
+        return { inherits: "ScriptDialogButton", clickSoundPath: "Sound\\Interface\\BigButtonClick.flac", height: 0.1, initialText: "Default", onClick: () => {}, width: 0.1 };
     }
 
-    /** @requiresFdf Needs a loaded FDF template for its text child and art to render. */
     public static CreateNamed(args: NamedNativeFrameArguments<GlueTextButtonFrameConfiguration>): GlueTextButtonFrame {
         return new GlueTextButtonFrame(args.context, { ...GlueTextButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
-    /** @requiresFdf Needs a loaded FDF template for its text child and art to render. */
     public static CreateType(args: TypedNativeFrameArguments<GlueTextButtonFrameConfiguration, FrameTemplate<"GLUETEXTBUTTON">>): GlueTextButtonFrame {
-        return new GlueTextButtonFrame(args.context, { ...GlueTextButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
+        return new GlueTextButtonFrame(args.context, { ...GlueTextButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? GlueTextButtonFrame.DefaultConfiguration.inherits);
     }
 
     protected render(): void {

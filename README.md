@@ -41,7 +41,10 @@ backdrop.frame?.setAbsPoint(FRAMEPOINT_CENTER, 0.2, 0.3);
 
 A configuration can also carry `inherits`, so a saved configuration reuses the
 frame's look. An `inherits` creation argument overrides it, and `CreateNamed`
-ignores it. With neither set, `CreateType` uses `""`.
+ignores it. With neither set, `CreateType` uses the component's default
+`inherits`: a template that needs no FDF, such as `QuestButtonBaseTemplate` for
+`BackdropFrame` or `ScriptDialogButton` for `GlueTextButtonFrame`. Frame types
+without one have no default and create a bare frame (`""`).
 
 ```ts
 import { BackdropFrame, BackdropFrameConfiguration } from "warcraft-3-w3ts-frame-components";
@@ -417,16 +420,14 @@ button.setOnClick(() => print("Replacement handler"));
 
 Development deferred. 🚫
 
-**Requires FDF** ❗
-
 <details>
 <summary>Code Example</summary>
 
 ```ts
 import { GlueCheckBoxFrame } from "warcraft-3-w3ts-frame-components";
 
+// Uses the default inherits, "QuestCheckBox", a loaded template.
 const checkBox = GlueCheckBoxFrame.CreateType({
-    inherits: "EscMenuCheckBoxTemplate",
     overrides: { onChecked: () => print("Checked") },
 });
 checkBox.setOnUnchecked(() => print("Unchecked"));
@@ -523,15 +524,14 @@ customButton.frame?.setAbsPoint(FRAMEPOINT_CENTER, 0.6, 0.45);
 
 Development deferred. 🚫
 
-**Requires FDF** ❗
-
 <details>
 <summary>Code Example</summary>
 
 ```ts
 import { HighlightFrame } from "warcraft-3-w3ts-frame-components";
 
-const highlight = HighlightFrame.CreateType({ inherits: "MyHighlightTemplate" });
+// Uses the default inherits, "QuestButtonMouseOverHighlightTemplate", a loaded template.
+const highlight = HighlightFrame.CreateType({});
 highlight.frame?.setSize(0.1, 0.1);
 ```
 
@@ -593,7 +593,6 @@ model.updateModel("units\\orc\\Grunt\\Grunt.mdx");
 
 #### <a id="popup-menu-frame">PopupMenuFrame</a> - [🔝](#mono-frames)
 
-**Requires FDF** ❗
 ![PopupMenuFrame example](assets/popup-menu-frame-example.png)
 
 <details>
@@ -602,8 +601,8 @@ model.updateModel("units\\orc\\Grunt\\Grunt.mdx");
 ```ts
 import { PopupMenuFrame } from "warcraft-3-w3ts-frame-components";
 
+// Uses the default inherits, "AdvancedPopupMenuTemplate", a loaded template.
 const popup = PopupMenuFrame.CreateType({
-    inherits: "MyPopupMenuTemplate",
     overrides: { onItemChanged: (index) => print(`Selected item ${index}`) },
 });
 ```
@@ -614,16 +613,14 @@ const popup = PopupMenuFrame.CreateType({
 
 Development deferred. 🚫
 
-**Requires FDF** ❗
-
 <details>
 <summary>Code Example</summary>
 
 ```ts
 import { ScrollBarFrame } from "warcraft-3-w3ts-frame-components";
 
+// Uses the default inherits, "QuestMainListScrollBar", a loaded template.
 const scrollBar = ScrollBarFrame.CreateType({
-    inherits: "EscMenuScrollBarTemplate",
     overrides: { onValueChanged: (value) => print(`Scroll: ${value}`) },
 });
 scrollBar.updateValue(10);
@@ -722,7 +719,6 @@ area.setOnMouseEnter(() => print("Mouse entered"));
 
 #### <a id="text-button-frame">TextButtonFrame</a> - [🔝](#mono-frames)
 
-**Requires FDF** ❗
 ![TextButtonFrame example](assets/text-button-frame-example.png)
 
 <details>
@@ -731,8 +727,8 @@ area.setOnMouseEnter(() => print("Mouse entered"));
 ```ts
 import { TextButtonFrame } from "warcraft-3-w3ts-frame-components";
 
+// Uses the default inherits, "LadderButtonTemplate", a loaded template.
 const button = TextButtonFrame.CreateType({
-    inherits: "StandardButtonTemplate",
     overrides: { initialText: "Confirm", onClick: () => print("Confirmed") },
 });
 button.updateText("Confirm again");

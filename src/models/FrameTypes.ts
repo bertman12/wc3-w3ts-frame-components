@@ -14,7 +14,8 @@ export interface IMonoFrameConfigurationBase<Template extends string = string> e
     /**
      * The frame definition to inherit from when created with `CreateType`; lets a saved configuration carry the frame's primary look.
      * Overridden by the `inherits` creation argument of `CreateType`. Ignored by `CreateNamed`. Only applied when the frame is created.
-     * Default value: undefined (CreateType then uses "", a bare frame)
+     * Default value: set per component to a template usable without loading an FDF; undefined (CreateType then uses "", a bare frame)
+     * when the frame type has no such template.
      */
     inherits?: InheritsOf<Template>;
     /** Initial width used when the frame is created. */

@@ -1,7 +1,12 @@
 {
     "BACKDROP": {
         "loaded": [
+            "OptionsPopupMenuBackdropTemplate",
+            "SkirmishPopupMenuBackdropTemplate",
+            "ScoreScreenButtonBackdropTemplate",
+            "BNetMMPopupMenuBackdropTemplate",
             "BNetPopupMenuBackdropTemplate",
+            "TeamPopupMenuBackdropTemplate",
             "LadderButtonBackdropTemplate",
             "LadderButtonPushedBackdropTemplate",
             "LadderButtonDisabledBackdropTemplate",
@@ -10,22 +15,17 @@
             "ClanButtonPushedBackdropTemplate",
             "ClanButtonDisabledBackdropTemplate",
             "ClanButtonDisabledPushedBackdropTemplate",
-            "TeamPopupMenuBackdropTemplate",
-            "OptionsPopupMenuBackdropTemplate",
-            "ScoreScreenButtonBackdropTemplate",
-            "SkirmishPopupMenuBackdropTemplate",
+            "ConsoleUIBackdrop",
+            "ObserverConsoleUIBackdrop",
             "EscMenuBackdrop",
+            "EquipmentPanelBackdrop",
+            "TalentPanelBackdrop",
             "QuestButtonBaseTemplate",
             "QuestButtonBackdropTemplate",
             "QuestButtonPushedBackdropTemplate",
             "QuestButtonDisabledBackdropTemplate",
             "QuestButtonDisabledPushedBackdropTemplate",
-            "BNetMMPopupMenuBackdropTemplate",
-            "ConsoleUIBackdrop",
-            "ObserverConsoleUIBackdrop",
-            "FullScreenHelperDE",
-            "EquipmentPanelBackdrop",
-            "TalentPanelBackdrop"
+            "FullScreenHelperDE"
         ],
         "unloaded": [
             "CustomPopupMenuBackdropTemplate",
@@ -96,7 +96,102 @@
             "EscMenuButtonDisabledPushedBackdropTemplate",
             "EscMenuControlBackdropTemplate",
             "EscMenuEditBoxBackdropTemplate"
-        ]
+        ],
+        "sources": {
+            "OptionsPopupMenuBackdropTemplate": ["ui/framedef/glue/optionsmenu.fdf"],
+            "SkirmishPopupMenuBackdropTemplate": ["ui/framedef/glue/skirmish.fdf"],
+            "ScoreScreenButtonBackdropTemplate": ["ui/framedef/glue/scorescreen.fdf"],
+            "BNetMMPopupMenuBackdropTemplate": ["ui/framedef/glue/battlenetmatchmakerpanel.fdf"],
+            "BNetPopupMenuBackdropTemplate": ["ui/framedef/glue/battlenetstandardpanel.fdf"],
+            "TeamPopupMenuBackdropTemplate": ["ui/framedef/glue/battlenetteampanel.fdf"],
+            "LadderButtonBackdropTemplate": ["ui/framedef/glue/battlenetprofilepanel.fdf"],
+            "LadderButtonPushedBackdropTemplate": ["ui/framedef/glue/battlenetprofilepanel.fdf"],
+            "LadderButtonDisabledBackdropTemplate": ["ui/framedef/glue/battlenetprofilepanel.fdf"],
+            "LadderButtonDisabledPushedBackdropTemplate": ["ui/framedef/glue/battlenetprofilepanel.fdf"],
+            "ClanButtonBackdropTemplate": ["ui/framedef/glue/battlenetprofilepanel.fdf"],
+            "ClanButtonPushedBackdropTemplate": ["ui/framedef/glue/battlenetprofilepanel.fdf"],
+            "ClanButtonDisabledBackdropTemplate": ["ui/framedef/glue/battlenetprofilepanel.fdf"],
+            "ClanButtonDisabledPushedBackdropTemplate": ["ui/framedef/glue/battlenetprofilepanel.fdf"],
+            "ConsoleUIBackdrop": ["ui/framedef/ui/consoleui.fdf"],
+            "ObserverConsoleUIBackdrop": ["ui/framedef/ui/consoleui.fdf"],
+            "EscMenuBackdrop": ["ui/framedef/ui/escmenumainpanel.fdf"],
+            "EquipmentPanelBackdrop": ["ui/framedef/ui/inventorybar.fdf"],
+            "TalentPanelBackdrop": ["ui/framedef/ui/inventorybar.fdf"],
+            "QuestButtonBaseTemplate": ["ui/framedef/ui/questdialog.fdf"],
+            "QuestButtonBackdropTemplate": ["ui/framedef/ui/questdialog.fdf"],
+            "QuestButtonPushedBackdropTemplate": ["ui/framedef/ui/questdialog.fdf"],
+            "QuestButtonDisabledBackdropTemplate": ["ui/framedef/ui/questdialog.fdf"],
+            "QuestButtonDisabledPushedBackdropTemplate": ["ui/framedef/ui/questdialog.fdf"],
+            "FullScreenHelperDE": ["ui/framedef/ui/fullscreenhelperde.fdf"],
+            "CustomPopupMenuBackdropTemplate": ["ui/framedef/glue/battlenetcustompanel.fdf"],
+            "CustomPopupMenuSmallBackdropTemplate": ["ui/framedef/glue/battlenetcustompanel.fdf"],
+            "CustomPopupMenuLargeBackdropTemplate": ["ui/framedef/glue/battlenetcustompanel.fdf"],
+            "BattleNetHeavyBackdropTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetMediumBackdropTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetLightBackdropTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetControlBackdropTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetEditBoxBackdropTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetMenuSmallButtonBaseBackdrop": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetMenuLargeButtonBaseBackdrop": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetMenuSingleButtonBaseBackdrop": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetMenuSingleSmallButtonBaseBackdrop": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetMenuSingleLargeButtonBaseBackdrop": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetMenuButtonBaseBackdrop": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetButtonBackdropTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetButtonPushedBackdropTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetButtonDisabledBackdropTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetButtonDisabledPushedBackdropTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetBorderedButtonBackdropTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetBorderedButtonPushedBackdropTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetBorderedButtonDisabledBackdropTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetBorderedButtonDisabledPushedBackdropTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetPopupMenuBaseBackdrop": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "StandardHeavyBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardMediumBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardLightBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardControlBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardMenuTinyButtonBaseBackdrop": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardMenuSmallButtonBaseBackdrop": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardMenuLargeButtonBaseBackdrop": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardMenuSingleButtonBaseBackdrop": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardMenuSingleSmallButtonBaseBackdrop": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardMenuSingleLargeButtonBaseBackdrop": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardMenuButtonBaseBackdrop": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardButtonBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardButtonPushedBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardButtonDisabledBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardButtonDisabledPushedBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardBorderedButtonBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardBorderedButtonPushedBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardBorderedButtonDisabledBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardBorderedButtonDisabledPushedBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardSmallButtonBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardSmallButtonPushedBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardSmallButtonDisabledBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardSmallButtonDisabledPushedBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardCampaignButtonBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardCampaignButtonPushedBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardCampaignButtonDisabledBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardCampaignButtonDisabledPushedBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardCampaignArrowButtonBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardCampaignArrowButtonPushedBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardCampaignArrowButtonDisabledBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardCampaignArrowButtonDisabledPushedBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardCampaignCameraButtonBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardCampaignCameraButtonPushedBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardCampaignCameraButtonDisabledBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardCampaignCameraButtonDisabledPushedBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardEditBoxBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardDecoratedEditBoxBackdropTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardPopupMenuBaseBackdrop": ["ui/framedef/glue/standardtemplates.fdf"],
+            "CampaignPopupMenuBaseBackdrop": ["ui/framedef/glue/standardtemplates.fdf"],
+            "EscMenuButtonBackdropTemplate": ["ui/framedef/ui/escmenutemplates.fdf"],
+            "EscMenuButtonPushedBackdropTemplate": ["ui/framedef/ui/escmenutemplates.fdf"],
+            "EscMenuButtonDisabledBackdropTemplate": ["ui/framedef/ui/escmenutemplates.fdf"],
+            "EscMenuButtonDisabledPushedBackdropTemplate": ["ui/framedef/ui/escmenutemplates.fdf"],
+            "EscMenuControlBackdropTemplate": ["ui/framedef/ui/escmenutemplates.fdf"],
+            "EscMenuEditBoxBackdropTemplate": ["ui/framedef/ui/escmenutemplates.fdf"]
+        }
     },
     "BUTTON": {
         "loaded": [
@@ -109,49 +204,70 @@
             "StandardPopupMenuExtraSmallArrowTemplate",
             "CampaignPopupMenuArrowTemplate",
             "EscMenuPopupMenuArrowTemplate"
-        ]
+        ],
+        "sources": {
+            "ScoreScreenTabButtonTemplate": ["ui/framedef/glue/scorescreen.fdf"],
+            "BattleNetPopupMenuArrowTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "StandardPopupMenuArrowTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardPopupMenuSmallArrowTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardPopupMenuExtraSmallArrowTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "CampaignPopupMenuArrowTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "EscMenuPopupMenuArrowTemplate": ["ui/framedef/ui/escmenutemplates.fdf"]
+        }
     },
     "CHATDISPLAY": {
         "loaded": [],
         "unloaded": [
             "BattleNetChatDisplayTemplate"
-        ]
+        ],
+        "sources": {
+            "BattleNetChatDisplayTemplate": ["ui/framedef/glue/battlenettemplates.fdf"]
+        }
     },
     "CHECKBOX": {
         "loaded": [],
         "unloaded": [
             "BattleNetRadioButtonTemplate",
             "StandardCheckBoxTemplate"
-        ]
+        ],
+        "sources": {
+            "BattleNetRadioButtonTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "StandardCheckBoxTemplate": ["ui/framedef/glue/standardtemplates.fdf"]
+        }
     },
     "CONTROL": {
         "loaded": [
-            "BattleNetChatActionMenu",
-            "BattleNetIconSelectBox",
-            "MMPlayerSlot",
-            "BattleNetNewsBox",
-            "CheckListBox",
-            "DecoratedMapListBox",
+            "ListBoxWar3",
             "MapListBox",
+            "DecoratedMapListBox",
             "MapPreferenceBox",
+            "CheckListBox",
+            "TeamSetup",
             "PlayerSlot",
             "TeamColorMenu",
-            "TeamSetup"
+            "MMPlayerSlot",
+            "BattleNetNewsBox",
+            "BattleNetChatActionMenu",
+            "BattleNetIconSelectBox"
         ],
-        "unloaded": [
-            "ListBoxWar3"
-        ]
+        "unloaded": [],
+        "sources": {
+            "ListBoxWar3": ["ui/framedef/glue/listboxwar3.fdf", "ui/framedef/glue/listbox.fdf"],
+            "MapListBox": ["ui/framedef/glue/maplistbox.fdf"],
+            "DecoratedMapListBox": ["ui/framedef/glue/decoratedmaplistbox.fdf"],
+            "MapPreferenceBox": ["ui/framedef/glue/mappreferencebox.fdf"],
+            "CheckListBox": ["ui/framedef/glue/checklistbox.fdf"],
+            "TeamSetup": ["ui/framedef/glue/teamsetup.fdf"],
+            "PlayerSlot": ["ui/framedef/glue/playerslot.fdf"],
+            "TeamColorMenu": ["ui/framedef/glue/playerslot.fdf"],
+            "MMPlayerSlot": ["ui/framedef/glue/battlenetmatchmakerpanel.fdf"],
+            "BattleNetNewsBox": ["ui/framedef/glue/battlenetnewsbox.fdf"],
+            "BattleNetChatActionMenu": ["ui/framedef/glue/battlenetchatactionmenu.fdf"],
+            "BattleNetIconSelectBox": ["ui/framedef/glue/battleneticonselectbox.fdf"]
+        }
     },
     "DIALOG": {
         "loaded": [
-            "BattleNetHelpDialog",
-            "BattleNetClanInviteDialog",
-            "BattleNetCustomFilterDialog",
-            "BattleNetMatchmakerTeamInviteDialog",
-            "BattleNetMatchmakerPendingInviteDialog",
-            "BattleNetIconSelectDialog",
-            "BattleNetScheduledGame",
-            "BattleNetTeamInviteDialog",
             "DialogWar3",
             "QuickReplayDialog",
             "QuickReplayConfirmDialog",
@@ -159,18 +275,52 @@
             "BattleNetConnectDialog",
             "UserDataMigrationDialog",
             "OptionsConfirmDialog",
+            "BattleNetMatchmakerTeamInviteDialog",
+            "BattleNetMatchmakerPendingInviteDialog",
+            "BattleNetHelpDialog",
+            "BattleNetTeamInviteDialog",
+            "BattleNetIconSelectDialog",
+            "BattleNetCustomFilterDialog",
+            "BattleNetScheduledGame",
+            "BattleNetClanInviteDialog",
             "AllianceDialog",
             "EscMenuOptionsConfirmDialog",
             "GameResultDialog",
-            "GameSaveSplashDialog",
-            "ScriptDialog",
             "SuspendDialog",
-            "UnresponsiveDialog"
+            "UnresponsiveDialog",
+            "ScriptDialog",
+            "GameSaveSplashDialog"
         ],
         "unloaded": [
             "BattleNetDialogTemplate",
             "StandardDialogTemplate"
-        ]
+        ],
+        "sources": {
+            "DialogWar3": ["ui/framedef/glue/dialogwar3.fdf", "ui/framedef/glue/dialog.fdf"],
+            "QuickReplayDialog": ["ui/framedef/glue/mainmenu.fdf"],
+            "QuickReplayConfirmDialog": ["ui/framedef/glue/mainmenu.fdf"],
+            "BattleNetPatchDialog": ["ui/framedef/glue/mainmenu.fdf"],
+            "BattleNetConnectDialog": ["ui/framedef/glue/mainmenu.fdf"],
+            "UserDataMigrationDialog": ["ui/framedef/glue/mainmenu.fdf"],
+            "OptionsConfirmDialog": ["ui/framedef/glue/optionsmenu.fdf"],
+            "BattleNetMatchmakerTeamInviteDialog": ["ui/framedef/glue/battlenetmatchmakerpanel.fdf"],
+            "BattleNetMatchmakerPendingInviteDialog": ["ui/framedef/glue/battlenetmatchmakerpanel.fdf"],
+            "BattleNetHelpDialog": ["ui/framedef/glue/battlenetchatpanel.fdf"],
+            "BattleNetTeamInviteDialog": ["ui/framedef/glue/battlenetteampanel.fdf"],
+            "BattleNetIconSelectDialog": ["ui/framedef/glue/battlenetprofilepanel.fdf"],
+            "BattleNetCustomFilterDialog": ["ui/framedef/glue/battlenetcustomjoinpanel.fdf"],
+            "BattleNetScheduledGame": ["ui/framedef/glue/battlenetscheduledgame.fdf"],
+            "BattleNetClanInviteDialog": ["ui/framedef/glue/battlenetclanpane.fdf"],
+            "AllianceDialog": ["ui/framedef/ui/alliancedialog.fdf"],
+            "EscMenuOptionsConfirmDialog": ["ui/framedef/ui/escmenuoptionspanel.fdf"],
+            "GameResultDialog": ["ui/framedef/ui/gameresultdialog.fdf"],
+            "SuspendDialog": ["ui/framedef/ui/suspenddialog.fdf"],
+            "UnresponsiveDialog": ["ui/framedef/ui/unresponsivedialog.fdf"],
+            "ScriptDialog": ["ui/framedef/ui/scriptdialog.fdf"],
+            "GameSaveSplashDialog": ["ui/framedef/ui/gamesavesplashdialog.fdf"],
+            "BattleNetDialogTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "StandardDialogTemplate": ["ui/framedef/glue/standardtemplates.fdf"]
+        }
     },
     "EDITBOX": {
         "loaded": [],
@@ -179,69 +329,75 @@
             "StandardEditBoxTemplate",
             "StandardDecoratedEditBoxTemplate",
             "EscMenuEditBoxTemplate"
-        ]
+        ],
+        "sources": {
+            "BattleNetEditBoxTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "StandardEditBoxTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardDecoratedEditBoxTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "EscMenuEditBoxTemplate": ["ui/framedef/ui/escmenutemplates.fdf"]
+        }
     },
     "FRAME": {
         "loaded": [
+            "MapInfoPane",
             "AdvancedOptionsDisplay",
             "AdvancedOptionsPane",
-            "AdBanner",
-            "BattleNetChatPanel",
-            "BattleNetChatroom",
-            "BattleNetClanInvitation",
-            "BattleNetClanMateListBox",
-            "BattleNetClanPane",
-            "BattleNetCustomCreatePanel",
-            "BattleNetCustomJoinPanel",
-            "BattleNetCustomLoadPanel",
-            "BattleNetFriendsListBox",
-            "BattleNetFriendsPane",
-            "BattleNetMainFrame",
-            "BattleNetMatchmakerPanel",
-            "BattleNetProfilePanel",
-            "BattleNetProfileListBox",
-            "BattleNetProfileListItem",
-            "BattleNetStandardPanel",
-            "BattleNetStatusBox",
-            "BattleNetTeamInvitation",
-            "BattleNetTeamPanel",
-            "BattleNetUserListBox",
-            "CampaignListBox",
-            "CampaignMenu",
-            "CustomCampaignMenu",
-            "GameChatroom",
+            "MainMenuFrame",
+            "MovieScreen",
+            "SplashScreen",
             "Loading",
             "LoadingPlayerSlot",
             "LoadSavedGameScreen",
-            "LocalMultiplayerCreate",
-            "LocalMultiplayerJoin",
-            "LocalMultiplayerLoad",
-            "MainMenuFrame",
-            "MapInfoPane",
-            "MovieScreen",
             "OptionsMenu",
+            "SinglePlayerMenu",
+            "ViewReplayScreen",
+            "CustomCampaignMenu",
+            "CampaignMenu",
+            "Skirmish",
             "ScoreScreenFrame",
             "SaveReplayPanel",
-            "SinglePlayerMenu",
-            "Skirmish",
-            "ViewReplayScreen",
+            "LocalMultiplayerJoin",
+            "LocalMultiplayerCreate",
+            "LocalMultiplayerLoad",
+            "GameChatroom",
+            "CampaignListBox",
+            "BattleNetMainFrame",
+            "BattleNetMatchmakerPanel",
+            "BattleNetUserListBox",
+            "AdBanner",
+            "BattleNetChatPanel",
+            "BattleNetStandardPanel",
+            "BattleNetTeamPanel",
+            "BattleNetTeamInvitation",
+            "BattleNetProfilePanel",
+            "BattleNetProfileListBox",
+            "BattleNetProfileListItem",
+            "BattleNetCustomJoinPanel",
+            "BattleNetCustomCreatePanel",
+            "BattleNetCustomLoadPanel",
+            "BattleNetChatroom",
+            "BattleNetFriendsListBox",
+            "BattleNetFriendsPane",
+            "BattleNetClanMateListBox",
+            "BattleNetClanPane",
+            "BattleNetClanInvitation",
+            "BattleNetStatusBox",
             "AllianceSlot",
-            "BrowserFrame",
             "ChatDialog",
-            "CinematicPanel",
+            "LogDialog",
             "EscMenuMainPanel",
             "EscMenuOptionsPanel",
             "EscMenuSaveGamePanel",
-            "Leaderboard",
-            "LogDialog",
-            "Multiboard",
+            "SuspendPlayerSlot",
             "QuestDialog",
             "QuestListItem",
             "QuestItemListItem",
-            "SuspendPlayerSlot",
             "TimerDialog",
-            "SplashScreen",
-            "MiniMapFrame"
+            "MiniMapFrame",
+            "Leaderboard",
+            "Multiboard",
+            "CinematicPanel",
+            "BrowserFrame"
         ],
         "unloaded": [
             "BattleNetChannelList",
@@ -252,18 +408,94 @@
             "InfoPanelBuildingDetail",
             "InfoPanelItemDetail",
             "InfoPanelUnitDetail"
-        ]
+        ],
+        "sources": {
+            "MapInfoPane": ["ui/framedef/glue/mapinfopane.fdf"],
+            "AdvancedOptionsDisplay": ["ui/framedef/glue/advancedoptionsdisplay.fdf"],
+            "AdvancedOptionsPane": ["ui/framedef/glue/advancedoptionspane.fdf"],
+            "MainMenuFrame": ["ui/framedef/glue/mainmenu.fdf"],
+            "MovieScreen": ["ui/framedef/glue/moviescreen.fdf"],
+            "SplashScreen": ["ui/framedef/glue/splashscreen.fdf"],
+            "Loading": ["ui/framedef/glue/loading.fdf"],
+            "LoadingPlayerSlot": ["ui/framedef/glue/loading.fdf"],
+            "LoadSavedGameScreen": ["ui/framedef/glue/loadsavedgamescreen.fdf"],
+            "OptionsMenu": ["ui/framedef/glue/optionsmenu.fdf"],
+            "SinglePlayerMenu": ["ui/framedef/glue/singleplayermenu.fdf"],
+            "ViewReplayScreen": ["ui/framedef/glue/viewreplayscreen.fdf"],
+            "CustomCampaignMenu": ["ui/framedef/glue/customcampaignmenu.fdf"],
+            "CampaignMenu": ["ui/framedef/glue/campaignmenu.fdf"],
+            "Skirmish": ["ui/framedef/glue/skirmish.fdf"],
+            "ScoreScreenFrame": ["ui/framedef/glue/scorescreen.fdf"],
+            "SaveReplayPanel": ["ui/framedef/glue/scorescreen.fdf"],
+            "LocalMultiplayerJoin": ["ui/framedef/glue/localmultiplayerjoin.fdf"],
+            "LocalMultiplayerCreate": ["ui/framedef/glue/localmultiplayercreate.fdf"],
+            "LocalMultiplayerLoad": ["ui/framedef/glue/localmultiplayerload.fdf"],
+            "GameChatroom": ["ui/framedef/glue/gamechatroom.fdf"],
+            "CampaignListBox": ["ui/framedef/glue/campaignlistbox.fdf"],
+            "BattleNetMainFrame": ["ui/framedef/glue/battlenetmain.fdf"],
+            "BattleNetMatchmakerPanel": ["ui/framedef/glue/battlenetmatchmakerpanel.fdf"],
+            "BattleNetUserListBox": ["ui/framedef/glue/battlenetuserlistbox.fdf"],
+            "AdBanner": ["ui/framedef/glue/battlenetchatpanel.fdf"],
+            "BattleNetChatPanel": ["ui/framedef/glue/battlenetchatpanel.fdf"],
+            "BattleNetStandardPanel": ["ui/framedef/glue/battlenetstandardpanel.fdf"],
+            "BattleNetTeamPanel": ["ui/framedef/glue/battlenetteampanel.fdf"],
+            "BattleNetTeamInvitation": ["ui/framedef/glue/battlenetteaminvitation.fdf"],
+            "BattleNetProfilePanel": ["ui/framedef/glue/battlenetprofilepanel.fdf"],
+            "BattleNetProfileListBox": ["ui/framedef/glue/battlenetprofilepanel.fdf"],
+            "BattleNetProfileListItem": ["ui/framedef/glue/battlenetprofilepanel.fdf"],
+            "BattleNetCustomJoinPanel": ["ui/framedef/glue/battlenetcustomjoinpanel.fdf"],
+            "BattleNetCustomCreatePanel": ["ui/framedef/glue/battlenetcustomcreatepanel.fdf"],
+            "BattleNetCustomLoadPanel": ["ui/framedef/glue/battlenetcustomloadpanel.fdf"],
+            "BattleNetChatroom": ["ui/framedef/glue/battlenetchatroom.fdf"],
+            "BattleNetFriendsListBox": ["ui/framedef/glue/battlenetfriendslistbox.fdf"],
+            "BattleNetFriendsPane": ["ui/framedef/glue/battlenetfriendspane.fdf"],
+            "BattleNetClanMateListBox": ["ui/framedef/glue/battlenetclanmatelistbox.fdf"],
+            "BattleNetClanPane": ["ui/framedef/glue/battlenetclanpane.fdf"],
+            "BattleNetClanInvitation": ["ui/framedef/glue/battlenetclaninvitation.fdf"],
+            "BattleNetStatusBox": ["ui/framedef/glue/battlenetstatusbox.fdf"],
+            "AllianceSlot": ["ui/framedef/ui/allianceslot.fdf"],
+            "ChatDialog": ["ui/framedef/ui/chatdialog.fdf"],
+            "LogDialog": ["ui/framedef/ui/logdialog.fdf"],
+            "EscMenuMainPanel": ["ui/framedef/ui/escmenumainpanel.fdf"],
+            "EscMenuOptionsPanel": ["ui/framedef/ui/escmenuoptionspanel.fdf"],
+            "EscMenuSaveGamePanel": ["ui/framedef/ui/escmenusavegamepanel.fdf"],
+            "SuspendPlayerSlot": ["ui/framedef/ui/suspenddialog.fdf"],
+            "QuestDialog": ["ui/framedef/ui/questdialog.fdf"],
+            "QuestListItem": ["ui/framedef/ui/questdialog.fdf"],
+            "QuestItemListItem": ["ui/framedef/ui/questdialog.fdf"],
+            "TimerDialog": ["ui/framedef/ui/timerdialog.fdf"],
+            "MiniMapFrame": ["ui/framedef/ui/minimapframe.fdf"],
+            "Leaderboard": ["ui/framedef/ui/leaderboard.fdf"],
+            "Multiboard": ["ui/framedef/ui/multiboard.fdf"],
+            "CinematicPanel": ["ui/framedef/ui/cinematicpanel.fdf"],
+            "BrowserFrame": ["ui/framedef/ui/browserframe.fdf"],
+            "BattleNetChannelList": ["ui/framedef/glue/battlenetchannellist.fdf"],
+            "BattleNetCustomPanel": ["ui/framedef/glue/battlenetcustompanel.fdf"],
+            "BattleNetFrameTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetUserListBoxItem": ["ui/framedef/glue/battlenetuserlistboxitem.fdf"],
+            "StandardFrameTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "InfoPanelBuildingDetail": ["ui/framedef/ui/infopanelbuildingdetail.fdf"],
+            "InfoPanelItemDetail": ["ui/framedef/ui/infopanelitemdetail.fdf"],
+            "InfoPanelUnitDetail": ["ui/framedef/ui/infopanelunitdetail.fdf"]
+        }
     },
     "GLUEBUTTON": {
         "loaded": [
-            "IconicButtonTemplate",
             "IconButtonTemplate",
+            "IconicButtonTemplate",
             "ClanButtonTemplate",
             "QuestButtonTemplate"
         ],
         "unloaded": [
             "StandardIconicButtonTemplate"
-        ]
+        ],
+        "sources": {
+            "IconButtonTemplate": ["ui/framedef/glue/battlenetmain.fdf"],
+            "IconicButtonTemplate": ["ui/framedef/glue/battlenetchatpanel.fdf"],
+            "ClanButtonTemplate": ["ui/framedef/glue/battlenetprofilepanel.fdf"],
+            "QuestButtonTemplate": ["ui/framedef/ui/questdialog.fdf"],
+            "StandardIconicButtonTemplate": ["ui/framedef/glue/standardtemplates.fdf"]
+        }
     },
     "GLUECHECKBOX": {
         "loaded": [
@@ -277,20 +509,39 @@
         "unloaded": [
             "EscMenuCheckBoxTemplate",
             "EscMenuRadioButtonTemplate"
-        ]
+        ],
+        "sources": {
+            "ScoreScreen5ColumnButtonTemplate": ["ui/framedef/glue/scorescreen.fdf"],
+            "ScoreScreen4ColumnButtonTemplate": ["ui/framedef/glue/scorescreen.fdf"],
+            "ScoreScreenBottomCheckButtonTemplate": ["ui/framedef/glue/scorescreen.fdf"],
+            "QuestCheckBox": ["ui/framedef/ui/questdialog.fdf"],
+            "QuestCheckBox2": ["ui/framedef/ui/questdialog.fdf"],
+            "QuestCheckBox3": ["ui/framedef/ui/questdialog.fdf"],
+            "EscMenuCheckBoxTemplate": ["ui/framedef/ui/escmenutemplates.fdf"],
+            "EscMenuRadioButtonTemplate": ["ui/framedef/ui/escmenutemplates.fdf"]
+        }
     },
     "GLUETEXTBUTTON": {
         "loaded": [
             "DebugButton",
             "ReplayButton",
-            "BrowserButton",
             "ScoreScreenBottomButtonTemplate",
-            "ScriptDialogButton"
+            "ScriptDialogButton",
+            "BrowserButton"
         ],
         "unloaded": [
             "EscMenuButtonTemplate",
             "EscMenuPopupMenuTitleTemplate"
-        ]
+        ],
+        "sources": {
+            "DebugButton": ["ui/framedef/glue/mainmenu.fdf"],
+            "ReplayButton": ["ui/framedef/glue/mainmenu.fdf"],
+            "ScoreScreenBottomButtonTemplate": ["ui/framedef/glue/scorescreen.fdf"],
+            "ScriptDialogButton": ["ui/framedef/ui/scriptdialog.fdf"],
+            "BrowserButton": ["https://www.hiveworkshop.com/threads/ui-list-default-mainframes.317884/"],
+            "EscMenuButtonTemplate": ["ui/framedef/ui/escmenutemplates.fdf"],
+            "EscMenuPopupMenuTitleTemplate": ["ui/framedef/ui/escmenutemplates.fdf"]
+        }
     },
     "HIGHLIGHT": {
         "loaded": [
@@ -318,14 +569,42 @@
             "StandardCampaignCameraButtonFocusHighlightTemplate",
             "StandardCampaignCameraButtonMouseOverHighlightTemplate",
             "EscMenuButtonMouseOverHighlightTemplate"
-        ]
+        ],
+        "sources": {
+            "LadderButtonFocusHighlightBackdropTemplate": ["ui/framedef/glue/battlenetprofilepanel.fdf"],
+            "LadderButtonMouseOverHighlightBackdropTemplate": ["ui/framedef/glue/battlenetprofilepanel.fdf"],
+            "ClanButtonFocusHighlightBackdropTemplate": ["ui/framedef/glue/battlenetprofilepanel.fdf"],
+            "ClanButtonMouseOverHighlightBackdropTemplate": ["ui/framedef/glue/battlenetprofilepanel.fdf"],
+            "QuestButtonMouseOverHighlightTemplate": ["ui/framedef/ui/questdialog.fdf"],
+            "BattleNetButtonFocusHighlightTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetButtonMouseOverHighlightTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetBorderedButtonFocusHighlightTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetBorderedButtonMouseOverHighlightTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "StandardButtonFocusHighlightTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardButtonMouseOverHighlightTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardBorderedButtonFocusHighlightTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardBorderedButtonMouseOverHighlightTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardSmallButtonFocusHighlightTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardSmallButtonMouseOverHighlightTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardCampaignButtonFocusHighlightTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardCampaignButtonMouseOverHighlightTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardCampaignArrowButtonFocusHighlightTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardCampaignArrowButtonMouseOverHighlightTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardCampaignCameraButtonFocusHighlightTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardCampaignCameraButtonMouseOverHighlightTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "EscMenuButtonMouseOverHighlightTemplate": ["ui/framedef/ui/escmenutemplates.fdf"]
+        }
     },
     "LISTBOX": {
         "loaded": [],
         "unloaded": [
             "BattleNetListBoxTemplate",
             "StandardListBoxTemplate"
-        ]
+        ],
+        "sources": {
+            "BattleNetListBoxTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "StandardListBoxTemplate": ["ui/framedef/glue/standardtemplates.fdf"]
+        }
     },
     "MENU": {
         "loaded": [],
@@ -336,21 +615,29 @@
             "StandardExtraSmallPopupMenuMenuTemplate",
             "CampaignPopupMenuMenuTemplate",
             "EscMenuPopupMenuMenuTemplate"
-        ]
+        ],
+        "sources": {
+            "BattleNetPopupMenuMenuTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "StandardPopupMenuMenuTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardSmallPopupMenuMenuTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardExtraSmallPopupMenuMenuTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "CampaignPopupMenuMenuTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "EscMenuPopupMenuMenuTemplate": ["ui/framedef/ui/escmenutemplates.fdf"]
+        }
     },
     "POPUPMENU": {
         "loaded": [
             "AdvancedPopupMenuTemplate",
-            "ClanPopupMenuTemplate",
-            "FilterPopupMenuTemplate",
-            "BNetPopupMenuTemplate",
-            "PlayerSlotPopupMenu",
-            "TeamPopupMenuTemplate",
-            "TeamMemberPopupMenu",
             "OptionsPopupMenuTemplate",
+            "PlayerSlotPopupMenu",
             "SkirmishPopupMenuTemplate",
             "BNetMMPopupMenuTemplate",
-            "MMPlayerSlotPopupMenu"
+            "MMPlayerSlotPopupMenu",
+            "BNetPopupMenuTemplate",
+            "TeamPopupMenuTemplate",
+            "TeamMemberPopupMenu",
+            "FilterPopupMenuTemplate",
+            "ClanPopupMenuTemplate"
         ],
         "unloaded": [
             "CustomPopupMenuTemplate",
@@ -358,7 +645,25 @@
             "StandardPopupMenuTemplate",
             "CampaignPopupMenuTemplate",
             "EscMenuPopupMenuTemplate"
-        ]
+        ],
+        "sources": {
+            "AdvancedPopupMenuTemplate": ["ui/framedef/glue/advancedoptionspane.fdf"],
+            "OptionsPopupMenuTemplate": ["ui/framedef/glue/optionsmenu.fdf"],
+            "PlayerSlotPopupMenu": ["ui/framedef/glue/playerslot.fdf"],
+            "SkirmishPopupMenuTemplate": ["ui/framedef/glue/skirmish.fdf"],
+            "BNetMMPopupMenuTemplate": ["ui/framedef/glue/battlenetmatchmakerpanel.fdf"],
+            "MMPlayerSlotPopupMenu": ["ui/framedef/glue/battlenetmatchmakerpanel.fdf"],
+            "BNetPopupMenuTemplate": ["ui/framedef/glue/battlenetstandardpanel.fdf"],
+            "TeamPopupMenuTemplate": ["ui/framedef/glue/battlenetteampanel.fdf"],
+            "TeamMemberPopupMenu": ["ui/framedef/glue/battlenetteampanel.fdf"],
+            "FilterPopupMenuTemplate": ["ui/framedef/glue/battlenetcustomjoinpanel.fdf"],
+            "ClanPopupMenuTemplate": ["ui/framedef/glue/battlenetclanpane.fdf"],
+            "CustomPopupMenuTemplate": ["ui/framedef/glue/battlenetcustompanel.fdf"],
+            "BattleNetPopupMenuTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "StandardPopupMenuTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "CampaignPopupMenuTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "EscMenuPopupMenuTemplate": ["ui/framedef/ui/escmenutemplates.fdf"]
+        }
     },
     "SCROLLBAR": {
         "loaded": [
@@ -371,52 +676,63 @@
             "BattleNetScrollBarTemplate",
             "StandardScrollBarTemplate",
             "EscMenuScrollBarTemplate"
-        ]
+        ],
+        "sources": {
+            "QuestMainListScrollBar": ["ui/framedef/ui/questdialog.fdf"],
+            "QuestOptionalListScrollBar": ["ui/framedef/ui/questdialog.fdf"],
+            "QuestItemListScrollBar": ["ui/framedef/ui/questdialog.fdf"],
+            "QuestConditionListScrollBar": ["ui/framedef/ui/questdialog.fdf"],
+            "BattleNetScrollBarTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "StandardScrollBarTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "EscMenuScrollBarTemplate": ["ui/framedef/ui/escmenutemplates.fdf"]
+        }
     },
     "SIMPLEBUTTON": {
         "loaded": [
             "CommandButtonTemplate",
+            "UpperButtonBarButtonTemplate",
             "ObserverInventoryButtonTemplate",
             "InventoryButtonTemplate",
             "EquipmentButtonTemplate",
             "MinimapButtonTemplate",
             "ObserverButtonBarButtonTemplate",
             "ObserverButtonBarInfoButtonTemplate",
-            "PlayerRowButtonTemplate",
-            "UpperButtonBarButtonTemplate"
+            "PlayerRowButtonTemplate"
         ],
-        "unloaded": []
+        "unloaded": [],
+        "sources": {
+            "CommandButtonTemplate": ["ui/framedef/ui/commandbar.fdf"],
+            "UpperButtonBarButtonTemplate": ["ui/framedef/ui/upperbuttonbar.fdf"],
+            "ObserverInventoryButtonTemplate": ["ui/framedef/ui/inventorybar.fdf"],
+            "InventoryButtonTemplate": ["ui/framedef/ui/inventorybar.fdf"],
+            "EquipmentButtonTemplate": ["ui/framedef/ui/inventorybar.fdf"],
+            "MinimapButtonTemplate": ["ui/framedef/ui/minimapframe.fdf"],
+            "ObserverButtonBarButtonTemplate": ["ui/framedef/ui/observerbuttonbar.fdf"],
+            "ObserverButtonBarInfoButtonTemplate": ["ui/framedef/ui/observerbuttonbar.fdf"],
+            "PlayerRowButtonTemplate": ["ui/framedef/ui/playerstatisticsrow.fdf"]
+        }
     },
     "SIMPLECHECKBOX": {
         "loaded": [
             "ObserverButtonBarCheckBoxTemplate"
         ],
-        "unloaded": []
+        "unloaded": [],
+        "sources": {
+            "ObserverButtonBarCheckBoxTemplate": ["ui/framedef/ui/observerbuttonbar.fdf"]
+        }
     },
     "SIMPLEFRAME": {
         "loaded": [
+            "ConsoleUI",
             "CommandBarFrame",
             "ReplayCommandBarFrame",
-            "ConsoleUI",
-            "HeroPanelFrame",
-            "HeroPanelElementFrame",
+            "UpperButtonBarFrame",
             "SimpleObserverInventoryBar",
             "SimpleInventoryBar",
             "SimpleInventoryCover",
             "SimpleEquipmentInventoryPanel",
             "SimpleEquipmentPanel",
             "SimpleTalentsPanel",
-            "MinimapButtonBar",
-            "ObserverButtonBarFrame",
-            "SimpleObserverPanel",
-            "SimpleObserverInfoPanelUnitDetail",
-            "PlayerStatisticsPanelFrame",
-            "PlayerStatisticsRowFrame",
-            "ProductionPanelFrame",
-            "ProductionPanelRowFrame",
-            "ProductionPanelUnitFrame",
-            "SimpleReplayPanelV1",
-            "SimpleReplayPanelV2",
             "ResourceBarFrame",
             "SimpleInfoPanelUnitDetail",
             "SimpleInfoPanelCargoDetail",
@@ -438,6 +754,19 @@
             "SimpleInfoPanelIconHero",
             "SimpleObserverInfoPanelIconHero",
             "SimpleInfoPanelIconAlly",
+            "SimpleReplayPanelV1",
+            "SimpleReplayPanelV2",
+            "SimpleObserverPanel",
+            "MinimapButtonBar",
+            "ObserverButtonBarFrame",
+            "PlayerStatisticsPanelFrame",
+            "PlayerStatisticsRowFrame",
+            "HeroPanelFrame",
+            "HeroPanelElementFrame",
+            "SimpleObserverInfoPanelUnitDetail",
+            "ProductionPanelFrame",
+            "ProductionPanelRowFrame",
+            "ProductionPanelUnitFrame",
             "SimpleTimeElapsedPanel",
             "SimpleStatDetailsPanel",
             "SimpleStatDetailsItem",
@@ -457,10 +786,75 @@
             "SimpleStatDetailsAbilityVampPercentage",
             "SimpleStatDetailsResolveFlat",
             "SimpleStatDetailsResolvePercentage",
-            "SimpleStatDetailsMagicResistance",
-            "UpperButtonBarFrame"
+            "SimpleStatDetailsMagicResistance"
         ],
-        "unloaded": []
+        "unloaded": [],
+        "sources": {
+            "ConsoleUI": ["ui/framedef/ui/consoleui.fdf"],
+            "CommandBarFrame": ["ui/framedef/ui/commandbar.fdf"],
+            "ReplayCommandBarFrame": ["ui/framedef/ui/commandbar.fdf"],
+            "UpperButtonBarFrame": ["ui/framedef/ui/upperbuttonbar.fdf"],
+            "SimpleObserverInventoryBar": ["ui/framedef/ui/inventorybar.fdf"],
+            "SimpleInventoryBar": ["ui/framedef/ui/inventorybar.fdf"],
+            "SimpleInventoryCover": ["ui/framedef/ui/inventorybar.fdf"],
+            "SimpleEquipmentInventoryPanel": ["ui/framedef/ui/inventorybar.fdf"],
+            "SimpleEquipmentPanel": ["ui/framedef/ui/inventorybar.fdf"],
+            "SimpleTalentsPanel": ["ui/framedef/ui/inventorybar.fdf"],
+            "ResourceBarFrame": ["ui/framedef/ui/resourcebar.fdf"],
+            "SimpleInfoPanelUnitDetail": ["ui/framedef/ui/simpleinfopanel.fdf"],
+            "SimpleInfoPanelCargoDetail": ["ui/framedef/ui/simpleinfopanel.fdf"],
+            "SimpleObserverInfoPanelCargoDetail": ["ui/framedef/ui/simpleinfopanel.fdf"],
+            "SimpleInfoPanelBuildingDetail": ["ui/framedef/ui/simpleinfopanel.fdf"],
+            "SimpleObserverInfoPanelBuildingDetail": ["ui/framedef/ui/simpleinfopanel.fdf"],
+            "SimpleInfoPanelItemDetail": ["ui/framedef/ui/simpleinfopanel.fdf"],
+            "SimpleObserverInfoPanelItemDetail": ["ui/framedef/ui/simpleinfopanel.fdf"],
+            "SimpleInfoPanelDestructableDetail": ["ui/framedef/ui/simpleinfopanel.fdf"],
+            "SimpleInfoPanelIconDamage": ["ui/framedef/ui/simpleinfopanel.fdf"],
+            "SimpleInfoPanelIconArmor": ["ui/framedef/ui/simpleinfopanel.fdf"],
+            "SimpleObserverInfoPanelIconDamage": ["ui/framedef/ui/simpleinfopanel.fdf"],
+            "SimpleObserverInfoPanelIconArmor": ["ui/framedef/ui/simpleinfopanel.fdf"],
+            "SimpleInfoPanelIconRank": ["ui/framedef/ui/simpleinfopanel.fdf"],
+            "SimpleInfoPanelIconFood": ["ui/framedef/ui/simpleinfopanel.fdf"],
+            "SimpleInfoPanelIconGold": ["ui/framedef/ui/simpleinfopanel.fdf"],
+            "SimpleObserverInfoPanelIconFood": ["ui/framedef/ui/simpleinfopanel.fdf"],
+            "SimpleObserverInfoPanelIconGold": ["ui/framedef/ui/simpleinfopanel.fdf"],
+            "SimpleInfoPanelIconHero": ["ui/framedef/ui/simpleinfopanel.fdf"],
+            "SimpleObserverInfoPanelIconHero": ["ui/framedef/ui/simpleinfopanel.fdf"],
+            "SimpleInfoPanelIconAlly": ["ui/framedef/ui/simpleinfopanel.fdf"],
+            "SimpleReplayPanelV1": ["ui/framedef/ui/replaypanelv1.fdf"],
+            "SimpleReplayPanelV2": ["ui/framedef/ui/replaypanelv2.fdf"],
+            "SimpleObserverPanel": ["ui/framedef/ui/observerpanel.fdf"],
+            "MinimapButtonBar": ["ui/framedef/ui/minimapframe.fdf"],
+            "ObserverButtonBarFrame": ["ui/framedef/ui/observerbuttonbar.fdf"],
+            "PlayerStatisticsPanelFrame": ["ui/framedef/ui/playerstatisticspanel.fdf"],
+            "PlayerStatisticsRowFrame": ["ui/framedef/ui/playerstatisticsrow.fdf"],
+            "HeroPanelFrame": ["ui/framedef/ui/heropanel.fdf"],
+            "HeroPanelElementFrame": ["ui/framedef/ui/heropanelelement.fdf"],
+            "SimpleObserverInfoPanelUnitDetail": ["ui/framedef/ui/observersimpleinfopanel.fdf"],
+            "ProductionPanelFrame": ["ui/framedef/ui/productionpanel.fdf"],
+            "ProductionPanelRowFrame": ["ui/framedef/ui/productionpanelrow.fdf"],
+            "ProductionPanelUnitFrame": ["ui/framedef/ui/productionpanelunit.fdf"],
+            "SimpleTimeElapsedPanel": ["ui/framedef/ui/simpletimeelapsedpanel.fdf"],
+            "SimpleStatDetailsPanel": ["ui/framedef/ui/statdetailspanel.fdf"],
+            "SimpleStatDetailsItem": ["ui/framedef/ui/statdetailspanel.fdf"],
+            "SimpleStatDetailsHealthRegen": ["ui/framedef/ui/statdetailspanel.fdf"],
+            "SimpleStatDetailsManaRegen": ["ui/framedef/ui/statdetailspanel.fdf"],
+            "SimpleStatDetailsAttackSpeed": ["ui/framedef/ui/statdetailspanel.fdf"],
+            "SimpleStatDetailsCriticalChance": ["ui/framedef/ui/statdetailspanel.fdf"],
+            "SimpleStatDetailsCriticalDamage": ["ui/framedef/ui/statdetailspanel.fdf"],
+            "SimpleStatDetailsSpellCriticalChance": ["ui/framedef/ui/statdetailspanel.fdf"],
+            "SimpleStatDetailsSpellCriticalDamage": ["ui/framedef/ui/statdetailspanel.fdf"],
+            "SimpleStatDetailsAbilitySpeedFlat": ["ui/framedef/ui/statdetailspanel.fdf"],
+            "SimpleStatDetailsAbilitySpeedPercentage": ["ui/framedef/ui/statdetailspanel.fdf"],
+            "SimpleStatDetailsAbilityAmpFlat": ["ui/framedef/ui/statdetailspanel.fdf"],
+            "SimpleStatDetailsAbilityAmpPercentage": ["ui/framedef/ui/statdetailspanel.fdf"],
+            "SimpleStatDetailsLifesteal": ["ui/framedef/ui/statdetailspanel.fdf"],
+            "SimpleStatDetailsAbilityVampFlat": ["ui/framedef/ui/statdetailspanel.fdf"],
+            "SimpleStatDetailsAbilityVampPercentage": ["ui/framedef/ui/statdetailspanel.fdf"],
+            "SimpleStatDetailsResolveFlat": ["ui/framedef/ui/statdetailspanel.fdf"],
+            "SimpleStatDetailsResolvePercentage": ["ui/framedef/ui/statdetailspanel.fdf"],
+            "SimpleStatDetailsMagicResistance": ["ui/framedef/ui/statdetailspanel.fdf"]
+        }
     },
     "SLIDER": {
         "loaded": [],
@@ -468,17 +862,22 @@
             "BattleNetSliderTemplate",
             "StandardSliderTemplate",
             "EscMenuSliderTemplate"
-        ]
+        ],
+        "sources": {
+            "BattleNetSliderTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "StandardSliderTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "EscMenuSliderTemplate": ["ui/framedef/ui/escmenutemplates.fdf"]
+        }
     },
     "TEXT": {
         "loaded": [
+            "ScoreScreenTabTextTemplate",
+            "ScoreScreenTabTextSelectedTemplate",
+            "ScoreScreenColumnHeaderTemplate",
             "TeamLabelTextTemplate",
             "LadderNameTextTemplate",
             "TeamValueTextTemplate",
             "TeamLadderRankValueTextTemplate",
-            "ScoreScreenTabTextTemplate",
-            "ScoreScreenTabTextSelectedTemplate",
-            "ScoreScreenColumnHeaderTemplate",
             "EscMenuMainPanelDialogTextTemplate",
             "EscMenuSaveDialogTextTemplate",
             "TextTemplate",
@@ -516,14 +915,62 @@
             "InfoPanelDescriptionTextTemplate",
             "InfoPanelLabelTextTemplate",
             "InfoPanelAttributeTextTemplate"
-        ]
+        ],
+        "sources": {
+            "ScoreScreenTabTextTemplate": ["ui/framedef/glue/scorescreen.fdf"],
+            "ScoreScreenTabTextSelectedTemplate": ["ui/framedef/glue/scorescreen.fdf"],
+            "ScoreScreenColumnHeaderTemplate": ["ui/framedef/glue/scorescreen.fdf"],
+            "TeamLabelTextTemplate": ["ui/framedef/glue/battlenetprofilepanel.fdf"],
+            "LadderNameTextTemplate": ["ui/framedef/glue/battlenetprofilepanel.fdf"],
+            "TeamValueTextTemplate": ["ui/framedef/glue/battlenetprofilepanel.fdf"],
+            "TeamLadderRankValueTextTemplate": ["ui/framedef/glue/battlenetprofilepanel.fdf"],
+            "EscMenuMainPanelDialogTextTemplate": ["ui/framedef/ui/escmenumainpanel.fdf"],
+            "EscMenuSaveDialogTextTemplate": ["ui/framedef/ui/escmenusavegamepanel.fdf"],
+            "TextTemplate": ["ui/framedef/ui/playerstatisticspanel.fdf"],
+            "PlayerNameTextTemplate": ["ui/framedef/ui/playerstatisticsrow.fdf"],
+            "TeamNameTextTemplate": ["ui/framedef/ui/playerstatisticsrow.fdf"],
+            "ResourceTextTemplate": ["ui/framedef/ui/playerstatisticsrow.fdf"],
+            "BattleNetButtonTextTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetButtonBarTextTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetTitleTextTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetLabelTextTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetValueTextTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetListBoxTextTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetInfoTextTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetEditBoxTextTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "StandardButtonTextTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardInfoTextTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardTitleTextTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardLabelTextTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardValueTextTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardSmallTextTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardSmallTitleTextTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardExtraSmallTextTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardExtraSmallTitleTextTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardEditBoxTextTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardDecoratedEditBoxTextTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "EscMenuButtonTextTemplate": ["ui/framedef/ui/escmenutemplates.fdf"],
+            "EscMenuInfoTextTemplate": ["ui/framedef/ui/escmenutemplates.fdf"],
+            "EscMenuTitleTextTemplate": ["ui/framedef/ui/escmenutemplates.fdf"],
+            "EscMenuLabelTextTemplate": ["ui/framedef/ui/escmenutemplates.fdf"],
+            "EscMenuLabelTextSmallTemplate": ["ui/framedef/ui/escmenutemplates.fdf"],
+            "EscMenuEditBoxTextTemplate": ["ui/framedef/ui/escmenutemplates.fdf"],
+            "InfoPanelTitleTextTemplate": ["ui/framedef/ui/infopaneltemplates.fdf"],
+            "InfoPanelDescriptionTextTemplate": ["ui/framedef/ui/infopaneltemplates.fdf"],
+            "InfoPanelLabelTextTemplate": ["ui/framedef/ui/infopaneltemplates.fdf"],
+            "InfoPanelAttributeTextTemplate": ["ui/framedef/ui/infopaneltemplates.fdf"]
+        }
     },
     "TEXTAREA": {
         "loaded": [],
         "unloaded": [
             "BattleNetTextAreaTemplate",
             "EscMenuTextAreaTemplate"
-        ]
+        ],
+        "sources": {
+            "BattleNetTextAreaTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "EscMenuTextAreaTemplate": ["ui/framedef/ui/escmenutemplates.fdf"]
+        }
     },
     "TEXTBUTTON": {
         "loaded": [
@@ -544,6 +991,23 @@
             "StandardPopupMenuSmallTitleTemplate",
             "StandardPopupMenuExtraSmallTitleTemplate",
             "CampaignPopupMenuTitleTemplate"
-        ]
+        ],
+        "sources": {
+            "LadderButtonTemplate": ["ui/framedef/glue/battlenetprofilepanel.fdf"],
+            "ChatroomButtonTemplate": ["ui/framedef/glue/battlenetcustompanel.fdf"],
+            "BattleNetButtonTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetBorderedButtonTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "BattleNetPopupMenuTitleTemplate": ["ui/framedef/glue/battlenettemplates.fdf"],
+            "StandardButtonTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardBorderedButtonTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardSmallButtonTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "CampaignButtonTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "CampaignArrowButtonTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "CampaignCameraButtonTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardPopupMenuTitleTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardPopupMenuSmallTitleTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "StandardPopupMenuExtraSmallTitleTemplate": ["ui/framedef/glue/standardtemplates.fdf"],
+            "CampaignPopupMenuTitleTemplate": ["ui/framedef/glue/standardtemplates.fdf"]
+        }
     }
 }

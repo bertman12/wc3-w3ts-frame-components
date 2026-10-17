@@ -29,7 +29,8 @@ the map harness.
   `undefined`.
 - `CreateType` calls `Frame.createType`, which emits `BlzCreateFrameByType`.
   Its `inherits` argument is optional and resolved once in `CreateType` as
-  `args.inherits ?? args.overrides?.inherits ?? ""`: the creation argument
+  `args.inherits ?? args.overrides?.inherits ?? DefaultConfiguration.inherits`,
+  ending in `""` only for frame types without a default: the creation argument
   wins over the configuration's `inherits`, which lets a saved configuration
   carry the frame's primary look. `CreateNamed` ignores configuration
   `inherits`, and changing it after creation has no effect.
@@ -96,6 +97,9 @@ Source (version unspecified): local Blizzard extraction,
   it.
 - Every added native page has a bare `CreateType` test with `inherits: ""`.
   This verifies that the native base type can be constructed without an FDF.
+- Pages whose component has a default `inherits` also get a "Create default
+  inherits" test, which calls `CreateType` without `inherits` and prints the
+  default template it used.
 - The harness also loads Blizzard's `UI\FrameDef\Glue\StandardTemplates.fdf`
   through its TOC and adds a separate built-in-template test for controls
   whose expected artwork or behavior needs FDF-defined child frames. It does
@@ -115,17 +119,20 @@ Source (version unspecified): local Blizzard extraction,
   `DialogCancelButton`; popup selection needs a title, arrow, `MENU`, and
   items; list boxes need their item and scrollbar bindings; and
   `ControlBackdrop`-style visuals are assigned through FDF.
-- Classes marked `@requiresFdf` depend on FDF-defined children or art, per
-  Tasyen's per-type "FDF-Actions" lists
+- Classes marked `@requiresFdf` depend on FDF-defined children or art that no
+  loaded template supplies, per Tasyen's per-type "FDF-Actions" lists
   (`https://github.com/Tasyen/FDF/tree/master/FrameTypes/<TYPE>.html`):
-  `DialogFrame`, `ListBoxFrame`, `MenuFrame`, `PopupMenuFrame`,
-  `GluePopupMenuFrame`, `SliderFrame`, `ScrollBarFrame`, `CheckBoxFrame`,
-  `GlueCheckBoxFrame`, `ChatDisplayFrame`, `HighlightFrame`, `TextButtonFrame`,
-  and `TextAreaFrame` (its need for `JMT_TextAreaTemplate` is documented from
-  runtime testing; the others are source-based, not runtime-verified), plus
-  `GlueTextButtonFrame` (text child and art). Types not
-  marked (`ButtonFrame`, `BackdropFrame`, `EmptyFrame`, `TextFrame`,
-  `GlueButtonFrame`, edit boxes, `ModelFrame`,
+  `DialogFrame`, `ListBoxFrame`, `MenuFrame`, `GluePopupMenuFrame`,
+  `SliderFrame`, `CheckBoxFrame`, `ChatDisplayFrame`, and `TextAreaFrame` (its
+  need for `JMT_TextAreaTemplate` is documented from runtime testing; the others
+  are source-based, not runtime-verified).
+- `PopupMenuFrame`, `ScrollBarFrame`, `GlueCheckBoxFrame`, `HighlightFrame`,
+  `TextButtonFrame`, and `GlueTextButtonFrame` also need FDF-defined children or
+  art, but their default `inherits` is a loaded template that supplies it, so
+  they are not tagged `@requiresFdf`. Created with `inherits: ""` they are
+  still incomplete. Rendering with these defaults is not yet runtime-verified.
+- Other unmarked types (`ButtonFrame`, `BackdropFrame`, `EmptyFrame`,
+  `TextFrame`, `GlueButtonFrame`, edit boxes, `ModelFrame`,
   `SpriteFrame`, `TimerTextFrame`) can be created bare; Tasyen documents
   `BACKDROP` textures as settable from script.
 - `MODEL` and `SPRITE` are code-only visual types. `CHATDISPLAY` exposes

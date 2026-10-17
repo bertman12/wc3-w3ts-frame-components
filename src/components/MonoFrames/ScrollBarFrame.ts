@@ -1,9 +1,11 @@
 import { Frame, Trigger } from "w3ts";
-import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
+import { FrameTemplate, IMonoFrameConfigurationBase, InheritsOf } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
 export interface ScrollBarFrameConfiguration extends IMonoFrameConfigurationBase<FrameTemplate<"SCROLLBAR">> {
+    /** The frame definition CreateType inherits from. Overridden by the CreateType inherits argument; ignored by CreateNamed. Default value: "QuestMainListScrollBar" */
+    inherits?: InheritsOf<FrameTemplate<"SCROLLBAR">>;
     /** Height of the scroll bar. Default value: 0.12 */
     height?: number;
     /** Value the scroll bar is set to when it is created. Default value: 50 */
@@ -20,12 +22,11 @@ export interface ScrollBarFrameConfiguration extends IMonoFrameConfigurationBase
     width?: number;
 }
 
-type ScrollBarFrameDefaultConfiguration = Required<Pick<ScrollBarFrameConfiguration, "height" | "initialValue" | "maxValue" | "minValue" | "stepSize" | "width">> & Pick<ScrollBarFrameConfiguration, "onValueChanged">;
+type ScrollBarFrameDefaultConfiguration = Required<Pick<ScrollBarFrameConfiguration, "inherits" | "height" | "initialValue" | "maxValue" | "minValue" | "stepSize" | "width">> & Pick<ScrollBarFrameConfiguration, "onValueChanged">;
 
 /**
+ * Thumb and inc/dec buttons are FDF-bound children. The default inherits, "QuestMainListScrollBar", is a loaded template that supplies them, so no FDF is needed; created with inherits "" it has no art.
  * @see Tasyen's SCROLLBAR reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/SCROLLBAR.html
- * @requiresFdf Thumb and inc/dec buttons are FDF-bound children; a bare typed scrollbar has no art.
- * @deprecated Development deferred. Do not use; this class is still under development.
  */
 export class ScrollBarFrame extends MonoFrame<ScrollBarFrameConfiguration> {
     public onValueChangedTrigger?: Trigger;
@@ -38,17 +39,15 @@ export class ScrollBarFrame extends MonoFrame<ScrollBarFrameConfiguration> {
     }
 
     public static get DefaultConfiguration(): ScrollBarFrameDefaultConfiguration {
-        return { height: 0.12, initialValue: 50, maxValue: 100, minValue: 0, onValueChanged: undefined, stepSize: 1, width: 0.02 };
+        return { inherits: "QuestMainListScrollBar", height: 0.12, initialValue: 50, maxValue: 100, minValue: 0, onValueChanged: undefined, stepSize: 1, width: 0.02 };
     }
 
-    /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
     public static CreateNamed(args: NamedNativeFrameArguments<ScrollBarFrameConfiguration>): ScrollBarFrame {
         return new ScrollBarFrame(args.context, { ...ScrollBarFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
-    /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
     public static CreateType(args: TypedNativeFrameArguments<ScrollBarFrameConfiguration, FrameTemplate<"SCROLLBAR">>): ScrollBarFrame {
-        return new ScrollBarFrame(args.context, { ...ScrollBarFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
+        return new ScrollBarFrame(args.context, { ...ScrollBarFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? ScrollBarFrame.DefaultConfiguration.inherits);
     }
 
     public setOnValueChanged(onValueChanged: (value: number) => void): void {

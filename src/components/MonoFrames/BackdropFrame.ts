@@ -1,15 +1,17 @@
 import { Frame } from "w3ts";
-import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
+import { FrameTemplate, IMonoFrameConfigurationBase, InheritsOf } from "../../models";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
 export interface BackdropFrameConfiguration extends IMonoFrameConfigurationBase<FrameTemplate<"BACKDROP">> {
+    /** The frame definition CreateType inherits from. Overridden by the CreateType inherits argument; ignored by CreateNamed. Default value: "QuestButtonBaseTemplate" */
+    inherits?: InheritsOf<FrameTemplate<"BACKDROP">>;
     /** Height of the backdrop. Default value: 0.1 */
     height?: number;
     /** Width of the backdrop. Default value: 0.1 */
     width?: number;
 }
 
-type BackdropFrameDefaultConfiguration = Required<Pick<BackdropFrameConfiguration, "height" | "width">>;
+type BackdropFrameDefaultConfiguration = Required<BackdropFrameConfiguration>;
 
 export class BackdropFrame extends MonoFrame<BackdropFrameConfiguration> {
     private constructor(...args: ConstructorParameters<typeof MonoFrame<BackdropFrameConfiguration>>) {
@@ -18,7 +20,7 @@ export class BackdropFrame extends MonoFrame<BackdropFrameConfiguration> {
     }
 
     public static get DefaultConfiguration(): BackdropFrameDefaultConfiguration {
-        return { height: 0.1, width: 0.1 };
+        return { height: 0.1, width: 0.1, inherits: "QuestButtonBaseTemplate" };
     }
 
     public static CreateNamed(args: NamedNativeFrameArguments<BackdropFrameConfiguration>): BackdropFrame {
@@ -26,7 +28,7 @@ export class BackdropFrame extends MonoFrame<BackdropFrameConfiguration> {
     }
 
     public static CreateType(args: TypedNativeFrameArguments<BackdropFrameConfiguration, FrameTemplate<"BACKDROP">>): BackdropFrame {
-        return new BackdropFrame(args.context, { ...BackdropFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
+        return new BackdropFrame(args.context, { ...BackdropFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? BackdropFrame.DefaultConfiguration.inherits);
     }
 
     protected render(): void {

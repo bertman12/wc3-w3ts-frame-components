@@ -12,7 +12,8 @@
         "build": "tstl -p tsconfig.json",
         "prepare": "npm run build",
         "test:prepare": "npm run build && xcopy /E /I /Y dist test\\wc3-ts-template\\node_modules\\warcraft-3-w3ts-frame-components\\dist\\",
-        "test": "npm run test:prepare && npm run --prefix test/wc3-ts-template test"
+        "test": "npm run test:prepare && npm run --prefix test/wc3-ts-template test",
+        "generate:frame-templates": "node scripts/generate-frame-templates.mjs"
     },
     "files": [
         "./**/*.lua",

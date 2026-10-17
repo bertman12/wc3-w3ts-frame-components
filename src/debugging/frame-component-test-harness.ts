@@ -108,7 +108,7 @@ export class FrameComponentTestHarness {
         this.context = context;
         this.name = name;
         this.owner = owner;
-        this.pages = this.addInheritsTests(this.createPages());
+        this.pages = this.addInheritsTests(this.addDefaultInheritsTests(this.createPages()));
         this.render();
     }
 
@@ -858,6 +858,41 @@ export class FrameComponentTestHarness {
             menuLabel,
             tests,
         };
+    }
+
+    /**
+     * Adds a "Create default inherits" test to every page whose component has a default `inherits` in its configuration.
+     * The test calls CreateType without `inherits`, so the component's DefaultConfiguration value is used.
+     */
+    private addDefaultInheritsTests(pages: FrameComponentTestPage[]): FrameComponentTestPage[] {
+        const context = this.context;
+        const definitions: Record<string, { inherits: string; create: (name: string, owner: Frame) => TestFrameComponent }> = {
+            Backdrop: { inherits: BackdropFrame.DefaultConfiguration.inherits, create: (name, owner) => BackdropFrame.CreateType({ context, name, owner }) },
+            GlueButton: { inherits: GlueButtonFrame.DefaultConfiguration.inherits, create: (name, owner) => GlueButtonFrame.CreateType({ context, name, owner }) },
+            GlueCheckBox: { inherits: GlueCheckBoxFrame.DefaultConfiguration.inherits, create: (name, owner) => GlueCheckBoxFrame.CreateType({ context, name, owner }) },
+            GlueTextButton: { inherits: GlueTextButtonFrame.DefaultConfiguration.inherits, create: (name, owner) => GlueTextButtonFrame.CreateType({ context, name, owner }) },
+            Highlight: { inherits: HighlightFrame.DefaultConfiguration.inherits, create: (name, owner) => HighlightFrame.CreateType({ context, name, owner }) },
+            PopupMenu: { inherits: PopupMenuFrame.DefaultConfiguration.inherits, create: (name, owner) => PopupMenuFrame.CreateType({ context, name, owner }) },
+            ScrollBar: { inherits: ScrollBarFrame.DefaultConfiguration.inherits, create: (name, owner) => ScrollBarFrame.CreateType({ context, name, owner }) },
+            Text: { inherits: TextFrame.DefaultConfiguration.inherits, create: (name, owner) => TextFrame.CreateType({ context, name, owner }) },
+            TextButton: { inherits: TextButtonFrame.DefaultConfiguration.inherits, create: (name, owner) => TextButtonFrame.CreateType({ context, name, owner }) },
+        };
+
+        for (const page of pages) {
+            const component = page.label.slice(0, -"Frame".length);
+            const definition = definitions[component];
+            if (definition !== undefined) {
+                const label = "Create default inherits";
+                page.tests.push(
+                    this.test(label, () => {
+                        print(`${component}Frame default inherits: ${definition.inherits}`);
+                        return this.createNativeFrameTest(component, label, (owner) => definition.create(this.testName(component, "DefaultInherits"), owner));
+                    }),
+                );
+            }
+        }
+
+        return pages;
     }
 
     /** Adds the "Choose inherits" test to every page whose frame type has known loaded templates. */

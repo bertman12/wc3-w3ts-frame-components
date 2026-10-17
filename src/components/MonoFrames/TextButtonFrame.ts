@@ -1,9 +1,11 @@
 import { Trigger } from "w3ts";
-import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
+import { FrameTemplate, IMonoFrameConfigurationBase, InheritsOf } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
 export interface TextButtonFrameConfiguration extends IMonoFrameConfigurationBase<FrameTemplate<"TEXTBUTTON">> {
+    /** The frame definition CreateType inherits from. Overridden by the CreateType inherits argument; ignored by CreateNamed. Default value: "LadderButtonTemplate" */
+    inherits?: InheritsOf<FrameTemplate<"TEXTBUTTON">>;
     /** Height of the button. Default value: 0.031 */
     height?: number;
     /** Text shown on the button when it is created. Default value: "Text Button" */
@@ -15,8 +17,8 @@ export interface TextButtonFrameConfiguration extends IMonoFrameConfigurationBas
 }
 
 /**
+ * Its linked text child (ButtonText) is FDF-defined. The default inherits, "LadderButtonTemplate", is a loaded template that supplies it, so no FDF is needed; created with inherits "" it has no text child.
  * @see Tasyen's TEXTBUTTON reference: https://github.com/Tasyen/FDF/blob/master/FrameTypes/TEXTBUTTON.html
- * @requiresFdf Its linked text child (ButtonText) is FDF-defined; a bare typed frame has no text child.
  */
 export class TextButtonFrame extends MonoFrame<TextButtonFrameConfiguration> {
     public onClickTrigger?: Trigger;
@@ -28,18 +30,16 @@ export class TextButtonFrame extends MonoFrame<TextButtonFrameConfiguration> {
         this.render();
     }
 
-    public static get DefaultConfiguration(): TextButtonFrameConfiguration {
-        return { height: 0.031, initialText: "Text Button", onClick: undefined, width: 0.18 };
+    public static get DefaultConfiguration(): TextButtonFrameConfiguration & Required<Pick<TextButtonFrameConfiguration, "inherits">> {
+        return { inherits: "LadderButtonTemplate", height: 0.031, initialText: "Text Button", onClick: undefined, width: 0.18 };
     }
 
-    /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
     public static CreateNamed(args: NamedNativeFrameArguments<TextButtonFrameConfiguration>): TextButtonFrame {
         return new TextButtonFrame(args.context, { ...TextButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, undefined, args.priority);
     }
 
-    /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
     public static CreateType(args: TypedNativeFrameArguments<TextButtonFrameConfiguration, FrameTemplate<"TEXTBUTTON">>): TextButtonFrame {
-        return new TextButtonFrame(args.context, { ...TextButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
+        return new TextButtonFrame(args.context, { ...TextButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? TextButtonFrame.DefaultConfiguration.inherits);
     }
 
     public setOnClick(onClick: () => void): void {

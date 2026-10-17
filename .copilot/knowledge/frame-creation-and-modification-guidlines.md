@@ -37,12 +37,16 @@ A MonoFrame's `CreateType` must type its arguments as
 `FrameTemplate<"BACKDROP">`, and its configuration must extend
 `IMonoFrameConfigurationBase<FrameTemplate<"NATIVETYPE">>` so the configuration's
 `inherits` gets the same autocomplete (types with no known templates extend the plain base).
-`CreateType` passes `args.inherits ?? args.overrides?.inherits ?? ""` to the constructor.
+`CreateType` passes `args.inherits ?? args.overrides?.inherits ?? <Class>.DefaultConfiguration.inherits` to the constructor.
+Give `inherits` a default only when the type has a `loaded` template (usable without an FDF); document it on the class's
+configuration (`Default value: "..."`) and include `"inherits"` in the required `DefaultConfiguration` type. Types without a
+loaded template leave `inherits` optional with no default, and `CreateType` falls back to `""`.
 The data lives in `src/models/frame-templates.json`
-(`loaded` and `unloaded` names per native frame type) and is mirrored by the `FrameTemplates`
-const in `src/models/FrameTemplates.ts`; keep them in sync. It is generated from the game's FDF files
-(`_BlzFrameDefs`) and Tasyen's guide
-(https://www.hiveworkshop.com/threads/ui-list-default-mainframes.317884/). Any other string is still accepted.
+(`loaded` and `unloaded` names per native frame type, plus `sources`, which gives the FDF file or files that declare each name) and is mirrored by the `FrameTemplates`
+const in `src/models/FrameTemplates.ts`; keep them in sync. Both are generated from the game's FDF files
+(`_BlzFrameDefs`) by `npm run generate:frame-templates` (`scripts/generate-frame-templates.mjs`; see the
+`frame-definitions-parsing` skill), never edited by hand, using Tasyen's guide
+(https://www.hiveworkshop.com/threads/ui-list-default-mainframes.317884/) for the loaded rules. Any other string is still accepted.
 
 - loaded: usable immediately (listed "Loaded" in the guide, or defined in a file listed by `framedef.toc`).
 - unloaded: defined in the default FDF files but their file must be loaded from a toc first.
