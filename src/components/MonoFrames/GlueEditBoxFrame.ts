@@ -39,7 +39,7 @@ export class GlueEditBoxFrame extends MonoFrame<GlueEditBoxFrameConfiguration> {
     }
 
     public static CreateType(args: TypedNativeFrameArguments<GlueEditBoxFrameConfiguration>): GlueEditBoxFrame {
-        return new GlueEditBoxFrame(args.context, { ...GlueEditBoxFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+        return new GlueEditBoxFrame(args.context, { ...GlueEditBoxFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
     }
 
     public setOnEnter(onEnter: (text: string) => void): void {

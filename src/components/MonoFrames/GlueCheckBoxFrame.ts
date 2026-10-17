@@ -3,7 +3,7 @@ import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
-export interface GlueCheckBoxFrameConfiguration extends IMonoFrameConfigurationBase {
+export interface GlueCheckBoxFrameConfiguration extends IMonoFrameConfigurationBase<FrameTemplate<"GLUECHECKBOX">> {
     /** Height of the check box. Default value: 0.03 */
     height?: number;
     /** Handler called when the check box is checked. Default value: undefined */
@@ -41,7 +41,7 @@ export class GlueCheckBoxFrame extends MonoFrame<GlueCheckBoxFrameConfiguration>
 
     /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
     public static CreateType(args: TypedNativeFrameArguments<GlueCheckBoxFrameConfiguration, FrameTemplate<"GLUECHECKBOX">>): GlueCheckBoxFrame {
-        return new GlueCheckBoxFrame(args.context, { ...GlueCheckBoxFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+        return new GlueCheckBoxFrame(args.context, { ...GlueCheckBoxFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
     }
 
     public setOnChecked(onChecked: () => void): void {

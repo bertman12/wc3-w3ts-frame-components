@@ -30,7 +30,7 @@ export class TimerTextFrame extends MonoFrame<TimerTextFrameConfiguration> {
     }
 
     public static CreateType(args: TypedNativeFrameArguments<TimerTextFrameConfiguration>): TimerTextFrame {
-        return new TimerTextFrame(args.context, { ...TimerTextFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+        return new TimerTextFrame(args.context, { ...TimerTextFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
     }
 
     public updateText(text: string): void {

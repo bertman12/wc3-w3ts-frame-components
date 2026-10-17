@@ -3,7 +3,7 @@ import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
-export interface ScrollBarFrameConfiguration extends IMonoFrameConfigurationBase {
+export interface ScrollBarFrameConfiguration extends IMonoFrameConfigurationBase<FrameTemplate<"SCROLLBAR">> {
     /** Height of the scroll bar. Default value: 0.12 */
     height?: number;
     /** Value the scroll bar is set to when it is created. Default value: 50 */
@@ -48,7 +48,7 @@ export class ScrollBarFrame extends MonoFrame<ScrollBarFrameConfiguration> {
 
     /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
     public static CreateType(args: TypedNativeFrameArguments<ScrollBarFrameConfiguration, FrameTemplate<"SCROLLBAR">>): ScrollBarFrame {
-        return new ScrollBarFrame(args.context, { ...ScrollBarFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+        return new ScrollBarFrame(args.context, { ...ScrollBarFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
     }
 
     public setOnValueChanged(onValueChanged: (value: number) => void): void {

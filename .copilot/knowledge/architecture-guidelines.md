@@ -44,6 +44,12 @@ to its folder's barrel in the same change.
 - Exposes its root as `containerFrame` and its parts as typed `childFrames`.
   Child frames must be MonoFrames, CompositeFrames or a `Grid`. A raw native
   frame that is not a component can be kept as a public property instead.
+- Each `childFrames` entry is an `{ frame, render }` object: `frame` is the
+  created child and `render` is the function that created it, returning the
+  same type as `frame`. Create children with `this.renderChild(customRender,
+  defaultRender)`, where `customRender` comes from the configuration's
+  `childFrames.<name>.render`, so callers can override how any child is built.
+  Access a child with `childFrames.<name>?.frame`.
 - Has a single `Create` function. It has no `inherits` argument because it is
   not one Blizzard frame type, so it cannot wrap a named Blizzard frame.
 - Use a CompositeFrame whenever a component creates more than one frame, as

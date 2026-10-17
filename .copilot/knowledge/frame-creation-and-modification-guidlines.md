@@ -34,7 +34,11 @@ comment stating its default value, matching the value in that class's
 
 A MonoFrame's `CreateType` must type its arguments as
 `TypedNativeFrameArguments<Configuration, FrameTemplate<"NATIVETYPE">>`, e.g.
-`FrameTemplate<"BACKDROP">`. The data lives in `src/models/frame-templates.json`
+`FrameTemplate<"BACKDROP">`, and its configuration must extend
+`IMonoFrameConfigurationBase<FrameTemplate<"NATIVETYPE">>` so the configuration's
+`inherits` gets the same autocomplete (types with no known templates extend the plain base).
+`CreateType` passes `args.inherits ?? args.overrides?.inherits ?? ""` to the constructor.
+The data lives in `src/models/frame-templates.json`
 (`loaded` and `unloaded` names per native frame type) and is mirrored by the `FrameTemplates`
 const in `src/models/FrameTemplates.ts`; keep them in sync. It is generated from the game's FDF files
 (`_BlzFrameDefs`) and Tasyen's guide

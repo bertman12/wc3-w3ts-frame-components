@@ -2,7 +2,7 @@ import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
-export interface ListBoxFrameConfiguration extends IMonoFrameConfigurationBase {
+export interface ListBoxFrameConfiguration extends IMonoFrameConfigurationBase<FrameTemplate<"LISTBOX">> {
     /** Height of the list box. Default value: 0.1 */
     height?: number;
     /** Width of the list box. Default value: 0.15 */
@@ -32,7 +32,7 @@ export class ListBoxFrame extends MonoFrame<ListBoxFrameConfiguration> {
 
     /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */
     public static CreateType(args: TypedNativeFrameArguments<ListBoxFrameConfiguration, FrameTemplate<"LISTBOX">>): ListBoxFrame {
-        return new ListBoxFrame(args.context, { ...ListBoxFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+        return new ListBoxFrame(args.context, { ...ListBoxFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
     }
 
     protected render(): void {

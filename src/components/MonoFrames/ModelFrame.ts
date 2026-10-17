@@ -36,6 +36,6 @@ export class ModelFrame extends ModelDisplayFrame<ModelFrameConfiguration> {
     }
 
     public static CreateType(args: TypedNativeFrameArguments<ModelFrameConfiguration>): ModelFrame {
-        return new ModelFrame(args.context, { ...ModelFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+        return new ModelFrame(args.context, { ...ModelFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
     }
 }

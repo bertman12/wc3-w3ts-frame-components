@@ -36,7 +36,7 @@ export class SpriteFrame extends ModelDisplayFrame<SpriteFrameConfiguration> {
     }
 
     public static CreateType(args: TypedNativeFrameArguments<SpriteFrameConfiguration>): SpriteFrame {
-        return new SpriteFrame(args.context, { ...SpriteFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+        return new SpriteFrame(args.context, { ...SpriteFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
     }
 
     public setAnimation(primaryProp: number, flags = this.configuration.animationFlags ?? SpriteFrame.DefaultConfiguration.animationFlags): void {

@@ -28,10 +28,15 @@ the map harness.
   from a loaded named FDF definition. Its `inherits` value must remain
   `undefined`.
 - `CreateType` calls `Frame.createType`, which emits `BlzCreateFrameByType`.
-  It requires an explicit `inherits` string.
+  Its `inherits` argument is optional and resolved once in `CreateType` as
+  `args.inherits ?? args.overrides?.inherits ?? ""`: the creation argument
+  wins over the configuration's `inherits`, which lets a saved configuration
+  carry the frame's primary look. `CreateNamed` ignores configuration
+  `inherits`, and changing it after creation has no effect.
 - `inherits: ""` is meaningful: it requests creation by frame type without an
   inheritance template. Do not collapse it into `undefined`, which changes
-  creation from typed to named.
+  creation from typed to named. The resolved value passed to the constructor
+  is always a string; use `??`, never `||`, because `""` is truthy in Lua.
 - For a non-simple native type, prefer `CreateType` with `inherits: ""`. This
   emits `BlzCreateFrameByType` and requires no loaded FDF. Do not add an FDF
   merely to make a native base type constructible.

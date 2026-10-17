@@ -19,8 +19,12 @@ export interface NamedNativeFrameArguments<Configuration extends IMonoFrameConfi
 export interface TypedNativeFrameArguments<Configuration extends IMonoFrameConfigurationBase, Template extends string = string> {
     /** The render context of the frame. Default value: 0 */
     context?: number;
-    /** The frame definition to inherit from. Use "" to create a bare frame. */
-    inherits: InheritsOf<Template>;
+    /**
+     * The frame definition to inherit from. Use "" to create a bare frame.
+     * When set, it overrides any `inherits` in the configuration, including one passed through `overrides`.
+     * Default value: undefined (falls back to `overrides.inherits`, then "")
+     */
+    inherits?: InheritsOf<Template>;
     name?: string;
     owner?: Frame;
     overrides?: Configuration;
@@ -57,7 +61,7 @@ export abstract class MonoFrame<Configuration extends IMonoFrameConfigurationBas
      * @param args.name A specific blizzard frame name.
      * @param args.priority The priority value of the frame.
      * @param args.owner Default value: ORIGIN_FRAME_GAME_UI
-     * @param args.overrides Allows overriding the MonoFrame's default configuration with your own.
+     * @param args.overrides Allows overriding the MonoFrame's default configuration with your own. Its `inherits` is ignored.
      */
     public static CreateNamed(args: { context?: number; priority: number; name: string; owner?: Frame; overrides?: any }) {
         //
@@ -68,12 +72,13 @@ export abstract class MonoFrame<Configuration extends IMonoFrameConfigurationBas
      *
      * @param args Frame creation options
      * @param args.context The render context of frame. Default value: 0
-     * @param args.inherits The frame which this frame will inherit properties from.
+     * @param args.inherits The frame which this frame will inherit properties from. When set, it overrides any `inherits`
+     * in the configuration, including one passed through `overrides`. Default value: undefined (falls back to `overrides.inherits`, then "")
      * @param args.name An arbitrary name for the frame.
      * @param args.owner Default value: ORIGIN_FRAME_GAME_UI
      * @param args.overrides Allows overriding the MonoFrame's default configuration with your own.
      */
-    public static CreateType(args: { context?: number; inherits: string; name?: string; owner?: Frame; overrides?: any }) {
+    public static CreateType(args: { context?: number; inherits?: string; name?: string; owner?: Frame; overrides?: any }) {
         //
     }
 

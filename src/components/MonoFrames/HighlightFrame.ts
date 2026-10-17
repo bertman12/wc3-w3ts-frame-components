@@ -2,7 +2,7 @@ import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
-export interface HighlightFrameConfiguration extends IMonoFrameConfigurationBase {
+export interface HighlightFrameConfiguration extends IMonoFrameConfigurationBase<FrameTemplate<"HIGHLIGHT">> {
     /** Height of the highlight. Default value: 0.08 */
     height?: number;
     /** Width of the highlight. Default value: 0.12 */
@@ -33,7 +33,7 @@ export class HighlightFrame extends MonoFrame<HighlightFrameConfiguration> {
 
     /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
     public static CreateType(args: TypedNativeFrameArguments<HighlightFrameConfiguration, FrameTemplate<"HIGHLIGHT">>): HighlightFrame {
-        return new HighlightFrame(args.context, { ...HighlightFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+        return new HighlightFrame(args.context, { ...HighlightFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
     }
 
     protected render(): void {

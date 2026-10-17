@@ -3,7 +3,7 @@ import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
-export interface GlueButtonFrameConfiguration extends IMonoFrameConfigurationBase {
+export interface GlueButtonFrameConfiguration extends IMonoFrameConfigurationBase<FrameTemplate<"GLUEBUTTON">> {
     /** Height of the button. Default value: 0.04 */
     height?: number;
     /** Handler called when the button is clicked. Default value: undefined */
@@ -35,7 +35,7 @@ export class GlueButtonFrame extends MonoFrame<GlueButtonFrameConfiguration> {
     }
 
     public static CreateType(args: TypedNativeFrameArguments<GlueButtonFrameConfiguration, FrameTemplate<"GLUEBUTTON">>): GlueButtonFrame {
-        return new GlueButtonFrame(args.context, { ...GlueButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+        return new GlueButtonFrame(args.context, { ...GlueButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
     }
 
     public setOnClick(onClick: () => void): void {

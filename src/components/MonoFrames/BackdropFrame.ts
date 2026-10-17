@@ -2,7 +2,7 @@ import { Frame } from "w3ts";
 import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
-export interface BackdropFrameConfiguration extends IMonoFrameConfigurationBase {
+export interface BackdropFrameConfiguration extends IMonoFrameConfigurationBase<FrameTemplate<"BACKDROP">> {
     /** Height of the backdrop. Default value: 0.1 */
     height?: number;
     /** Width of the backdrop. Default value: 0.1 */
@@ -26,7 +26,7 @@ export class BackdropFrame extends MonoFrame<BackdropFrameConfiguration> {
     }
 
     public static CreateType(args: TypedNativeFrameArguments<BackdropFrameConfiguration, FrameTemplate<"BACKDROP">>): BackdropFrame {
-        return new BackdropFrame(args.context, { ...BackdropFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+        return new BackdropFrame(args.context, { ...BackdropFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
     }
 
     protected render(): void {

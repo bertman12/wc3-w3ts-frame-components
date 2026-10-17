@@ -1,4 +1,5 @@
 import { Frame } from "w3ts";
+import { InheritsOf } from "./FrameTemplates";
 
 interface IFrameConfigurationBase {
     // stuff ?
@@ -6,8 +7,16 @@ interface IFrameConfigurationBase {
 
 /**
  * Configurable properties all MonoFrames share.
+ *
+ * @typeParam Template Known default templates for the frame type (see FrameTemplate), used for `inherits` autocomplete.
  */
-export interface IMonoFrameConfigurationBase extends IFrameConfigurationBase {
+export interface IMonoFrameConfigurationBase<Template extends string = string> extends IFrameConfigurationBase {
+    /**
+     * The frame definition to inherit from when created with `CreateType`; lets a saved configuration carry the frame's primary look.
+     * Overridden by the `inherits` creation argument of `CreateType`. Ignored by `CreateNamed`. Only applied when the frame is created.
+     * Default value: undefined (CreateType then uses "", a bare frame)
+     */
+    inherits?: InheritsOf<Template>;
     /** Initial width used when the frame is created. */
     width?: number;
     /** Initial height used when the frame is created. */
@@ -15,8 +24,11 @@ export interface IMonoFrameConfigurationBase extends IFrameConfigurationBase {
 }
 
 export interface ICompositeFrameConfigurationBase extends IFrameConfigurationBase {
-    // stuff
-    // somethingRequired: boolean;
+    /**
+     * Overrides how individual child frames are rendered, keyed by child name. Each `render` returns the same
+     * type as the child's `frame`. Children without an entry use the composite frame's default rendering.
+     */
+    childFrames?: { [key: string]: { render?: () => unknown } | undefined };
 }
 
 /**

@@ -3,7 +3,7 @@ import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
-export interface DialogFrameConfiguration extends IMonoFrameConfigurationBase {
+export interface DialogFrameConfiguration extends IMonoFrameConfigurationBase<FrameTemplate<"DIALOG">> {
     /** Height of the dialog. Default value: 0.12 */
     height?: number;
     /** Handler called when the dialog is accepted. Default value: undefined */
@@ -40,7 +40,7 @@ export class DialogFrame extends MonoFrame<DialogFrameConfiguration> {
 
     /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */
     public static CreateType(args: TypedNativeFrameArguments<DialogFrameConfiguration, FrameTemplate<"DIALOG">>): DialogFrame {
-        return new DialogFrame(args.context, { ...DialogFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+        return new DialogFrame(args.context, { ...DialogFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
     }
 
     public setOnAccept(onAccept: () => void): void {

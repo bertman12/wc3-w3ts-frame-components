@@ -3,7 +3,7 @@ import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
-export interface CheckBoxFrameConfiguration extends IMonoFrameConfigurationBase {
+export interface CheckBoxFrameConfiguration extends IMonoFrameConfigurationBase<FrameTemplate<"CHECKBOX">> {
     /** Height of the check box. Default value: 0.03 */
     height?: number;
     /** Handler called when the check box is checked. Default value: undefined */
@@ -40,7 +40,7 @@ export class CheckBoxFrame extends MonoFrame<CheckBoxFrameConfiguration> {
 
     /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
     public static CreateType(args: TypedNativeFrameArguments<CheckBoxFrameConfiguration, FrameTemplate<"CHECKBOX">>): CheckBoxFrame {
-        return new CheckBoxFrame(args.context, { ...CheckBoxFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+        return new CheckBoxFrame(args.context, { ...CheckBoxFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
     }
 
     public setOnChecked(onChecked: () => void): void {

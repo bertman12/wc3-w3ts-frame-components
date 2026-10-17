@@ -3,7 +3,7 @@ import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
-export interface PopupMenuFrameConfiguration extends IMonoFrameConfigurationBase {
+export interface PopupMenuFrameConfiguration extends IMonoFrameConfigurationBase<FrameTemplate<"POPUPMENU">> {
     /** Height of the popup menu. Default value: 0.03 */
     height?: number;
     /** Handler called with the selected item value when the selection changes. Default value: undefined */
@@ -37,7 +37,7 @@ export class PopupMenuFrame extends MonoFrame<PopupMenuFrameConfiguration> {
 
     /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */
     public static CreateType(args: TypedNativeFrameArguments<PopupMenuFrameConfiguration, FrameTemplate<"POPUPMENU">>): PopupMenuFrame {
-        return new PopupMenuFrame(args.context, { ...PopupMenuFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+        return new PopupMenuFrame(args.context, { ...PopupMenuFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
     }
 
     public setOnItemChanged(onItemChanged: (value: number) => void): void {

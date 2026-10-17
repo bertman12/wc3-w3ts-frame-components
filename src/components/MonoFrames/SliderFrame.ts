@@ -3,7 +3,7 @@ import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
-export interface SliderFrameConfiguration extends IMonoFrameConfigurationBase {
+export interface SliderFrameConfiguration extends IMonoFrameConfigurationBase<FrameTemplate<"SLIDER">> {
     /** Height of the slider. Default value: 0.02 */
     height?: number;
     /** Value the slider is set to when it is created. Default value: 50 */
@@ -47,7 +47,7 @@ export class SliderFrame extends MonoFrame<SliderFrameConfiguration> {
 
     /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
     public static CreateType(args: TypedNativeFrameArguments<SliderFrameConfiguration, FrameTemplate<"SLIDER">>): SliderFrame {
-        return new SliderFrame(args.context, { ...SliderFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+        return new SliderFrame(args.context, { ...SliderFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
     }
 
     public setOnValueChanged(onValueChanged: (value: number) => void): void {
