@@ -2,7 +2,7 @@ import { Frame } from "w3ts";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 
-export interface TextFrameConfiguration extends IMonoFrameConfigurationBase {
+export interface TextFrameConfiguration extends IMonoFrameConfigurationBase<FrameTemplate<"TEXT">> {
     /** Whether update() resizes the frame width to fit the new text. Default value: true */
     autoSizeWidth?: boolean;
     /** Extra width added when auto-sizing the frame to its text. Default value: 0 */
@@ -58,7 +58,7 @@ export class TextFrame extends MonoFrame<TextFrameConfiguration> {
      * @param args.overrides Configuration values that replace the defaults.
      */
     public static CreateType(args: TypedNativeFrameArguments<TextFrameConfiguration, FrameTemplate<"TEXT">>): TextFrame {
-        return new TextFrame(args.context, { ...TextFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+        return new TextFrame(args.context, { ...TextFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
     }
 
     protected render(): void {

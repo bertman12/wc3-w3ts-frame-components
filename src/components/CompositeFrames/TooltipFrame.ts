@@ -1,12 +1,12 @@
 import { Frame } from "w3ts";
-import { CompositeFrame } from "../Core/CompositeFrame";
 import { FrameUtils } from "../../frame-utils";
+import { Grid, IGridItemBaseDefinition } from "../../grid";
+import { ICompositeFrameChild, ICompositeFrameChildFrames, ICompositeFrameChildRenderers, ICompositeFrameConfigurationBase } from "../../models";
+import { CompositeFrame } from "../Core/CompositeFrame";
 import { BackdropFrame } from "../MonoFrames/BackdropFrame";
 import { EmptyFrame } from "../MonoFrames/EmptyFrame";
-import { ButtonFrame } from "./ButtonFrame";
 import { TextFrame } from "../MonoFrames/TextFrame";
-import { Grid, IGridItemBaseDefinition } from "../../grid";
-import { ICompositeFrameChildFrames, ICompositeFrameConfigurationBase } from "../../models";
+import { ButtonFrame } from "./ButtonFrame";
 
 export interface TooltipIconDataItem {
     texture: string;
@@ -36,6 +36,8 @@ export interface TooltipFrameConfiguration extends ICompositeFrameConfigurationB
     tooltipIconValueLeftPadding?: number;
     /** Horizontal space between the backdrop edge and the header on the right. Default value: 0.01 */
     tooltipHeaderSpaceX?: number;
+    /** Overrides how each child frame is rendered. Each `render` returns the same type as its child frame. Default value: undefined */
+    childFrames?: ICompositeFrameChildRenderers<TooltipFrameChildFrames>;
 }
 
 type TooltipFrameDefaultConfiguration = Required<
@@ -48,11 +50,11 @@ interface TooltipGridItemFrames extends IGridItemBaseDefinition {
     valueText: TextFrame;
 }
 
-interface TooltipFrameChildFrames extends ICompositeFrameChildFrames {
-    backdrop?: BackdropFrame;
-    bodyText: TextFrame;
-    headerText: TextFrame;
-    iconGrid?: Grid<TooltipIconDataItem, TooltipGridItemFrames>;
+export interface TooltipFrameChildFrames extends ICompositeFrameChildFrames {
+    backdrop?: ICompositeFrameChild<BackdropFrame>;
+    bodyText: ICompositeFrameChild<TextFrame>;
+    headerText: ICompositeFrameChild<TextFrame>;
+    iconGrid?: ICompositeFrameChild<Grid<TooltipIconDataItem, TooltipGridItemFrames>>;
 }
 
 export class TooltipFrame extends CompositeFrame<TooltipFrameConfiguration, TooltipFrameChildFrames> {
@@ -88,10 +90,16 @@ export class TooltipFrame extends CompositeFrame<TooltipFrameConfiguration, Tool
         const name = this.name ?? "TooltipFrame";
         const defaults = TooltipFrame.DefaultConfiguration;
         const parent = this.owner ?? FrameUtils.OriginFrameGameUI;
-        const backdrop = this.configuration.includeBackground ? BackdropFrame.CreateType({ context: this.context, inherits: this.configuration.backdropInherits ?? defaults.backdropInherits, name: `${name}Backdrop`, owner: parent }) : undefined;
+        const renderers = this.configuration.childFrames;
+        const backdropChild = this.configuration.includeBackground
+            ? this.renderChild(renderers?.backdrop?.render, () => BackdropFrame.CreateType({ context: this.context, inherits: this.configuration.backdropInherits ?? defaults.backdropInherits, name: `${name}Backdrop`, owner: parent }))
+            : undefined;
+        const backdrop = backdropChild?.frame;
         const contentOwner = backdrop?.frame ?? parent;
-        const headerText = TextFrame.CreateType({ context: this.context, inherits: "", name: `${name}Header`, owner: contentOwner });
-        const bodyText = TextFrame.CreateType({ context: this.context, inherits: "", name: `${name}Body`, owner: contentOwner });
+        const headerChild = this.renderChild(renderers?.headerText?.render, () => TextFrame.CreateType({ context: this.context, inherits: "", name: `${name}Header`, owner: contentOwner }));
+        const bodyChild = this.renderChild(renderers?.bodyText?.render, () => TextFrame.CreateType({ context: this.context, inherits: "", name: `${name}Body`, owner: contentOwner }));
+        const headerText = headerChild.frame;
+        const bodyText = bodyChild.frame;
         this.containerFrame = backdrop?.frame;
 
         if (!headerText.frame || !bodyText.frame) {
@@ -125,74 +133,81 @@ export class TooltipFrame extends CompositeFrame<TooltipFrameConfiguration, Tool
             bodyText.frame.setPoint(FRAMEPOINT_TOPLEFT, headerText.frame, FRAMEPOINT_BOTTOMLEFT, 0, -0.01);
         }
 
-        let iconGrid: Grid<TooltipIconDataItem, TooltipGridItemFrames> | undefined;
-        if (this.configuration.tooltipIconGridData && backdrop?.frame) {
-            iconGrid = new Grid<TooltipIconDataItem, TooltipGridItemFrames>(
-                {
-                    columns: 4,
-                    data: this.configuration.tooltipIconGridData,
-                    gapX: 0.005,
-                    gapY: 0.005,
-                    rows: 1,
-                    renderItem: (gridParent, _row, _column, index, data) => {
-                        const container = EmptyFrame.CreateType({
-                            context: this.context,
-                            inherits: "",
-                            name: `${name}IconContainer${index}`,
-                            owner: gridParent,
-                        });
-                        const containerFrame = container.frame;
-                        if (!containerFrame) {
-                            return undefined;
-                        }
+        let iconGridChild: ICompositeFrameChild<Grid<TooltipIconDataItem, TooltipGridItemFrames>> | undefined;
+        const gridData = this.configuration.tooltipIconGridData;
+        const gridOwner = backdrop?.frame;
+        if (gridData && gridOwner) {
+            iconGridChild = this.renderChild(
+                renderers?.iconGrid?.render,
+                () =>
+                    new Grid<TooltipIconDataItem, TooltipGridItemFrames>(
+                        {
+                            columns: 4,
+                            data: gridData,
+                            gapX: 0.005,
+                            gapY: 0.005,
+                            rows: 1,
+                            renderItem: (gridParent, _row, _column, index, data) => {
+                                const container = EmptyFrame.CreateType({
+                                    context: this.context,
+                                    inherits: "",
+                                    name: `${name}IconContainer${index}`,
+                                    owner: gridParent,
+                                });
+                                const containerFrame = container.frame;
+                                if (!containerFrame) {
+                                    return undefined;
+                                }
 
-                        const icon = ButtonFrame.Create({
-                            context: this.context,
-                            name: `${name}Icon${index}`,
-                            owner: containerFrame,
-                            overrides: { clickSoundPath: "", texture: data.texture },
-                        });
-                        const iconFrame = icon.containerFrame;
-                        if (!iconFrame) {
-                            return undefined;
-                        }
-                        iconFrame.setSize(iconFrame.width * 0.4, iconFrame.height * 0.4);
-                        iconFrame.clearPoints();
-                        iconFrame.setPoint(FRAMEPOINT_LEFT, containerFrame, FRAMEPOINT_LEFT, 0, 0);
+                                const icon = ButtonFrame.Create({
+                                    context: this.context,
+                                    name: `${name}Icon${index}`,
+                                    owner: containerFrame,
+                                    overrides: { clickSoundPath: "", texture: data.texture },
+                                });
+                                const iconFrame = icon.containerFrame;
+                                if (!iconFrame) {
+                                    return undefined;
+                                }
+                                iconFrame.setSize(iconFrame.width * 0.4, iconFrame.height * 0.4);
+                                iconFrame.clearPoints();
+                                iconFrame.setPoint(FRAMEPOINT_LEFT, containerFrame, FRAMEPOINT_LEFT, 0, 0);
 
-                        const valueText = TextFrame.CreateType({
-                            context: this.context,
-                            inherits: "",
-                            name: `${name}IconValue${index}`,
-                            owner: containerFrame,
-                            overrides: { initialText: data.value ?? "" },
-                        });
-                        const valueTextFrame = valueText.frame;
-                        if (!valueTextFrame) {
-                            return undefined;
-                        }
-                        valueTextFrame.clearPoints();
-                        valueTextFrame.setPoint(FRAMEPOINT_LEFT, iconFrame, FRAMEPOINT_RIGHT, this.configuration.tooltipIconValueLeftPadding ?? defaults.tooltipIconValueLeftPadding, 0);
-                        valueTextFrame.setScale(0.8);
-                        valueText.formatSize();
+                                const valueText = TextFrame.CreateType({
+                                    context: this.context,
+                                    inherits: "",
+                                    name: `${name}IconValue${index}`,
+                                    owner: containerFrame,
+                                    overrides: { initialText: data.value ?? "" },
+                                });
+                                const valueTextFrame = valueText.frame;
+                                if (!valueTextFrame) {
+                                    return undefined;
+                                }
+                                valueTextFrame.clearPoints();
+                                valueTextFrame.setPoint(FRAMEPOINT_LEFT, iconFrame, FRAMEPOINT_RIGHT, this.configuration.tooltipIconValueLeftPadding ?? defaults.tooltipIconValueLeftPadding, 0);
+                                valueTextFrame.setScale(0.8);
+                                valueText.formatSize();
 
-                        containerFrame.setSize(iconFrame.width + valueTextFrame.width + (this.configuration.tooltipIconContainerGapX ?? defaults.tooltipIconContainerGapX), iconFrame.height);
-                        return { container: containerFrame, icon, valueText };
-                    },
-                    updateItem: (data, itemFrames) => {
-                        itemFrames.icon.updateTexture(data.texture);
-                        itemFrames.valueText.update(data.value ?? "");
-                        itemFrames.container?.setSize(
-                            (itemFrames.icon.containerFrame?.width ?? 0) + (itemFrames.valueText.frame?.width ?? 0) + (this.configuration.tooltipIconContainerGapX ?? defaults.tooltipIconContainerGapX),
-                            itemFrames.icon.containerFrame?.height ?? 0,
-                        );
-                    },
-                },
-                `${name}IconGrid`,
-                this.context,
-                backdrop.frame,
+                                containerFrame.setSize(iconFrame.width + valueTextFrame.width + (this.configuration.tooltipIconContainerGapX ?? defaults.tooltipIconContainerGapX), iconFrame.height);
+                                return { container: containerFrame, icon, valueText };
+                            },
+                            updateItem: (data, itemFrames) => {
+                                itemFrames.icon.updateTexture(data.texture);
+                                itemFrames.valueText.update(data.value ?? "");
+                                itemFrames.container?.setSize(
+                                    (itemFrames.icon.containerFrame?.width ?? 0) + (itemFrames.valueText.frame?.width ?? 0) + (this.configuration.tooltipIconContainerGapX ?? defaults.tooltipIconContainerGapX),
+                                    itemFrames.icon.containerFrame?.height ?? 0,
+                                );
+                            },
+                        },
+                        `${name}IconGrid`,
+                        this.context,
+                        gridOwner,
+                    ),
             );
 
+            const iconGrid = iconGridChild.frame;
             if (iconGrid.containerFrame) {
                 headerText.frame.clearPoints();
                 headerText.frame.setPoint(FRAMEPOINT_BOTTOMLEFT, iconGrid.containerFrame, FRAMEPOINT_TOPLEFT, 0, 0.01);
@@ -209,19 +224,19 @@ export class TooltipFrame extends CompositeFrame<TooltipFrameConfiguration, Tool
             BlzFrameSetTooltip(parent.handle, bodyText.frame.handle);
         }
 
-        this.childFrames = { backdrop, bodyText, headerText, iconGrid };
+        this.childFrames = { backdrop: backdropChild, bodyText: bodyChild, headerText: headerChild, iconGrid: iconGridChild };
     }
 
     public update(header: string, body: string, tooltipIconData?: TooltipIconDataItem[]): void {
-        const headerText = this.childFrames?.headerText;
-        const bodyText = this.childFrames?.bodyText;
+        const headerText = this.childFrames?.headerText.frame;
+        const bodyText = this.childFrames?.bodyText.frame;
         headerText?.frame?.setText(header);
         bodyText?.frame?.setText(body);
         const width = this.getFormattedWidth(header, body);
         headerText?.frame?.setSize(width, 0);
         bodyText?.frame?.setSize(width, 0);
         if (tooltipIconData) {
-            this.childFrames?.iconGrid?.updateGrid(tooltipIconData);
+            this.childFrames?.iconGrid?.frame.updateGrid(tooltipIconData);
         }
     }
 

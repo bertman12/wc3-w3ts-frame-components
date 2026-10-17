@@ -3,7 +3,7 @@ import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
-export interface EditBoxFrameConfiguration extends IMonoFrameConfigurationBase {
+export interface EditBoxFrameConfiguration extends IMonoFrameConfigurationBase<FrameTemplate<"EDITBOX">> {
     /** Height of the edit box. Default value: 0.04 */
     height?: number;
     /** Text shown in the edit box when it is created. Default value: "" */
@@ -39,7 +39,7 @@ export class EditBoxFrame extends MonoFrame<EditBoxFrameConfiguration> {
     }
 
     public static CreateType(args: TypedNativeFrameArguments<EditBoxFrameConfiguration, FrameTemplate<"EDITBOX">>): EditBoxFrame {
-        return new EditBoxFrame(args.context, { ...EditBoxFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+        return new EditBoxFrame(args.context, { ...EditBoxFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
     }
 
     public setOnEnter(onEnter: (text: string) => void): void {

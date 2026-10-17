@@ -1,6 +1,6 @@
 import { Frame } from "w3ts";
 import { FrameUtils } from "../../frame-utils";
-import { ICompositeFrameConfigurationBase, ICompositeFrameChildFrames, ICompositeFrameMethods, ICompositeFrameProperties } from "../../models";
+import { ICompositeFrameChild, ICompositeFrameChildFrames, ICompositeFrameChildType, ICompositeFrameConfigurationBase, ICompositeFrameMethods, ICompositeFrameProperties } from "../../models";
 
 /**
  * A Composite Frame is composed of other Composite Frames or Mono Frames
@@ -35,6 +35,17 @@ export abstract class CompositeFrame<Configuration extends ICompositeFrameConfig
      */
     static Create(args: { context?: number; name?: string; owner?: Frame; overrides?: any }): any {
         // replace with component relevant logic
+    }
+
+    /**
+     * Renders one child, using the caller's render function from the configuration's `childFrames` when given.
+     *
+     * @param customRender The caller's render function for this child, if any.
+     * @param defaultRender The composite frame's default way of rendering this child.
+     */
+    protected renderChild<T extends ICompositeFrameChildType>(customRender: (() => T) | undefined, defaultRender: () => T): ICompositeFrameChild<T> {
+        const render = customRender ?? defaultRender;
+        return { frame: render(), render };
     }
 
     /**

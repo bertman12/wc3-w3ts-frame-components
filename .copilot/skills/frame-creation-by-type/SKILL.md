@@ -8,7 +8,7 @@ description: Recipes for creating each Warcraft III frame type from code without
 Source: Tasyen, [The Big UI-Frame Tutorial](https://www.hiveworkshop.com/threads/the-big-ui-frame-tutorial.335296/) (Hive Workshop).
 Version: written for patch 1.31 / 1.31.1; individual recipes note 1.32.x requirements. Verify against the current patch before relying on version-sensitive details.
 
-Combine with the [frame-creation](../frame-creation/SKILL.md) rules (default render at 0.4, 0.3; fallbacks live in configuration + `DefaultConfiguration`). In this repo, `inherits: ""` must stay a string and must never become `undefined`.
+Combine with the [frame-creation](../frame-creation/SKILL.md) rules (default render at 0.4, 0.3; fallbacks live in configuration + `DefaultConfiguration`). In this repo, the `inherits` value `CreateType` passes to the constructor must stay a string and must never become `undefined`. The `inherits` argument itself is optional and falls back to the configuration's `inherits`, then `""`.
 
 ## Native creators (guide section: "Create-Frames")
 - `BlzCreateFrame(name, owner, priority, ctx)`: creates a main frame from a loaded FDF/TOC name. GLUE frames only play the click sound when created this way.

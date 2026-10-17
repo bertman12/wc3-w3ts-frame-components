@@ -39,6 +39,19 @@ backdrop.frame?.clearPoints();
 backdrop.frame?.setAbsPoint(FRAMEPOINT_CENTER, 0.2, 0.3);
 ```
 
+A configuration can also carry `inherits`, so a saved configuration reuses the
+frame's look. An `inherits` creation argument overrides it, and `CreateNamed`
+ignores it. With neither set, `CreateType` uses `""`.
+
+```ts
+import { BackdropFrame, BackdropFrameConfiguration } from "warcraft-3-w3ts-frame-components";
+
+const panelStyle: BackdropFrameConfiguration = { inherits: "EscMenuBackdrop", width: 0.2 };
+
+const panel = BackdropFrame.CreateType({ overrides: panelStyle });
+const questPanel = BackdropFrame.CreateType({ inherits: "QuestButtonBaseTemplate", overrides: panelStyle });
+```
+
 Most mono frames wrap native Blizzard frame types. The library wraps supported independently creatable non-simple Blizzard frame
 types documented by the default FDF catalog. `EmptyFrame` is the wrapper for
 `FRAME`.
@@ -98,7 +111,23 @@ const timer = TimerFrame.Create({
 timer.start(10);
 ```
 
-#### <a id="composite-frame">Frame Configurations</a> - [🔝](#contents)
+Composite frames also allow for configuring how the children are rendered, allowing you to deviate from the preset defaults.
+
+```ts
+const x = TooltipFrame.Create({
+    overrides: {
+        childFrames: {
+            backdrop: {
+                render: () => {
+                    return BackdropFrame.CreateType({ inherits: "EscMenuButtonBackdropTemplate" });
+                },
+            },
+        },
+    },
+});
+```
+
+#### <a id="frame-configurations">Frame Configurations</a> - [🔝](#contents)
 
 Both MonoFrame and CompositeFrame classes are preconfigured to use default values when rendering.
 This provides an easy way to quickly render a frame onto the screen without much knowledge or configuration.
@@ -106,6 +135,10 @@ This provides an easy way to quickly render a frame onto the screen without much
 The construction methods for both classes provide an overrides property which allows you to override any of the default values the frame is rendered with.
 
 You can also save configurations for specific frame types and pass that constant to the overrides property to easily reuse common configurations. This allows for soft-theme support without requiring any architectural changes on the core frame classes.
+
+- Mono Frames
+    - Mono Frames allows for saving a default inherits argument in it's configuration, bypassing the need to supply that argument every time you want to create that frame type.
+    - The name arugment cannot be stored in the configuration due to how creating frames by name works in that you can only reference it once (? verify my assertion ?).
 
 🚧 **WIP** 🚧
 You also have the option to override the frame defaults of every frame type via the function below.

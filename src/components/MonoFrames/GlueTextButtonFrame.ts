@@ -3,7 +3,7 @@ import { PlaySoundLocal } from "warcraft-3-w3ts-utils";
 import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
-export interface GlueTextButtonFrameConfiguration extends IMonoFrameConfigurationBase {
+export interface GlueTextButtonFrameConfiguration extends IMonoFrameConfigurationBase<FrameTemplate<"GLUETEXTBUTTON">> {
     /** Sound played locally for the clicking player. An empty string plays no sound. Default value: "Sound\\Interface\\BigButtonClick.flac" */
     clickSoundPath?: string;
     /** Height of the button. Default value: 0.1 */
@@ -42,7 +42,7 @@ export class GlueTextButtonFrame extends MonoFrame<GlueTextButtonFrameConfigurat
 
     /** @requiresFdf Needs a loaded FDF template for its text child and art to render. */
     public static CreateType(args: TypedNativeFrameArguments<GlueTextButtonFrameConfiguration, FrameTemplate<"GLUETEXTBUTTON">>): GlueTextButtonFrame {
-        return new GlueTextButtonFrame(args.context, { ...GlueTextButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+        return new GlueTextButtonFrame(args.context, { ...GlueTextButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
     }
 
     protected render(): void {

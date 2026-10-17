@@ -2,7 +2,7 @@ import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
-export interface ChatDisplayFrameConfiguration extends IMonoFrameConfigurationBase {
+export interface ChatDisplayFrameConfiguration extends IMonoFrameConfigurationBase<FrameTemplate<"CHATDISPLAY">> {
     /** Height of the chat display. Default value: 0.1 */
     height?: number;
     /** Messages added to the chat display when it is created. Default value: [] */
@@ -35,7 +35,7 @@ export class ChatDisplayFrame extends MonoFrame<ChatDisplayFrameConfiguration> {
 
     /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
     public static CreateType(args: TypedNativeFrameArguments<ChatDisplayFrameConfiguration, FrameTemplate<"CHATDISPLAY">>): ChatDisplayFrame {
-        return new ChatDisplayFrame(args.context, { ...ChatDisplayFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+        return new ChatDisplayFrame(args.context, { ...ChatDisplayFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
     }
 
     public addMessage(message: string): void {

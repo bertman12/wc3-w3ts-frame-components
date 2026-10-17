@@ -38,7 +38,7 @@ export class GluePopupMenuFrame extends MonoFrame<GluePopupMenuFrameConfiguratio
 
     /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */
     public static CreateType(args: TypedNativeFrameArguments<GluePopupMenuFrameConfiguration>): GluePopupMenuFrame {
-        return new GluePopupMenuFrame(args.context, { ...GluePopupMenuFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+        return new GluePopupMenuFrame(args.context, { ...GluePopupMenuFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
     }
 
     public setOnItemChanged(onItemChanged: (value: number) => void): void {

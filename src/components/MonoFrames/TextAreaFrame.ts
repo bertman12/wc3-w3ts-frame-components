@@ -3,7 +3,7 @@ import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
-export interface TextAreaFrameConfiguration extends IMonoFrameConfigurationBase {
+export interface TextAreaFrameConfiguration extends IMonoFrameConfigurationBase<FrameTemplate<"TEXTAREA">> {
     /** Height of the text area. Default value: 0.1 */
     height?: number;
     /** Text shown in the text area when it is created. Default value: "Sample Text" */
@@ -41,7 +41,7 @@ export class TextAreaFrame extends MonoFrame<TextAreaFrameConfiguration> {
 
     /** @requiresFdf Needs a loaded FDF template for its font, scrollbar, and container art to render. */
     public static CreateType(args: TypedNativeFrameArguments<TextAreaFrameConfiguration, FrameTemplate<"TEXTAREA">>): TextAreaFrame {
-        return new TextAreaFrame(args.context, { ...TextAreaFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+        return new TextAreaFrame(args.context, { ...TextAreaFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
     }
 
     protected render(): void {

@@ -39,7 +39,7 @@ export class SlashChatBoxFrame extends MonoFrame<SlashChatBoxFrameConfiguration>
     }
 
     public static CreateType(args: TypedNativeFrameArguments<SlashChatBoxFrameConfiguration>): SlashChatBoxFrame {
-        return new SlashChatBoxFrame(args.context, { ...SlashChatBoxFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+        return new SlashChatBoxFrame(args.context, { ...SlashChatBoxFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
     }
 
     public setOnEnter(onEnter: (text: string) => void): void {

@@ -2,7 +2,7 @@ import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
-export interface MenuFrameConfiguration extends IMonoFrameConfigurationBase {
+export interface MenuFrameConfiguration extends IMonoFrameConfigurationBase<FrameTemplate<"MENU">> {
     /** Height of the menu. Default value: 0.1 */
     height?: number;
     /** Width of the menu. Default value: 0.15 */
@@ -32,7 +32,7 @@ export class MenuFrame extends MonoFrame<MenuFrameConfiguration> {
 
     /** @requiresFdf Needs a loaded FDF template for its child frames to render completely. */
     public static CreateType(args: TypedNativeFrameArguments<MenuFrameConfiguration, FrameTemplate<"MENU">>): MenuFrame {
-        return new MenuFrame(args.context, { ...MenuFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+        return new MenuFrame(args.context, { ...MenuFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
     }
 
     protected render(): void {

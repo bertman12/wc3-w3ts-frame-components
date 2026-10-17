@@ -3,7 +3,7 @@ import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 import { FrameType } from "../../names";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 
-export interface TextButtonFrameConfiguration extends IMonoFrameConfigurationBase {
+export interface TextButtonFrameConfiguration extends IMonoFrameConfigurationBase<FrameTemplate<"TEXTBUTTON">> {
     /** Height of the button. Default value: 0.031 */
     height?: number;
     /** Text shown on the button when it is created. Default value: "Text Button" */
@@ -39,7 +39,7 @@ export class TextButtonFrame extends MonoFrame<TextButtonFrameConfiguration> {
 
     /** @requiresFdf Needs a loaded FDF template for its FDF-defined children or art to render. */
     public static CreateType(args: TypedNativeFrameArguments<TextButtonFrameConfiguration, FrameTemplate<"TEXTBUTTON">>): TextButtonFrame {
-        return new TextButtonFrame(args.context, { ...TextButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+        return new TextButtonFrame(args.context, { ...TextButtonFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
     }
 
     public setOnClick(onClick: () => void): void {

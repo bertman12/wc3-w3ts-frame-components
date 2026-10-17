@@ -2,7 +2,7 @@ import { Frame } from "w3ts";
 import { MonoFrame, NamedNativeFrameArguments, TypedNativeFrameArguments } from "../Core/MonoFrame";
 import { IMonoFrameConfigurationBase, FrameTemplate } from "../../models";
 
-export interface EmptyFrameConfiguration extends IMonoFrameConfigurationBase {}
+export interface EmptyFrameConfiguration extends IMonoFrameConfigurationBase<FrameTemplate<"FRAME">> {}
 
 export class EmptyFrame extends MonoFrame<EmptyFrameConfiguration> {
     private constructor(...args: ConstructorParameters<typeof MonoFrame<EmptyFrameConfiguration>>) {
@@ -19,7 +19,7 @@ export class EmptyFrame extends MonoFrame<EmptyFrameConfiguration> {
     }
 
     public static CreateType(args: TypedNativeFrameArguments<EmptyFrameConfiguration, FrameTemplate<"FRAME">>): EmptyFrame {
-        return new EmptyFrame(args.context, { ...EmptyFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits);
+        return new EmptyFrame(args.context, { ...EmptyFrame.DefaultConfiguration, ...(args.overrides ?? {}) }, args.name, args.owner, args.inherits ?? args.overrides?.inherits ?? "");
     }
 
     protected render(): void {
